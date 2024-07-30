@@ -1,0 +1,137 @@
+import Image from 'next/image';
+import PolygonSvg from '@/assets/images/Polygon.svg';
+import StarImg from '@/assets/images/star.svg';
+import CheckImg from '@/assets/images/check.svg';
+import { useRouter } from 'next/navigation';
+
+const EmployeeCard = ({ employee, onClick }) => {
+    return (
+        <div className="bg-white border border-gray-300 rounded-lg shadow-lg p-6 mb-6 w-full max-w-[1000px] h-auto flex flex-col items-start">
+            <div className="flex flex-wrap items-start w-full">
+                <div className="flex items-center w-full sm:w-1/2">
+                    <Image
+                        src={employee.image}
+                        alt={employee.name}
+                        width={90}
+                        height={90}
+                        className="rounded-full object-cover"
+                    />
+                    <div className="ml-4 text-left">
+                        <h2 className="text-2xl font-semibold">
+                            {employee.name}
+                        </h2>
+                        <h3 className="text-sm font-lightbold text-heading">
+                            {employee.role}
+                        </h3>
+                        <p className="text-sm text-grey">
+                            {employee.city}, {employee.country}
+                        </p>
+                    </div>
+                </div>
+
+                <div className="flex items-center ml-auto w-full sm:w-1/2 justify-end">
+                    <div className="flex items-center">
+                        <Image
+                            src={PolygonSvg}
+                            alt="Top rated"
+                            width={16}
+                            height={13}
+                            className="mr-2"
+                        />
+                        <h4 className="text-[16px] font-semibold text-heading">
+                            Top Rated
+                        </h4>
+                    </div>
+                </div>
+            </div>
+
+            <div className="w-full h-px bg-gray-200 my-4"></div>
+
+            <div className="flex flex-col w-full mb-6">
+                <div className="flex items-center mb-2">
+                    <Image
+                        src={StarImg}
+                        alt="Rating"
+                        width={12}
+                        height={13}
+                        className="mr-2"
+                    />
+                    <p className="text-[14px] font-semibold text-heading">
+                        {employee.reviews}
+                    </p>
+                    <p className="text-[14px] font-lightbold text-employecard-card-grey-text ml-1">
+                        ({employee.reviewsCount} 212 Reviews)
+                    </p>
+                </div>
+
+                <div className="flex items-center">
+                    <Image
+                        src={CheckImg}
+                        alt="Successful Hires"
+                        width={10}
+                        height={12}
+                        className="mr-2"
+                    />
+                    <p className="text-sm font-semibold text-heading">
+                        {employee.hires}
+                    </p>
+                </div>
+            </div>
+
+            <div
+                className="flex flex-wrap w-full gap-4 mb-4"
+                onClick={() => onClick(employee)}
+            >
+                <div className="group flex-1 bg-primary border border-gray-300 rounded-lg shadow-md p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
+                    <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
+                        Referral
+                    </h5>
+                    <p className="text-sm text-grey truncate group-hover:text-primary">
+                        Video screening required
+                    </p>
+                    <p className="text-sm text-heading truncate group-hover:text-primary">
+                        $20.00
+                    </p>
+                </div>
+
+                <div className="group flex-1 bg-primary border border-gray-300 rounded-lg shadow-md p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
+                    <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
+                        Resume Review
+                    </h5>
+                    <p className="text-sm text-grey truncate group-hover:text-primary">
+                        Video screening required
+                    </p>
+                    <p className="text-sm text-heading truncate group-hover:text-primary">
+                        $40.00
+                    </p>
+                </div>
+
+                <div className="group flex-1 bg-primary border border-gray-300 rounded-lg shadow-md p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
+                    <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
+                        Interview Prep
+                    </h5>
+                    <p className="text-sm text-grey truncate group-hover:text-primary">
+                        Video screening required
+                    </p>
+                    <p className="text-sm text-heading truncate group-hover:text-primary">
+                        $50.00
+                    </p>
+                </div>
+            </div>
+
+            {/* conditional data section in future (url base contentent) */}
+            {/* {employee.additionalData && (
+                <div className="w-full">
+                    {employee.additionalData.map((data, index) => (
+                        <div key={index} className="mb-4">
+                            <h5 className="text-lg font-bold">{data.title}</h5>
+                            <p className="text-sm text-gray-500">{data.description}</p>
+                        </div>
+                    ))}
+                </div>
+            )} */}
+        </div>
+    );
+};
+
+export default EmployeeCard;

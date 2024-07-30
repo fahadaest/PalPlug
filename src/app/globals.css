@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
@@ -30,4 +30,27 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+} */
+
+.logo-white-hover {
+    filter: none; /* Original color by default */
+    transition: filter 0.3s ease-in-out;
+}
+
+.bg-primary:hover .logo-white-hover {
+    filter: brightness(0) invert(1); /* White on hover */
+}
+
+.airbnb-white-img {
+    filter: brightness(0) invert(1);
+}
+
+
+.tesla-card {
+  background-color: #FFFFFF; 
+  transition: background-color 0.3s ease;
+}
+
+.tesla-card:hover {
+  background-color: rgba(232, 33, 39, 0.2);
 }
