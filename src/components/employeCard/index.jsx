@@ -2,9 +2,9 @@ import Image from 'next/image';
 import PolygonSvg from '@/assets/images/Polygon.svg';
 import StarImg from '@/assets/images/star.svg';
 import CheckImg from '@/assets/images/check.svg';
-import { useRouter } from 'next/navigation';
+import PropTypes from 'prop-types';
 
-const EmployeeCard = ({ employee, onClick }) => {
+const EmployeeCard = ({ employee, onClick, showAbout=false, showReviews=false }) => {
     return (
         <div className="bg-white border border-gray-300 rounded-lg shadow-lg p-6 mb-6 w-full max-w-[1000px] h-auto flex flex-col items-start">
             <div className="flex flex-wrap items-start w-full">
@@ -45,9 +45,22 @@ const EmployeeCard = ({ employee, onClick }) => {
                 </div>
             </div>
 
+            {showAbout && (
+                <div className="w-full mt-6">
+                    <h3 className="text-sm font-semibold mb-2">
+                        About {employee.name}
+                    </h3>
+                    <p className="text-sm text-gray-700">
+                        Whatever the role, I know that I'll always stay true to
+                        my favorite Haas School of Business defining principle ~
+                        Student Always.
+                    </p>
+                </div>
+            )}
+
             <div className="w-full h-px bg-gray-200 my-4"></div>
 
-            <div className="flex flex-col w-full mb-6">
+            <div className={`flex flex-col w-full ${showReviews ? 'mb-2' : 'mb-6'}`}>
                 <div className="flex items-center mb-2">
                     <Image
                         src={StarImg}
@@ -78,46 +91,74 @@ const EmployeeCard = ({ employee, onClick }) => {
                 </div>
             </div>
 
-            <div
-                className="flex flex-wrap w-full gap-4 mb-4"
-                onClick={() => onClick(employee)}
-            >
-                <div className="group flex-1 bg-primary border border-gray-300 rounded-lg shadow-md p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
-                    <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
-                        Referral
-                    </h5>
-                    <p className="text-sm text-grey truncate group-hover:text-primary">
-                        Video screening required
-                    </p>
-                    <p className="text-sm text-heading truncate group-hover:text-primary">
-                        $20.00
-                    </p>
+            {showReviews && (
+                <div className="flex flex-col w-full mx-5 ">
+                    <div className="flex items-center mb-1">
+                        <span className="text-[14px] font-medium text-heading mr-2">
+                            8
+                        </span>
+                        <p className="text-[14px] text-grey">via Referral</p>
+                    </div>
+                    <div className="flex items-center mb-1">
+                        <span className="text-[14px] font-medium text-heading mr-2">
+                            2
+                        </span>
+                        <p className="text-[14px] text-grey">
+                            via Resume Review
+                        </p>
+                    </div>
+                    <div className="flex items-center">
+                        <span className="text-[14px] font-medium text-heading mr-2">
+                            2
+                        </span>
+                        <p className="text-[14px] text-grey">
+                            via Interview Prep
+                        </p>
+                    </div>
                 </div>
+            )}
+            {!showReviews && (
+                <div
+                    className="flex flex-wrap w-full gap-4 mb-4"
+                    onClick={() => onClick(employee)}
+                >
+                    <div className="group flex-1 bg-primary border border-gray-300 rounded-lg shadow-md p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
+                        <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
+                            Referral
+                        </h5>
+                        <p className="text-sm text-grey truncate group-hover:text-primary">
+                            Video screening required
+                        </p>
+                        <p className="text-sm text-heading truncate group-hover:text-primary">
+                            $20.00
+                        </p>
+                    </div>
 
-                <div className="group flex-1 bg-primary border border-gray-300 rounded-lg shadow-md p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
-                    <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
-                        Resume Review
-                    </h5>
-                    <p className="text-sm text-grey truncate group-hover:text-primary">
-                        Video screening required
-                    </p>
-                    <p className="text-sm text-heading truncate group-hover:text-primary">
-                        $40.00
-                    </p>
-                </div>
+                    <div className="group flex-1 bg-primary border border-gray-300 rounded-lg shadow-md p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
+                        <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
+                            Resume Review
+                        </h5>
+                        <p className="text-sm text-grey truncate group-hover:text-primary">
+                            Video screening required
+                        </p>
+                        <p className="text-sm text-heading truncate group-hover:text-primary">
+                            $40.00
+                        </p>
+                    </div>
 
-                <div className="group flex-1 bg-primary border border-gray-300 rounded-lg shadow-md p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
-                    <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
-                        Interview Prep
-                    </h5>
-                    <p className="text-sm text-grey truncate group-hover:text-primary">
-                        Video screening required
-                    </p>
-                    <p className="text-sm text-heading truncate group-hover:text-primary">
-                        $50.00
-                    </p>
+                    <div className="group flex-1 bg-primary border border-gray-300 rounded-lg shadow-md p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
+                        <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
+                            Interview Prep
+                        </h5>
+                        <p className="text-sm text-grey truncate group-hover:text-primary">
+                            Video screening required
+                        </p>
+                        <p className="text-sm text-heading truncate group-hover:text-primary">
+                            $50.00
+                        </p>
+                    </div>
                 </div>
-            </div>
+            )}
 
             {/* conditional data section in future (url base contentent) */}
             {/* {employee.additionalData && (
@@ -132,6 +173,13 @@ const EmployeeCard = ({ employee, onClick }) => {
             )} */}
         </div>
     );
+};
+
+EmployeeCard.propTypes = {
+    employee: PropTypes.object.isRequired,
+    showAbout: PropTypes.bool,
+    showReviews: PropTypes.bool,
+    onClick: PropTypes.func,
 };
 
 export default EmployeeCard;

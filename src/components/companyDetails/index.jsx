@@ -106,7 +106,7 @@ const companyStyles = {
     Abstract: 'bg-othercompanies-abstract',
 };
 const logoClassNames = {
-    Airbnb:"airbnb-white-img",
+    Airbnb: 'airbnb-white-img',
     Hatch: 'airbnb-white-img',
     Abstract: 'airbnb-white-img',
     Github: 'airbnb-white-img',
@@ -165,8 +165,9 @@ const employees = [
 
 const CompanyDetails = () => {
     const router = useRouter();
-    const { name, id } = useParams()
-    const displayName = name?.charAt(0)?.toUpperCase() + name.slice(1)?.toLowerCase();
+    const { name, id } = useParams();
+    const displayName =
+        name?.charAt(0)?.toUpperCase() + name.slice(1)?.toLowerCase();
     const image = companyImages[displayName];
     const bgColor = companyStyles[displayName] || 'bg-gray-800';
 
@@ -177,7 +178,11 @@ const CompanyDetails = () => {
     };
 
     const handleEmployeeClick = (employeeId) => {
-        router.push(`/company/${displayName}/employees/${employeeId}`);
+        router.push(
+            `/company/${displayName}/employees/${employeeId}`,
+            undefined,
+            { shallow: true }
+        );
     };
 
     return (
