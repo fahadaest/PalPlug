@@ -9,6 +9,7 @@ import MaleImg from '@/assets/images/male.svg';
 import Netflix from '@/assets/images/Netflix.svg';
 import FemaleImg from '@/assets/images/female.svg';
 import FemaleImg2 from '@/assets/images/femal2.png';
+import SignInModal from '@/components/signInModal';
 
 const companyStyles = {
     Netflix: 'bg-companies-netflix-black',
@@ -61,6 +62,7 @@ const logoClassNames = {
 
 const EmployeeDetails = () => {
     const [activeTab, setActiveTab] = useState('Referral');
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const { name, employeeId } = useParams();
     const employees = [
         {
@@ -153,9 +155,16 @@ const EmployeeDetails = () => {
                             />
                             <p className="text-sm">Video screening required</p>
                         </div>
-                        <button className="w-full py-2 bg-[#005382] text-primary rounded-lg mt-4">
+                        <button
+                            className="w-full py-2 bg-[#005382] text-primary rounded-lg mt-4"
+                            onClick={() => setIsModalOpen(true)}
+                        >
                             Select Package ($20.00)
                         </button>
+                        <SignInModal
+                            isOpen={isModalOpen}
+                            onClose={() => setIsModalOpen(false)}
+                        />
                         <p className="text-sm text-center mt-4">Contact</p>
                     </div>
                 );

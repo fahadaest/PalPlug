@@ -82,6 +82,14 @@ module.exports = {
                     body: '#6B7280',
                 },
             },
+            brightness: {
+                '100': 'brightness(1)',
+                '0': 'brightness(0)',
+              },
+              invert: {
+                '0': 'invert(0)',
+                '1': 'invert(1)',
+              },
             fontWeight: {
                 lightbold: 400,
                 mediumbold: 500,
