@@ -4,7 +4,12 @@ import StarImg from '@/assets/images/star.svg';
 import CheckImg from '@/assets/images/check.svg';
 import PropTypes from 'prop-types';
 
-const EmployeeCard = ({ employee, onClick, showAbout=false, showReviews=false }) => {
+const EmployeeCard = ({
+    employee,
+    onClick,
+    showAbout = false,
+    showReviews = false,
+}) => {
     return (
         <div className="bg-white border border-gray-300 rounded-lg shadow-lg p-6 mb-6 w-full max-w-[1000px] h-auto flex flex-col items-start">
             <div className="flex flex-wrap items-start w-full">
@@ -60,7 +65,9 @@ const EmployeeCard = ({ employee, onClick, showAbout=false, showReviews=false })
 
             <div className="w-full h-px bg-gray-200 my-4"></div>
 
-            <div className={`flex flex-col w-full ${showReviews ? 'mb-2' : 'mb-6'}`}>
+            <div
+                className={`flex flex-col w-full ${showReviews ? 'mb-2' : 'mb-6'}`}
+            >
                 <div className="flex items-center mb-2">
                     <Image
                         src={StarImg}
@@ -159,18 +166,6 @@ const EmployeeCard = ({ employee, onClick, showAbout=false, showReviews=false })
                     </div>
                 </div>
             )}
-
-            {/* conditional data section in future (url base contentent) */}
-            {/* {employee.additionalData && (
-                <div className="w-full">
-                    {employee.additionalData.map((data, index) => (
-                        <div key={index} className="mb-4">
-                            <h5 className="text-lg font-bold">{data.title}</h5>
-                            <p className="text-sm text-gray-500">{data.description}</p>
-                        </div>
-                    ))}
-                </div>
-            )} */}
         </div>
     );
 };

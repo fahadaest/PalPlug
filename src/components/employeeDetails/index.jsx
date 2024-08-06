@@ -45,19 +45,19 @@ const companyStyles = {
 };
 
 const logoClassNames = {
-    Airbnb: 'airbnb-white-img',
-    Hatch: 'airbnb-white-img',
-    Abstract: 'airbnb-white-img',
-    Github: 'airbnb-white-img',
-    Square: 'airbnb-white-img',
-    Discord: 'airbnb-white-img',
-    Terminal: 'airbnb-white-img',
-    Youtube: 'airbnb-white-img',
-    Tesla: 'airbnb-white-img',
-    LinkedIn: 'airbnb-white-img',
-    Snapchat: 'airbnb-white-img',
-    Twitter: 'airbnb-white-img',
-    Dropbox: 'airbnb-white-img',
+    Airbnb: 'invert-brightness',
+    Hatch: 'invert-brightness',
+    Abstract: 'invert-brightness',
+    Github: 'invert-brightness',
+    Square: 'invert-brightness',
+    Discord: 'invert-brightness',
+    Terminal: 'invert-brightness',
+    Youtube: 'invert-brightness',
+    Tesla: 'invert-brightness',
+    LinkedIn: 'invert-brightness',
+    Snapchat: 'invert-brightness',
+    Twitter: 'invert-brightness',
+    Dropbox: 'invert-brightness',
 };
 
 const EmployeeDetails = () => {
@@ -159,7 +159,7 @@ const EmployeeDetails = () => {
                             className="w-full py-2 bg-[#005382] text-primary rounded-lg mt-4"
                             onClick={() => setIsModalOpen(true)}
                         >
-                            Select Package ($20.00)
+                            Select Package
                         </button>
                         <SignInModal
                             isOpen={isModalOpen}

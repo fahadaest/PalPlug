@@ -8,11 +8,9 @@ import MailIcon from '@/assets/images/mail.svg';
 import UserImg from '@/assets/images/user.svg';
 import ArrowIcon from '@/assets/images/arrow.svg';
 
-// const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
-//   ssr: false,
-//   loading: () => <p>Loading...</p>,
-// });
-const NavbarDropdown = dynamic(() => import('../navbarDropdown'), { ssr: false });
+const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
+    ssr: false,
+});
 
 const Navbar = () => {
     const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -38,7 +36,7 @@ const Navbar = () => {
     }, []);
 
     return (
-        <nav  className="bg-white shadow-md p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0">
+        <nav className="bg-white shadow-md p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0">
             <div className="flex items-center space-x-4 flex-grow">
                 <div className="relative w-16 h-6 sm:w-24 sm:h-8">
                     <Image
@@ -95,9 +93,7 @@ const Navbar = () => {
                             </button>
 
                             {isDropdownOpen && (
-                                <NavbarDropdown
-                                    isOpen={isDropdownOpen}
-                                />
+                                <NavbarDropdown isOpen={isDropdownOpen} />
                             )}
                         </div>
                     </div>

@@ -106,19 +106,19 @@ const companyStyles = {
     Abstract: 'bg-othercompanies-abstract',
 };
 const logoClassNames = {
-    Airbnb: 'airbnb-white-img',
-    Hatch: 'airbnb-white-img',
-    Abstract: 'airbnb-white-img',
-    Github: 'airbnb-white-img',
-    Square: 'airbnb-white-img',
-    Discord: 'airbnb-white-img',
-    Terminal: 'airbnb-white-img',
-    Youtube: 'airbnb-white-img',
-    Tesla: 'airbnb-white-img',
-    LinkedIn: 'airbnb-white-img',
-    Snapchat: 'airbnb-white-img',
-    Twitter: 'airbnb-white-img',
-    Dropbox: 'airbnb-white-img',
+    Airbnb: 'invert-brightness',
+    Hatch: 'invert-brightness',
+    Abstract: 'invert-brightness',
+    Github: 'invert-brightness',
+    Square: 'invert-brightness',
+    Discord: 'invert-brightness',
+    Terminal: 'invert-brightness',
+    Youtube: 'invert-brightness',
+    Tesla: 'invert-brightness',
+    LinkedIn: 'invert-brightness',
+    Snapchat: 'invert-brightness',
+    Twitter: 'invert-brightness',
+    Dropbox: 'invert-brightness',
 };
 
 const employees = [
@@ -287,7 +287,6 @@ const CompanyDetails = () => {
                     </div>
                 </div>
 
-                {/* Dropdown 2: Price */}
                 <div className="relative inline-block text-left mb-4">
                     <button
                         id="dropdownPriceButton"
@@ -304,7 +303,6 @@ const CompanyDetails = () => {
                             className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownPrice' ? 'rotate-180' : 'rotate-0'}`}
                         />
                     </button>
-                    {/* Dropdown menu */}
                     <div
                         id="dropdownPrice"
                         className={`z-10 ${
@@ -366,7 +364,6 @@ const CompanyDetails = () => {
                     </div>
                 </div>
 
-                {/* Dropdown 3: Highest Rated */}
                 <div className="relative inline-block text-left mb-4">
                     <button
                         id="dropdownHighestRatedButton"
@@ -383,7 +380,6 @@ const CompanyDetails = () => {
                             className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownHighestRated' ? 'rotate-180' : 'rotate-0'}`}
                         />
                     </button>
-                    {/* Dropdown menu */}
                     <div
                         id="dropdownHighestRated"
                         className={`z-10 ${

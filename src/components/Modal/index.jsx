@@ -28,8 +28,6 @@ const Modal = ({ isOpen, onClose, ModalImg, children }) => {
                         <Image
                             src={ModalImg}
                             className="w-full h-auto object-cover object-center"
-                            // height={239}
-                            // width={438}
                             alt="modal-image"
                             priority
 

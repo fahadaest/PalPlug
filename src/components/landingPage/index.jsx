@@ -159,7 +159,6 @@ const Landing = () => {
                     {companies?.map((company, index) => (
                         <div
                             key={index}
-                            // className="relative bg-primary rounded-[10px] shadow-lg flex items-center p-4 cursor-pointer hover:bg-gray-800 transition-colors duration-300 group h-[84px]"
                             className={`relative bg-primary rounded-[10px] shadow-lg flex items-center p-4 cursor-pointer transition-colors duration-300 group h-[84px] ${companyStyles[company.name]}`}
                             onClick={() => handleCompanyClick(company?.name)}
                         >
