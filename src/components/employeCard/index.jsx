@@ -34,7 +34,7 @@ const EmployeeCard = ({
                     </div>
                 </div>
 
-                <div className="flex items-center ml-auto w-full sm:w-1/2 justify-end">
+                <div className="hidden md:flex items-center ml-auto w-full sm:w-1/2 justify-end">
                     <div className="flex items-center">
                         <Image
                             src={PolygonSvg}

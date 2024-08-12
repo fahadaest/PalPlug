@@ -7,7 +7,7 @@ import BellIcon from '@/assets/images/bell.svg';
 import MailIcon from '@/assets/images/mail.svg';
 import UserImg from '@/assets/images/user.svg';
 import ArrowIcon from '@/assets/images/arrow.svg';
-import mobileLogo from "@/assets/images/mblLogo.svg"
+import mobileLogo from '@/assets/images/mblLogo.svg';
 
 const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
     ssr: false,
@@ -38,8 +38,8 @@ const Navbar = () => {
 
     return (
         <nav className="bg-white shadow-md p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0">
-            <div className="flex items-center space-x-4 flex-grow">
-                <div className="relative w-16 h-6 sm:w-24 sm:h-8">
+            <div className="flex items-center  md:space-x-4 flex-grow">
+                <div className="relative w-10 h-6 sm:w-24 sm:h-8">
                     <Image
                         src={Logo}
                         alt="Logo"
@@ -47,7 +47,7 @@ const Navbar = () => {
                         fill
                         priority
                     />
-                     <Image
+                    <Image
                         src={mobileLogo}
                         alt="Mobile Logo"
                         className="block md:hidden object-contain"
@@ -59,11 +59,11 @@ const Navbar = () => {
                 <input
                     type="text"
                     placeholder="Search by company"
-                    className="p-2 rounded-lg   border border-default focus:border-focus focus:outline-border-focus w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-[452px]"
+                    className="p-2 rounded-lg border border-default focus:border-focus focus:outline-border-focus w-full max-w-[190px] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-[452px] mx-2   sm:mx-0"
                 />
             </div>
 
-            <div className="flex items-center space-x-2 flex-shrink-0">
+            <div className="flex items-center space-x-3 sm:space-x-2 flex-shrink-0">
                 <Image
                     src={BellIcon}
                     alt="Bell Icon"
@@ -101,7 +101,7 @@ const Navbar = () => {
                             </button>
 
                             {isDropdownOpen && (
-                                <NavbarDropdown isOpen={isDropdownOpen}  />
+                                <NavbarDropdown isOpen={isDropdownOpen} />
                             )}
                         </div>
                     </div>
