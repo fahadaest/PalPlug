@@ -7,6 +7,7 @@ import BellIcon from '@/assets/images/bell.svg';
 import MailIcon from '@/assets/images/mail.svg';
 import UserImg from '@/assets/images/user.svg';
 import ArrowIcon from '@/assets/images/arrow.svg';
+import mobileLogo from "@/assets/images/mblLogo.svg"
 
 const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
     ssr: false,
@@ -42,7 +43,14 @@ const Navbar = () => {
                     <Image
                         src={Logo}
                         alt="Logo"
-                        className="object-contain"
+                        className="hidden md:block object-contain"
+                        fill
+                        priority
+                    />
+                     <Image
+                        src={mobileLogo}
+                        alt="Mobile Logo"
+                        className="block md:hidden object-contain"
                         fill
                         priority
                     />
@@ -72,14 +80,14 @@ const Navbar = () => {
                         alt="User Image"
                         className="text-black text-xl cursor-pointer"
                     />
-                    <div className="flex items-center space-x-3">
+                    <div className="hidden md:flex items-center space-x-3">
                         <span className="text-heading font-semibold truncate max-w-[120px] sm:max-w-[150px] md:max-w-[200px] text-xs sm:text-sm md:text-base">
                             Idris Gettani
                         </span>
                         <div className="relative" ref={dropdownRef}>
                             <button
                                 onClick={toggleDropdown}
-                                className={`bg-blue-100 hover:bg-blue-200 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-full p-2.5 inline-flex items-center justify-center transition-colors duration-300 ${isDropdownOpen ? 'bg-blue-200' : 'bg-blue-100'} ${isDropdownOpen ? 'active:bg-blue-300' : ''}`}
+                                className={`bg-blue-100 hover:bg-blue-200 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-full p-2.5 inline-flex items-center justify-center transition-colors duration-300  ${isDropdownOpen ? 'bg-blue-200' : 'bg-blue-100'} ${isDropdownOpen ? 'active:bg-blue-300' : ''} hidden md:block`}
                                 type="button"
                             >
                                 <span className="sr-only">Open dropdown</span>
@@ -93,7 +101,7 @@ const Navbar = () => {
                             </button>
 
                             {isDropdownOpen && (
-                                <NavbarDropdown isOpen={isDropdownOpen} />
+                                <NavbarDropdown isOpen={isDropdownOpen}  />
                             )}
                         </div>
                     </div>
