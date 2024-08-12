@@ -2,10 +2,7 @@ import CompanyDetails from '@/components/companyDetails';
 import React from 'react';
 
 const Page = () => {
-    return (
-        <CompanyDetails />
-    )
-
+    return <CompanyDetails />;
 };
 
 export default Page;

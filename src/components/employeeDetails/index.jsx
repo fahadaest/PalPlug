@@ -5,115 +5,48 @@ import EmployeeCard from '../employeCard';
 import { useParams } from 'next/navigation';
 import TimeImg from '@/assets/images/Group.svg';
 import MovieImg from '@/assets/images/movies.svg';
-import MaleImg from '@/assets/images/male.svg';
-import Netflix from '@/assets/images/Netflix.svg';
-import FemaleImg from '@/assets/images/female.svg';
-import FemaleImg2 from '@/assets/images/femal2.png';
+
 import SignInModal from '@/components/signInModal';
-
-const companyStyles = {
-    Netflix: 'bg-companies-netflix-black',
-    Google: 'bg-companies-google-blue',
-    Slack: 'bg-companies-slack-purple',
-    Airbnb: 'bg-companies-airbnb-pink',
-    Twitch: 'bg-companies-twitch',
-    Spotify: 'bg-companies-spotify',
-    Pinterest: 'bg-othercompanies-pinterest',
-    Snapchat: 'bg-othercompanies-snapchat',
-    LinkedIn: 'bg-othercompanies-linkedin',
-    Discord: 'bg-othercompanies-discord',
-    Tiktok: 'bg-othercompanies-tiktok',
-    Tesla: 'bg-othercompanies-tesla',
-    Shopify: 'bg-othercompanies-shopify',
-    Twitter: 'bg-othercompanies-twitter',
-    Microsoft: 'bg-othercompanies-microsoft',
-    Adobe: 'bg-othercompanies-adobe',
-    Telegram: 'bg-othercompanies-telegram',
-    Youtube: 'bg-othercompanies-youtube',
-    Paypal: 'bg-othercompanies-paypal',
-    Instagram: 'bg-othercompanies-instagram',
-    Airtable: 'bg-othercompanies-airtable',
-    Dropbox: 'bg-othercompanies-dropbox',
-    Duolingo: 'bg-othercompanies-duolingo',
-    Facebook: 'bg-othercompanies-facebook',
-    Figma: 'bg-othercompanies-figma',
-    Github: 'bg-othercompanies-github',
-    Square: 'bg-othercompanies-square',
-    Terminal: 'bg-othercompanies-terminal',
-    Hatch: 'bg-othercompanies-hatch',
-    Abstract: 'bg-othercompanies-abstract',
-};
-
-const logoClassNames = {
-    Airbnb: 'invert-brightness',
-    Hatch: 'invert-brightness',
-    Abstract: 'invert-brightness',
-    Github: 'invert-brightness',
-    Square: 'invert-brightness',
-    Discord: 'invert-brightness',
-    Terminal: 'invert-brightness',
-    Youtube: 'invert-brightness',
-    Tesla: 'invert-brightness',
-    LinkedIn: 'invert-brightness',
-    Snapchat: 'invert-brightness',
-    Twitter: 'invert-brightness',
-    Dropbox: 'invert-brightness',
-};
+import { selectEmployees } from '@/app/lib/features/employee/employeeSlice';
+import { useSelector } from 'react-redux';
+import {
+    selectCompanies,
+    selectCompanyStyles,
+    selectLogoClassNames,
+    selectOtherCompanies,
+} from '@/app/lib/features/companies/companiesSlice';
 
 const EmployeeDetails = () => {
     const [activeTab, setActiveTab] = useState('Referral');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { name, employeeId } = useParams();
-    const employees = [
-        {
-            id: '1',
-            name: 'Idris Gettani',
-            role: 'Partner Success @ Airbnb',
-            city: 'San Francisco, CA',
-            reviews: 4.9,
-            hires: '12 successful hires',
-            country: 'USA',
-            yearsOfService: 5,
-            referrals: 10,
-            interviews: 20,
-            image: MaleImg,
-        },
-        {
-            id: '2',
-            name: 'Maddy Grey',
-            role: 'Software Engineer II @ Airbnb',
-            city: 'San Francisco, CA',
-            reviews: 4.75,
-            hires: '8 successful hires',
-            country: 'USA',
-            yearsOfService: 3,
-            referrals: 8,
-            interviews: 15,
-            image: FemaleImg,
-        },
-        {
-            id: '3',
-            name: 'Angela Wynn',
-            role: 'Marketing @ Airbnb',
-            city: 'San Francisco, CA',
-            reviews: 4.78,
-            hires: '8 successful hires',
-            country: 'USA',
-            yearsOfService: 3,
-            referrals: 8,
-            interviews: 15,
-            image: FemaleImg2,
-        },
-    ];
+    const companies = useSelector(selectCompanies);
+    const otherCompanies = useSelector(selectOtherCompanies);
+    const companyStyles = useSelector(selectCompanyStyles);
+    const logoClassNames = useSelector(selectLogoClassNames);
+    const employees = useSelector(selectEmployees);
 
-    const employee = employees.find((emp) => emp.id === employeeId);
-    const bgColor = companyStyles[name] || 'bg-gray-800';
+    const employee = employees?.find(
+        (emp) => emp?.id.toString() === employeeId
+    );
+
+    const displayName =
+        name?.charAt(0)?.toUpperCase() + name.slice(1)?.toLowerCase();
+    const company = [...companies, ...otherCompanies]?.find(
+        (comp) => comp.name === displayName
+    );
+    const bgColor = companyStyles[company?.name]
+        ? companyStyles[company?.name]?.replace('hover:', '')
+        : 'bg-gray-800';
+
+    const companyLogo = company?.image;
 
     useEffect(() => {
         if (!employee) {
             router.push('/');
         }
     }, [employee]);
+
     const renderTabContent = () => {
         switch (activeTab) {
             case 'Referral':
@@ -185,14 +118,14 @@ const EmployeeDetails = () => {
                 <div className="w-full flex items-center justify-center">
                     <div className="flex items-baseline space-x-6">
                         <Image
-                            src={Netflix}
-                            alt={name}
+                            src={companyLogo}
+                            alt={displayName}
                             width={40}
                             height={40}
-                            className={`object-contain ${logoClassNames[name] || ''}`}
+                            className={`object-contain ${logoClassNames[displayName] || ''}`}
                         />
                         <h1 className="text-primary text-[42px] font-semibold">
-                            {name}
+                            {displayName}
                         </h1>
                     </div>
                 </div>

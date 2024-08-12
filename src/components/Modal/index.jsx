@@ -30,7 +30,6 @@ const Modal = ({ isOpen, onClose, ModalImg, children }) => {
                             className="w-full h-auto object-cover object-center"
                             alt="modal-image"
                             priority
-
                         />
                     </div>
                 )}

@@ -1,175 +1,38 @@
 'use client';
 
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import Netflix from '@/assets/images/Netflix.svg';
-import Slack from '@/assets/images/Slack.svg';
-import Airbnb from '@/assets/images/Airbnb.svg';
-import Google from '@/assets/images/Google.svg';
-import Spotify from '@/assets/images/Spotify.svg';
-import Twitch from '@/assets/images/Twitch.svg';
 import ArrowIcon from '@/assets/images/arrow.svg';
 import { useState } from 'react';
 import EmployeeCard from '../employeCard';
-import MaleImg from '@/assets/images/male.svg';
-import FemaleImg from '@/assets/images/female.svg';
-import FemaleImg2 from '@/assets/images/femal2.png';
-import Pinterest from '@/assets/images/Pinterest.svg';
-import Snapchat from '@/assets/images/Snap.svg';
-import LinkedIn from '@/assets/images/LinkedIn.svg';
-import Discord from '@/assets/images/Discord.svg';
-import Tiktok from '@/assets/images/TikTok.svg';
-import Tesla from '@/assets/images/Tesla.svg';
-import Shopify from '@/assets/images/Shopify.svg';
-import Twitter from '@/assets/images/Twitter.svg';
-import Microsoft from '@/assets/images/Microsoft.svg';
-import Adobe from '@/assets/images/Adobe.svg';
-import Telegram from '@/assets/images/Telegram.svg';
-import Youtube from '@/assets/images/YouTube.svg';
-import Paypal from '@/assets/images/PayPal.svg';
-import Instagram from '@/assets/images/Instagram.svg';
-import Airtable from '@/assets/images/Airtable.svg';
-import Dropbox from '@/assets/images/Dropbox.svg';
-import Duolingo from '@/assets/images/Duolingo.svg';
-import Facebook from '@/assets/images/Facebook.svg';
-import Figma from '@/assets/images/Figma.svg';
-import Github from '@/assets/images/GitHub.svg';
-import Square from '@/assets/images/Square.svg';
-import Terminal from '@/assets/images/Terminal.svg';
-import Hatch from '@/assets/images/Hatch.svg';
-import Abstract from '@/assets/images/Abstract.svg';
 
-const companyImages = {
-    Netflix,
-    Slack,
-    Airbnb,
-    Google,
-    Spotify,
-    Twitch,
-    Pinterest,
-    Snapchat,
-    LinkedIn,
-    Discord,
-    Tiktok,
-    Tesla,
-    Shopify,
-    Twitter,
-    Microsoft,
-    Adobe,
-    Telegram,
-    Youtube,
-    Paypal,
-    Instagram,
-    Airtable,
-    Dropbox,
-    Duolingo,
-    Facebook,
-    Figma,
-    Github,
-    Square,
-    Terminal,
-    Hatch,
-    Abstract,
-};
-
-const companyStyles = {
-    Netflix: 'bg-companies-netflix-black',
-    Google: 'bg-companies-google-blue',
-    Slack: 'bg-companies-slack-purple',
-    Airbnb: 'bg-companies-airbnb-pink',
-    Twitch: 'bg-companies-twitch',
-    Spotify: 'bg-companies-spotify',
-    // other companies start below
-    Pinterest: 'bg-othercompanies-pinterest',
-    Snapchat: 'bg-othercompanies-snapchat',
-    LinkedIn: 'bg-othercompanies-linkedin',
-    Discord: 'bg-othercompanies-discord',
-    Tiktok: 'bg-othercompanies-tiktok',
-    Tesla: 'bg-othercompanies-tesla',
-    Shopify: 'bg-othercompanies-shopify',
-    Twitter: 'bg-othercompanies-twitter',
-    Microsoft: 'bg-othercompanies-microsoft',
-    Adobe: 'bg-othercompanies-adobe',
-    Telegram: 'bg-othercompanies-telegram',
-    Youtube: 'bg-othercompanies-youtube',
-    Paypal: 'bg-othercompanies-paypal',
-    Instagram: 'bg-othercompanies-instagram',
-    Airtable: 'bg-othercompanies-airtable',
-    Dropbox: 'bg-othercompanies-dropbox',
-    Duolingo: 'bg-othercompanies-duolingo',
-    Facebook: 'bg-othercompanies-facebook',
-    Figma: 'bg-othercompanies-figma',
-    Github: 'bg-othercompanies-github',
-    Square: 'bg-othercompanies-square',
-    Terminal: 'bg-othercompanies-terminal',
-    Hatch: 'bg-othercompanies-hatch',
-    Abstract: 'bg-othercompanies-abstract',
-};
-const logoClassNames = {
-    Airbnb: 'invert-brightness',
-    Hatch: 'invert-brightness',
-    Abstract: 'invert-brightness',
-    Github: 'invert-brightness',
-    Square: 'invert-brightness',
-    Discord: 'invert-brightness',
-    Terminal: 'invert-brightness',
-    Youtube: 'invert-brightness',
-    Tesla: 'invert-brightness',
-    LinkedIn: 'invert-brightness',
-    Snapchat: 'invert-brightness',
-    Twitter: 'invert-brightness',
-    Dropbox: 'invert-brightness',
-};
-
-const employees = [
-    {
-        id: 1,
-        name: 'Idris Gettani',
-        role: 'Partner Success @ Airbnb',
-        city: 'San Francisco, CA',
-        reviews: 4.9,
-        hires: '12 successful hires',
-        country: 'USA',
-        yearsOfService: 5,
-        referrals: 10,
-        interviews: 20,
-        image: MaleImg,
-    },
-    {
-        id: 2,
-        name: 'Maddy Grey',
-        role: 'Software Engineer II @ Airbnb',
-        city: 'San Francisco, CA',
-        reviews: 4.75,
-        hires: '8 successful hires',
-        country: 'USA',
-        yearsOfService: 3,
-        referrals: 8,
-        interviews: 15,
-        image: FemaleImg,
-    },
-    {
-        id: 3,
-        name: 'Angela Wynn',
-        role: 'Marketing @ Airbnb',
-        city: 'San Francisco, CA',
-        reviews: 4.78,
-        hires: '8 successful hires',
-        country: 'USA',
-        yearsOfService: 3,
-        referrals: 8,
-        interviews: 15,
-        image: FemaleImg2,
-    },
-];
+import {
+    selectCompanyStyles,
+    selectCompanies,
+    selectOtherCompanies,
+    selectLogoClassNames,
+} from '@/app/lib/features/companies/companiesSlice';
+import { useSelector } from 'react-redux';
+import { selectEmployees } from '@/app/lib/features/employee/employeeSlice';
 
 const CompanyDetails = () => {
     const router = useRouter();
-    const { name, id } = useParams();
+    const { name } = useParams();
+    const companies = useSelector(selectCompanies);
+    const otherCompanies = useSelector(selectOtherCompanies);
+    const companyStyles = useSelector(selectCompanyStyles);
+    const employees = useSelector(selectEmployees);
+    const logoClassNames = useSelector(selectLogoClassNames);
     const displayName =
         name?.charAt(0)?.toUpperCase() + name.slice(1)?.toLowerCase();
-    const image = companyImages[displayName];
-    const bgColor = companyStyles[displayName] || 'bg-gray-800';
+    const company = [...companies, ...otherCompanies]?.find(
+        (comp) => comp.name === displayName
+    );
+    const companyLogo = company?.image;
+
+    const bgColor = companyStyles[company?.name]
+        ? companyStyles[company?.name]?.replace('hover:', '')
+        : 'bg-gray-800';
 
     const [openDropdown, setOpenDropdown] = useState(null);
 
@@ -178,11 +41,9 @@ const CompanyDetails = () => {
     };
 
     const handleEmployeeClick = (employeeId) => {
-        router.push(
-            `/company/${displayName}/employees/${employeeId}`,
-            undefined,
-            { shallow: true }
-        );
+        router.push(`/company/${name}/employees/${employeeId}`, undefined, {
+            shallow: true,
+        });
     };
 
     return (
@@ -193,7 +54,7 @@ const CompanyDetails = () => {
                 <div className="w-full max-w-[1440px] flex items-center justify-center">
                     <div className="flex items-center space-x-6">
                         <Image
-                            src={image}
+                            src={companyLogo}
                             alt={displayName}
                             width={40}
                             height={40}
@@ -206,9 +67,7 @@ const CompanyDetails = () => {
                 </div>
             </div>
 
-            {/* Custom Dropdowns Section */}
             <div className="w-full mt-4 px-4 flex flex-wrap gap-4">
-                {/* Dropdown 1: Job Function */}
                 <div className="relative inline-block text-left mb-4">
                     <button
                         id="dropdownJobFunctionButton"
@@ -225,7 +84,6 @@ const CompanyDetails = () => {
                             className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownJobFunction' ? 'rotate-180' : 'rotate-0'}`}
                         />
                     </button>
-                    {/* Dropdown menu */}
                     <div
                         id="dropdownJobFunction"
                         className={`z-10 ${

@@ -19,42 +19,42 @@ module.exports = {
                 secondary: '#ebf8fe',
                 accent: '#FBBF24',
                 grey: '#939393',
-                grey40:"#2F2F2F",
-                grey30:"#555555",
-                dropdowntext:"#4A504B",
-                companies:{
+                grey40: '#2F2F2F',
+                grey30: '#555555',
+                dropdowntext: '#4A504B',
+                companies: {
                     'netflix-black': '#0B0B0B',
                     'google-blue': '#4285F4',
                     'slack-purple': '#441B49',
-                    "airbnb-pink":"#FF5A5F",
-                    "spotify":"#0B0B0B",
-                    "twitch":"#9146FF",
+                    'airbnb-pink': '#FF5A5F',
+                    spotify: '#0B0B0B',
+                    twitch: '#9146FF',
                 },
-                othercompanies:{
-                    'pinterest': '#EB334F', //calculated
-                    'snapchat': '#FFF101',
-                    'linkedin': '#3380D9', //calculated
-                    'discord': '#5865F2',
-                    'tiktok': '#0B0B0B',
-                    'tesla': '#ED4D52', //calculated
-                    'shopify': '#96bf48',
-                    'twitter': '#4AAFF3', //calculated
-                    'microsoft': '#0B0B0B',
-                    'adobe': '#0B0B0B',
-                    'telegram': '#5FBEE7', //calculated
-                    'youtube': '#FF3333',
-                    'paypal': '#4E5784', //calculated
-                    'instagram': '#0B0B0B',
-                    'airtable': '#D2EFFF',
-                    'dropbox': '#0061FF',
-                    'duolingo': '#8ADB4E', //calcilated with 30% no exact code in figma
-                    'facebook': '#1977F3',
-                    'figma': '#0B0B0B',
-                    'github': '#0B0B0B',
-                    'square': '#0A0A0A',
-                    'terminal': '#7AA6B9',
-                    'hatch': '#F9DA3D', //calculated
-                    'abstract': '#0B0B0B',
+                othercompanies: {
+                    pinterest: '#EB334F', //calculated
+                    snapchat: '#FFF101',
+                    linkedin: '#3380D9', //calculated
+                    discord: '#5865F2',
+                    tiktok: '#0B0B0B',
+                    tesla: '#ED4D52', //calculated
+                    shopify: '#96bf48',
+                    twitter: '#4AAFF3', //calculated
+                    microsoft: '#0B0B0B',
+                    adobe: '#0B0B0B',
+                    telegram: '#5FBEE7', //calculated
+                    youtube: '#FF3333',
+                    paypal: '#4E5784', //calculated
+                    instagram: '#0B0B0B',
+                    airtable: '#D2EFFF',
+                    dropbox: '#0061FF',
+                    duolingo: '#8ADB4E', //calcilated with 30% no exact code in figma
+                    facebook: '#1977F3',
+                    figma: '#0B0B0B',
+                    github: '#0B0B0B',
+                    square: '#0A0A0A',
+                    terminal: '#7AA6B9',
+                    hatch: '#F9DA3D', //calculated
+                    abstract: '#0B0B0B',
                 },
                 neutral: {
                     white: '#FFFFFF',
@@ -63,10 +63,10 @@ module.exports = {
                     darkGray: '#6B7280',
                     black: '#000000',
                 },
-                employecard:{
-                    "bg-main-card":"#F0F0F0",
-                    "card-grey-text":"#939393",
-                    "card-blue-hover":"#005382",
+                employecard: {
+                    'bg-main-card': '#F0F0F0',
+                    'card-grey-text': '#939393',
+                    'card-blue-hover': '#005382',
                 },
                 border: {
                     default: '1px #F0F0F0',
@@ -83,13 +83,13 @@ module.exports = {
                 },
             },
             brightness: {
-                '100': 'brightness(1)',
-                '0': 'brightness(0)',
-              },
-              invert: {
-                '0': 'invert(0)',
-                '1': 'invert(1)',
-              },
+                100: 'brightness(1)',
+                0: 'brightness(0)',
+            },
+            invert: {
+                0: 'invert(0)',
+                1: 'invert(1)',
+            },
             fontWeight: {
                 lightbold: 400,
                 mediumbold: 500,
@@ -142,5 +142,37 @@ module.exports = {
         //     },
         // },
     },
+    safelist: [
+        'bg-companies-netflix-black',
+        'bg-companies-google-blue',
+        'bg-companies-slack-purple',
+        'bg-companies-airbnb-pink',
+        'bg-companies-twitch',
+        'bg-companies-spotify',
+        'bg-othercompanies-pinterest',
+        'bg-othercompanies-snapchat',
+        'bg-othercompanies-linkedin',
+        'bg-othercompanies-discord',
+        'bg-othercompanies-tiktok',
+        'bg-othercompanies-tesla',
+        'bg-othercompanies-shopify',
+        'bg-othercompanies-twitter',
+        'bg-othercompanies-microsoft',
+        'bg-othercompanies-adobe',
+        'bg-othercompanies-telegram',
+        'bg-othercompanies-youtube',
+        'bg-othercompanies-paypal',
+        'bg-othercompanies-instagram',
+        'bg-othercompanies-airtable',
+        'bg-othercompanies-dropbox',
+        'bg-othercompanies-duolingo',
+        'bg-othercompanies-facebook',
+        'bg-othercompanies-figma',
+        'bg-othercompanies-github',
+        'bg-othercompanies-square',
+        'bg-othercompanies-terminal',
+        'bg-othercompanies-hatch',
+        'bg-othercompanies-abstract',
+    ],
     plugins: [],
 };

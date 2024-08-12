@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import Landing from '@/components/landingPage';
 import React from 'react';
 
