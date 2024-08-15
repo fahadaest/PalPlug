@@ -8,12 +8,21 @@ import MailIcon from '@/assets/images/mail.svg';
 import UserImg from '@/assets/images/user.svg';
 import ArrowIcon from '@/assets/images/arrow.svg';
 import mobileLogo from '@/assets/images/mblLogo.svg';
+import { useRouter } from 'next/navigation';
 
 const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
     ssr: false,
 });
 
 const Navbar = () => {
+    const router = useRouter();
+
+    const handleClick = (e) => {
+        if (e?.target?.tagName === 'IMG') {
+            e.stopPropagation();
+            router.push('/');
+        }
+    };
     const [isDropdownOpen, setDropdownOpen] = useState(false);
 
     const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
@@ -39,7 +48,10 @@ const Navbar = () => {
     return (
         <nav className="bg-white shadow-md p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0">
             <div className="flex items-center  md:space-x-4 flex-grow">
-                <div className="relative w-10 h-6 sm:w-24 sm:h-8">
+                <div
+                    className="relative w-10 h-6 sm:w-24 sm:h-8 cursor-pointer"
+                    onClick={handleClick}
+                >
                     <Image
                         src={Logo}
                         alt="Logo"
@@ -55,7 +67,6 @@ const Navbar = () => {
                         priority
                     />
                 </div>
-
                 <input
                     type="text"
                     placeholder="Search by company"
