@@ -2,8 +2,23 @@
 import React from 'react';
 import UserImg from '@/assets/images/user.svg';
 import Image from 'next/image';
+import { signOut } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
+import { auth } from '@/app/utils/firebase';
+import { loginFailure, logout } from '@/app/lib/features/user/userSlice';
 
 const NavbarDropdown = ({ isOpen }) => {
+    const dispatch = useDispatch();
+
+    const handleLogout = async () => {
+        try {
+            await signOut(auth);
+            dispatch(logout());
+        } catch (error) {
+            dispatch(loginFailure(error?.message || "Something went wrong!"))
+        }
+    };
+
     if (!isOpen) return null;
 
     return (
@@ -62,6 +77,7 @@ const NavbarDropdown = ({ isOpen }) => {
             <div className="border-t border-gray-200 dark:border-gray-600"></div>
             <div className="py-2">
                 <a
+                    onClick={handleLogout}
                     href="#"
                     className="block w-full py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                 >

@@ -20,7 +20,6 @@ const Landing = () => {
     const handleCompanyClick = (companyName) => {
         router.push(`/company/${companyName?.toLowerCase()}`);
     };
-
     return (
         <div className="min-h-screen bg-secondary flex flex-col p-4 pt-12">
             <div className="container mx-auto flex flex-col lg:flex-row items-center lg:items-center justify-between gap-8 lg:gap-12">

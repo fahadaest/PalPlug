@@ -9,12 +9,14 @@ import UserImg from '@/assets/images/user.svg';
 import ArrowIcon from '@/assets/images/arrow.svg';
 import mobileLogo from '@/assets/images/mblLogo.svg';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 
 const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
     ssr: false,
 });
 
 const Navbar = () => {
+    const user = useSelector((state) => state.user.user);
     const router = useRouter();
 
     const handleClick = (e) => {
@@ -93,7 +95,7 @@ const Navbar = () => {
                     />
                     <div className="hidden md:flex items-center space-x-3">
                         <span className="text-heading font-semibold truncate max-w-[120px] sm:max-w-[150px] md:max-w-[200px] text-xs sm:text-sm md:text-base">
-                            Idris Gettani
+                            {user ? user?.displayName : '-'}
                         </span>
                         <div className="relative" ref={dropdownRef}>
                             <button
