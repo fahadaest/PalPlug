@@ -5,9 +5,9 @@ import Image from 'next/image';
 import { signOut } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
 import { auth } from '@/app/utils/firebase';
-import { loginFailure, logout } from '@/app/lib/features/user/userSlice';
+import { loginFailure, logout } from '@/app/redux/slice/user/userSlice';
 
-const NavbarDropdown = ({ isOpen }) => {
+const NavbarDropdown = ({ isOpen, user }) => {
     const dispatch = useDispatch();
 
     const handleLogout = async () => {
@@ -31,10 +31,10 @@ const NavbarDropdown = ({ isOpen }) => {
                 />
                 <div>
                     <div className="truncate text-text-heading font-semibold">
-                        Username
+                        {user?.displayName || "Username"}
                     </div>
                     <div className="font-lightbold truncate text-grey">
-                        username@gmail.com
+                        {user?.email || "username@gmail.com"}
                     </div>
                 </div>
             </div>

@@ -6,7 +6,7 @@ import {
     selectOtherCompanies,
     selectCompanyStyles,
     selectWhiteRoundedImges,
-} from '@/app/lib/features/companies/companiesSlice';
+} from '@/app/redux/slice/companies/companiesSlice';
 import { useSelector } from 'react-redux';
 import Image from 'next/image';
 import RobotsImg from '@/assets/images/Illustration.svg';

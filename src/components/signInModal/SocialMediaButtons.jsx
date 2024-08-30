@@ -7,7 +7,7 @@ import {
     loginRequest,
     loginSuccess,
     loginFailure,
-} from '@/app/lib/features/user/userSlice';
+} from '@/app/redux/slice/user/userSlice';
 import { useDispatch } from 'react-redux';
 import { auth } from '@/app/utils/firebase';
 import { useLinkedIn } from 'react-linkedin-login-oauth2';

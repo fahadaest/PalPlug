@@ -11,9 +11,9 @@ import {
     selectCompanies,
     selectOtherCompanies,
     selectLogoClassNames,
-} from '@/app/lib/features/companies/companiesSlice';
+} from '@/app/redux/slice/companies/companiesSlice';
 import { useSelector } from 'react-redux';
-import { selectEmployees } from '@/app/lib/features/employee/employeeSlice';
+import { selectEmployees } from '@/app/redux/slice/employee/employeeSlice';
 
 const CompanyDetails = () => {
     const router = useRouter();

@@ -7,14 +7,14 @@ import TimeImg from '@/assets/images/Group.svg';
 import MovieImg from '@/assets/images/movies.svg';
 
 import SignInModal from '@/components/signInModal';
-import { selectEmployees } from '@/app/lib/features/employee/employeeSlice';
+import { selectEmployees } from '@/app/redux/slice/employee/employeeSlice';
 import { useSelector } from 'react-redux';
 import {
     selectCompanies,
     selectCompanyStyles,
     selectLogoClassNames,
     selectOtherCompanies,
-} from '@/app/lib/features/companies/companiesSlice';
+} from '@/app/redux/slice/companies/companiesSlice';
 
 const EmployeeDetails = () => {
     const [activeTab, setActiveTab] = useState('Referral');

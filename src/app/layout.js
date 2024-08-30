@@ -2,11 +2,12 @@
 import { Poppins } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/navbar';
-import { StoreProvider } from './StoreProvider';
+import { StoreProvider } from './redux/StoreProvider';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { auth } from '@/app/utils/firebase';
-import { logout, setUser } from '@/app/lib/features/user/userSlice';
+import { logout, setUser } from '@/app/redux/slice/user/userSlice';
+
 
 const poppins = Poppins({
     weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
