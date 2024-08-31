@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
     selectCompanies,
@@ -10,6 +10,7 @@ import {
 import { useSelector } from 'react-redux';
 import Image from 'next/image';
 import RobotsImg from '@/assets/images/Illustration.svg';
+import SignInModal from '@/components/signInModal';
 
 const Landing = () => {
     const router = useRouter();
@@ -17,9 +18,22 @@ const Landing = () => {
     const otherCompanies = useSelector(selectOtherCompanies);
     const companyStyles = useSelector(selectCompanyStyles);
     const whiteRoundedImges = useSelector(selectWhiteRoundedImges);
+    const user = useSelector((state) => state.user.user); 
+
+    const [isModalOpen, setModalOpen] = useState(false);
+
     const handleCompanyClick = (companyName) => {
-        router.push(`/company/${companyName?.toLowerCase()}`);
+        if (user) {
+            router.push(`/company/${companyName?.toLowerCase()}`);
+        } else {
+            setModalOpen(true); 
+        }
     };
+
+    const handleModalClose = () => {
+        setModalOpen(false);
+    };
+
     return (
         <div className="min-h-screen bg-secondary flex flex-col p-4 pt-12">
             <div className="container mx-auto flex flex-col lg:flex-row items-center lg:items-center justify-between gap-8 lg:gap-12">
@@ -122,6 +136,8 @@ const Landing = () => {
                     })}
                 </div>
             </div>
+
+            <SignInModal isOpen={isModalOpen} onClose={handleModalClose} />
         </div>
     );
 };
