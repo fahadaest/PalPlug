@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, forwardRef } from 'react';
 import ModalImg from '@/assets/images/Modal.svg';
 import {
     GithubButton,
@@ -9,7 +9,7 @@ import { Modal } from '@/components/Modal';
 import CloseIcon from '@/assets/images/Closeicon.svg';
 import Image from 'next/image';
 
-const SignInModal = ({ isOpen, onClose }) => {
+const SignInModal = forwardRef( ({ isOpen, onClose }, ref) => {
     const modalRef = useRef(null);
     const contentRef = useRef(null);
 
@@ -75,6 +75,6 @@ const SignInModal = ({ isOpen, onClose }) => {
             </div>
         </Modal>
     );
-};
+});
 
 export default SignInModal;

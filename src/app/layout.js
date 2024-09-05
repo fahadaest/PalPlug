@@ -1,4 +1,5 @@
 'use client';
+
 import { Poppins } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/navbar';
@@ -8,46 +9,63 @@ import { useDispatch } from 'react-redux';
 import { auth } from '@/app/utils/firebase';
 import { logout, setUser } from '@/app/redux/slice/user/userSlice';
 
-
 const poppins = Poppins({
-    weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-    subsets: ['latin'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  subsets: ['latin'],
 });
 
 function AuthProvider({ children }) {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-    useEffect(() => {
-        const unsubscribe = auth.onAuthStateChanged((user) => {
-            if (user) {
-                dispatch(
-                    setUser({
-                        displayName: user.displayName,
-                        email: user.email,
-                    })
-                );
-            } else {
-                dispatch(logout());
-            }
-        });
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        const userData = {
+          id: user.uid,
+          displayName: user.displayName,
+          email: user.email,
+        };
+        dispatch(setUser(userData));
+        // Store user data in localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('user', JSON.stringify(userData));
+        }
+      } else {
+        dispatch(logout());
+        // Remove user data from localStorage on logout
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('user');
+        }
+      }
+    });
 
-        return () => unsubscribe();
-    }, [dispatch]);
+    return () => unsubscribe();
+  }, [dispatch]);
 
-    return children;
+  // Restore user session from localStorage on page load
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        dispatch(setUser(JSON.parse(userData)));
+      }
+    }
+  }, [dispatch]);
+
+  return children;
 }
 
 export default function RootLayout({ children }) {
-    return (
-        <html lang="en">
-            <body className={poppins.className}>
-                <StoreProvider>
-                    <AuthProvider>
-                        <Navbar />
-                        <main>{children}</main>
-                    </AuthProvider>
-                </StoreProvider>
-            </body>
-        </html>
-    );
+  return (
+    <html lang="en">
+      <body className={poppins.className}>
+        <StoreProvider>
+          <AuthProvider>
+            <Navbar />
+            <main>{children}</main>
+          </AuthProvider>
+        </StoreProvider>
+      </body>
+    </html>
+  );
 }
