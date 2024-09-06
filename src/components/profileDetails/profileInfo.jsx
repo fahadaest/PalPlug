@@ -4,9 +4,10 @@ import { useState } from 'react';
 import PhoneIcon from '@/assets/images/phone.svg';
 import EmailIcon from '@/assets/images/email.svg';
 import PhoneVerifyModal from '../phoneVerify';
-import { setCurrentStep } from '@/app/redux/slice/user/userSlice';
-import ProfessionalInfo from './ProfessionalInfo';
+import { setCurrentStep,submitProfileInfo } from '@/app/redux/slice/user/userSlice';
 
+import ProfessionalInfo from './ProfessionalInfo';
+import { submitProfile } from '@/app/redux/action';
 const ProfileInfo = ({ userId, displayName }) => {
   const dispatch = useDispatch();
   const currentStep = useSelector((state) => state.user.currentStep);
@@ -41,17 +42,19 @@ const ProfileInfo = ({ userId, displayName }) => {
     }
   };
 
-  const handleFinish = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const formData = {
-      firstName,
-      lastName,
-      profilePicture,
-      description,
-      professionalInfo,
-    };
-    };
+ const handleFinish = (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  
+  const formData = {
+    firstName,
+    lastName,
+    profilePicture,
+    description,
+    professionalInfo,
+  };
+  dispatch(submitProfile(formData));
+};
 
   const isFormValid = firstName.trim() !== '' && lastName.trim() !== '';
 
@@ -142,8 +145,8 @@ const ProfileInfo = ({ userId, displayName }) => {
               Continue
             </button>
           </div>
-        )}
- {currentStep === 2 && (
+        )} 
+     {currentStep === 2 && (
        <>
       <ProfessionalInfo professionalInfo={professionalInfo} setProfessionalInfo={setProfessionalInfo} />
        

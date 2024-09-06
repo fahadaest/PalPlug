@@ -1,21 +1,21 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 
 const RotatingIcon = () => {
-  const [isMoving, setIsMoving] = useState(false);
+  const [isRotated, setIsRotated] = useState(false);
 
   const handleClick = () => {
-    setIsMoving(!isMoving);
+    setIsRotated(!isRotated);
   };
 
   return (
     <div
-      className={`h-[18px] w-[18px]  border-[#555555] bg-[#F0F0F0] rounded-full flex justify-center items-center cursor-pointer ${
-        isMoving ? 'animate-rotate360 ' : ''
+      className={`h-[20px] w-[20px]  bg-[#F0F0F0] rounded-full flex justify-center items-center cursor-pointer ${
+        isRotated ? 'rotate-180' : ''
       }`}
       onClick={handleClick}
     >
-      <RiArrowDropDownLine className='text-[19px]' />
+      <RiArrowDropDownLine className='text-[18px]' />
     </div>
   );
 };

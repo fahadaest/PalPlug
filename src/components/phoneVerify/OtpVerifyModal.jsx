@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal } from '@/components/Modal';
 import Image from 'next/image';
 import CloseIcon from '@/assets/images/Closeicon.svg'; 
-
+import VerificationComplete from './VerificationComplete';
 const OTPVerifyModal = ({ isOpen, phoneNumber, onClose }) => {
+  const [isVerificationCompleteOpen, setVerificationCompleteOpen] = useState(false);
   if (!isOpen) return null;
-
+  const handleVerificationCompleteClose = () => {
+    setVerificationCompleteOpen(false);
+    onClose(); 
+  };
+  const handleSubmit = () => {
+    setVerificationCompleteOpen(true);
+  };
   return (
+    <>
     <Modal isOpen={isOpen} onClose={onClose} ModalImg={null}>
       <div className="fixed inset-0 flex items-center justify-center bg-gray-100 bg-opacity-10 p-4 md:p-10 z-20">
         <div className="relative max-w-md w-full bg-white p-6 rounded-lg shadow-lg">
@@ -50,7 +58,7 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, onClose }) => {
               maxLength="1"
             />
           </div>
-          <button className="w-full bg-gray-500 text-white py-2 rounded-lg font-semibold">
+          <button className="w-full bg-gray-500 text-white py-2 rounded-lg font-semibold" onClick={(handleSubmit)}>
             Submit Code
           </button>
           <p className="text-gray-500 text-sm mt-4 text-center">
@@ -59,6 +67,11 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, onClose }) => {
         </div>
       </div>
     </Modal>
+    <VerificationComplete 
+    isOpen={isVerificationCompleteOpen} 
+    onClose={handleVerificationCompleteClose} 
+  />
+  </>
   );
 };
 

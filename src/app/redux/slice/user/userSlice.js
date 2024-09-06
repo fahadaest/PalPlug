@@ -1,4 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { submitProfile } from '../../action';
+
 
 const userSlice = createSlice({
   name: 'user',
@@ -8,7 +10,8 @@ const userSlice = createSlice({
     error: null,
     isAuthenticated: false,
     accessToken: null,
-    currentStep: 1, // Added to track the current step
+    currentStep: 1,
+    profileSubmissionStatus: null, 
   },
   reducers: {
     loginRequest: (state) => {
@@ -18,7 +21,7 @@ const userSlice = createSlice({
       state.user = action.payload;
       state.isAuthenticated = true;
       state.loading = false;
-      localStorage.setItem('user', JSON.stringify(action.payload)); // Store user data
+      localStorage.setItem('user', JSON.stringify(action.payload));
     },
     loginFailure: (state, action) => {
       state.error = action.payload;
@@ -29,16 +32,33 @@ const userSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
       state.accessToken = null;
-      localStorage.removeItem('user'); // Remove user data
+      localStorage.removeItem('user'); 
     },
     setUser: (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = true;
-      localStorage.setItem('user', JSON.stringify(action.payload)); // Store user data
+      localStorage.setItem('user', JSON.stringify(action.payload)); 
     },
     setCurrentStep: (state, action) => {
-      state.currentStep = action.payload; // Update current step
+      state.currentStep = action.payload; 
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(submitProfile.pending, (state) => {
+        state.loading = true;
+        state.profileSubmissionStatus = 'pending';
+      })
+      .addCase(submitProfile.fulfilled, (state, action) => {
+        state.loading = false;
+        state.profileSubmissionStatus = 'success';
+        state.user = action.payload; 
+      })
+      .addCase(submitProfile.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.profileSubmissionStatus = 'failed';
+      });
   },
 });
 
