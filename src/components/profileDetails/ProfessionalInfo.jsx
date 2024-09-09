@@ -1,30 +1,50 @@
-    import { useEffect, useState } from "react";
-      import DropdownComponent from "./DropdownComponent";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchCountries } from "@/app/redux/action";
+import { useEffect, useState } from 'react'; 
+import { useDispatch, useSelector } from 'react-redux'; 
 
-    export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo }) {
-    const [dropdowns, setDropdowns] = useState({
-        occupation: false,
-        country: false,
-        college: false,
-        major: false,
-        year: false,
-        certificate: false, 
-        certificationFrom: false,
-    });
+import DropdownComponent from './DropdownComponent'; 
+import { fetchCountries } from '@/app/redux/action'; 
+
+
+export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo }) {
+    const [educationSections, setEducationSections] = useState([{}]); 
+    const [certificationSections, setCertificationSections] = useState([{}]); 
+
     const dispatch = useDispatch();
     const { countries, loading } = useSelector((state) => state.countries);
-  
+
     useEffect(() => {
-      dispatch(fetchCountries());
+        dispatch(fetchCountries());
     }, [dispatch]);
-    const handleOptionChange = (dropdownKey, updatedOptions) => {
-        setProfessionalInfo({ ...professionalInfo, [dropdownKey]: updatedOptions });
+    const handleOptionChange = (dropdownKey, updatedOptions, sectionIndex, type) => {
+        if (type === "education") {
+            const updatedSections = [...educationSections];
+            updatedSections[sectionIndex] = { ...updatedSections[sectionIndex], [dropdownKey]: updatedOptions };
+            setEducationSections(updatedSections);
+        } else if (type === "certification") {
+            const updatedSections = [...certificationSections];
+            updatedSections[sectionIndex] = { ...updatedSections[sectionIndex], [dropdownKey]: updatedOptions };
+            setCertificationSections(updatedSections);
+        }
+    };
+
+    const addEducationSection = () => {
+        setEducationSections([...educationSections, { country: '', college: '', major: '', year: '' }]);
+    };
+    const removeEducationSection = (index) => {
+        const updatedSections = educationSections.filter((_, i) => i !== index);
+        setEducationSections(updatedSections);
+    };
+
+    const addCertificationSection = () => {
+        setCertificationSections([...certificationSections, { certificate: '', certification: '', year: '' }]);
+    };
+    const removeCertificationSection = (index) => {
+        const updatedSections = certificationSections.filter((_, i) => i !== index);
+        setCertificationSections(updatedSections);
     };
 
     const handleDropdownClick = (e) => {
-    
+
         e.preventDefault();
     };
 
@@ -42,125 +62,149 @@ import { fetchCountries } from "@/app/redux/action";
                 certifications, and experience.
             </p>
 
-         
+
             <div className="mb-6">
                 <label className="block text-lg font-semibold mb-2">
                     Your Occupation
                 </label>
                 <DropdownComponent
-            options={['Option 1', 'Option 2', 'Option 3']}
-            selectedOption={professionalInfo.occupation}
-            onOptionChange={(updatedOptions) => handleOptionChange('occupation', updatedOptions)}
-            dropdownKey="occupation"
-            label="Select Occupation"
-            width="276px"
-            />
+                    options={['Option 1', 'Option 2', 'Option 3']}
+                    selectedOption={professionalInfo.occupation}
+                    onOptionChange={(updatedOptions) => handleOptionChange('occupation', updatedOptions)}
+                    dropdownKey="occupation"
+                    label="Select Occupation"
+                    width="276px"
+                />
             </div>
 
-         
+
             <div className="mb-6">
                 <label className="text-lg font-semibold mb-2">Education</label>
-                <div className="flex flex-col md:flex-row gap-2 mb-4">
-                  
-                    <DropdownComponent
-        options={countries.map((country) => country.name)}
-        selectedOption={professionalInfo.country}
-        onOptionChange={(updatedOptions) => handleOptionChange('country', updatedOptions)}
-        dropdownKey="country"
-        label="Select Country"
-        loading={loading}
-        width="336px"
-      />
 
-                    <DropdownComponent
-            options={['Option 1', 'Option 2', 'Option 3']}
-            selectedOption={professionalInfo.college}
-            onOptionChange={(updatedOptions) => handleOptionChange('college', updatedOptions)}
-            dropdownKey="college"
-            label="Select Collage"
-            width="336px"
-            />
+                {educationSections.map((section, index) => (
+                    <div key={index} className="mb-6">
+                        <div className="flex flex-col md:flex-row gap-2 mb-4">
+                            <DropdownComponent
+                                options={countries.map((country) => country.name)}
+                                selectedOption={section.country}
+                                onOptionChange={(updatedOptions) =>
+                                    handleOptionChange("country", updatedOptions, index, "education")
+                                }
+                                dropdownKey="country"
+                                label="Select Country"
+                                loading={loading}
+                                width="336px"
+                            />
 
+                            <DropdownComponent
+                                options={["Option 1", "Option 2", "Option 3"]}
+                                selectedOption={section.college}
+                                onOptionChange={(updatedOptions) =>
+                                    handleOptionChange("college", updatedOptions, index, "education")
+                                }
+                                dropdownKey="college"
+                                label="Select College"
+                                width="336px"
+                            />
+                        </div>
 
-                </div>
+                        <div className="flex flex-col md:flex-row gap-3 mb-4">
+                            <DropdownComponent
+                                options={["Option 1", "Option 2", "Option 3"]}
+                                selectedOption={section.major}
+                                onOptionChange={(updatedOptions) =>
+                                    handleOptionChange("major", updatedOptions, index, "education")
+                                }
+                                dropdownKey="major"
+                                label="Select Major"
+                                width="234px"
+                            />
 
-                <div className="flex flex-col md:flex-row gap-3 mb-4">
-                
-                    <DropdownComponent
-            options={['Option 1', 'Option 2', 'Option 3']}
-            selectedOption={professionalInfo.major}
-            onOptionChange={(updatedOptions) => handleOptionChange('major', updatedOptions)}
-            dropdownKey="major"
-            label="Select Major"
-            width="234px"
-            />
-                   
-                    <DropdownComponent
-            options={['Option 1', 'Option 2', 'Option 3']}
-            selectedOption={professionalInfo.year}
-            onOptionChange={(updatedOptions) => handleOptionChange('year', updatedOptions)}
-            dropdownKey="year"
-            label="Select Year"
-            width="160px"
-            />
-        
+                            <DropdownComponent
+                                options={["Option 1", "Option 2", "Option 3"]}
+                                selectedOption={section.year}
+                                onOptionChange={(updatedOptions) =>
+                                    handleOptionChange("year", updatedOptions, index, "education")
+                                }
+                                dropdownKey="year"
+                                label="Select Year"
+                                width="160px"
+                            />
+                        </div>
+                        <button
+                            className="bg-red-500 text-white px-4 py-2 rounded w-full md:w-auto"
+                            onClick={() => removeEducationSection(index)}
+                        >
+                            Remove
+                        </button>
+                    </div>
+                ))}
 
-                </div>
-
-            
+                <button
+                    className="bg-gray-500 text-white px-4 py-2 rounded w-full md:w-auto"
+                    onClick={addEducationSection}
+                >
+                    Add
+                </button>
             </div>
 
-            <button
-                        className="bg-gray-500 text-white px-4 py-2 rounded w-full md:w-auto"
-                    >
-                        Add
-                    </button>
             <div className="mb-6">
-                <label className="block text-lg font-semibold mb-2">
-                    Certification
-                </label>
-                <div className=" w-[336px] flex flex-col md:flex-row gap-2 mb-4">
-                
-                    <DropdownComponent
-            options={['Option 1', 'Option 2', 'Option 3']}
-            selectedOption={professionalInfo.certificate}
-            onOptionChange={(updatedOptions) => handleOptionChange('certificate', updatedOptions)}
-            dropdownKey="certificate"
-            label="Select Certificate"
-            width="336px"
-            />
-        
-                  
-                    <DropdownComponent
-            options={['Option 1', 'Option 2', 'Option 3']}
-            selectedOption={professionalInfo.Certification}
-            onOptionChange={(updatedOptions) => handleOptionChange('Certification', updatedOptions)}
-            dropdownKey="Certification"
-            label="Select Certification"
-            width="336px"
-            />
-        
+                <label className="block text-lg font-semibold mb-2">Certification</label>
 
+                {certificationSections.map((section, index) => (
+                    <div key={index} className="mb-6">
+                        <div className="w-[336px] flex flex-col md:flex-row gap-2 mb-4">
+                            <DropdownComponent
+                                options={["Option 1", "Option 2", "Option 3"]}
+                                selectedOption={section.certificate}
+                                onOptionChange={(updatedOptions) =>
+                                    handleOptionChange("certificate", updatedOptions, index, "certification")
+                                }
+                                dropdownKey="certificate"
+                                label="Select Certificate"
+                                width="336px"
+                            />
+                            <DropdownComponent
+                                options={["Option 1", "Option 2", "Option 3"]}
+                                selectedOption={section.certification}
+                                onOptionChange={(updatedOptions) =>
+                                    handleOptionChange("certification", updatedOptions, index, "certification")
+                                }
+                                dropdownKey="certification"
+                                label="Select Certification"
+                                width="336px"
+                            />
+                        </div>
 
-                </div>
-                <div className="w-[160px] flex flex-col md:flex-row gap-2 mb-4">
-        
-                <DropdownComponent
-            options={['Option 1', 'Option 2', 'Option 3']}
-            selectedOption={professionalInfo.year}
-            onOptionChange={(updatedOptions) => handleOptionChange('year', updatedOptions)}
-            dropdownKey="year"
-            label="Select Year"
-            />
+                        <div className="w-[160px] flex flex-col md:flex-row gap-2 mb-4">
+                            <DropdownComponent
+                                options={["Option 1", "Option 2", "Option 3"]}
+                                selectedOption={section.year}
+                                onOptionChange={(updatedOptions) =>
+                                    handleOptionChange("year", updatedOptions, index, "certification")
+                                }
+                                dropdownKey="year"
+                                label="Select Year"
+                                width="160px"
+                            />
+                        </div>
+                        <button
+                            className="bg-red-500 text-white px-4 py-2 rounded w-full md:w-auto"
+                            onClick={() => removeCertificationSection(index)}
+                        >
+                            Remove 
+                        </button>
+                    </div>
+                ))}
 
-
+                <button
+                    className="bg-gray-500 text-white px-4 py-2 rounded w-full md:w-auto"
+                    onClick={addCertificationSection}
+                >
+                    Add
+                </button>
             </div>
-            </div>
-            <button
-                        className="bg-gray-500 text-white px-4 py-2 rounded w-full md:w-auto"
-                    >
-                        Add
-                    </button>
+
         </div>
     );
-    }
+}
