@@ -5,6 +5,9 @@ import CloseIcon from '@/assets/images/Closeicon.svg';
 import PhoneInput from 'react-phone-number-input';
 import OTPVerifyModal from './OtpVerifyModal'; 
 import 'react-phone-number-input/style.css'; 
+import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
+
+
 
 const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
   const modalRef = useRef(null);
@@ -12,6 +15,45 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isOtpModalOpen, setIsOtpModalOpen] = useState(false); 
 
+  const setupRecaptcha = () => {
+    const auth = getAuth();
+    window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        'size': 'invisible',
+        'callback': (response) => {
+               }
+    }, getAuth());
+
+};
+
+  useEffect(() => {
+    setupRecaptcha();
+  }, []);
+  const handleSendVerificationCode = () => {
+    const auth = getAuth();
+    const appVerifier = window.recaptchaVerifier;
+
+    const formattedPhoneNumber = phoneNumber ? phoneNumber.replace(/\s+/g, '') : '';
+  
+    if (!appVerifier) {
+      console.error('Recaptcha verifier not initialized');
+      return;
+    }
+  
+    if (!formattedPhoneNumber || !/^(\+\d{1,3}[- ]?)?\d{10}$/.test(formattedPhoneNumber)) {
+      console.error('Invalid phone number format');
+      return;
+    }
+  
+    signInWithPhoneNumber(auth, formattedPhoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        setIsOtpModalOpen(true);
+      })
+      .catch((error) => {
+        console.error('Error sending verification code:', error);
+      });
+  };
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
@@ -30,11 +72,6 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
     };
   }, [isOpen, onClose]);
 
-  const handleSmsVerification = () => {
-    if (phoneNumber) {
-      setIsOtpModalOpen(true);
-    }
-  };
 
   const handleOtpClose = () => {
     setIsOtpModalOpen(false);
@@ -83,7 +120,7 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
                 <button
                   type="button"
                   className="w-full py-2 bg-gray-300 text-gray-700 rounded-lg"
-                  onClick={handleSmsVerification} 
+                  onClick={handleSendVerificationCode} 
                 >
                   Verify by SMS
                 </button>
@@ -96,6 +133,7 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
             <p className="text-gray-500 text-sm mt-6">
               Your phone number will remain private and will not be shared or used for marketing purposes
             </p>
+            <div id="recaptcha-container"></div>
           </div>
         </div>
       </Modal>
