@@ -35,7 +35,7 @@ const Landing = () => {
     };
 
     return (
-        <div className="min-h-screen bg-secondary flex flex-col p-4 pt-12">
+        <div className="min-h-screen bg-gradient-to-b from-[#EBFAFE] to-[#EBE0FA] flex flex-col p-4 pt-12">
             <div className="container mx-auto flex flex-col lg:flex-row items-center lg:items-center justify-between gap-8 lg:gap-12">
                 <div className="flex flex-col items-center lg:items-start text-text-heading text-center lg:text-left">
                     <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight">
@@ -63,7 +63,7 @@ const Landing = () => {
                     Popular Companies
                 </h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {companies?.map((company, index) => {
+                    {companies?.map((company, index) => {   
                         const bgClass = companyStyles[company.name];
                         return (
                             <div

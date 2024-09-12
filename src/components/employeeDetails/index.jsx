@@ -113,10 +113,10 @@ const EmployeeDetails = () => {
     return (
         <>
             <div
-                className={`w-full h-[96px] ${bgColor} flex items-center justify-center`}
+                className={`w-full h-[48px] ${bgColor} flex items-center justify-center`}
             >
                 <div className="w-full flex items-center justify-center">
-                    <div className="flex items-baseline space-x-6">
+                    <div className="flex items-center space-x-6">
                         <Image
                             src={companyLogo}
                             alt={displayName}

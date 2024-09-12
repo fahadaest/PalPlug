@@ -2,48 +2,59 @@ import React, { useEffect, useRef, useState, forwardRef } from 'react';
 import { Modal } from '@/components/Modal';
 import Image from 'next/image';
 import CloseIcon from '@/assets/images/Closeicon.svg';
-import PhoneInput from 'react-phone-number-input';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCountries } from '@/app/redux/action';
 import OTPVerifyModal from './OtpVerifyModal'; 
-import 'react-phone-number-input/style.css'; 
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-
-
 
 const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
   const modalRef = useRef(null);
   const contentRef = useRef(null);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isOtpModalOpen, setIsOtpModalOpen] = useState(false); 
+  const [selectedCountry, setSelectedCountry] = useState('');
+
+  const dispatch = useDispatch();
+  const { countries, loading } = useSelector((state) => state.countries);
 
   const setupRecaptcha = () => {
     const auth = getAuth();
     window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        'size': 'invisible',
-        'callback': (response) => {
-               }
+      size: 'invisible',
+      callback: (response) => {
+        // reCAPTCHA solved, allow verification
+      }
     }, getAuth());
-
-};
+  };
 
   useEffect(() => {
     setupRecaptcha();
-  }, []);
+    dispatch(fetchCountries()); // Fetch countries on component mount
+  }, [dispatch]);
+
   const handleSendVerificationCode = () => {
     const auth = getAuth();
     const appVerifier = window.recaptchaVerifier;
+  
 
-    const formattedPhoneNumber = phoneNumber ? phoneNumber.replace(/\s+/g, '') : '';
+    const formattedPhoneNumber = phoneNumber.replace(/\s+/g, '');
+  
+
+    console.log('Formatted Phone Number:', formattedPhoneNumber);
+  
+    
+    const phoneRegex = /^\+\d{1,3}\d{7,15}$/;
   
     if (!appVerifier) {
       console.error('Recaptcha verifier not initialized');
       return;
     }
-  
-    if (!formattedPhoneNumber || !/^(\+\d{1,3}[- ]?)?\d{10}$/.test(formattedPhoneNumber)) {
+    if (!formattedPhoneNumber || !phoneRegex.test(formattedPhoneNumber)) {
       console.error('Invalid phone number format');
+      console.log('Failed Regex Check:', phoneRegex.test(formattedPhoneNumber));
       return;
     }
-  
+
     signInWithPhoneNumber(auth, formattedPhoneNumber, appVerifier)
       .then((confirmationResult) => {
         window.confirmationResult = confirmationResult;
@@ -54,10 +65,13 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
       });
   };
   
+  
+  
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
-     
+        // Close the modal if click is outside
       }
     };
 
@@ -71,7 +85,6 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isOpen, onClose]);
-
 
   const handleOtpClose = () => {
     setIsOtpModalOpen(false);
@@ -104,14 +117,36 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
 
             <form>
               <div className="mb-6">
+                <label className="block text-gray-700 mb-2" htmlFor="country">
+                  Select your Country
+                </label>
+                {loading ? (
+                  <p>Loading countries...</p>
+                ) : (
+                  <select
+      value={selectedCountry}
+      onChange={(e) => setSelectedCountry(e.target.value)} // Capture only the dial code
+      className="w-full px-3 py-2 border rounded-lg text-gray-700"
+    >
+      <option value="" disabled>Select Country</option>
+      {countries.map((country) => (
+        <option key={country.code} value={country.dialCode}>
+          {country.name} ({country.dialCode}) {/* Shows name and dial code */}
+        </option>
+      ))}
+    </select>
+                )}
+              </div>
+
+              <div className="mb-6">
                 <label className="block text-gray-700 mb-2" htmlFor="phone">
                   Enter your Phone Number
                 </label>
-                <PhoneInput
-                  international
+                <input
+                  type="tel"
                   value={phoneNumber}
-                  onChange={setPhoneNumber}
-                  defaultCountry="US" 
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  placeholder="Phone Number"
                   className="w-full px-3 py-2 border rounded-lg text-gray-700"
                 />
               </div>
@@ -120,7 +155,7 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
                 <button
                   type="button"
                   className="w-full py-2 bg-gray-300 text-gray-700 rounded-lg"
-                  onClick={handleSendVerificationCode} 
+                  onClick={handleSendVerificationCode}
                 >
                   Verify by SMS
                 </button>
@@ -138,7 +173,6 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
         </div>
       </Modal>
 
-   
       <OTPVerifyModal
         isOpen={isOtpModalOpen}
         phoneNumber={phoneNumber}

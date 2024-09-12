@@ -66,7 +66,7 @@ const EmployeeCard = ({
             <div className="w-full h-px bg-gray-200 my-4"></div>
 
             <div
-                className={`flex flex-col w-full ${showReviews ? 'mb-2' : 'mb-6'}`}
+                className={`flex flex-col p-[16px] w-full ${showReviews ? 'mb-2' : 'mb-6'}`}
             >
                 <div className="flex items-center mb-2">
                     <Image
@@ -129,7 +129,7 @@ const EmployeeCard = ({
                     className="flex flex-wrap w-full gap-4 mb-4"
                     onClick={() => onClick(employee)}
                 >
-                    <div className="group flex-1 bg-primary border border-gray-300 rounded-lg shadow-md p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
+                    <div className="group p-[16px] flex-1 bg-primary border border-gray-300 rounded-lg  p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
                         <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
                             Referral
                         </h5>
@@ -141,7 +141,7 @@ const EmployeeCard = ({
                         </p>
                     </div>
 
-                    <div className="group flex-1 bg-primary border border-gray-300 rounded-lg shadow-md p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
+                    <div className="group p-[16px] flex-1 bg-primary border border-gray-300 rounded-lg p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
                         <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
                             Resume Review
                         </h5>
@@ -153,7 +153,7 @@ const EmployeeCard = ({
                         </p>
                     </div>
 
-                    <div className="group flex-1 bg-primary border border-gray-300 rounded-lg shadow-md p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
+                    <div className="group flex-1 p-[16px] bg-primary border border-gray-300 rounded-lg  p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
                         <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
                             Interview Prep
                         </h5>

@@ -12,7 +12,7 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, onClose }) => {
 
   const handleVerificationCompleteClose = () => {
     setVerificationCompleteOpen(false);
-    onClose(); 
+    onClose(); // Close the OTPVerifyModal after verification is complete
   };
 
   const handleSubmit = () => {
@@ -30,7 +30,7 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, onClose }) => {
 
   const handleChange = (e) => {
     const { value } = e.target;
-       if (/^\d{0,6}$/.test(value)) {
+    if (/^\d{0,6}$/.test(value)) {
       setVerificationCode(value);
     }
   };

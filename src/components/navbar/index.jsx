@@ -11,7 +11,7 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useSelector } from 'react-redux';
 import SignInModal from '@/components/signInModal/index';
 import StepProgressBar from './StepProgressBar';
-
+import Search from '@/assets/images/Search.svg'
 const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
     ssr: false,
 });
@@ -26,6 +26,10 @@ const Navbar = () => {
     const [hasLoggedIn, setHasLoggedIn] = useState(false);  
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false); // Detect mobile view
+
+    const dropdownRef = useRef(null);
+    const modalRef = useRef(null);
 
     useEffect(() => {
         if (user && !hasLoggedIn) {
@@ -34,6 +38,22 @@ const Navbar = () => {
         }
     }, [user, hasLoggedIn]);
 
+    useEffect(() => {
+        // Check for mobile view
+        const handleResize = () => {
+            setIsMobile(window.innerWidth < 768); // Mobile view is less than 768px (md breakpoint)
+        };
+
+        // Set initial mobile view state
+        handleResize();
+
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
     const handleClick = (e) => {
         if (e?.target?.tagName === 'IMG') {
             e.stopPropagation();
@@ -41,9 +61,16 @@ const Navbar = () => {
         }
     };
 
-    const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
-    const dropdownRef = useRef(null);
-    const modalRef = useRef(null);
+    const toggleDropdown = () => {
+        // Only toggle the dropdown in mobile view
+        if (isMobile) {
+            setDropdownOpen(prevState => {
+                const newState = !prevState;
+                console.log(newState ? 'Dropdown opened' : 'Dropdown closed'); // Log state
+                return newState;
+            });
+        }
+    };
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -100,11 +127,18 @@ const Navbar = () => {
                     </div>
                 )}
                 {!isProfilePage && (
+                    <div className="relative w-full max-w-[190px]  sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-[452px] mx-2">
+                    <Image
+                        src={Search}
+                        alt="Search Icon"
+                        className=" absolute  left-2 top-1/2 transform -translate-y-1/2 w-4 h-4 "
+                    />
                     <input
                         type="text"
                         placeholder="Search by company"
-                        className="p-2 rounded-lg border border-default focus:border-focus focus:outline-border-focus w-full max-w-[190px] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-[452px] mx-2"
+                        className="pl-10 p-2 rounded-lg placeholder-[#555555]  border  border-gray-300 text-[10px] lg:text-lg focus:border-blue-500 focus:outline-none w-full"
                     />
+                </div>
                 )}
             </div>
 
@@ -123,18 +157,31 @@ const Navbar = () => {
                                 className="text-black text-xl cursor-pointer"
                             />
                             <div className="relative flex items-center space-x-2">
+                                {/* User Image visible on both mobile and desktop */}
                                 <Image
                                     src={UserImg}
                                     alt="User Image"
-                                    className="text-black text-xl cursor-pointer"
+                                    className="text-black text-xl cursor-pointer" 
+                                    onClick={toggleDropdown} 
+                                    log
                                 />
+                                {isMobile && isDropdownOpen && (
+                                    <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10" ref={dropdownRef}>
+                                        <NavbarDropdown
+                                            isOpen={isDropdownOpen}
+                                            userId={user.id || user.uid}
+                                        />
+                                    </div>
+                                )}
+
+                                {/* Dropdown trigger for desktop view */}
                                 <div className="hidden md:flex items-center space-x-3">
                                     <span className="text-heading font-semibold truncate max-w-[120px] sm:max-w-[150px] md:max-w-[200px] text-xs sm:text-sm md:text-base">
                                         {user.displayName}
                                     </span>
                                     <div className="relative" ref={dropdownRef}>
                                         <button
-                                            onClick={toggleDropdown}
+                                            onClick={() => setDropdownOpen(!isDropdownOpen)} // Desktop dropdown trigger
                                             className={`bg-blue-100 hover:bg-blue-200 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-full p-2.5 inline-flex items-center justify-center transition-colors duration-300 ${isDropdownOpen ? 'bg-blue-200' : 'bg-blue-100'} ${isDropdownOpen ? 'active:bg-blue-300' : ''} hidden md:block`}
                                             type="button"
                                         >
