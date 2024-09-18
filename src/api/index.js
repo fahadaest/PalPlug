@@ -8,8 +8,8 @@ const ROUTES = {
     linkedinRegister: `authentication/linkedin-register/`,
     socialRegister: `authentication/social-register/`,
     userRoles: 'users/user-roles/',
-    submitProfile: 'user/submitProfile/'
-
-};
+    submitProfile: 'user/submitProfile/',
+    submitAllServices: 'services/submitAllServices/',
+     };
 
 export const getRoute = (routeKey) => ROUTES[routeKey];

@@ -67,12 +67,12 @@ const CompanyDetails = () => {
                 </div>
             </div>
 
-            <div className="w-full mt-4 px-4 flex flex-wrap gap-4">
-                <div className="relative inline-block text-left mb-4">
+            <div className="w-full mt-4 px-4 flex gap-4 overflow-x-scroll">
+              
                     <button
                         id="dropdownJobFunctionButton"
                         onClick={() => toggleDropdown('dropdownJobFunction')}
-                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
+                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none relative inline-block text-left mb-4  max-w-[276px] min-w-[275px]"
                         type="button"
                     >
                         <span className="text-sm">Job Function</span>
@@ -83,8 +83,10 @@ const CompanyDetails = () => {
                             height={16}
                             className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownJobFunction' ? 'rotate-180' : 'rotate-0'}`}
                         />
-                    </button>
-                    <div
+
+
+
+<div
                         id="dropdownJobFunction"
                         className={`z-10 ${
                             openDropdown === 'dropdownJobFunction'
@@ -143,13 +145,15 @@ const CompanyDetails = () => {
                             </li>
                         </ul>
                     </div>
-                </div>
+               
 
-                <div className="relative inline-block text-left mb-4">
+                    </button>
+                    
+                
                     <button
                         id="dropdownPriceButton"
                         onClick={() => toggleDropdown('dropdownPrice')}
-                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
+                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none relative inline-block text-left mb-4  max-w-[276px] min-w-[275px]"
                         type="button"
                     >
                         <span className="text-sm">Price</span>
@@ -220,13 +224,13 @@ const CompanyDetails = () => {
                             </li>
                         </ul>
                     </div>
-                </div>
+              
 
-                <div className="relative inline-block text-left mb-4">
+               
                     <button
                         id="dropdownHighestRatedButton"
                         onClick={() => toggleDropdown('dropdownHighestRated')}
-                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
+                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none relative inline-block text-left mb-4  max-w-[276px] min-w-[275px]"
                         type="button"
                     >
                         <span className="text-sm">Highest Rated</span>
@@ -297,7 +301,7 @@ const CompanyDetails = () => {
                             </li>
                         </ul>
                     </div>
-                </div>
+                
             </div>
             <div className="w-full  py-8 flex flex-col items-center bg-employecard-bg-main-card min-h-screen">
                 {employees?.map((employee, index) => (

@@ -1,13 +1,15 @@
 'use client';
 import { useDispatch, useSelector } from 'react-redux';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import PhoneIcon from '@/assets/images/phone.svg';
 import EmailIcon from '@/assets/images/email.svg';
 import PhoneVerifyModal from '../phoneVerify';
 import { setCurrentStep,submitProfileInfo } from '@/app/redux/slice/user/userSlice';
-
 import ProfessionalInfo from './ProfessionalInfo';
 import { submitProfile } from '@/app/redux/action';
+import ServicesSelection from './servicePage';
+
 const ProfileInfo = ({ userId, displayName }) => {
   const dispatch = useDispatch();
   const currentStep = useSelector((state) => state.user.currentStep);
@@ -16,7 +18,8 @@ const ProfileInfo = ({ userId, displayName }) => {
   const [profilePicture, setProfilePicture] = useState('');
   const [description, setDescription] = useState('');
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
-
+  const [isServicesSelectionVisible, setServicesSelectionVisible] = useState(false);
+  const router = useRouter();
   const [professionalInfo, setProfessionalInfo] = useState({
     occupation: [],
     country: [],
@@ -53,7 +56,16 @@ const ProfileInfo = ({ userId, displayName }) => {
     description,
     professionalInfo,
   };
-  dispatch(submitProfile(formData));
+  try {
+   
+    dispatch(submitProfile(formData));
+
+ 
+    router.push('/servicesselection');
+    setServicesSelectionVisible(true);
+  } catch (error) {
+    console.error('Error submitting profile:', error);
+  }
 };
 
   const isFormValid = firstName.trim() !== '' && lastName.trim() !== '';
@@ -68,6 +80,7 @@ const ProfileInfo = ({ userId, displayName }) => {
 
   return (
     <>
+    {!isServicesSelectionVisible ? (
       <form className="p-20 md:w-[682px]" onSubmit={currentStep === 3 ? handleFinish : handleContinue}>
         {currentStep === 1 && (
           <div>
@@ -208,9 +221,13 @@ const ProfileInfo = ({ userId, displayName }) => {
                 Finish
               </button>
             </div>
+
           </div>
         )}
       </form>
+       ) : (
+        <ServicesSelection /> 
+      )}
 
       
       {isPhoneModalOpen && (

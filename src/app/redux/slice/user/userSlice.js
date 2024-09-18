@@ -11,6 +11,7 @@ const userSlice = createSlice({
     isAuthenticated: false,
     accessToken: null,
     currentStep: 1,
+    servicescurrentStep:1,
     profileSubmissionStatus: null, 
   },
   reducers: {
@@ -42,7 +43,11 @@ const userSlice = createSlice({
     setCurrentStep: (state, action) => {
       state.currentStep = action.payload; 
     },
+    setServicesCurrentStep: (state, action) => {
+      state.servicescurrentStep = action.payload; 
+    },
   },
+  
   extraReducers: (builder) => {
     builder
       .addCase(submitProfile.pending, (state) => {
@@ -62,6 +67,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { loginRequest, loginSuccess, loginFailure, logout, setUser, setCurrentStep } = userSlice.actions;
+export const { loginRequest, loginSuccess, loginFailure, logout, setUser, setCurrentStep, setServicesCurrentStep } = userSlice.actions;
 
 export default userSlice.reducer;

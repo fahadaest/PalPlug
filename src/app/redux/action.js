@@ -14,6 +14,18 @@ export const submitProfile = createAsyncThunk(
     }
   }
 );
+export const submitAllServices = createAsyncThunk(
+  'services/submitAllServices/',
+  async (servicesData, { rejectWithValue }) => {
+    try {
+      const route = getRoute('submitAllServices'); 
+      const response = await postRequest(route, servicesData, true); 
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 export const fetchCountries = createAsyncThunk(
     'data/fetchCountries',
     async () => {
