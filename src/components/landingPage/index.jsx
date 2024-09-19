@@ -35,7 +35,7 @@ const Landing = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-b from-[#EBFAFE] to-[#EBE0FA] flex flex-col p-4 pt-12">
+        <div className="min-h-screen bg-gradient-to-b from-[#EBFAFE] to-[#EBE0FA] flex flex-col pl-[16px] pr-[16px] pt-12">
             <div className="container mx-auto flex flex-col lg:flex-row items-center lg:items-center justify-between gap-8 lg:gap-12">
                 <div className="flex flex-col items-center lg:items-start text-text-heading text-center lg:text-left">
                     <h1 className="text-2xl sm:text-3xl md:text-4xl font-semibold leading-tight">
@@ -58,17 +58,19 @@ const Landing = () => {
                 </div>
             </div>
 
-            <div className="mx-4 mt-12">
-                <h2 className="text-lg font-semibold mb-6 text-center lg:text-left">
+            <div className="mt-12 flex justify-items-start">
+                <h2 className="text-lg font-semibold mb-2 text-center lg:text-left">
                     Popular Companies
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-[0px] gap-4 ">
                     {companies?.map((company, index) => {   
                         const bgClass = companyStyles[company.name];
                         return (
                             <div
                                 key={index}
-                                className={`relative bg-primary rounded-[10px] shadow-lg flex items-center p-4 cursor-pointer transition-colors duration-300 group h-[84px] ${bgClass}`}
+                                className={`relative bg-white rounded-[10px] flex items-center p-4 cursor-pointer transition-colors duration-300 group h-[76px] ${bgClass}`}
                                 onClick={() =>
                                     handleCompanyClick(company?.name)
                                 }
@@ -96,12 +98,13 @@ const Landing = () => {
                         );
                     })}
                 </div>
-            </div>
-            <div className="mx-4 mt-12 mb-4">
+                <div className="mt-12 flex justify-items-start">
                 <h2 className="text-lg font-semibold mb-6 text-center lg:text-left">
                     Other companies on palplug
                 </h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-[0px] gap-4 ">
                     {otherCompanies?.map((company, index) => {
                         const bgClass = companyStyles[company.name];
                         return (
@@ -135,7 +138,6 @@ const Landing = () => {
                         );
                     })}
                 </div>
-            </div>
 
             <SignInModal isOpen={isModalOpen} onClose={handleModalClose} />
         </div>

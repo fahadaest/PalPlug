@@ -49,7 +49,7 @@ const CompanyDetails = () => {
     return (
         <>
             <div
-                className={`w-full h-[96px] ${bgColor} flex items-center justify-center`}
+                className={`w-full h-[48px] ${bgColor} flex items-center justify-center`}
             >
                 <div className="w-full max-w-[1440px] flex items-center justify-center">
                     <div className="flex items-center space-x-6">
@@ -67,12 +67,12 @@ const CompanyDetails = () => {
                 </div>
             </div>
 
-            <div className="w-full mt-4 px-4 flex gap-4 overflow-x-scroll">
-              
+            <div className="position-relative w-full mt-4 px-4 flex gap-4 overflow-x-scroll overscroll-y-contain">
+                <div className="position-relative text-left mb-4 overscroll-none">
                     <button
                         id="dropdownJobFunctionButton"
                         onClick={() => toggleDropdown('dropdownJobFunction')}
-                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none relative inline-block text-left mb-4  max-w-[276px] min-w-[275px]"
+                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
                         type="button"
                     >
                         <span className="text-sm">Job Function</span>
@@ -83,16 +83,14 @@ const CompanyDetails = () => {
                             height={16}
                             className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownJobFunction' ? 'rotate-180' : 'rotate-0'}`}
                         />
-
-
-
-<div
+                    </button>
+                    <div
                         id="dropdownJobFunction"
                         className={`z-10 ${
                             openDropdown === 'dropdownJobFunction'
                                 ? 'block'
                                 : 'hidden'
-                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] absolute mt-1`}
+                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
                     >
                         <ul
                             className="p-3 space-y-1 text-sm text-dropdowntext"
@@ -145,15 +143,13 @@ const CompanyDetails = () => {
                             </li>
                         </ul>
                     </div>
-               
+                </div>
 
-                    </button>
-                    
-                
+                <div className="position-relative text-left mb-4 overscroll-none">
                     <button
                         id="dropdownPriceButton"
                         onClick={() => toggleDropdown('dropdownPrice')}
-                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none relative inline-block text-left mb-4  max-w-[276px] min-w-[275px]"
+                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
                         type="button"
                     >
                         <span className="text-sm">Price</span>
@@ -171,7 +167,7 @@ const CompanyDetails = () => {
                             openDropdown === 'dropdownPrice'
                                 ? 'block'
                                 : 'hidden'
-                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] absolute mt-1`}
+                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
                     >
                         <ul
                             className="p-3 space-y-1 text-sm text-dropdowntext"
@@ -224,13 +220,13 @@ const CompanyDetails = () => {
                             </li>
                         </ul>
                     </div>
-              
+                </div>
 
-               
+                <div className="position-relative text-left mb-4 overscroll-none">
                     <button
                         id="dropdownHighestRatedButton"
                         onClick={() => toggleDropdown('dropdownHighestRated')}
-                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none relative inline-block text-left mb-4  max-w-[276px] min-w-[275px]"
+                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
                         type="button"
                     >
                         <span className="text-sm">Highest Rated</span>
@@ -248,7 +244,7 @@ const CompanyDetails = () => {
                             openDropdown === 'dropdownHighestRated'
                                 ? 'block'
                                 : 'hidden'
-                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] absolute mt-1`}
+                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
                     >
                         <ul
                             className="p-3 space-y-1 text-sm text-dropdowntext"
@@ -301,9 +297,9 @@ const CompanyDetails = () => {
                             </li>
                         </ul>
                     </div>
-                
+                </div>
             </div>
-            <div className="w-full  py-8 flex flex-col items-center bg-employecard-bg-main-card min-h-screen">
+            <div className="w-full  md:py-8  flex flex-col items-center xs:bg-white xs:pl-[16px] xs:pr-[16px]  sm:bg-white sm:pl-[16px] sm:pr-[16px] md:bg-[#F5F5F5]  min-h-screen">
                 {employees?.map((employee, index) => (
                     <EmployeeCard
                         key={employee.id}
