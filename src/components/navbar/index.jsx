@@ -109,7 +109,7 @@ const Navbar = () => {
     return (
         <div className='flex flex-col'>
             <nav className="bg-white  p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px]">
-                <div className="flex items-center space-x-4 flex-grow">
+                <div className="flex items-center md:space-x-4 flex-grow ">
                     <div
                         className="relative w-10 h-6 sm:w-24 sm:h-8 cursor-pointer"
                         onClick={handleClick}
@@ -124,7 +124,7 @@ const Navbar = () => {
                         <Image
                             src={mobileLogo}
                             alt="Mobile Logo"
-                            className="block md:hidden object-contain"
+                            className="block md:hidden  pr-0 mr-0 object-contain"
                             fill
                             priority
                         />
@@ -135,7 +135,7 @@ const Navbar = () => {
                         </div>
                     )}
                     {!isProfilePage &&  (
-                        <div className="relative w-full max-w-[190px] sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-[452px] mx-2">
+                        <div className="relative max-w-[452px] mx-2 ">
                             <Image
                                 src={Search}
                                 alt="Search Icon"
@@ -144,8 +144,9 @@ const Navbar = () => {
                             <input
                                 type="text"
                                 placeholder="Search by company"
-                                className="pl-10 p-2 rounded-lg placeholder-[#555555] border border-gray-300 text-[10px] lg:text-lg focus:border-blue-500 focus:outline-none w-full"
-                            />
+                                className="pl-[22px] p-2 rounded-lg placeholder-[#555555] border border-gray-300 text-[10px] lg:text-lg focus:border-blue-500 focus:outline-none w-full max-w-full "
+
+                                />
                         </div>
                     )}
                 </div>

@@ -49,9 +49,9 @@ const CompanyDetails = () => {
     return (
         <>
             <div
-                className={`w-full h-[96px] ${bgColor} flex items-center justify-center`}
+                className={`w-full h-[48px] ${bgColor} flex items-center justify-center`}
             >
-                  <div className="w-full h-auto mt-1 px-4 flex gap-2 bg-red-500 md:bg-transparent overflow-x-auto sm:overflow-x-scroll">
+                   <div className="w-full max-w-[1440px] flex items-center justify-center">
                     <div className="flex items-center space-x-6">
                         <Image
                             src={companyLogo}
@@ -67,8 +67,8 @@ const CompanyDetails = () => {
                 </div>
             </div>
 
-            <div className="w-full mt-4 px-4 flex gap-4">
-                <div className="relative inline-block text-left mb-4">
+            <div className="position-relative w-full mt-4 px-4 flex gap-4 overflow-x-scroll overscroll-y-contain">
+                <div className="position-relative text-left mb-4 overscroll-none">
                     <button
                         id="dropdownJobFunctionButton"
                         onClick={() => toggleDropdown('dropdownJobFunction')}
@@ -90,7 +90,7 @@ const CompanyDetails = () => {
                             openDropdown === 'dropdownJobFunction'
                                 ? 'block'
                                 : 'hidden'
-                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] absolute mt-1`}
+                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
                     >
                         <ul
                             className="p-3 space-y-1 text-sm text-dropdowntext"
@@ -145,7 +145,7 @@ const CompanyDetails = () => {
                     </div>
                 </div>
 
-                <div className="relative inline-block text-left mb-4">
+                <div className="position-relative text-left mb-4 overscroll-none">
                     <button
                         id="dropdownPriceButton"
                         onClick={() => toggleDropdown('dropdownPrice')}
@@ -167,7 +167,7 @@ const CompanyDetails = () => {
                             openDropdown === 'dropdownPrice'
                                 ? 'block'
                                 : 'hidden'
-                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] absolute mt-1`}
+                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
                     >
                         <ul
                             className="p-3 space-y-1 text-sm text-dropdowntext"
@@ -222,7 +222,7 @@ const CompanyDetails = () => {
                     </div>
                 </div>
 
-                <div className="relative inline-block text-left mb-4">
+                <div className="position-relative text-left mb-4 overscroll-none">
                     <button
                         id="dropdownHighestRatedButton"
                         onClick={() => toggleDropdown('dropdownHighestRated')}
@@ -244,7 +244,7 @@ const CompanyDetails = () => {
                             openDropdown === 'dropdownHighestRated'
                                 ? 'block'
                                 : 'hidden'
-                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] absolute mt-1`}
+                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
                     >
                         <ul
                             className="p-3 space-y-1 text-sm text-dropdowntext"
@@ -299,7 +299,7 @@ const CompanyDetails = () => {
                     </div>
                 </div>
             </div>
-            <div className="w-full  py-8 flex flex-col items-center bg-employecard-bg-main-card min-h-screen">
+            <div className="w-full  md:py-8  flex flex-col items-center xs:bg-white xs:pl-[16px] xs:pr-[16px]  sm:bg-white sm:pl-[16px] sm:pr-[16px] md:bg-[#F5F5F5]  min-h-screen">
                 {employees?.map((employee, index) => (
                     <EmployeeCard
                         key={employee.id}
