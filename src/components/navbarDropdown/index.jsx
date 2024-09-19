@@ -13,21 +13,12 @@ const NavbarDropdown = ({ isOpen, userId }) => {
   const router = useRouter();
   const userFromStore = useSelector((state) => state.user.user);
 
-  // useEffect(() => {
-  //   // Retrieve user from localStorage and dispatch setUser action
-  //   const storedUser = localStorage.getItem('user');
-  //   if (storedUser) {
-  //     const parsedUser = JSON.parse(storedUser);
-  //     dispatch(setUser(parsedUser));
-  //   }
-  // }, [dispatch]);
-
-  const handleLogout = async () => {
+   const handleLogout = async () => {
     try {
       await signOut(auth);
       dispatch(logout());
       localStorage.removeItem('user');
-      router.push('/'); // Redirect to home after logout
+      router.push('/'); 
     } catch (error) {
       dispatch(loginFailure(error?.message || "Something went wrong!"));
     }
@@ -38,6 +29,14 @@ const NavbarDropdown = ({ isOpen, userId }) => {
       router.push(`/profile/${userId}`);
     } else {
       console.error('User ID is undefined');
+    }
+  };
+
+  const handleprofile = () => {
+    if (userId) {
+      router.push(`/candidate-profile`);
+    } else {
+      console.error('No such route');
     }
   };
 
@@ -73,7 +72,7 @@ const NavbarDropdown = ({ isOpen, userId }) => {
       <ul className="text-sm text-gray-700 dark:text-gray-200 divide-y divide-gray-100 dark:divide-gray-600">
         <li>
           <a
-            href="#"
+             onClick={handleprofile}
             className="block w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
           >
             Profile
