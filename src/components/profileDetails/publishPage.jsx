@@ -3,10 +3,9 @@ import Robot from '@/assets/images/Robot.svg';
 import Image from 'next/image';
 const Requirement = () => {
   return (
-    <div className="bg-gray-50 flex items-center justify-center min-h-screen p-4">
-      <div className="bg-white border p-6 sm:p-8 rounded-lg shadow-lg w-full max-w-[978px]">
+      <div className="bg-white border p-6 sm:p-8 pt-10   pb-10  rounded-lg  w-full max-w-[978px]">
 
-        <div className="flex justify-center items-center flex-col mb-6 text-center">
+        <div className="flex  justify-center items-center flex-col mb-6 text-center">
           <Image src={Robot} alt='Robo' className="cursor-pointer w-24 h-24 sm:w-auto sm:h-auto" />
           <h1 className="text-lg sm:text-xl font-semibold text-gray-800">You're almost there!</h1>
           <p className="text-sm sm:text-base text-[#555555] font-semibold">
@@ -59,14 +58,12 @@ const Requirement = () => {
             </div>
           </div>
         </div>
-   
-        <div className="flex justify-center w-[85%]  sm:justify-end mt-10 sm:mt-20">
+        <div className="flex justify-center w-[82%] xs:ml-5  sm:justify-end mt-10 sm:mt-20">
           <button className="bg-[#005382] h-[40px] w-full sm:w-[175px] text-white font-semibold text-sm py-2 px-6 rounded-lg">
             Publish
           </button>
         </div>
       </div>
-    </div>
   );
 };
 export default Requirement;

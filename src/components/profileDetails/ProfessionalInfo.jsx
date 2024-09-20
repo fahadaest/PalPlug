@@ -132,7 +132,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                             />
                         </div>
                         <button
-                            className="bg-red-500 text-white px-4 py-2 rounded w-full md:w-auto"
+                            className="bg-[#EB5757] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
                             onClick={() => removeEducationSection(index)}
                         >
                             Remove
@@ -141,7 +141,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                 ))}
 
                 <button
-                    className="bg-gray-500 text-white px-4 py-2 rounded w-full md:w-auto"
+                    className="bg-[#939393] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
                     onClick={addEducationSection}
                 >
                     Add
@@ -188,21 +188,25 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                                 width="160px"
                             />
                         </div>
+                        <div>
+
                         <button
-                            className="bg-red-500 text-white px-4 py-2 rounded w-full md:w-auto"
+                            className="bg-[#EB5757] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
                             onClick={() => removeCertificationSection(index)}
                         >
                             Remove 
                         </button>
                     </div>
+                            </div>
                 ))}
-
                 <button
-                    className="bg-gray-500 text-white px-4 py-2 rounded w-full md:w-auto"
+                    className="bg-[#939393] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
                     onClick={addCertificationSection}
-                >
+                    >
                     Add
                 </button>
+           
+
             </div>
 
         </div>

@@ -1,9 +1,12 @@
 'use client';
 import React, { useState } from 'react';
+import DropdownComponent from './DropdownComponent';
 
 const OrderRequirements = () => {
     const [isResumeDropdownVisible, setResumeDropdownVisible] = useState(false);
     const [isAdditionalQuestionsVisible, setIsAdditionalQuestionsVisible] = useState(false);
+
+    const [isDropdownOpen, setDropdownOpen] = useState(false);
 
     const toggleResumeDropdown = () => {
         setResumeDropdownVisible(prev => !prev);
@@ -13,11 +16,16 @@ const OrderRequirements = () => {
         setIsAdditionalQuestionsVisible(prev => !prev);
     };
 
+    const handleDropdownClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();  // Stop the event from propagating to the form
+        setDropdownOpen(!isDropdownOpen);  // Toggle the dropdown visibility
+      };
+    
     return (
-        <div className='flex flex-col pt-4 justify-center bg-gray-200 px-4 sm:px-6 md:px-8 lg:px-16'>
-            <div className='w-full max-w-[978px] mx-auto rounded-lg shadow-sm pb-20 pt-10 px-6 sm:px-8 md:px-12 lg:px-16 bg-white'>
-                <div>
-                    <h1 className='text-lg sm:text-xl md:text-2xl leading-tight font-semibold'>
+            <div className='w-full max-w-[978px] h-[1216px]    rounded-lg  pt-10 pb-10    sm:px-8 md:px-12 lg:px-16 bg-white'>
+                <div className='pl-[16px]'>
+                    <h1 className='text-lg sm:text-xl  md:text-2xl leading-tight font-semibold'>
                         Which of these items will you require to fulfill <br /> your orders?
                     </h1>
                     <p className='text-[14px] sm:text-base font-[400] text-[#555555] pt-2 line-clamp-2'>
@@ -37,21 +45,26 @@ const OrderRequirements = () => {
                         </div>
 
                         {/* Resume Dropdown Container */}
-                        <div
-                            className={`transition-all duration-300 ease-in-out overflow-hidden ${
-                                isResumeDropdownVisible ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
+                        <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                                isResumeDropdownVisible ? 'max-h-40' : 'max-h-0'
                             }`}
-                            style={{ maxHeight: isResumeDropdownVisible ? '160px' : '0px' }}
-                        >
-                            <label htmlFor="File Format" className="block mb-2 ml-5 text-[#2F2F2F] font-semibold">File Format</label>
-                            <div className='p-0 ml-5'>
-                                <select className='h-[48px] w-[276px] max-w-full bg-white border rounded-lg pl-2'>
-                                    <option value="">abc</option>
-                                    <option value="">ccc</option>
-                                    <option value="">dddd</option>
-                                </select>
+                            style={{ 
+                                maxHeight: isResumeDropdownVisible ? '200px' : '0px',
+                                display: isResumeDropdownVisible ? 'block' : 'none' 
+                            }}
+                            >
+                                <label>Format</label>
+                                <div className='w-[250px] ' onClick={handleDropdownClick}>
+                                <DropdownComponent  isOpen={isDropdownOpen} 
+                                options={['Option 1', 'Option 2', 'Option 3']}
+                                                
+                    />
+
                             </div>
-                        </div>
+                            
+                            
+                            </div>
+                                                
 
                         <div className="flex items-center gap-3 sm:gap-5">
                             <input
@@ -114,7 +127,6 @@ const OrderRequirements = () => {
                     </div>
                 </div>
             </div>
-        </div>
     );
 }
 

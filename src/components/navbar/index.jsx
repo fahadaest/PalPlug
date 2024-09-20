@@ -108,7 +108,7 @@ const Navbar = () => {
 
     return (
         <div className='flex flex-col'>
-            <nav className="bg-white  p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px]">
+            <nav className="bg-white   p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px]">
                 <div className="flex items-center md:space-x-4 flex-grow ">
                     <div
                         className="relative w-10 h-6 sm:w-24 sm:h-8 cursor-pointer"
@@ -135,16 +135,16 @@ const Navbar = () => {
                         </div>
                     )}
                     {!isProfilePage &&  (
-                        <div className="relative max-w-[452px] mx-2 ">
+                        <div className="relative max-w-[452px] mx-2  ">
                             <Image
                                 src={Search}
                                 alt="Search Icon"
-                                className="absolute left-2 top-1/2 transform -translate-y-1/2 w-4 h-4"
+                                className=" absolute left-2 top-1/2  transform -translate-y-1/2 w-3  h-4 lg:w-4"
                             />
                             <input
                                 type="text"
                                 placeholder="Search by company"
-                                className="pl-[22px] p-2 rounded-lg placeholder-[#555555] border border-gray-300 text-[10px] lg:text-lg focus:border-blue-500 focus:outline-none w-full max-w-full "
+                                className="pl-[22px] p-2 rounded-lg placeholder-[#555555] border border-gray-300 text-[10px] lg:text-lg lg:pl-9 focus:border-blue-500 focus:outline-none w-full max-w-full "
 
                                 />
                         </div>

@@ -12,7 +12,6 @@ const ServicesProgressBar = ({ currentStepservices }) => {
                 step.classList.toggle('active', index + 1 === currentStepservices);
                 step.classList.toggle('completed', index + 1 < currentStepservices);
             });
-
             if (progressRef.current) {
                 progressRef.current.style.width = `${((currentStepservices - 1) / (stepsRef.current.length - 1)) * 100}%`;
             }
@@ -22,15 +21,14 @@ const ServicesProgressBar = ({ currentStepservices }) => {
     }, [currentStepservices]);
 
     return (
-        <div>
-            <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4">
+            <div className="flex flex-row     h-[24px] w-[436px]    xs:ml-0.5 xs:space-x-0  sm:flex-row items-center md:space-x-4 md:ml-5">
                 {/* Step 1 */}
                 <div
-                    className="flex items-center space-x-2 cursor-pointer"
+                    className="flex  items-center space-x-2 cursor-pointer"
                     ref={el => stepsRef.current[0] = el}
                 >
                     <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm ${
+                        className={`w-[24px] h-[24px]  rounded-full flex items-center justify-center font-semibold text-[14px] ${
                             currentStepservices === 1
                                 ? 'bg-[#005382] text-white font-semibold'
                                 : currentStepservices > 1
@@ -41,7 +39,7 @@ const ServicesProgressBar = ({ currentStepservices }) => {
                         1
                     </div>
                     <span
-                        className={`text-sm ${
+                        className={`xs:text-[12px] md:text-[14px] ${
                             currentStepservices === 1
                                 ? 'text-black font-semibold'
                                 : currentStepservices > 1
@@ -49,7 +47,7 @@ const ServicesProgressBar = ({ currentStepservices }) => {
                                     : 'text-[#939393] font-semibold'
                         }`}
                     >
-                        Package Details
+                        Package 
                     </span>
                 </div>
 
@@ -58,8 +56,8 @@ const ServicesProgressBar = ({ currentStepservices }) => {
                     <Image
                         src={StepperArrow}
                         alt="Stepper Arrow"
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         className="fill-current"
                     />
                 </div>
@@ -70,7 +68,7 @@ const ServicesProgressBar = ({ currentStepservices }) => {
                     ref={el => stepsRef.current[1] = el}
                 >
                     <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm ${
+                        className={`w-[24px] h-[24px] rounded-full flex items-center justify-center font-semibold text-sm ${
                             currentStepservices === 2
                                 ? 'bg-[#005382] text-white font-semibold'
                                 : currentStepservices > 2
@@ -81,7 +79,7 @@ const ServicesProgressBar = ({ currentStepservices }) => {
                         2
                     </div>
                     <span
-                        className={`text-sm ${
+                        className={` xs:text-[12px] md:text-[14px] ${
                             currentStepservices === 2
                                 ? 'text-black font-semibold'
                                 : currentStepservices > 2
@@ -98,8 +96,8 @@ const ServicesProgressBar = ({ currentStepservices }) => {
                     <Image
                         src={StepperArrow}
                         alt="Stepper Arrow"
-                        width={24}
-                        height={24}
+                        width={20}
+                        height={20}
                         className="fill-current"
                     />
                 </div>
@@ -110,7 +108,7 @@ const ServicesProgressBar = ({ currentStepservices }) => {
                     ref={el => stepsRef.current[2] = el}
                 >
                     <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm ${
+                        className={`w-[24px] h-[24px] rounded-full flex items-center justify-center font-semibold text-sm ${
                             currentStepservices === 3
                                 ? 'bg-[#005382] text-white font-semibold'
                                 : currentStepservices > 3
@@ -121,7 +119,7 @@ const ServicesProgressBar = ({ currentStepservices }) => {
                         3
                     </div>
                     <span
-                        className={`text-sm ${
+                        className={` xs:text-[12px] md:text-[14px] ${
                             currentStepservices === 3
                                 ? 'text-black font-semibold'
                                 : currentStepservices > 3
@@ -137,7 +135,6 @@ const ServicesProgressBar = ({ currentStepservices }) => {
                     <div className="progress h-full bg-[#005580] transition" ref={progressRef}></div>
                 </div>
             </div>
-        </div>
     );
 };
 
