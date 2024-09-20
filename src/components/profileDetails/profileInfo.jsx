@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import PhoneIcon from '@/assets/images/phone.svg';
 import EmailIcon from '@/assets/images/email.svg';
 import PhoneVerifyModal from '../phoneVerify';
-import { setCurrentStep,submitProfileInfo } from '@/app/redux/slice/user/userSlice';
+import { setCurrentStep,setPlugRoute,submitProfileInfo } from '@/app/redux/slice/user/userSlice';
 import ProfessionalInfo from './ProfessionalInfo';
 import { submitProfile } from '@/app/redux/action';
 import ServicesSelection from './servicePage';
@@ -13,6 +13,7 @@ import ServicesSelection from './servicePage';
 const ProfileInfo = ({ userId, displayName }) => {
   const dispatch = useDispatch();
   const currentStep = useSelector((state) => state.user.currentStep);
+  const isPlugRoute = useSelector((state) => state.user.isplugroute);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
@@ -20,6 +21,7 @@ const ProfileInfo = ({ userId, displayName }) => {
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [isServicesSelectionVisible, setServicesSelectionVisible] = useState(false);
   const router = useRouter();
+ 
   const [professionalInfo, setProfessionalInfo] = useState({
     occupation: [],
     country: [],
@@ -57,16 +59,23 @@ const ProfileInfo = ({ userId, displayName }) => {
     professionalInfo,
   };
   try {
-   
+    // Dispatch form data submission
     dispatch(submitProfile(formData));
 
- 
-    router.push('/servicesselection');
-    setServicesSelectionVisible(true);
+    // Conditional navigation based on isplugroute state
+    if (isPlugRoute) {
+      router.push('/servicesselection');
+      setServicesSelectionVisible(true);
+    } else {
+      // If isplugroute is false, redirect to home route
+      router.push('/');
+      dispatch(setPlugRoute(true)); 
+    }
   } catch (error) {
     console.error('Error submitting profile:', error);
   }
 };
+
 
   const isFormValid = firstName.trim() !== '' && lastName.trim() !== '';
 

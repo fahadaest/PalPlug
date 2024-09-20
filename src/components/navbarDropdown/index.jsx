@@ -27,6 +27,9 @@ const NavbarDropdown = ({ isOpen, userId }) => {
   const handleBecomeAPlug = () => {
     if (userId) {
       router.push(`/profile/${userId}`);
+      console.log('====================================');
+      console.log(userId);
+      console.log('====================================');
     } else {
       console.error('User ID is undefined');
     }

@@ -1,7 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { submitProfile } from '../../action';
-
-
 const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -13,6 +11,7 @@ const userSlice = createSlice({
     currentStep: 1,
     servicescurrentStep:1,
     profileSubmissionStatus: null, 
+    isplugroute: true, 
   },
   reducers: {
     loginRequest: (state) => {
@@ -46,6 +45,9 @@ const userSlice = createSlice({
     setServicesCurrentStep: (state, action) => {
       state.servicescurrentStep = action.payload; 
     },
+    setPlugRoute: (state, action) => {
+      state.isplugroute = action.payload;
+    }
   },
   
   extraReducers: (builder) => {
@@ -67,6 +69,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { loginRequest, loginSuccess, loginFailure, logout, setUser, setCurrentStep, setServicesCurrentStep } = userSlice.actions;
+export const { loginRequest, loginSuccess, loginFailure, logout, setUser, setCurrentStep, setServicesCurrentStep, setPlugRoute } = userSlice.actions;
 
 export default userSlice.reducer;

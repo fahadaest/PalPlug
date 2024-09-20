@@ -1,13 +1,26 @@
-'use client'; // This ensures client-side rendering
+'use client'; 
 
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux'; 
 import Image from 'next/image';
 import Done from "@/assets/images/Done.svg";
 import User from "@/assets/images/user11.svg";
 import Docuemnt from "@/assets/images/document-checkmark.svg";
 import User_message from "@/assets/images/users-message-support.svg";
+import { setPlugRoute } from '@/app/redux/slice/user/userSlice'; 
+import { useRouter } from 'next/navigation'; 
 
 const Dashboard = () => {
+  const dispatch = useDispatch();
+  const router = useRouter(); 
+  const user = useSelector((state) => state.user.user); // Get user from Redux state
+  const userId = user?.id || user?.uid; // Get userId or uid from the user object
+
+  const handleGetStartedClick = () => {
+    dispatch(setPlugRoute(false)); 
+    router.push(`/profile/${userId}`); // Use userId for routing
+  };
+
   return (
     <div className="bg-white flex flex-col lg:flex-row min-h-screen p-5 lg:p-10 gap-8">
       {/* Profile Information */}
@@ -16,8 +29,8 @@ const Dashboard = () => {
           <div className="flex items-center h-[50px] mb-1 w-full md:w-[206px]">
             <div className="w-[44px] h-[44px] bg-[#D9D9D9] rounded-full"></div>
             <div className="ml-4">
-              <h2 className="text-[14px] md:text-[16px] font-semibold leading-tight">Idris Gettani</h2>
-              <p className="text-[12px] md:text-[14px]">@igettani</p>
+              <h2 className="text-[14px] md:text-[16px] font-semibold leading-tight">{user?.displayName}</h2>
+              <p className="text-[12px] md:text-[14px]">@{user?.username}</p>
             </div>
           </div>
           <div className='pl-2'>
@@ -32,16 +45,12 @@ const Dashboard = () => {
             </div>
             <div className="flex items-center justify-between">
               <span className="text-[14px] md:text-[16px] font-normal text-[#555555]">LinkedIn</span>
-              {/* Uncomment the link once functional */}
-              {/* <a href="#" className="text-sm md:text-lg font-semibold text-[#005382]">Connect Account</a> */}
             </div>
           </div>
         </div>
         <div className="w-full md:w-[361px] pl-4">
           <p className="font-light text-xs md:text-[14px] leading-tight text-gray-600 mt-4">
             You're currently on your buyer profile. To access your freelancer profile, switch to
-            {/* Uncomment the link once functional */}
-            {/* <a href="#" className="text-gray-600 underline"> seller mode</a>. */}
           </p>
         </div>
       </div>
@@ -69,10 +78,13 @@ const Dashboard = () => {
             <div className="flex-1 px-2 md:px-4 text-center md:text-left">
               <h3 className="text-[14px] md:text-[18px] font-semibold">Fill out Profile</h3>
               <p className="text-[12px] md:text-[14px] leading-tight text-[#939393]">
-                Let others know more about you when they visit your profile by filling out your profile
+                Let others know more about you when they visit your profile by filling out your profile.
               </p>
             </div>
-            <p className="text-[#005382] text-[14px] md:text-[16px] font-medium mt-2 md:mt-0">
+            <p 
+              className="text-[#005382] text-[14px] md:text-[16px] font-medium mt-2 md:mt-0 cursor-pointer"
+              onClick={handleGetStartedClick} // Navigate to profile
+            >
               Get Started
             </p>
           </div>
@@ -101,7 +113,7 @@ const Dashboard = () => {
             <div className="flex-1 px-2 md:px-4 text-center md:text-left">
               <h3 className="text-[14px] md:text-[18px] font-semibold">Set Communication Preferences</h3>
               <p className="text-[12px] md:text-[14px] leading-tight text-[#939393]">
-                Let Plugs know your communication preferences
+                Let Plugs know your communication preferences.
               </p>
             </div>
             <p className="text-[#005382] text-[14px] md:text-[16px] font-medium mt-2 md:mt-0">
