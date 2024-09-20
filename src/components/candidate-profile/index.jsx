@@ -81,12 +81,12 @@ const Dashboard = () => {
                 Let others know more about you when they visit your profile by filling out your profile.
               </p>
             </div>
-            <p 
+            <button 
               className="text-[#005382] text-[14px] md:text-[16px] font-medium mt-2 md:mt-0 cursor-pointer"
               onClick={handleGetStartedClick} // Navigate to profile
             >
               Get Started
-            </p>
+            </button>
           </div>
 
           {/* Add Resume */}
