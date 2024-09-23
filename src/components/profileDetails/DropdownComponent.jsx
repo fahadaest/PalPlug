@@ -15,6 +15,7 @@ const DropdownComponent = ({
 
   const handleOptionChange = (option, updatedSelection) => {
     onOptionChange(updatedSelection);
+    setIsOpen(false);
   };
 
   const toggleDropdown = () => {

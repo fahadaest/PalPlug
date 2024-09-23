@@ -17,32 +17,47 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
     }, [dispatch]);
     const handleOptionChange = (dropdownKey, updatedOptions, sectionIndex, type) => {
         if (type === "education") {
-            const updatedSections = [...educationSections];
-            updatedSections[sectionIndex] = { ...updatedSections[sectionIndex], [dropdownKey]: updatedOptions };
-            setEducationSections(updatedSections);
+          const updatedSections = [...educationSections];
+          updatedSections[sectionIndex] = { ...updatedSections[sectionIndex], [dropdownKey]: updatedOptions };
+          setEducationSections(updatedSections);
         } else if (type === "certification") {
-            const updatedSections = [...certificationSections];
-            updatedSections[sectionIndex] = { ...updatedSections[sectionIndex], [dropdownKey]: updatedOptions };
-            setCertificationSections(updatedSections);
+          const updatedSections = [...certificationSections];
+          updatedSections[sectionIndex] = { ...updatedSections[sectionIndex], [dropdownKey]: updatedOptions };
+          setCertificationSections(updatedSections);
+        } else if (dropdownKey === 'occupation') {
+          setProfessionalInfo({ ...professionalInfo, occupation: updatedOptions });
         }
-    };
+      };
 
     const addEducationSection = () => {
         setEducationSections([...educationSections, { country: '', college: '', major: '', year: '' }]);
     };
     const removeEducationSection = (index) => {
-        const updatedSections = educationSections.filter((_, i) => i !== index);
-        setEducationSections(updatedSections);
+        if (educationSections.length > 1) {
+            const updatedSections = educationSections.filter((_, i) => i !== index);
+            setEducationSections(updatedSections);
+        } else {
+            const resetSection = { country: '', college: '', major: '', year: '' };
+            const updatedSections = [...educationSections];
+            updatedSections[index] = resetSection;
+            setEducationSections(updatedSections);
+        }
     };
 
     const addCertificationSection = () => {
         setCertificationSections([...certificationSections, { certificate: '', certification: '', year: '' }]);
     };
     const removeCertificationSection = (index) => {
-        const updatedSections = certificationSections.filter((_, i) => i !== index);
-        setCertificationSections(updatedSections);
+        if (certificationSections.length > 1) {
+            const updatedSections = certificationSections.filter((_, i) => i !== index);
+            setCertificationSections(updatedSections);
+        } else {
+            const resetSection = { certificate: '', certification: '', year: '' };
+            const updatedSections = [...certificationSections];
+            updatedSections[index] = resetSection;
+            setCertificationSections(updatedSections);
+        }
     };
-
     const handleDropdownClick = (e) => {
 
         e.preventDefault();
@@ -68,13 +83,13 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                     Your Occupation
                 </label>
                 <DropdownComponent
-                    options={['Option 1', 'Option 2', 'Option 3']}
-                    selectedOption={professionalInfo.occupation}
-                    onOptionChange={(updatedOptions) => handleOptionChange('occupation', updatedOptions)}
-                    dropdownKey="occupation"
-                    label="Select Occupation"
-                    width="276px"
-                />
+  options={['Option 1', 'Option 2', 'Option 3']}
+  selectedOption={professionalInfo.occupation}
+  onOptionChange={(updatedOptions) => handleOptionChange('occupation', updatedOptions)}
+  dropdownKey="occupation"
+  label="Select Occupation"
+  width="276px"
+/>
             </div>
 
 
@@ -131,21 +146,25 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                                 width="160px"
                             />
                         </div>
+                        <div>
+                        <button
+                    className="bg-[#939393] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
+                    onClick={addEducationSection}
+                >
+                    Add
+                </button>
                         <button
                             className="bg-[#EB5757] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
                             onClick={() => removeEducationSection(index)}
                         >
                             Remove
                         </button>
+                        </div>
                     </div>
+                    
                 ))}
 
-                <button
-                    className="bg-[#939393] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
-                    onClick={addEducationSection}
-                >
-                    Add
-                </button>
+           
             </div>
 
             <div className="mb-6">
@@ -189,22 +208,22 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                             />
                         </div>
                         <div>
-
+                        <button
+                    className="bg-[#939393] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
+                    onClick={addCertificationSection} 
+                >
+                    Add
+                </button>
                         <button
                             className="bg-[#EB5757] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
                             onClick={() => removeCertificationSection(index)}
                         >
-                            Remove 
+                            Remove
                         </button>
-                    </div>
+                        </div>
                             </div>
                 ))}
-                <button
-                    className="bg-[#939393] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
-                    onClick={addCertificationSection}
-                    >
-                    Add
-                </button>
+             
            
 
             </div>
