@@ -3,9 +3,8 @@
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import ArrowIcon from '@/assets/images/arrow.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import EmployeeCard from '../employeCard';
-
 import {
     selectCompanyStyles,
     selectCompanies,
@@ -14,6 +13,8 @@ import {
 } from '@/app/redux/slice/companies/companiesSlice';
 import { useSelector } from 'react-redux';
 import { selectEmployees } from '@/app/redux/slice/employee/employeeSlice';
+import Close from "@/assets/images/Close.svg"
+import Drawar from "@/assets/images/Drawer.svg"
 
 const CompanyDetails = () => {
     const router = useRouter();
@@ -35,53 +36,46 @@ const CompanyDetails = () => {
         : 'bg-gray-800';
 
     const [openDropdown, setOpenDropdown] = useState(null);
+    const [openModal, setOpenModal] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
+    const toggleModal = (modalId) => {
+        setOpenModal(openModal === modalId ? null : modalId);
+    };
 
-    
+    const toggleDropdown = (dropdownId) => {
+        setOpenDropdown(openDropdown === dropdownId ? null : dropdownId);
+    };
 
     const handleEmployeeClick = (employeeId) => {
         router.push(`/company/${name}/employees/${employeeId}`, undefined, {
             shallow: true,
         });
     };
+    const checkIsMobile = () => window.innerWidth <= 768;
+    useEffect(() => {
+        const handleResize = () => setIsMobile(checkIsMobile());
+
+     
+        setIsMobile(checkIsMobile());
+
+        window.addEventListener('resize', handleResize);
+
+       
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+    const handleButtonClick = (id)=> {
+        if (isMobile) {
+            toggleModal(id)
 
 
-    const [selectedJobFunction, setSelectedJobFunction] = useState('');
-    const [selectedPrice, setSelectedPrice] = useState('');
-    const [selectedHighestRated, setSelectedHighestRated] = useState('');
-
-
-    const toggleDropdown = (dropdownName) => {
-        if (openDropdown === dropdownName) {
-            setOpenDropdown(null); 
+;
         } else {
-            setOpenDropdown(dropdownName); 
+            toggleDropdown(id)
+
+
+;
         }
     };
-
-    const toggleSelection = (dropdownName, value) => {
-        if (dropdownName === 'dropdownJobFunction') {
-            setSelectedJobFunction(value);
-            setOpenDropdown(null); 
-        } else if (dropdownName === 'dropdownPrice') {
-            setSelectedPrice(value);
-            setOpenDropdown(null); 
-        } else if (dropdownName === 'dropdownHighestRated') {
-            setSelectedHighestRated(value);
-            setOpenDropdown(null); 
-        }
-    };
-
-    const isSelected = (dropdownName, value) => {
-        if (dropdownName === 'dropdownJobFunction') {
-            return selectedJobFunction === value;
-        } else if (dropdownName === 'dropdownPrice') {
-            return selectedPrice === value;
-        } else if (dropdownName === 'dropdownHighestRated') {
-            return selectedHighestRated === value;
-        }
-        return false;
-    };
-
 
     return (
         <>
@@ -105,144 +99,343 @@ const CompanyDetails = () => {
             </div>
 
             <div className="position-relative w-full mt-4 px-4 flex gap-4 overflow-x-scroll overscroll-y-contain">
-            {/* Job Function Dropdown */}
-            <div className="position-relative text-left mb-4 overscroll-none">
-                <button
-                    id="dropdownJobFunctionButton"
-                    onClick={() => toggleDropdown('dropdownJobFunction')}
-                    className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
-                    type="button"
-                >
-                    <span className="text-sm">
-                        {selectedJobFunction || 'Job Function'}
-                    </span>
-                    <Image
-                        src={ArrowIcon}
-                        alt="Arrow Icon"
-                        width={16}
-                        height={16}
-                        className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownJobFunction' ? 'rotate-180' : 'rotate-0'}`}
-                    />
-                </button>
-                <div
-                    id="dropdownJobFunction"
-                    className={`z-10 ${openDropdown === 'dropdownJobFunction' ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
-                >
-                    <ul className="p-3 space-y-1 text-sm text-dropdowntext">
-                        {['Product Design', 'Software Development', 'Systems Engineering'].map((option, index) => (
-                            <li key={index}>
-                                <div className="  group hover:bg-[#005382] flex items-center p-2 rounded " onClick={() => toggleSelection('dropdownJobFunction', option)}>
+                <div className="position-relative text-left mb-4 overscroll-none">
+                    <button
+                        id="dropdownJobFunctionButton"
+                        onClick={() => handleButtonClick('dropdownJobFunction')}
+                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
+                        type="button"
+                    >
+                        <span className="text-sm">Job Function</span>
+                        <Image
+                            src={ArrowIcon}
+                            alt="Arrow Icon"
+                            width={16}
+                            height={16}
+                            className={`w-4 h-4 ml-2 `}
+                        />
+                    </button>
+                    <div
+                        id="dropdownJobFunction"
+                        className={`z-10 ${
+                            openDropdown === 'dropdownJobFunction'
+                                ? 'block'
+                                : 'hidden'
+                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
+                    >
+                        <ul
+                            className="p-3 space-y-1 text-sm text-dropdowntext"
+                            aria-labelledby="dropdownJobFunctionButton"
+                        >
+                            <li>
+                                <div className="flex items-center p-2 rounded hover:bg-gray-100">
                                     <input
-                                        id={`job-function-checkbox-${index}`}
+                                        id="job-function-checkbox-1"
                                         type="checkbox"
-                                        checked={isSelected('dropdownJobFunction', option)}
-                                        readOnly
-                                        className="w-3 h-3 text-blue-600 bg-gray-100 border-gray-300 rounded  accent-[#005382]"
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                                     />
-                                    <label htmlFor={`job-function-checkbox-${index}`} className="ml-2 text-sm text-dropdowntext  group-hover:text-white">
-                                        {option}
+                                    <label
+                                        htmlFor="job-function-checkbox-1"
+                                        className="ml-2 text-sm text-dropdowntext"
+                                    >
+                                        Product Design
                                     </label>
                                 </div>
                             </li>
-                        ))}
-                    </ul>
+                            <li>
+                                <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                    <input
+                                        id="job-function-checkbox-2"
+                                        type="checkbox"
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                                    />
+                                    <label
+                                        htmlFor="job-function-checkbox-2"
+                                        className="ml-2 text-sm text-dropdowntext"
+                                    >
+                                        Software Development
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                    <input
+                                        id="job-function-checkbox-3"
+                                        type="checkbox"
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                                    />
+                                    <label
+                                        htmlFor="job-function-checkbox-3"
+                                        className="ml-2 text-sm text-dropdowntext"
+                                    >
+                                        Systems Engineering
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
-            {/* Price Dropdown */}
-            <div className="position-relative text-left mb-4 overscroll-none">
-                <button
-                    id="dropdownPriceButton"
-                    onClick={() => toggleDropdown('dropdownPrice')}
-                    className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
-                    type="button"
-                >
-                    <span className="text-sm">
-                        {selectedPrice || 'Price'}
-                    </span>
-                    <Image
-                        src={ArrowIcon}
-                        alt="Arrow Icon"
-                        width={16}
-                        height={16}
-                        className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownPrice' ? 'rotate-180' : 'rotate-0'}`}
-                    />
-                </button>
-                <div
-                    id="dropdownPrice"
-                    className={`z-10 ${openDropdown === 'dropdownPrice' ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
-                >
-                    <ul className="p-3 space-y-1 text-sm text-dropdowntext">
-                        {['$0-$20', '$0-$30', '$0-$40'].map((option, index) => (
-                            <li key={index}>
-                                <div className=" group hover:bg-[#005382] flex items-center p-2 rounded " onClick={() => toggleSelection('dropdownPrice', option)}>
+                <div className="position-relative text-left mb-4 overscroll-none">
+                    <button
+                        id="dropdownPriceButton"
+                        onClick={() => handleButtonClick('dropdownPrice')}
+                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
+                        type="button"
+                    >
+                        <span className="text-sm">Price</span>
+                        <Image
+                            src={ArrowIcon}
+                            alt="Arrow Icon"
+                            width={16}
+                            height={16}
+                            className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownPrice' ? 'rotate-180' : 'rotate-0'}`}
+                        />
+                    </button>
+                    <div
+                        id="dropdownPrice"
+                        className={`z-10 ${
+                            openDropdown === 'dropdownPrice'
+                                ? 'block'
+                                : 'hidden'
+                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
+                    >
+                        <ul
+                            className="p-3 space-y-1 text-sm text-dropdowntext"
+                            aria-labelledby="dropdownPriceButton"
+                        >
+                            <li>
+                                <div className="flex items-center p-2 rounded hover:bg-gray-100">
                                     <input
-                                        id={`price-checkbox-${index}`}
+                                        id="price-checkbox-1"
                                         type="checkbox"
-                                        checked={isSelected('dropdownPrice', option)}
-                                        readOnly
-                                        className="w-3 h-3 t bg-gray-100 border-gray-300 rounded accent-[#005382]"
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                                     />
-                                    <label htmlFor={`price-checkbox-${index}`} className="ml-2 text-sm text-dropdowntext group-hover:text-white">
-                                        {option}
+                                    <label
+                                        htmlFor="price-checkbox-1"
+                                        className="ml-2 text-sm text-dropdowntext"
+                                    >
+                                        $0-$20
                                     </label>
                                 </div>
                             </li>
-                        ))}
-                    </ul>
+                            <li>
+                                <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                    <input
+                                        id="price-checkbox-2"
+                                        type="checkbox"
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                                    />
+                                    <label
+                                        htmlFor="price-checkbox-2"
+                                        className="ml-2 text-sm text-dropdowntext"
+                                    >
+                                        $0-$30
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                    <input
+                                        id="price-checkbox-3"
+                                        type="checkbox"
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                                    />
+                                    <label
+                                        htmlFor="price-checkbox-3"
+                                        className="ml-2 text-sm text-dropdowntext"
+                                    >
+                                        $0-$40
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
 
-            {/* Highest Rated Dropdown */}
-            <div className="position-relative text-left mb-4 overscroll-none">
-                <button
-                    id="dropdownHighestRatedButton"
-                    onClick={() => toggleDropdown('dropdownHighestRated')}
-                    className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
-                    type="button"
-                >
-                    <span className="text-sm">
-                        {selectedHighestRated || 'Highest Rated'}
-                    </span>
-                    <Image
-                        src={ArrowIcon}
-                        alt="Arrow Icon"
-                        width={16}
-                        height={16}
-                        className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownHighestRated' ? 'rotate-180' : 'rotate-0'}`}
-                    />
-                </button>
-                <div
-                    id="dropdownHighestRated"
-                    className={`z-10 ${openDropdown === 'dropdownHighestRated' ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
-                >
-                    <ul className="p-3 space-y-1 text-sm text-dropdowntext">
-                        {['4.0-5.0', '3.0-4.0', '2.0-3.0'].map((option, index) => (
-                            <li key={index}>
-                                <div className="group hover:bg-[#005382] flex items-center p-2 rounded h" onClick={() => toggleSelection('dropdownHighestRated', option)}>
+                <div className="position-relative text-left mb-4 overscroll-none">
+                    <button
+                        id="dropdownHighestRatedButton"
+                        onClick={() => handleButtonClick('dropdownHighestRated')}
+                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
+                        type="button"
+                    >
+                        <span className="text-sm">Highest Rated</span>
+                        <Image
+                            src={ArrowIcon}
+                            alt="Arrow Icon"
+                            width={16}
+                            height={16}
+                            className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownHighestRated' ? 'rotate-180' : 'rotate-0'}`}
+                        />
+                    </button>
+                    <div
+                        id="dropdownHighestRated"
+                        className={`z-10 ${
+                            openDropdown === 'dropdownHighestRated'
+                                ? 'block'
+                                : 'hidden'
+                        } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
+                    >
+                        <ul
+                            className="p-3 space-y-1 text-sm text-dropdowntext"
+                            aria-labelledby="dropdownHighestRatedButton"
+                        >
+                            <li>
+                                <div className="flex items-center p-2 rounded hover:bg-gray-100">
                                     <input
-                                        id={`highest-rated-checkbox-${index}`}
+                                        id="highest-rated-checkbox-1"
                                         type="checkbox"
-                                        checked={isSelected('dropdownHighestRated', option)}
-                                        readOnly
-                                        className="w-3 h-3  bg-gray-100 border-gray-300 rounded accent-[#005382] "
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                                     />
-                                    <label htmlFor={`highest-rated-checkbox-${index}`} className="ml-2 text-sm text-dropdowntext group-hover:text-white">
-                                        {option}
+                                    <label
+                                        htmlFor="highest-rated-checkbox-1"
+                                        className="ml-2 text-sm text-dropdowntext"
+                                    >
+                                        4.0-5.0
                                     </label>
                                 </div>
                             </li>
-                        ))}
-                    </ul>
+                            <li>
+                                <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                    <input
+                                        id="highest-rated-checkbox-2"
+                                        type="checkbox"
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                                    />
+                                    <label
+                                        htmlFor="highest-rated-checkbox-2"
+                                        className="ml-2 text-sm text-dropdowntext"
+                                    >
+                                        4.5-5.0
+                                    </label>
+                                </div>
+                            </li>
+                            <li>
+                                <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                                    <input
+                                        id="highest-rated-checkbox-3"
+                                        type="checkbox"
+                                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
+                                    />
+                                    <label
+                                        htmlFor="highest-rated-checkbox-3"
+                                        className="ml-2 text-sm text-dropdowntext"
+                                    >
+                                        5.0
+                                    </label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
-        
-        
-        
-        
-        
-        
+            {openModal && isMobile && (
+                <div className="fixed inset-0 bg-[#F2F2F7B2] bg-opacity-50 flex justify-center items-end z-50">
+                    <div className="bg-white w-full  max-w-md rounded-l-[8px] rounded-r-[8px]  p-4">
+                        <div className='flex justify-center items-center'>
+                        <Image
+                            src={Drawar}
+                            alt={Drawar}
+                            width={36}
+                            height={4}
+                           
+                        />
+                        </div>
+                        
+                         
+                        {openModal === 'dropdownJobFunction' && (
+                            <>
+                            <div className='flex justify-between items-center h-[48px] '>
+                                <div></div>
+                                <h2 className="text-[18px] font-[600]  text-[#373A36]">
+                                    Job Function
+                                </h2>
+                                <button className='h-[24px] w-[24px] '
+                                 onClick={() => setOpenModal(null)}
+
+                                >
+                            <Image
+                            src={Close}
+                            alt={Close}
+                            width={24}
+                            height={24}
+
+                        />
+                        </button>
+ 
+                            </div>
+                                <ul>
+                                    <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' >Product Design</li> 
+                                    <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' >Software Development</li>
+                                    <li className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' >Systems Engineering</li>
+                                </ul>
+                                </>
+                        )}
+                        {openModal === 'dropdownPrice' && (
+                           <>
+                           <div className='flex justify-between items-center h-[48px] '>
+
+                             <div></div>
+
+                           <h2 className="text-[18px] font-[600]  text-[#373A36]">
+                               Price
+                           </h2>          
+                             <button className='h-[24px] w-[24px] '
+                                 onClick={() => setOpenModal(null)}
+
+                                >
+                            <Image
+                            src={Close}
+                            alt={Close}
+                            width={24}
+                            height={24}
+
+                        />
+                        </button>
+                           </div>
+                            <ul>
+                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' >$0-20$</li> 
+                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' >$0-30$</li>
+                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' >$0-40$</li>
+                               </ul>
+                            </>
+
+                        )}
+                        {openModal === 'dropdownHighestRated' && (
+                                                       <>
+                           <div className='flex justify-between items-center h-[48px] '>
+
+                             <div></div>
+
+                           <h2 className="text-[18px] font-[600]  text-[#373A36]">
+                               Price
+                           </h2>          
+                             <button className='h-[24px] w-[24px] '
+                                 onClick={() => setOpenModal(null)}
+
+                                >
+                            <Image
+                            src={Close}
+                            alt={Close}
+                            width={24}
+                            height={24}
+
+                        />
+                        </button>
+                           </div>
+                            <ul>
+                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' >4.0-5.0</li> 
+                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' >4.5-5.0</li>
+                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' >5.0</li>
+                           
+                            </ul>
+                            </>
+                        )}
+                    </div>
+                </div>
+            )}
+            
             <div className="w-full  md:py-8  flex flex-col items-center xs:bg-white xs:pl-[16px] xs:pr-[16px]  sm:bg-white sm:pl-[16px] sm:pr-[16px] md:bg-[#F5F5F5]  min-h-screen">
                 {employees?.map((employee, index) => (
                     <EmployeeCard

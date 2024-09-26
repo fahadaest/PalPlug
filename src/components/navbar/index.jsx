@@ -108,10 +108,10 @@ const Navbar = () => {
 
     return (
         <div className='flex flex-col'>
-            <nav className="bg-white   p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px]">
-                <div className="flex items-center md:space-x-4 flex-grow ">
+            <nav className="bg-white p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px]">
+                <div className="flex  items-center md:space-x-12 flex-grow xs:w-[390px] ">
                     <div
-                        className="relative w-10 h-6 sm:w-24 sm:h-8 cursor-pointer"
+                        className=" relative w-10 h-6 sm:w-24 sm:h-8 cursor-pointer"
                         onClick={handleClick}
                     >
                         <Image
@@ -130,21 +130,21 @@ const Navbar = () => {
                         />
                     </div>
                     {isProfilePage && (
-                        <div className="flex items-center justify-end w-full max-w-xl ml-auto h-full">
+                        <div className=" flex items-center justify-end w-full max-w-xl ml-auto h-full">
                             <StepProgressBar currentStep={currentStep} className="w-full h-full" />
                         </div>
                     )}
                     {!isProfilePage &&  (
-                        <div className="relative max-w-[452px] mx-2  ">
+                        <div className="relative  max-w-[452px] mx-2">
                             <Image
                                 src={Search}
                                 alt="Search Icon"
-                                className=" absolute left-2 top-1/2  transform -translate-y-1/2 w-3  h-4 lg:w-4"
-                            />
+                                className="absolute left-2 top-1/2 transform -translate-y-1/2 w-3 h-4 xs:w-3 xs:h-3 sm:w-3 sm:h-4 lg:w-[16px] lg:h-[16px]"
+                                />
                             <input
                                 type="text"
                                 placeholder="Search by company"
-                                className="pl-[22px] p-2 rounded-lg placeholder-[#555555] border border-gray-300 text-[10px] lg:text-lg lg:pl-9 focus:border-blue-500 focus:outline-none w-full max-w-full "
+                                className="pl-[22px] p-2 rounded-[4px] placeholder-[#555555] border border-[#F0F0F0] text-[10px] lg:text-lg lg:pl-9 focus:border-blue-500 focus:outline-none w-full max-w-full "
 
                                 />
                         </div>
@@ -152,30 +152,33 @@ const Navbar = () => {
                 </div>
 
                 {!isProfilePage &&  (
-                    <div className="flex items-center space-x-3 sm:space-x-2 flex-shrink-0">
+                    <div className="h-[36px]   xs:w-[116px]  xs:gap-[16px]  md:w-[252px] md:gap-[8px]  flex items-center  flex-shrink-0 ">
                         {user ? (
                             <>
+                                <div className=' flex w-[72px]  xs:gap-4'>
+
                                 <Image
                                     src={BellIcon}
                                     alt="Bell Icon"
                                     className="text-black text-xl cursor-pointer"
-                                />
+                                    />
                                 <Image
                                     src={MailIcon}
                                     alt="Mail Icon"
                                     className="text-black text-xl cursor-pointer"
-                                />
-                                <div className="relative flex items-center space-x-2">
+                                    />
+                                    </div>
+                                <div className="relative flex items-center  space-x-1">
                                     {/* User Image visible on both mobile and desktop */}
                                     <Image
                                         src={UserImg}
                                         alt="User Image"
-                                        className="text-black text-xl cursor-pointer" 
+                                        className= "h-[36px] w-[36px] text-black text-lg cursor-pointer" 
                                         onClick={toggleDropdown} 
                                         log
                                     />
                                     {isMobile && isDropdownOpen && (
-                                        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-10" ref={dropdownRef}>
+                                        <div className="absolute right-0 mt-2  w-48  border border-gray-200 rounded-lg shadow-lg z-10" ref={dropdownRef}>
                                             <NavbarDropdown
                                                 isOpen={isDropdownOpen}
                                                 userId={user.id || user.uid}
@@ -184,14 +187,14 @@ const Navbar = () => {
                                     )}
 
                                     {/* Dropdown trigger for desktop view */}
-                                    <div className="hidden md:flex items-center space-x-3">
-                                        <span className="text-heading font-semibold truncate max-w-[120px] sm:max-w-[150px] md:max-w-[200px] text-xs sm:text-sm md:text-base">
+                                    <div className="hidden  md:flex items-center">
+                                        <span className="text-heading font-semibold truncate max-w-[100px] sm:max-w-[120px] md:max-w-[100px] text-xs sm:text-sm md:text-base">
                                             {user.displayName}
                                         </span>
-                                        <div className="relative" ref={dropdownRef}>
+                                        <div className="relative " ref={dropdownRef}>
                                             <button
                                                 onClick={() => setDropdownOpen(!isDropdownOpen)} // Desktop dropdown trigger
-                                                className={`bg-blue-100 hover:bg-blue-200 focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-full p-2.5 inline-flex items-center justify-center transition-colors duration-300 ${isDropdownOpen ? 'bg-blue-200' : 'bg-blue-100'} ${isDropdownOpen ? 'active:bg-blue-300' : ''} hidden md:block`}
+                                                className={`bg-blue-100 hover:bg-blue-200 focus:ring-2  focus:outline-none  focus:ring-blue-300 font-medium rounded-full  ml-2 w-[16px] h-[16px]  inline-flex items-center justify-center transition-colors duration-300 ${isDropdownOpen ? 'bg-blue-200' : 'bg-blue-100'} ${isDropdownOpen ? 'active:bg-blue-300' : ''} hidden md:block`}
                                                 type="button"
                                             >
                                                 <span className="sr-only">
@@ -202,7 +205,7 @@ const Navbar = () => {
                                                     alt="Arrow Icon"
                                                     width={16}
                                                     height={16}
-                                                    className={`w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
+                                                    className={`w-4 h-4  transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
                                                 />
                                             </button>
 
@@ -219,8 +222,8 @@ const Navbar = () => {
                         ) : (
                             <button
                                 onClick={handleLoginClick}
-                                className="bg-[#005382] text-white px-4 py-2 rounded"
-                            >
+                                className="bg-[#005382] text-white px-4 py-2 rounded ml-auto"
+                                >
                                 Log in
                             </button>
                         )}
@@ -241,3 +244,6 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+
+

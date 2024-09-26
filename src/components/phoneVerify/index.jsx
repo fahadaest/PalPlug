@@ -97,28 +97,28 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
       <Modal isOpen={isOpen} onClose={onClose} ModalImg={null}>
         <div
           ref={modalRef}
-          className="fixed inset-0 flex items-center justify-center bg-gray-100 bg-opacity-10 p-4 md:p-10 z-20"
+          className="fixed inset-0   flex items-center justify-center bg-[#0B0B0B] bg-opacity-10 p-4 md:p-10 z-20"
         >
           <div
             ref={contentRef}
-            className="relative max-w-md w-full bg-white p-6 rounded-lg shadow-lg"
+            className="relative   w-[520px] h-[472px] bg-white p-[40px] rounded-[8px] shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold">Verify Phone Number</h2>
+              <h2 className="text-[24px] font-[600]">Verify Phone Number</h2>
               <button className="text-gray-500" onClick={onClose}>
                 <Image src={CloseIcon} alt="close" className="w-6 h-6 cursor-pointer" />
               </button>
             </div>
 
-            <p className="text-gray-600 mb-6">
+            <p className="text-[#939393] mb-6 text-[14px] font-[400]">
               Thank you for taking a moment to verify your phone number
             </p>
 
             <form>
               <div className="mb-6">
-                <label className="block text-gray-700 mb-2" htmlFor="country">
-                  Select your Country
+                <label className="block text-black mb-2" htmlFor="country">
+                Enter Country
                 </label>
                 {loading ? (
                   <p>Loading countries...</p>
@@ -126,9 +126,9 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
                   <select
       value={selectedCountry}
       onChange={(e) => setSelectedCountry(e.target.value)} // Capture only the dial code
-      className="w-full px-3 py-2 border rounded-lg text-gray-700"
+      className="w-full px-3 py-2 border h-[48px] bg-[white] text-[#413f3f] rounded-[8px] "
     >
-      <option value="" disabled>Select Country</option>
+      <option  value="" disabled>Select Country</option>
       {countries.map((country) => (
         <option key={country.code} value={country.dialCode}>
           {country.name} ({country.dialCode}) {/* Shows name and dial code */}
@@ -146,26 +146,27 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
                   type="tel"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder="Phone Number"
-                  className="w-full px-3 py-2 border rounded-lg text-gray-700"
+                  placeholder="+ 1 -"
+                  className="w-full px-3 py-2 h-[48px] border   rounded-[8px] text-black "
                 />
               </div>
 
               <div className="flex space-x-4">
                 <button
                   type="button"
-                  className="w-full py-2 bg-gray-300 text-gray-700 rounded-lg"
+                  className="w-[210px] h-[40px] pt-[8px] pb-[11px] pl-[20px] pr-[20px] bg-[#939393] text-white text-[16px] font-[600] rounded-[8px]"
                   onClick={handleSendVerificationCode}
                 >
                   Verify by SMS
                 </button>
-                <button className="w-full py-2 bg-gray-300 text-gray-700 rounded-lg">
-                  Verify by Call
+                <button 
+                    className="w-[210px] h-[40px] pt-[8px] pb-[11px] pl-[20px] pr-[20px] bg-[#939393] text-white text-[16px] font-[600] rounded-[8px]">
+                         Verify by Call
                 </button>
               </div>
             </form>
 
-            <p className="text-gray-500 text-sm mt-6">
+            <p className="text-[#939393]  text-[14px] font-[400]  mt-3 leading-extra-tight">
               Your phone number will remain private and will not be shared or used for marketing purposes
             </p>
             <div id="recaptcha-container"></div>
@@ -183,3 +184,5 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
 });
 
 export default PhoneVerifyModal;
+
+

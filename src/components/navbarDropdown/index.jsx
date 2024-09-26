@@ -46,7 +46,7 @@ const NavbarDropdown = ({ isOpen, userId }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="z-10 bg-white rounded-lg shadow w-72 dark:bg-gray-700 absolute right-0 mt-2">
+    <div className="z-10 bg-white rounded-lg shadow w-72 dark:bg-gray-700 absolute right-0 mt-3">
       <div className="flex items-center text-sm text-gray-900 dark:text-white p-4 space-x-3">
         <Image
           className="w-8 h-8 rounded-full"
