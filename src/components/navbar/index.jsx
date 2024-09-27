@@ -180,6 +180,7 @@ const Navbar = () => {
                                             <NavbarDropdown
                                                 isOpen={isDropdownOpen}
                                                 userId={user.id || user.uid}
+                                                setDropdownOpen={setDropdownOpen}
                                             />
                                         </div>
                                     )}
