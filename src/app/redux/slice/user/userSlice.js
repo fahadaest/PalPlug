@@ -12,6 +12,7 @@ const userSlice = createSlice({
     servicescurrentStep:1,
     profileSubmissionStatus: null, 
     isplugroute: true, 
+    isVerificationComplete: false,
   },
   reducers: {
     loginRequest: (state) => {
@@ -47,6 +48,9 @@ const userSlice = createSlice({
     },
     setPlugRoute: (state, action) => {
       state.isplugroute = action.payload;
+    },
+    setVerificationComplete: (state, action) => {
+      state.isVerificationComplete = action.payload; 
     }
   },
   
@@ -69,6 +73,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { loginRequest, loginSuccess, loginFailure, logout, setUser, setCurrentStep, setServicesCurrentStep, setPlugRoute } = userSlice.actions;
+export const { loginRequest, loginSuccess, loginFailure, logout, setUser, setCurrentStep, setServicesCurrentStep, setPlugRoute, setVerificationComplete  } = userSlice.actions;
 
 export default userSlice.reducer;

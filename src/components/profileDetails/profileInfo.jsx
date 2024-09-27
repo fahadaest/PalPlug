@@ -1,6 +1,6 @@
 'use client';
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import PhoneIcon from '@/assets/images/phone.svg';
 import EmailIcon from '@/assets/images/email.svg';
@@ -20,7 +20,10 @@ const ProfileInfo = ({ userId, displayName }) => {
   const [description, setDescription] = useState('');
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [isServicesSelectionVisible, setServicesSelectionVisible] = useState(false);
+  const isVerificationComplete = useSelector((state) => state.user.isVerificationComplete); 
+ 
   const router = useRouter();
+
  
   const [professionalInfo, setProfessionalInfo] = useState({
     occupation: [],
@@ -86,7 +89,11 @@ const ProfileInfo = ({ userId, displayName }) => {
     setIsPhoneModalOpen(true);
   };
   const handleClosePhoneModal = () => setIsPhoneModalOpen(false);
-
+  useEffect(() => {
+    if (isVerificationComplete) {
+      setIsPhoneModalOpen(false);
+    }
+  }, [isVerificationComplete]);
   return (
     <>
     {!isServicesSelectionVisible ? (
@@ -214,13 +221,19 @@ const ProfileInfo = ({ userId, displayName }) => {
                   <span className="text-[14px] italic font-normal text-[#555555]">Private</span>
                 </div>
               </div>
-              <button
-  className="h-[40px] text-[#555555] text-[12px] font-semibold w-full md:w-[191px] p-3 border rounded-xl"
-  onClick={handleOpenPhoneModal}
->
-  Add Phone Number
-</button>
-            </div>
+              {isVerificationComplete ? (
+                  <button className="h-[40px] text-[#555555] text-[12px] font-semibold w-full md:w-[120px] bg-[#6FCF97] p-3 rounded-xl">
+                    Verified
+                  </button>
+                ) : (
+                  <button
+                    className="h-[40px] text-[#555555] text-[12px] font-semibold w-full md:w-[191px] p-3 border rounded-xl"
+                    onClick={handleOpenPhoneModal}
+                  >
+                    Add Phone Number
+                  </button>
+                )}
+              </div>
 
             <div className="mt-28">
               <button

@@ -1,13 +1,14 @@
 'use client';
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import OrderRequirements from "./orderRequirements";
-import ServicesProgressBar from "../navbar/ServicesProgressBar";
 import { useDispatch, useSelector } from "react-redux";
 import { setServicesCurrentStep } from "@/app/redux/slice/user/userSlice";
 import Requirement from "./publishPage";
 import { submitAllServices } from "@/app/redux/action";
 
 const ServicesSelection = () => {
+  const dropdownRef = useRef(null);
+
   const [isDetailsVisible, setDetailsVisible] = useState({
     referral: false,
     resume: false,
@@ -49,7 +50,21 @@ const ServicesSelection = () => {
       [type]: true,
     }));
   };
-
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setDropdownOpen({
+        referral: false,
+        resume: false,
+        interview: false,
+      });
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
   const allServicesSelected = currentStep === 1
     ? Object.values(selectedServices).every((value) => value)
     : true;
@@ -142,7 +157,7 @@ const ServicesSelection = () => {
                       <label className="block text-gray-700 text-sm font-medium mb-2">
                         Delivery time
                       </label>
-                      <div className="relative">
+                      <div className="relative" ref={dropdownRef}>
                         <button
                           onClick={(e) => handleDropdownClick(e, "referral")}
                           className="w-full sm:w-[276px] h-[48px] block bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"
@@ -227,7 +242,7 @@ const ServicesSelection = () => {
                       <label className="block text-gray-700 text-sm font-medium mb-2">
                         Delivery time
                       </label>
-                      <div className="relative">
+                      <div className="relative" ref={dropdownRef}>
                         <button
                           onClick={(e) => handleDropdownClick(e, "resume")}
                           className="w-full sm:w-[276px] h-[48px] block bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"
@@ -306,7 +321,7 @@ const ServicesSelection = () => {
                       <label className="block text-gray-700 text-sm font-medium mb-2">
                         Delivery time
                       </label>
-                      <div className="relative">
+                      <div className="relative" ref={dropdownRef}>
                         <button
                           onClick={(e) => handleDropdownClick(e, "interview")}
                           className="w-full sm:w-[276px] h-[48px] block bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"

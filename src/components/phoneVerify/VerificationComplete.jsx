@@ -2,7 +2,10 @@ import React from 'react';
 import { Modal } from '@/components/Modal'; 
 import CloseIcon from '@/assets/images/Closeicon.svg';
 import Image from 'next/image';
+import { useDispatch } from 'react-redux';
+import { setVerificationComplete } from '@/app/redux/slice/user/userSlice';
 const VerificationComplete = ({ isOpen, onClose }) => {
+    const dispatch = useDispatch();
   if (!isOpen) return null;
 
   return (
@@ -26,7 +29,12 @@ const VerificationComplete = ({ isOpen, onClose }) => {
                     <p className="text-sm text-[#939393] mb-6">Your phone number was verified successfully. Thank you!</p>
                 </div>
                 <div className="flex justify-center">
-                    <button className="h-10 rounded-md text-white text-sm font-semibold w-full max-w-xs bg-[#005382]">
+                    <button className="h-10 rounded-md text-white text-sm font-semibold w-full max-w-xs bg-[#005382]"
+                    onClick={() => {
+                        dispatch(setVerificationComplete(true));
+                        onClose();
+                      }}
+                    >
                         Okay
                     </button>
                 </div>

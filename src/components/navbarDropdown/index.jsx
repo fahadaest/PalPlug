@@ -8,7 +8,7 @@ import { auth } from '@/app/utils/firebase';
 import { loginFailure, logout } from '@/app/redux/slice/user/userSlice';
 import { useRouter } from 'next/navigation';
 
-const NavbarDropdown = ({ isOpen, userId }) => {
+const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const userFromStore = useSelector((state) => state.user.user);
@@ -19,6 +19,7 @@ const NavbarDropdown = ({ isOpen, userId }) => {
       dispatch(logout());
       localStorage.removeItem('user');
       router.push('/'); 
+      setDropdownOpen(false);
     } catch (error) {
       dispatch(loginFailure(error?.message || "Something went wrong!"));
     }
@@ -27,9 +28,7 @@ const NavbarDropdown = ({ isOpen, userId }) => {
   const handleBecomeAPlug = () => {
     if (userId) {
       router.push(`/profile/${userId}`);
-      console.log('====================================');
-      console.log(userId);
-      console.log('====================================');
+      setDropdownOpen(false);
     } else {
       console.error('User ID is undefined');
     }
@@ -38,6 +37,7 @@ const NavbarDropdown = ({ isOpen, userId }) => {
   const handleprofile = () => {
     if (userId) {
       router.push(`/candidate-profile`);
+      setDropdownOpen(false);
     } else {
       console.error('No such route');
     }

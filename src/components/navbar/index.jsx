@@ -13,8 +13,6 @@ import SignInModal from '@/components/signInModal/index';
 import StepProgressBar from './StepProgressBar';
 import Search from '@/assets/images/Search.svg';
 import ServicesProgressBar from './ServicesProgressBar';
-import { setServicesCurrentStep } from '@/app/redux/slice/user/userSlice';
-
 const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
     ssr: false,
 });
@@ -30,7 +28,7 @@ const Navbar = () => {
     const [hasLoggedIn, setHasLoggedIn] = useState(false);  
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
-    const [isMobile, setIsMobile] = useState(false); // Detect mobile view
+    const [isMobile, setIsMobile] = useState(false); 
 
     const dropdownRef = useRef(null);
     const modalRef = useRef(null);
@@ -208,11 +206,12 @@ const Navbar = () => {
                                                     className={`w-4 h-4  transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
                                                 />
                                             </button>
-
+                                            {console.log("isDropdownOpen:", isDropdownOpen)}
                                             {isDropdownOpen && (
                                                 <NavbarDropdown
                                                     isOpen={isDropdownOpen}
                                                     userId={user.id || user.uid}  
+                                                    setDropdownOpen={setDropdownOpen}
                                                 />
                                             )}
                                         </div>
