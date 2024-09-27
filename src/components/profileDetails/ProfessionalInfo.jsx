@@ -146,7 +146,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                                 width="160px"
                             />
                         </div>
-                        <div>
+                        <div className='flex gap-[16px]'>
                         <button
                     className="bg-[#939393] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
                     onClick={addEducationSection}
@@ -207,7 +207,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                                 width="160px"
                             />
                         </div>
-                        <div>
+                        <div className='flex gap-[8px]'>
                         <button
                     className="bg-[#939393] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
                     onClick={addCertificationSection} 
