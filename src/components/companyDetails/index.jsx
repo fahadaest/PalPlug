@@ -68,7 +68,7 @@ const CompanyDetails = () => {
        
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-    const handleButtonClick = (id)=> {
+    const handlebuttonClick = (id)=> {
         if (isMobile) {
             toggleModal(id)
 
@@ -127,8 +127,8 @@ const CompanyDetails = () => {
             <div className="position-relative w-full mt-4 px-4 flex gap-4 overflow-x-scroll">
                 <div className="position-relative text-left mb-4 overscroll-none">
                     <button
-                        id="dropdownJobFunctionButton"
-                        onClick={() => handleButtonClick('dropdownJobFunction')}
+                        id="dropdownJobFunctionbutton"
+                        onClick={() => handlebuttonClick('dropdownJobFunction')}
                         className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
                         type="button"
                     >
@@ -151,7 +151,7 @@ const CompanyDetails = () => {
                     >
                         <ul
                             className="p-3 space-y-1 text-sm text-dropdowntext"
-                            aria-labelledby="dropdownJobFunctionButton"
+                            aria-labelledby="dropdownJobFunctionbutton"
                         >
                             <li>
                                 <div className="flex items-center p-2 rounded hover:bg-gray-100">
@@ -163,7 +163,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="job-function-checkbox-1"
                                         className="ml-2 text-sm text-dropdowntext"
-                                        onClick={() => handleSelection('jobFunction', 'Product Design')}
+                                        onChange={() => handleSelection('jobFunction', 'Product Design')}
                                     >
                                         Product Design
                                     </label>
@@ -179,7 +179,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="job-function-checkbox-2"
                                         className="ml-2 text-sm text-dropdowntext"
-                                        onClick={() => handleSelection('jobFunction', 'Software Development')}
+                                        onChange={() => handleSelection('jobFunction', 'Software Development')}
                                     >
                                         Software Development
                                     </label>
@@ -195,7 +195,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="job-function-checkbox-3"
                                         className="ml-2 text-sm text-dropdowntext"
-                                        onClick={() => handleSelection('jobFunction', 'Systems Engineering')}
+                                        onChange={() => handleSelection('jobFunction', 'Systems Engineering')}
                                     >
                                         Systems Engineering
                                     </label>
@@ -207,8 +207,8 @@ const CompanyDetails = () => {
 
                 <div className="position-relative text-left mb-4 overscroll-none">
                     <button
-                        id="dropdownPriceButton"
-                        onClick={() => handleButtonClick('dropdownPrice')}
+                        id="dropdownPricebutton"
+                        onClick={() => handlebuttonClick('dropdownPrice')}
                         className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
                         type="button"
                     >
@@ -231,7 +231,7 @@ const CompanyDetails = () => {
                     >
                         <ul
                             className="p-3 space-y-1 text-sm text-dropdowntext"
-                            aria-labelledby="dropdownPriceButton"
+                            aria-labelledby="dropdownPricebutton"
                         >
                             <li>
                                 <div className="flex items-center p-2 rounded hover:bg-gray-100">
@@ -243,7 +243,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="price-checkbox-1"
                                         className="ml-2 text-sm text-dropdowntext"
-                                        onClick={() => handleSelection('price', '$0-$20')}
+                                        onChange={() => handleSelection('price', '$0-$20')}
                                     >
                                         $0-$20
                                     </label>
@@ -259,7 +259,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="price-checkbox-2"
                                         className="ml-2 text-sm text-dropdowntext"
-                                        onClick={() => handleSelection('price', '$0-$30')}
+                                        onChange={() => handleSelection('price', '$0-$30')}
                                     >
                                         $0-$30
                                     </label>
@@ -275,7 +275,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="price-checkbox-3"
                                         className="ml-2 text-sm text-dropdowntext"
-                                        onClick={() => handleSelection('price', '$0-$40')}
+                                        onChange={() => handleSelection('price', '$0-$40')}
                                     >
                                         $0-$40
                                     </label>
@@ -287,8 +287,8 @@ const CompanyDetails = () => {
 
                 <div className="position-relative text-left mb-4 overscroll-none">
                     <button
-                        id="dropdownHighestRatedButton"
-                        onClick={() => handleButtonClick('dropdownHighestRated')}
+                        id="dropdownHighestRatedbutton"
+                        onClick={() => handlebuttonClick('dropdownHighestRated')}
                         className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
                         type="button"
                     >
@@ -311,7 +311,7 @@ const CompanyDetails = () => {
                     >
                         <ul
                             className="p-3 space-y-1 text-sm text-dropdowntext"
-                            aria-labelledby="dropdownHighestRatedButton"
+                            aria-labelledby="dropdownHighestRatedbutton"
                         >
                             <li>
                                 <div className="flex items-center p-2 rounded hover:bg-gray-100">
@@ -323,7 +323,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="highest-rated-checkbox-1"
                                         className="ml-2 text-sm text-dropdowntext"
-                                        onClick={() => handleSelection('highestRated', '4.0-5.0')}
+                                        onChange={() => handleSelection('highestRated', '4.0-5.0')}
                                     >
                                         4.0-5.0
                                     </label>
@@ -339,7 +339,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="highest-rated-checkbox-2"
                                         className="ml-2 text-sm text-dropdowntext"
-                                        onClick={() => handleSelection('highestRated', '4.5-5.0')}
+                                        onChange={() => handleSelection('highestRated', '4.5-5.0')}
                                     >
                                         4.5-5.0
                                     </label>
@@ -355,7 +355,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="highest-rated-checkbox-3"
                                         className="ml-2 text-sm text-dropdowntext"
-                                        onClick={() => handleSelection('highestRated', '5.0')}
+                                        onChange={() => handleSelection('highestRated', '5.0')}
                                     >
                                         5.0
                                     </label>
@@ -401,9 +401,9 @@ const CompanyDetails = () => {
  
                             </div>
                                 <ul>
-                                <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Product Design')}>Product Design</Button></li> 
-                                <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Software Development')}>Software Development</Button></li> 
-                                <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Systems Engineering')}>Systems Engineering</Button></li> 
+                                <li> <button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Product Design')}>Product Design</button></li> 
+                                <li> <button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Software Development')}>Software Development</button></li> 
+                                <li> <button className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Systems Engineering')}>Systems Engineering</button></li> 
                                 </ul>
                                 </>
                         )}
@@ -430,9 +430,9 @@ const CompanyDetails = () => {
                         </button>
                            </div>
                             <ul>
-                            <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$20')}>$0-20$</Button></li> 
-                            <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$30')}>$0-30$</Button></li> 
-                            <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$40')}>$0-40$</Button></li> 
+                            <li> <button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$20')}>$0-20$</button></li> 
+                            <li> <button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$30')}>$0-30$</button></li> 
+                            <li> <button className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$40')}>$0-40$</button></li> 
                                </ul>
                             </>
 
@@ -460,9 +460,9 @@ const CompanyDetails = () => {
                         </button>
                            </div>
                             <ul>
-                           <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '4.0-5.0')}>4.0-5.0 </Button></li> 
-                           <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '4.5-5.0')}>4.5-5.0</Button></li>
-                           <li><Button className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '5.0')}>5.0</Button></li>
+                           <li> <button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '4.0-5.0')}>4.0-5.0 </button></li> 
+                           <li> <button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '4.5-5.0')}>4.5-5.0</button></li>
+                           <li><button className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '5.0')}>5.0</button></li>
                            
                             </ul>
                             </>
