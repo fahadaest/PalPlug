@@ -401,9 +401,9 @@ const CompanyDetails = () => {
  
                             </div>
                                 <ul>
-                                    <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Product Design')}>Product Design</li> 
-                                    <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Software Development')}>Software Development</li>
-                                    <li className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Systems Engineering')}>Systems Engineering</li>
+                                <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Product Design')}>Product Design</Button></li> 
+                                <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Software Development')}>Software Development</Button></li> 
+                                <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Systems Engineering')}>Systems Engineering</Button></li> 
                                 </ul>
                                 </>
                         )}
@@ -430,9 +430,9 @@ const CompanyDetails = () => {
                         </button>
                            </div>
                             <ul>
-                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$20')}>$0-20$</li> 
-                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$30')}>$0-30$</li>
-                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$40')}>$0-40$</li>
+                            <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$20')}>$0-20$</Button></li> 
+                            <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$30')}>$0-30$</Button></li> 
+                            <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$40')}>$0-40$</Button></li> 
                                </ul>
                             </>
 
@@ -460,9 +460,9 @@ const CompanyDetails = () => {
                         </button>
                            </div>
                             <ul>
-                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '4.0-5.0')}>4.0-5.0</li> 
-                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '4.5-5.0')}>4.5-5.0</li>
-                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '5.0')}>5.0</li>
+                           <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '4.0-5.0')}>4.0-5.0 </Button></li> 
+                           <li> <Button className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '4.5-5.0')}>4.5-5.0</Button></li>
+                           <li><Button className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '5.0')}>5.0</Button></li>
                            
                             </ul>
                             </>
