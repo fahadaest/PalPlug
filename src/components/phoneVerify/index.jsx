@@ -182,12 +182,3 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
 
 export default PhoneVerifyModal;
 
-
-// In  10:23am out 5:00pm,
-// tasks:
-
-// Fix the UI of the OTP verification modal and phone verification modal.
-// Implement input functionality for OTP fields.
-// Add functionality to change the button color once input fields are filled.
-// Collaborate with teammates to resolve the bug in the "Become a Plug" dropdown.
-  

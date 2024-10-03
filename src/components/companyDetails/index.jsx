@@ -24,6 +24,10 @@ const CompanyDetails = () => {
     const companyStyles = useSelector(selectCompanyStyles);
     const employees = useSelector(selectEmployees);
     const logoClassNames = useSelector(selectLogoClassNames);
+    const [selectedJobFunction, setSelectedJobFunction] = useState('Job Function');
+    const [selectedPrice, setSelectedPrice] = useState("Price");
+    const [selectedHighestRated, setSelectedHighestRated] = useState("Highest Rated");
+
     const displayName =
         name?.charAt(0)?.toUpperCase() + name.slice(1)?.toLowerCase();
     const company = [...companies, ...otherCompanies]?.find(
@@ -38,6 +42,7 @@ const CompanyDetails = () => {
     const [openDropdown, setOpenDropdown] = useState(null);
     const [openModal, setOpenModal] = useState(null);
     const [isMobile, setIsMobile] = useState(false);
+    const [checkedOption, setCheckedOption] = useState(null);
     const toggleModal = (modalId) => {
         setOpenModal(openModal === modalId ? null : modalId);
     };
@@ -76,6 +81,27 @@ const CompanyDetails = () => {
 ;
         }
     };
+    const handleSelection = (dropdownType, value) => {
+        console.log(`Selected value for ${dropdownType}:`, value);
+    
+        switch (dropdownType) {
+            case 'jobFunction':
+                setSelectedJobFunction(value);
+                break;
+            case 'price':
+                setSelectedPrice(value);
+                break;
+            case 'highestRated':
+                setSelectedHighestRated(value);
+                break;
+            default:
+                console.warn('Unknown dropdown type:', dropdownType);
+        }
+    
+        setOpenModal(null);
+        setOpenDropdown(null);
+    };
+    
 
     return (
         <>
@@ -98,7 +124,7 @@ const CompanyDetails = () => {
                 </div>
             </div>
 
-            <div className="position-relative w-full mt-4 px-4 flex gap-4 overflow-x-scroll overscroll-y-contain">
+            <div className="position-relative w-full mt-4 px-4 flex gap-4 overflow-x-scroll">
                 <div className="position-relative text-left mb-4 overscroll-none">
                     <button
                         id="dropdownJobFunctionButton"
@@ -106,7 +132,7 @@ const CompanyDetails = () => {
                         className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
                         type="button"
                     >
-                        <span className="text-sm">Job Function</span>
+                        <span className="text-sm">{selectedJobFunction}</span>
                         <Image
                             src={ArrowIcon}
                             alt="Arrow Icon"
@@ -137,6 +163,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="job-function-checkbox-1"
                                         className="ml-2 text-sm text-dropdowntext"
+                                        onClick={() => handleSelection('jobFunction', 'Product Design')}
                                     >
                                         Product Design
                                     </label>
@@ -152,6 +179,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="job-function-checkbox-2"
                                         className="ml-2 text-sm text-dropdowntext"
+                                        onClick={() => handleSelection('jobFunction', 'Software Development')}
                                     >
                                         Software Development
                                     </label>
@@ -167,6 +195,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="job-function-checkbox-3"
                                         className="ml-2 text-sm text-dropdowntext"
+                                        onClick={() => handleSelection('jobFunction', 'Systems Engineering')}
                                     >
                                         Systems Engineering
                                     </label>
@@ -183,7 +212,7 @@ const CompanyDetails = () => {
                         className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
                         type="button"
                     >
-                        <span className="text-sm">Price</span>
+                        <span className="text-sm">{selectedPrice}</span>
                         <Image
                             src={ArrowIcon}
                             alt="Arrow Icon"
@@ -214,6 +243,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="price-checkbox-1"
                                         className="ml-2 text-sm text-dropdowntext"
+                                        onClick={() => handleSelection('price', '$0-$20')}
                                     >
                                         $0-$20
                                     </label>
@@ -229,6 +259,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="price-checkbox-2"
                                         className="ml-2 text-sm text-dropdowntext"
+                                        onClick={() => handleSelection('price', '$0-$30')}
                                     >
                                         $0-$30
                                     </label>
@@ -244,6 +275,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="price-checkbox-3"
                                         className="ml-2 text-sm text-dropdowntext"
+                                        onClick={() => handleSelection('price', '$0-$40')}
                                     >
                                         $0-$40
                                     </label>
@@ -260,7 +292,7 @@ const CompanyDetails = () => {
                         className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
                         type="button"
                     >
-                        <span className="text-sm">Highest Rated</span>
+                        <span className="text-sm">{selectedHighestRated}</span>
                         <Image
                             src={ArrowIcon}
                             alt="Arrow Icon"
@@ -291,6 +323,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="highest-rated-checkbox-1"
                                         className="ml-2 text-sm text-dropdowntext"
+                                        onClick={() => handleSelection('highestRated', '4.0-5.0')}
                                     >
                                         4.0-5.0
                                     </label>
@@ -306,6 +339,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="highest-rated-checkbox-2"
                                         className="ml-2 text-sm text-dropdowntext"
+                                        onClick={() => handleSelection('highestRated', '4.5-5.0')}
                                     >
                                         4.5-5.0
                                     </label>
@@ -321,6 +355,7 @@ const CompanyDetails = () => {
                                     <label
                                         htmlFor="highest-rated-checkbox-3"
                                         className="ml-2 text-sm text-dropdowntext"
+                                        onClick={() => handleSelection('highestRated', '5.0')}
                                     >
                                         5.0
                                     </label>
@@ -366,9 +401,9 @@ const CompanyDetails = () => {
  
                             </div>
                                 <ul>
-                                    <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' >Product Design</li> 
-                                    <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' >Software Development</li>
-                                    <li className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' >Systems Engineering</li>
+                                    <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Product Design')}>Product Design</li> 
+                                    <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Software Development')}>Software Development</li>
+                                    <li className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('jobFunction', 'Systems Engineering')}>Systems Engineering</li>
                                 </ul>
                                 </>
                         )}
@@ -395,9 +430,9 @@ const CompanyDetails = () => {
                         </button>
                            </div>
                             <ul>
-                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' >$0-20$</li> 
-                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' >$0-30$</li>
-                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' >$0-40$</li>
+                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$20')}>$0-20$</li> 
+                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$30')}>$0-30$</li>
+                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('price', '$0-$40')}>$0-40$</li>
                                </ul>
                             </>
 
@@ -425,9 +460,9 @@ const CompanyDetails = () => {
                         </button>
                            </div>
                             <ul>
-                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' >4.0-5.0</li> 
-                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' >4.5-5.0</li>
-                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' >5.0</li>
+                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '4.0-5.0')}>4.0-5.0</li> 
+                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '4.5-5.0')}>4.5-5.0</li>
+                            <li className='h-[48px] w-[auto] text-[#373A36] flex justify-around items-center text-[16px] fotn-[500]' onClick={() => handleSelection('highestRated', '5.0')}>5.0</li>
                            
                             </ul>
                             </>
