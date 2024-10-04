@@ -3,6 +3,7 @@ import PolygonSvg from '@/assets/images/Polygon.svg';
 import StarImg from '@/assets/images/star.svg';
 import CheckImg from '@/assets/images/check.svg';
 import PropTypes from 'prop-types';
+import { selectEmployees } from '@/app/redux/slice/employee/employeeSlice';
 
 const EmployeeCard = ({
     employee,
@@ -10,6 +11,7 @@ const EmployeeCard = ({
     showAbout = false,
     showReviews = false,
 }) => {
+
     return (
         
           <div className="bg-white border  border-gray-300 rounded-lg  p-6 mb-6 w-full max-w-[1000px] h-auto flex flex-col items-start">
@@ -81,7 +83,7 @@ const EmployeeCard = ({
                         {employee.reviews}
                     </p>
                     <p className="text-[14px] font-lightbold text-employecard-card-grey-text ml-1">
-                        ({employee.reviewsCount} 212 Reviews)
+                        ({employee?.totalReviews} Reviews)
                     </p>
                 </div>
 
@@ -99,30 +101,16 @@ const EmployeeCard = ({
                 </div>
             </div>
 
-            {showReviews && (
-                <div className="flex flex-col w-full mx-5 ">
-                    <div className="flex items-center mb-1">
-                        <span className="text-[14px] font-medium text-heading mr-2">
-                            8
-                        </span>
-                        <p className="text-[14px] text-grey">via Referral</p>
-                    </div>
-                    <div className="flex items-center mb-1">
-                        <span className="text-[14px] font-medium text-heading mr-2">
-                            2
-                        </span>
-                        <p className="text-[14px] text-grey">
-                            via Resume Review
-                        </p>
-                    </div>
-                    <div className="flex items-center">
-                        <span className="text-[14px] font-medium text-heading mr-2">
-                            2
-                        </span>
-                        <p className="text-[14px] text-grey">
-                            via Interview Prep
-                        </p>
-                    </div>
+             {showReviews && (
+                <div className="flex flex-col w-full mx-5">
+                    {employee?.services?.map((service) => (
+                        <div className="flex items-center mb-1" key={service?.title}>
+                            <span className="text-[14px] font-medium text-heading mr-2">
+                                {service?.reviewsCount}
+                            </span>
+                            <p className="text-[14px] text-grey">via {service?.title}</p>
+                        </div>
+                    ))}
                 </div>
             )}
             {!showReviews && (
@@ -130,41 +118,23 @@ const EmployeeCard = ({
                     className="flex flex-wrap   w-full gap-4 mb-4"
                     onClick={() => onClick(employee)}
                 >
-                    <div className="group pb-[16px] pt-[16px] pl-[16px] flex-1 bg-primary border border-gray-300 rounded-lg  p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
-                        <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
-                            Referral
-                        </h5>
-                        <p className="text-sm text-grey truncate group-hover:text-primary">
-                            Video screening required
-                        </p>
-                        <p className="text-sm text-heading truncate group-hover:text-primary">
-                            $20.00
-                        </p>
-                    </div>
-
-                    <div className="group pb-[16px] pt-[16px] pl-[16px] flex-1 bg-primary border border-gray-300 rounded-lg p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
-                        <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
-                            Resume Review
-                        </h5>
-                        <p className="text-sm text-grey truncate group-hover:text-primary">
-                            Video screening required
-                        </p>
-                        <p className="text-sm text-heading truncate group-hover:text-primary">
-                            $40.00
-                        </p>
-                    </div>
-
-                    <div className="group flex-1 pb-[16px] pt-[16px] pl-[16px] bg-primary border border-gray-300 rounded-lg  p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between">
-                        <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
-                            Interview Prep
-                        </h5>
-                        <p className="text-sm text-grey truncate group-hover:text-primary">
-                            Video screening required
-                        </p>
-                        <p className="text-sm text-heading truncate group-hover:text-primary">
-                            $50.00
-                        </p>
-                    </div>
+                 {employee?.services.map((service) => (
+                        <div
+                            key={service.title}
+                            className="group pb-[16px] pt-[16px] pl-[16px] flex-1 bg-primary border border-gray-300 rounded-lg p-2 cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between"
+                            onClick={() => onClick(employee)}
+                        >
+                            <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
+                                {service?.title}
+                            </h5>
+                            <p className="text-sm text-grey truncate group-hover:text-primary">
+                                {service?.description}
+                            </p>
+                            <p className="text-sm text-heading truncate group-hover:text-primary">
+                                ${service?.price?.toFixed(2)}
+                            </p>
+                        </div>
+                    ))}
                 </div>
             )}
         </div>

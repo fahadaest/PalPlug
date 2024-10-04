@@ -66,6 +66,9 @@ const initialState = {
         { name: 'Hatch', image: Hatch },
         { name: 'Abstract', image: Abstract },
     ],
+    jobFunctions: ['Product Design', 'Software Development', 'Systems Engineering'],
+    priceRanges: ['$0-$20', '$0-$30', '$0-$40'],
+    ratings: ['4.0-5.0', '4.5-5.0', '5.0'],
     companyStyles: {
         Netflix: 'hover:bg-companies-netflix-black',
         Google: 'hover:bg-companies-google-blue',
@@ -137,7 +140,9 @@ const getCompaniesSlice = createSlice({
         // TODO: needed in furure (APIs)
     },
 });
-
+export const selectJobFunctions = (state) => state.companies.jobFunctions;
+export const selectPriceRanges = (state) => state.companies.priceRanges;
+export const selectRatings = (state) => state.companies.ratings;
 export const selectCompanies = (state) => state.companies.companies;
 export const selectOtherCompanies = (state) => state.companies.otherCompanies;
 export const selectCompanyStyles = (state) => state.companies.companyStyles;
