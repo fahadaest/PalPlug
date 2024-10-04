@@ -62,11 +62,11 @@ const EmployeeDetails = () => {
                             About this package
                         </h6>
                         <p className="text-sm text-grey30 mb-4">
-                            Employee referral to Slack. Video call required to
+                            Employee referral to {displayName}. Video call required to
                             determine if candidate is a good fit for the
                             position. Once accepted, you will receive a referral
                             confirmation (You are not guaranteed to receive an
-                            offer from Slack).
+                            offer from {displayName}).
                         </p>
                         <div className="flex items-center mb-4">
                             <Image
@@ -145,8 +145,8 @@ const EmployeeDetails = () => {
                             </h2>
                             <p className="text-sm font-lightbold text-text-heading">
                                 If you’re looking to land an amazing job of your
-                                dreams at Slack, I’m the person that gives you
-                                the best shot. I have been at Slack for 4 years
+                                dreams at {displayName}, I’m the person that gives you
+                                the best shot. I have been at {displayName} for 4 years
                                 and have built a great reputation in the
                                 partnership team and a referral from me will
                                 carry huge weight. I’ve gotten 12 people hired
