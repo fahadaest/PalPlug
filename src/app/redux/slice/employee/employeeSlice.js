@@ -18,6 +18,7 @@ const initialState = {
             referrals: 10,
             interviews: 20,
             image: MaleImg,
+            about: "Whatever the role, I know that I'll always stay true to my favorite Haas School of Business defining principle ~ Student Always.",
             services: [
                 {
                     title: 'Referral',
@@ -52,6 +53,7 @@ const initialState = {
             referrals: 8,
             interviews: 15,
             image: FemaleImg,
+            about: "Whatever the role, I know that I'll always stay true to my favorite Haas School of Business defining principle ~ Student Always.",
             services: [
                 {
                     title: 'Referral',
@@ -86,6 +88,7 @@ const initialState = {
             referrals: 8,
             interviews: 15,
             image: FemaleImg2,
+            about: "Whatever the role, I know that I'll always stay true to my favorite Haas School of Business defining principle ~ Student Always.",
             services: [
                 {
                     title: 'Referral',

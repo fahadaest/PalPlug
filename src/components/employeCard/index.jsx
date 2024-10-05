@@ -56,12 +56,10 @@ const EmployeeCard = ({
             {showAbout && (
                 <div className="w-full mt-6">
                     <h3 className="text-sm font-semibold mb-2">
-                        About {employee.name}
+                        About {employee?.name}
                     </h3>
                     <p className="text-sm text-gray-700">
-                        Whatever the role, I know that I'll always stay true to
-                        my favorite Haas School of Business defining principle ~
-                        Student Always.
+                       {employee?.about}
                     </p>
                 </div>
             )}
