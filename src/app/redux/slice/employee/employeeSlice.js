@@ -117,7 +117,6 @@ const employeeSlice = createSlice({
     name: 'employees',
     initialState,
     reducers: {
-        //TODO:ADDED WITH APIS
     },
 });
 
