@@ -25,6 +25,7 @@ const initialState = {
                     description: 'Video screening required',
                     price: 20.00,
                     reviewsCount: 3,
+                    package:"Employee referral to Netflix. Video call required to determine if candidate is a good fit for the position. Once accepted, you will receive a referral confirmation (You are not guaranteed to receive an offer from Netflix)."
                 },
                 {
                     title: 'Resume Review',
@@ -60,6 +61,7 @@ const initialState = {
                     description: 'Video screening required',
                     price: 20.00,
                     reviewsCount: 7,
+                      package:"Employee referral to Netflix. Video call required to determine if candidate is a good fit for the position. Once accepted, you will receive a referral confirmation (You are not guaranteed to receive an offer from Netflix)."
                 },
                 {
                     title: 'Resume Review',
@@ -95,6 +97,7 @@ const initialState = {
                     description: 'Video screening required',
                     price: 20.00,
                     reviewsCount: 8,
+                      package:"Employee referral to Netflix. Video call required to determine if candidate is a good fit for the position. Once accepted, you will receive a referral confirmation (You are not guaranteed to receive an offer from Netflix)."
                 },
                 {
                     title: 'Resume Review',
