@@ -18,12 +18,14 @@ const initialState = {
             referrals: 10,
             interviews: 20,
             image: MaleImg,
+            about: "Whatever the role, I know that I'll always stay true to my favorite Haas School of Business defining principle ~ Student Always.",
             services: [
                 {
                     title: 'Referral',
                     description: 'Video screening required',
                     price: 20.00,
                     reviewsCount: 3,
+                    package:"Employee referral to Netflix. Video call required to determine if candidate is a good fit for the position. Once accepted, you will receive a referral confirmation (You are not guaranteed to receive an offer from Netflix)."
                 },
                 {
                     title: 'Resume Review',
@@ -52,12 +54,14 @@ const initialState = {
             referrals: 8,
             interviews: 15,
             image: FemaleImg,
+            about: "Whatever the role, I know that I'll always stay true to my favorite Haas School of Business defining principle ~ Student Always.",
             services: [
                 {
                     title: 'Referral',
                     description: 'Video screening required',
                     price: 20.00,
                     reviewsCount: 7,
+                      package:"Employee referral to Netflix. Video call required to determine if candidate is a good fit for the position. Once accepted, you will receive a referral confirmation (You are not guaranteed to receive an offer from Netflix)."
                 },
                 {
                     title: 'Resume Review',
@@ -86,12 +90,14 @@ const initialState = {
             referrals: 8,
             interviews: 15,
             image: FemaleImg2,
+            about: "Whatever the role, I know that I'll always stay true to my favorite Haas School of Business defining principle ~ Student Always.",
             services: [
                 {
                     title: 'Referral',
                     description: 'Video screening required',
                     price: 20.00,
                     reviewsCount: 8,
+                      package:"Employee referral to Netflix. Video call required to determine if candidate is a good fit for the position. Once accepted, you will receive a referral confirmation (You are not guaranteed to receive an offer from Netflix)."
                 },
                 {
                     title: 'Resume Review',
@@ -114,7 +120,6 @@ const employeeSlice = createSlice({
     name: 'employees',
     initialState,
     reducers: {
-        //TODO:ADDED WITH APIS
     },
 });
 

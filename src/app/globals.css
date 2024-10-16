@@ -6,6 +6,9 @@
     filter: none;
     transition: filter 0.3s ease-in-out;
 }
+.group:hover .logo-white-hover {
+    filter: brightness(0) invert(1);
+}
 
 .bg-primary:hover .logo-white-hover {
     filter: brightness(0) invert(1);

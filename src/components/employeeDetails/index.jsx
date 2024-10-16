@@ -40,6 +40,7 @@ const EmployeeDetails = () => {
         : 'bg-gray-800';
 
     const companyLogo = company?.image;
+    const activeService = employee?.services?.find((service) => service?.title === activeTab);
 
     useEffect(() => {
         if (!employee) {
@@ -56,17 +57,13 @@ const EmployeeDetails = () => {
                             <h5 className="text-lg font-semibold">
                                 Standard Employee Referral
                             </h5>
-                            <p className="text-lg ">$20.00</p>
+                            <p className="text-lg ">${activeService?.price?.toFixed(2)}</p>
                         </div>
                         <h6 className="text-base font-lightbold mb-2">
                             About this package
                         </h6>
                         <p className="text-sm text-grey30 mb-4">
-                            Employee referral to Slack. Video call required to
-                            determine if candidate is a good fit for the
-                            position. Once accepted, you will receive a referral
-                            confirmation (You are not guaranteed to receive an
-                            offer from Slack).
+                           {activeService?.package}
                         </p>
                         <div className="flex items-center mb-4">
                             <Image
@@ -145,8 +142,8 @@ const EmployeeDetails = () => {
                             </h2>
                             <p className="text-sm font-lightbold text-text-heading">
                                 If you’re looking to land an amazing job of your
-                                dreams at Slack, I’m the person that gives you
-                                the best shot. I have been at Slack for 4 years
+                                dreams at {displayName}, I’m the person that gives you
+                                the best shot. I have been at {displayName} for 4 years
                                 and have built a great reputation in the
                                 partnership team and a referral from me will
                                 carry huge weight. I’ve gotten 12 people hired
