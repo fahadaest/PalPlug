@@ -18,6 +18,7 @@ import {
 
 const EmployeeDetails = () => {
     const [activeTab, setActiveTab] = useState('Referral');
+    const user = useSelector((state) => state.user.user);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { name, employeeId } = useParams();
     const companies = useSelector(selectCompanies);
@@ -92,7 +93,7 @@ const EmployeeDetails = () => {
                             Select Package
                         </button>
                         <SignInModal
-                            isOpen={isModalOpen}
+                        isOpen={isModalOpen && !user}
                             onClose={() => setIsModalOpen(false)}
                         />
                         <p className="text-sm text-center mt-4">Contact {employee?.name}</p>

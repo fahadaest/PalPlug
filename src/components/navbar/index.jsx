@@ -238,7 +238,7 @@ const Navbar = () => {
       )}
           
 
-            <SignInModal isOpen={isModalOpen} onClose={handleModalClose} ref={modalRef} />
+            <SignInModal isOpen={isModalOpen && !user} onClose={handleModalClose} ref={modalRef} />
         </div>
     );
 };

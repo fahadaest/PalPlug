@@ -138,7 +138,7 @@ const Landing = () => {
                     })}
                 </div>
 
-            <SignInModal isOpen={isModalOpen} onClose={handleModalClose} />
+            <SignInModal isOpen={isModalOpen && !user} onClose={handleModalClose} />
         </div>
     );
 };
