@@ -32,12 +32,14 @@ const initialState = {
                     description: 'Video screening required',
                     price: 40.00,
                     reviewsCount: 9,
+                    package: "Employee will schedule a 30 min call to give feedback on your attached resume and how to improve it. This package comes with one additional follow-up review."
                 },
                 {
                     title: 'Interview Prep',
                     description: 'Video screening required',
                     price: 50.00,
                     reviewsCount: 2,
+                    package:"Employee will schedule a 30 min call to help you prepare for an upcoming interview."
                 },
             ],
         },

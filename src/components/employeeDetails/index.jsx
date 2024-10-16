@@ -49,8 +49,8 @@ const EmployeeDetails = () => {
     }, [employee]);
 
     const renderTabContent = () => {
-        switch (activeTab) {
-            case 'Referral':
+        if (!activeService) return null;
+
                 return (
                     <div className="p-4">
                         <div className="flex justify-between mb-4 text-base text-text-heading">
@@ -95,17 +95,11 @@ const EmployeeDetails = () => {
                             isOpen={isModalOpen}
                             onClose={() => setIsModalOpen(false)}
                         />
-                        <p className="text-sm text-center mt-4">Contact</p>
+                        <p className="text-sm text-center mt-4">Contact {employee?.name}</p>
                     </div>
                 );
-            case 'Resume Review':
-                return <div className="p-4">Resume Review Content</div>;
-            case 'Interview Prep':
-                return <div className="p-4">Interview Prep Content</div>;
-            default:
-                return null;
         }
-    };
+    
 
     return (
         <>
