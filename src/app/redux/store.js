@@ -13,7 +13,7 @@ export const store = configureStore({
     employees: employeesReducer,
     user: userReducer,
     countries: countriesReducer,
-    services: serviceSlice.reducer, 
+    services: serviceSlice, 
   },
 });
 
