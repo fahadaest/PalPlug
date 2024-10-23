@@ -32,3 +32,10 @@ export const fetchCountries = createAsyncThunk(
         return getRequest(getRoute('countriesList'));
     }
 );
+
+export const fetchCompanies = createAsyncThunk(
+  'fetchCompanies',
+  async () => {
+    return getRequest(getRoute('getCompanies'));
+  }
+);

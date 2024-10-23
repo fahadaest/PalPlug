@@ -10,7 +10,6 @@ import SignInModal from '@/components/signInModal';
 import { selectEmployees } from '@/app/redux/slice/employee/employeeSlice';
 import { useSelector } from 'react-redux';
 import {
-    selectCompanies,
     selectCompanyStyles,
     selectLogoClassNames,
     selectOtherCompanies,
@@ -21,11 +20,10 @@ const EmployeeDetails = () => {
     const user = useSelector((state) => state.user.user);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { name, employeeId } = useParams();
-    const companies = useSelector(selectCompanies);
-    const otherCompanies = useSelector(selectOtherCompanies);
     const companyStyles = useSelector(selectCompanyStyles);
     const logoClassNames = useSelector(selectLogoClassNames);
     const employees = useSelector(selectEmployees);
+    const companies = useSelector((state)=>state.companies.companies);
 
     const employee = employees?.find(
         (emp) => emp?.id.toString() === employeeId
@@ -33,14 +31,13 @@ const EmployeeDetails = () => {
 
     const displayName =
         name?.charAt(0)?.toUpperCase() + name.slice(1)?.toLowerCase();
-    const company = [...companies, ...otherCompanies]?.find(
-        (comp) => comp.name === displayName
+    const company = companies?.find(
+        (comp) => comp?.name === displayName
     );
     const bgColor = companyStyles[company?.name]
         ? companyStyles[company?.name]?.replace('hover:', '')
         : 'bg-gray-800';
 
-    const companyLogo = company?.image;
     const activeService = employee?.services?.find((service) => service?.title === activeTab);
 
     useEffect(() => {
@@ -109,13 +106,19 @@ const EmployeeDetails = () => {
             >
                 <div className="w-full flex items-center justify-center">
                     <div className="flex items-center space-x-6">
-                        <Image
-                            src={companyLogo}
-                            alt={displayName}
-                            width={40}
-                            height={40}
-                            className={`object-contain ${logoClassNames[displayName] || ''}`}
-                        />
+                    {company?.image ? (
+                    <Image
+                        src={company?.image}
+                        alt={displayName}
+                        width={40}
+                        height={40}
+                    //TODO: AS THIS CLASS WAS ADDED TP WHITE OUTLINE OF COMPANY LOGO AS GITHUB ETC CAN BE ADD IN FUTURE IF IMAGE OUTLINE IS NOT WHITE FROM BE SIDE className={`object-contain ${logoClassNames[displayName] || ''}`}
+                    />
+                ) : (
+                    <div className="w-[24px] h-[24px] bg-gray-300 rounded-full flex items-center justify-center">
+                        <span className="text-white">N/A</span> 
+                    </div>
+                )}
                         <h1 className="text-primary text-[42px] font-semibold">
                             {displayName}
                         </h1>
