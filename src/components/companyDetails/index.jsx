@@ -7,8 +7,6 @@ import { useEffect, useState } from 'react';
 import EmployeeCard from '../employeCard';
 import {
     selectCompanyStyles,
-    selectCompanies,
-    selectOtherCompanies,
     selectLogoClassNames,
     selectJobFunctions,
     selectPriceRanges,
@@ -22,8 +20,6 @@ import Drawar from '@/assets/images/Drawer.svg';
 const CompanyDetails = () => {
     const router = useRouter();
     const { name } = useParams();
-    const companies = useSelector(selectCompanies);
-    const otherCompanies = useSelector(selectOtherCompanies);
     const companyStyles = useSelector(selectCompanyStyles);
     const employees = useSelector(selectEmployees);
     const logoClassNames = useSelector(selectLogoClassNames);
@@ -32,13 +28,13 @@ const CompanyDetails = () => {
     const [selectedPrice, setSelectedPrice] = useState('Price');
     const [selectedHighestRated, setSelectedHighestRated] =
         useState('Highest Rated');
+        const companies = useSelector((state)=>state.companies.companies);
 
     const displayName =
         name?.charAt(0)?.toUpperCase() + name.slice(1)?.toLowerCase();
-    const company = [...companies, ...otherCompanies]?.find(
-        (comp) => comp.name === displayName
+    const company = companies?.find(
+        (comp) => comp?.name === displayName
     );
-    const companyLogo = company?.image;
 
     const bgColor = companyStyles[company?.name]
         ? companyStyles[company?.name]?.replace('hover:', '')
@@ -101,7 +97,6 @@ const CompanyDetails = () => {
         setOpenModal(null);
         setOpenDropdown(null);
     };
-
     return (
         <>
             <div
@@ -109,13 +104,19 @@ const CompanyDetails = () => {
             >
                 <div className="w-full max-w-[1440px] flex items-center justify-center">
                     <div className="flex items-center space-x-6">
-                        <Image
-                            src={companyLogo}
-                            alt={displayName}
-                            width={40}
-                            height={40}
-                            className={`object-contain ${logoClassNames[displayName] || ''}`}
-                        />
+                    {company?.image ? (
+                    <Image
+                        src={company?.image}
+                        alt={company?.name}
+                        width={40}
+                        height={40}
+                    //TODO: AS THIS CLASS WAS ADDED TP WHITE OUTLINE OF COMPANY LOGO AS GITHUB ETC CAN BE ADD IN FUTURE IF IMAGE OUTLINE IS NOT WHITE FROM BE SIDE className={`object-contain ${logoClassNames[displayName] || ''}`}
+                    />
+                ) : (
+                    <div className="w-[24px] h-[24px] bg-gray-300 rounded-full flex items-center justify-center">
+                        <span className="text-white">N/A</span> 
+                    </div>
+                )}
                         <h1 className="text-primary text-[42px] font-semibold">
                             {displayName}
                         </h1>

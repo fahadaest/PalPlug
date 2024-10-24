@@ -10,6 +10,7 @@ const ROUTES = {
     userRoles: 'users/user-roles/',
     submitProfile: 'user/submitProfile/',
     submitAllServices: 'services/submitAllServices/',
+    getCompanies:"companies/companies-list/"
      };
 
 export const getRoute = (routeKey) => ROUTES[routeKey];
