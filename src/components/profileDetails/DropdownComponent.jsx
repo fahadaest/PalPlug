@@ -49,8 +49,11 @@ const DropdownComponent = ({
         ) : (
           label
         )}
-        <RotatingIcon style={{ transform: `rotate(${isOpen ? '180deg' : '0deg'})` }} />
+        <RotatingIcon
+          className="transition-transform" 
+          style={{ transition: 'transform 0.1s ease', transform: `rotate(${isOpen ? '180deg' : '0deg'})` }} />
       </button>
+
       {isOpen && (
         <div className="dropdown bg-white border rounded-md w-full h-[200px] overflow-y-auto " style={{ maxHeight: '200px', width }}>
           {options.length > 0 ? (
