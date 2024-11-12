@@ -19,7 +19,6 @@ const Landing = () => {
     const companyStyles = useSelector(selectCompanyStyles);
     const whiteRoundedImges = useSelector(selectWhiteRoundedImges);
     const user = useSelector((state) => state.user.user); 
-
     const [isModalOpen, setModalOpen] = useState(false);
 
     const handleCompanyClick = (companyName) => {
@@ -40,11 +39,11 @@ const Landing = () => {
                 <div className="flex flex-col items-center lg:items-start text-text-heading text-center lg:text-left">
                     <h1 className="text-2xl sm:text-3xl md:text-[30px] font-semibold leading-[39px]">
                         Get a referral to your dream company or get paid
-                        <br className="hidden lg:block" />
                         to help others get there
                     </h1>
                     <p className="text-base sm:text-lg mt-4 lg:text-[18px] lg:font-normal">
                         Sign up as a plug or candidate to get started
+                        <br className="hidden lg:block" />
                     </p>
                 </div>
                 <div className="flex justify-center lg:justify-end w-full lg:w-auto">
@@ -69,7 +68,7 @@ const Landing = () => {
                         return (
                             <div
                                 key={index}
-                                className={`relative bg-[#FFFFFF]   shadow-lg rounded-[10px] flex items-center p-4 cursor-pointer transition-colors duration-300 group h-[76px]  ${bgClass}`}
+                                className={`relative bg-[#FFFFFF] shadow-lg rounded-[10px] flex items-center p-4 transition-colors duration-300 group h-[76px]  ${bgClass}`}
                                 onClick={() =>
                                     handleCompanyClick(company?.name)
                                 }

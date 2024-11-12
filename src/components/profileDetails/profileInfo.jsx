@@ -51,6 +51,7 @@ const ProfileInfo = ({ userId, displayName }) => {
   };
 
  const handleFinish = (event) => {
+  dispatch(setCurrentStep(1));
   event.preventDefault();
   event.stopPropagation();
   
@@ -62,15 +63,11 @@ const ProfileInfo = ({ userId, displayName }) => {
     professionalInfo,
   };
   try {
-    // Dispatch form data submission
     dispatch(submitProfile(formData));
-
-    // Conditional navigation based on isplugroute state
     if (isPlugRoute) {
       router.push('/servicesselection');
       setServicesSelectionVisible(true);
     } else {
-      // If isplugroute is false, redirect to home route
       router.push('/');
       dispatch(setPlugRoute(true)); 
     }
@@ -108,25 +105,25 @@ const ProfileInfo = ({ userId, displayName }) => {
               <div className="w-full border"></div>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-4 md:gap-12 pt-4 text-[14px]">
-              <div className="w-full md:w-1/2">
-                <h5 className="text-[14px] font-semibold">First Name</h5>
+            <div className="flex flex-col md:flex-row gap-20 pt-4 text-[14px]">
+              <div className=" w-full md:w-1/2">
+                <h5 className="text-[14px] font-semibold text-[#2F2F2F]">First Name</h5>
                 <input
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="h-[42px] focus:border-blue-500 focus:outline-none w-full border rounded-lg p-2"
+                  className="focus:outline-none w-[328px] h-[48px] border-[1px] p-[12px] rounded-[8px] gap-[10px] text-[#2F2F2F]"
                   required
                 />
               </div>
 
               <div className="w-full md:w-1/2">
-                <h5 className="text-[14px] font-semibold">Last Name</h5>
+                <h5 className="text-[14px] font-semibold text-[#2F2F2F]">Last Name</h5>
                 <input
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="h-[42px] focus:border-blue-500 focus:outline-none w-full border rounded-lg p-2"
+                 className="focus:outline-none w-[328px] h-[48px] border-[1px] p-[12px] rounded-[8px] gap-[10px] text-[#2F2F2F]"
                   required
                 />
               </div>
@@ -155,11 +152,11 @@ const ProfileInfo = ({ userId, displayName }) => {
 </div>
 
             <div className="pt-4">
-              <h5 className="text-[14px] mb-1 font-semibold">Description/Bio</h5>
+              <h5 className="text-[14px] mb-1 font-semibold text-[#2F2F2F]">Description/Bio</h5>
+               
               <textarea
-                value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className="border rounded-md h-[140px] md:w-[700px] w-full p-3 text-[16px] text-[#939393] placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+                className="text-black border rounded-md h-[140px] md:w-[700px] w-full p-3 text-[16px]  placeholder-gray-500 focus:outline-none"
                 placeholder="Add description"
               />
 

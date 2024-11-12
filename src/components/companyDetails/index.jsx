@@ -74,6 +74,18 @@ const CompanyDetails = () => {
 
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    const slideUpStyle = {
+        transform: 'translateY(0)',
+        opacity: 1,
+        transition: 'transform 0.8s ease, opacity 0.8s ease',
+    };
+    
+    const slideDownStyle = {
+        transform: 'translateY(100%)',
+        opacity: 0,
+        transition: 'transform 0.3s ease, opacity 0.3s ease',
+    };
     const handlebuttonClick = (id) => {
         if (isMobile) {
             toggleModal(id);
@@ -292,16 +304,17 @@ const CompanyDetails = () => {
                 </div>
             </div>
             {openModal && isMobile && (
-                <div className="fixed inset-0 bg-[#F2F2F7B2] bg-opacity-50 flex justify-center items-end z-50">
-                    <div className="bg-white w-full  max-w-md rounded-l-[8px] rounded-r-[8px]  p-4">
-                        <div className="flex justify-center items-center">
-                            <Image
-                                src={Drawar}
-                                alt={Drawar}
-                                width={36}
-                                height={4}
-                            />
-                        </div>
+               <div className="fixed inset-0 bg-[#F2F2F7B2] bg-opacity-50 flex justify-center items-end z-50">
+               <div className="bg-white w-full max-w-md rounded-l-[8px] rounded-r-[8px] p-4"
+                   style={openModal ? slideUpStyle : slideDownStyle}> {/* Ensure the style is applied correctly here */}
+                   <div className="flex justify-center items-center">
+                       <Image
+                           src={Drawar}
+                           alt={Drawar}
+                           width={36}
+                           height={4}
+                       />
+                   </div>
 
                         {openModal === 'dropdownJobFunction' && (
                             <>

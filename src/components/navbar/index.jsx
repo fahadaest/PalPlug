@@ -13,6 +13,9 @@ import SignInModal from '@/components/signInModal/index';
 import StepProgressBar from './StepProgressBar';
 import Search from '@/assets/images/Search.svg';
 import ServicesProgressBar from './ServicesProgressBar';
+import { setCurrentStep, setServicesCurrentStep } from '@/app/redux/slice/user/userSlice';
+
+
 const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
     ssr: false,
 });
@@ -33,6 +36,9 @@ const Navbar = () => {
     const dropdownRef = useRef(null);
     const modalRef = useRef(null);
 
+    const handleStepClick = (step) => {
+        dispatch(setServicesCurrentStep(step));  // Dispatching Redux action
+    };
     useEffect(() => {
         if (user && !hasLoggedIn) {
             setHasLoggedIn(true);  
@@ -41,12 +47,9 @@ const Navbar = () => {
     }, [user, hasLoggedIn]);
 
     useEffect(() => {
-        // Check for mobile view
         const handleResize = () => {
-            setIsMobile(window.innerWidth < 768); // Mobile view is less than 768px (md breakpoint)
+            setIsMobile(window.innerWidth < 768); 
         };
-
-        // Set initial mobile view state
         handleResize();
 
         window.addEventListener('resize', handleResize);
@@ -61,14 +64,14 @@ const Navbar = () => {
             e.stopPropagation();
             router.push('/');
         }
+        dispatch(setCurrentStep(1));
+        dispatch(setServicesCurrentStep(1));
     };
 
     const toggleDropdown = () => {
-        // Only toggle the dropdown in mobile view
         if (isMobile) {
             setDropdownOpen(prevState => {
                 const newState = !prevState;
-                console.log(newState ? 'Dropdown opened' : 'Dropdown closed'); // Log state
                 return newState;
             });
         }
@@ -233,7 +236,7 @@ const Navbar = () => {
             </nav>
             {isServicesSelectionPage && (
               
-              <ServicesProgressBar currentStepservices={currentStepservices} />
+              <ServicesProgressBar currentStepservices={currentStepservices}   onStepClick={handleStepClick} />
        
       )}
           
