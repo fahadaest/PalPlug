@@ -14,7 +14,7 @@ const OrderDetails = () => {
     <div className="h-[92px] flex flex-col justify-start items-start gap-[16px]">
         <div className="h-[92px] flex flex-col justify-start items-start gap-[24px]">
             <div className=" flex justify-center items-center gap-[24px]">
-                <img className="border w-[60px] h-[60px] rounded-full"/>
+                <img className="border w-[60px] h-[60px] rounded-full"   alt=""/>
                 <div className="flex justify-center items-center gap-[272px]">
                     <div className="flex justify-start items-start gap-[300px]">
                         <div className="flex flex-col justify-start items-start gap-[8px]">
