@@ -16,7 +16,7 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
   const [isOtpModalOpen, setIsOtpModalOpen] = useState(false); 
   const [selectedCountry, setSelectedCountry] = useState('');
   const [isInputFilled, setIsInputFilled] = useState(false); 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Added state for dropdown
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
 
   const dispatch = useDispatch();
   const { countries, loading } = useSelector((state) => state.countries);
@@ -147,12 +147,11 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
   )}
 </div>
 
-
-              <div className="mb-6">
-                <label className="block text-[#2F2F2F] font-[600] text-[14px] mb-2" htmlFor="phone">
+                 <div className="mb-6">
+                 <label className="block text-[#2F2F2F] font-[600] text-[14px] mb-2" htmlFor="phone">
                   Enter your Phone Number
-                </label>
-                <input
+                 </label>
+                 <input
                   type="tel"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
