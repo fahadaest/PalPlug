@@ -6,6 +6,7 @@
     filter: none;
     transition: filter 0.3s ease-in-out;
 }
+
 .group:hover .logo-white-hover {
     filter: brightness(0) invert(1);
 }
@@ -25,4 +26,23 @@
 
 .tesla-card:hover {
     background-color: rgba(232, 33, 39, 0.2);
+}
+
+.no-hover-effects .group:hover {
+    background-color: initial;
+    color: initial;
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+.modal-animation {
+    animation: slideUp 0.3s ease-out;
 }

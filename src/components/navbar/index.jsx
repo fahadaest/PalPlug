@@ -109,7 +109,7 @@ const Navbar = () => {
             <nav className="bg-white p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px]">
                 <div className="flex  items-center md:space-x-12 flex-grow xs:w-[390px] ">
                     <div
-                        className=" relative w-10 h-6 sm:w-24 sm:h-8 cursor-pointer"
+                        className="relative w-10 h-6 sm:w-24 sm:h-8 cursor-pointer"
                         onClick={handleClick}
                     >
                         <Image
@@ -128,12 +128,12 @@ const Navbar = () => {
                         />
                     </div>
                     {isProfilePage && (
-                        <div className=" flex items-center justify-end w-full max-w-xl ml-auto h-full">
+                        <div className="flex items-center justify-end w-full max-w-xl ml-auto h-full">
                             <StepProgressBar currentStep={currentStep} className="w-full h-full" />
                         </div>
                     )}
                     {!isProfilePage &&  (
-                        <div className="relative  max-w-[452px] mx-2">
+                        <div className="relative max-w-[452px] mx-2">
                             <Image
                                 src={Search}
                                 alt="Search Icon"
@@ -142,7 +142,7 @@ const Navbar = () => {
                             <input
                                 type="text"
                                 placeholder="Search by company"
-                                className="pl-[22px] p-2 rounded-[4px] placeholder-[#555555] border border-[#F0F0F0] text-[10px] lg:text-lg lg:pl-9 focus:border-blue-500 focus:outline-none w-full max-w-full "
+                                className="pl-[22px] h-[40px] p-2 rounded-[4px] placeholder-[#555555] border border-[#F0F0F0] text-[10px] lg:text-lg lg:pl-9 focus:border-blue-500 focus:outline-none w-full max-w-full "
 
                                 />
                         </div>
@@ -150,7 +150,7 @@ const Navbar = () => {
                 </div>
 
                 {!isProfilePage &&  (
-                    <div className="h-[36px]   xs:w-[116px]  xs:gap-[16px]  md:w-[252px] md:gap-[8px]  flex items-center  flex-shrink-0 ">
+                    <div className="h-[36px]  xs:w-[116px]  xs:gap-[16px]  md:w-[252px] md:gap-[8px]  flex items-center  flex-shrink-0 ">
                         {user ? (
                             <>
                                 <div className=' flex w-[72px]  xs:gap-4'>
@@ -167,7 +167,6 @@ const Navbar = () => {
                                     />
                                     </div>
                                 <div className="relative flex items-center  space-x-1">
-                                    {/* User Image visible on both mobile and desktop */}
                                     <Image
                                         src={UserImg}
                                         alt="User Image"
@@ -185,14 +184,13 @@ const Navbar = () => {
                                         </div>
                                     )}
 
-                                    {/* Dropdown trigger for desktop view */}
                                     <div className="hidden  md:flex items-center">
                                         <span className="text-heading font-semibold truncate max-w-[100px] sm:max-w-[120px] md:max-w-[100px] text-xs sm:text-sm md:text-base">
                                             {user.displayName}
                                         </span>
                                         <div className="relative " ref={dropdownRef}>
                                             <button
-                                                onClick={() => setDropdownOpen(!isDropdownOpen)} // Desktop dropdown trigger
+                                                onClick={() => setDropdownOpen(!isDropdownOpen)} 
                                                 className={`bg-blue-100 hover:bg-blue-200 focus:ring-2  focus:outline-none  focus:ring-blue-300 font-medium rounded-full  ml-2 w-[16px] h-[16px]  inline-flex items-center justify-center transition-colors duration-300 ${isDropdownOpen ? 'bg-blue-200' : 'bg-blue-100'} ${isDropdownOpen ? 'active:bg-blue-300' : ''} hidden md:block`}
                                                 type="button"
                                             >
@@ -222,7 +220,7 @@ const Navbar = () => {
                         ) : (
                             <button
                                 onClick={handleLoginClick}
-                                className="bg-[#005382] text-white px-4 py-2 rounded ml-auto"
+                                className="bg-[#005382] flex justify-center text-[14px] font-[600] items-center h-[34px] text-primary p-[10px] rounded-[4px] ml-auto"
                                 >
                                 Log in
                             </button>
