@@ -7,8 +7,6 @@ import { useEffect, useState } from 'react';
 import EmployeeCard from '../employeCard';
 import {
     selectCompanyStyles,
-    selectCompanies,
-    selectOtherCompanies,
     selectLogoClassNames,
     selectJobFunctions,
     selectPriceRanges,
@@ -22,8 +20,6 @@ import Drawar from '@/assets/images/Drawer.svg';
 const CompanyDetails = () => {
     const router = useRouter();
     const { name } = useParams();
-    const companies = useSelector(selectCompanies);
-    const otherCompanies = useSelector(selectOtherCompanies);
     const companyStyles = useSelector(selectCompanyStyles);
     const employees = useSelector(selectEmployees);
     const logoClassNames = useSelector(selectLogoClassNames);
@@ -32,13 +28,13 @@ const CompanyDetails = () => {
     const [selectedPrice, setSelectedPrice] = useState('Price');
     const [selectedHighestRated, setSelectedHighestRated] =
         useState('Highest Rated');
+        const companies = useSelector((state)=>state.companies.companies);
 
     const displayName =
         name?.charAt(0)?.toUpperCase() + name.slice(1)?.toLowerCase();
-    const company = [...companies, ...otherCompanies]?.find(
-        (comp) => comp.name === displayName
+    const company = companies?.find(
+        (comp) => comp?.name === displayName
     );
-    const companyLogo = company?.image;
 
     const bgColor = companyStyles[company?.name]
         ? companyStyles[company?.name]?.replace('hover:', '')
@@ -74,18 +70,6 @@ const CompanyDetails = () => {
 
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
-    const slideUpStyle = {
-        transform: 'translateY(0)',
-        opacity: 1,
-        transition: 'transform 0.8s ease, opacity 0.8s ease',
-    };
-    
-    const slideDownStyle = {
-        transform: 'translateY(100%)',
-        opacity: 0,
-        transition: 'transform 0.3s ease, opacity 0.3s ease',
-    };
     const handlebuttonClick = (id) => {
         if (isMobile) {
             toggleModal(id);
@@ -113,7 +97,6 @@ const CompanyDetails = () => {
         setOpenModal(null);
         setOpenDropdown(null);
     };
-
     return (
         <>
             <div
@@ -121,13 +104,18 @@ const CompanyDetails = () => {
             >
                 <div className="w-full max-w-[1440px] flex items-center justify-center">
                     <div className="flex items-center space-x-6">
-                        <Image
-                            src={companyLogo}
-                            alt={displayName}
-                            width={40}
-                            height={40}
-                            className={`object-contain ${logoClassNames[displayName] || ''}`}
-                        />
+                    {company?.image ? (
+                    <Image
+                        src={company?.image}
+                        alt={company?.name}
+                        width={40}
+                        height={40}
+                    />
+                ) : (
+                    <div className="w-[24px] h-[24px] bg-gray-300 rounded-full flex items-center justify-center">
+                        <span className="text-white">N/A</span> 
+                    </div>
+                )}
                         <h1 className="text-primary text-[42px] font-semibold">
                             {displayName}
                         </h1>
@@ -304,137 +292,128 @@ const CompanyDetails = () => {
                 </div>
             </div>
             {openModal && isMobile && (
-               <div className="fixed inset-0 bg-[#F2F2F7B2] bg-opacity-50 flex justify-center items-end z-50">
-               <div className="bg-white w-full max-w-md rounded-l-[8px] rounded-r-[8px] p-4"
-                   style={openModal ? slideUpStyle : slideDownStyle}> {/* Ensure the style is applied correctly here */}
-                   <div className="flex justify-center items-center">
-                       <Image
-                           src={Drawar}
-                           alt={Drawar}
-                           width={36}
-                           height={4}
-                       />
-                   </div>
+    <div className="fixed inset-0 bg-[#F2F2F7B2] bg-opacity-50 flex justify-center items-end z-50">
+        <div className={`bg-white w-full max-w-md rounded-l-[8px] rounded-r-[8px] p-4 ${openModal ? 'modal-animation' : ''}`}>
+            <div className="flex justify-center items-center">
+                <Image
+                    src={Drawar}
+                    alt={Drawar}
+                    width={36}
+                    height={4}
+                />
+            </div>
 
-                        {openModal === 'dropdownJobFunction' && (
-                            <>
-                                <div className="flex justify-between items-center h-[48px] ">
-                                    <div></div>
-                                    <h2 className="text-[18px] font-[600]  text-[#373A36]">
-                                        Job Function
-                                    </h2>
-                                    <button
-                                        className="h-[24px] w-[24px] "
-                                        onClick={() => setOpenModal(null)}
-                                    >
-                                        <Image
-                                            src={Close}
-                                            alt={Close}
-                                            width={24}
-                                            height={24}
-                                        />
-                                    </button>
-                                </div>
-                                <ul>
-                                    {jobFunctions?.map((jobFunction, index) => (
-                                        <li key={index}>
-                                            <button
-                                                className="h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] font-[500]"
-                                                onClick={() =>
-                                                    handleSelection(
-                                                        'jobFunction',
-                                                        jobFunction
-                                                    )
-                                                }
-                                            >
-                                                {jobFunction}
-                                            </button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>
-                        )}
-                        {openModal === 'dropdownPrice' && (
-                            <>
-                                <div className="flex justify-between items-center h-[48px] ">
-                                    <div></div>
-
-                                    <h2 className="text-[18px] font-[600]  text-[#373A36]">
-                                        Price
-                                    </h2>
-                                    <button
-                                        className="h-[24px] w-[24px] "
-                                        onClick={() => setOpenModal(null)}
-                                    >
-                                        <Image
-                                            src={Close}
-                                            alt={Close}
-                                            width={24}
-                                            height={24}
-                                        />
-                                    </button>
-                                </div>
-                                <ul>
-                                    {priceRanges?.map((priceRange, index) => (
-                                        <li key={index}>
-                                            <button
-                                                className="h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] font-[500]"
-                                                onClick={() =>
-                                                    handleSelection(
-                                                        'price',
-                                                        priceRange
-                                                    )
-                                                }
-                                            >
-                                                {priceRange}
-                                            </button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>
-                        )}
-                        {openModal === 'dropdownHighestRated' && (
-                            <>
-                                <div className="flex justify-between items-center h-[48px] ">
-                                    <div></div>
-
-                                    <h2 className="text-[18px] font-[600]  text-[#373A36]">
-                                        Price
-                                    </h2>
-                                    <button
-                                        className="h-[24px] w-[24px] "
-                                        onClick={() => setOpenModal(null)}
-                                    >
-                                        <Image
-                                            src={Close}
-                                            alt={Close}
-                                            width={24}
-                                            height={24}
-                                        />
-                                    </button>
-                                </div>
-                                <ul>
-                                    {ratings?.map((rating, index) => (
-                                        <li key={index}>
-                                            <button
-                                                className="h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] font-[500]"
-                                                onClick={() =>
-                                                    handleSelection(
-                                                        'highestRated',
-                                                        rating
-                                                    )
-                                                }
-                                            >
-                                                {rating}
-                                            </button>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>
-                        )}
+            {openModal === 'dropdownJobFunction' && (
+                <>
+                    <div className="flex justify-between items-center h-[48px] ">
+                        <div></div>
+                        <h2 className="text-[18px] font-[600]  text-[#373A36]">
+                            Job Function
+                        </h2>
+                        <button
+                            className="h-[24px] w-[24px] "
+                            onClick={() => setOpenModal(null)}
+                        >
+                            <Image
+                                src={Close}
+                                alt={Close}
+                                width={24}
+                                height={24}
+                            />
+                        </button>
                     </div>
-                </div>
+                    <ul>
+                        {jobFunctions?.map((jobFunction, index) => (
+                            <li key={index}>
+                                <button
+                                    className="h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] font-[500]"
+                                    onClick={() =>
+                                        handleSelection('jobFunction', jobFunction)
+                                    }
+                                >
+                                    {jobFunction}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </>
             )}
+            {openModal === 'dropdownPrice' && (
+                <>
+                    <div className="flex justify-between items-center h-[48px] ">
+                        <div></div>
+
+                        <h2 className="text-[18px] font-[600] text-[#373A36]">
+                            Price
+                        </h2>
+                        <button
+                            className="h-[24px] w-[24px]"
+                            onClick={() => setOpenModal(null)}
+                        >
+                            <Image
+                                src={Close}
+                                alt={Close}
+                                width={24}
+                                height={24}
+                            />
+                        </button>
+                    </div>
+                    <ul>
+                        {priceRanges?.map((priceRange, index) => (
+                            <li key={index}>
+                                <button
+                                    className="h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] font-[500]"
+                                    onClick={() =>
+                                        handleSelection('price', priceRange)
+                                    }
+                                >
+                                    {priceRange}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </>
+            )}
+            {openModal === 'dropdownHighestRated' && (
+                <>
+                    <div className="flex justify-between items-center h-[48px] ">
+                        <div></div>
+
+                        <h2 className="text-[18px] font-[600] text-[#373A36]">
+                            Highest Rated
+                        </h2>
+                        <button
+                            className="h-[24px] w-[24px]"
+                            onClick={() => setOpenModal(null)}
+                        >
+                            <Image
+                                src={Close}
+                                alt={Close}
+                                width={24}
+                                height={24}
+                            />
+                        </button>
+                    </div>
+                    <ul>
+                        {ratings?.map((rating, index) => (
+                            <li key={index}>
+                                <button
+                                    className="h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] font-[500]"
+                                    onClick={() =>
+                                        handleSelection('highestRated', rating)
+                                    }
+                                >
+                                    {rating}
+                                </button>
+                            </li>
+                        ))}
+                    </ul>
+                </>
+            )}
+        </div>
+    </div>
+)}
+
 
             <div className="w-full  md:py-8  flex flex-col items-center xs:bg-white xs:pl-[16px] xs:pr-[16px]  sm:bg-white sm:pl-[16px] sm:pr-[16px] md:bg-[#F5F5F5]  min-h-screen">
                 {employees?.map((employee, index) => (

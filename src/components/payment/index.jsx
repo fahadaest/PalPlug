@@ -1,4 +1,5 @@
 'use client';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -6,9 +7,45 @@ import { useRouter } from 'next/navigation';
 const Payment = ({ userId, displayName }) => {
   const dispatch = useDispatch();
   const currentStep = useSelector((state) => state.user.currentStep);
- 
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null);
+  const [description, setDescription] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
   const router = useRouter();
+  const handleContinue = (e) => {
+    e.preventDefault();
+    dispatch({ type: 'NEXT_STEP' }); // Example Redux action to go to the next step
+  };
 
+  const handleFinish = (e) => {
+    e.preventDefault();
+    // Final submission logic here
+    console.log('Form submission complete');
+  };
+
+  // Handle profile picture change
+  const handleProfilePictureChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfilePicture(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Validate form on every change
+  useEffect(() => {
+    if (firstName && lastName && description.length >= 150) {
+      setIsFormValid(true);
+    } else {
+      setIsFormValid(false);
+    }
+  }, [firstName, lastName, description]);
+
+  const firstInitial = firstName.charAt(0) || 'P';
   return (
     <>
       <form className="p-20 md:w-[682px]" onSubmit={currentStep === 3 ? handleFinish : handleContinue}>
