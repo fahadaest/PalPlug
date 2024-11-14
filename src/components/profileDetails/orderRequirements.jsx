@@ -28,7 +28,12 @@ const OrderRequirements = () => {
     };
     
    
-    
+    const [selectedResumeOption, setSelectedResumeOption] = useState('');
+
+const handleOptionChange = (option) => {
+  setSelectedResumeOption(option); // Update selected option state
+};
+
     return (
         <div className='w-full max-w-[978px] h-[1216px] rounded-lg pt-10 pb-10 sm:px-8 md:px-12 lg:px-16 bg-white'>
             <div className='pl-[16px]'>
@@ -52,21 +57,25 @@ const OrderRequirements = () => {
                     </div>
 
                     {/* Resume Dropdown Container */}
-                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                    <div
+                        className={`transition-all flex gap-[20px] duration-300 ease-in-out overflow-hidden ${
                             isResumeDropdownVisible ? 'max-h-40' : 'max-h-0'
                         }`}
-                        style={{ 
+                        style={{
                             maxHeight: isResumeDropdownVisible ? '200px' : '0px',
-                            display: isResumeDropdownVisible ? 'block' : 'none' 
+                            display: isResumeDropdownVisible ? 'block' : 'none',
                         }}
-                    >
-                        <label>Format</label>
-                        <div className='w-[276px]'  onClick={handleDropdownClick}>
-                            <DropdownComponent   isOpen={isDropdownOpen} options={['Option 1', 'Option 2', 'Option 3']} />
-                    
+                        >
+                        <label className='text-[14px] font-[500]'>File Format</label>
+                        <div className="w-[276px]" onClick={handleDropdownClick}>
+                            <DropdownComponent
+                            options={['Option 1', 'Option 2', 'Option 3']}
+                            selectedOption={selectedResumeOption}
+                            onOptionChange={handleOptionChange}
+                            label="Select an option"
+                            />
                         </div>
-                        
-                    </div>
+                        </div>
 
                     <div className="flex items-center gap-3 sm:gap-5">
                         <input

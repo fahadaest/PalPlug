@@ -14,13 +14,12 @@ const DropdownComponent = ({
   const dropdownRef = useRef(null);
 
   const handleOptionChange = (option) => {
-    const updatedSelection = [option];
-    onOptionChange(updatedSelection);  
-    setIsOpen(false);  
+    onOptionChange(option); 
+    setIsOpen(false);
   };
 
   const toggleDropdown = () => {
-    setIsOpen(prev => !prev);
+    setIsOpen((prev) => !prev);
   };
 
   const handleClickOutside = (event) => {
@@ -45,10 +44,10 @@ const DropdownComponent = ({
       >
         {loading ? (
           'Loading...'
-        ) : selectedOption.length > 0 ? (  
-          selectedOption.join(', ')  
+        ) : selectedOption.length > 0 ? (
+          selectedOption
         ) : (
-          label  
+          label
         )}
         <RotatingIcon
           className="transition-transform"
@@ -56,7 +55,7 @@ const DropdownComponent = ({
       </button>
 
       {isOpen && (
-        <div className="dropdown bg-white border rounded-md w-full h-[200px] overflow-y-auto " style={{ maxHeight: '200px', width }}>
+        <div className="dropdown bg-white border rounded-md w-full h-[200px] overflow-y-auto" style={{ maxHeight: '200px', width }}>
           {options.length > 0 ? (
             options.map((option) => (
               <div
@@ -64,7 +63,7 @@ const DropdownComponent = ({
                 className={`block px-4 py-2 cursor-pointer hover:bg-[#005382] hover:text-white ${
                   selectedOption.includes(option) ? 'bg-gray-100' : ''
                 }`}
-                onClick={() => handleOptionChange(option)}  
+                onClick={() => handleOptionChange(option)}
               >
                 {option}
               </div>
