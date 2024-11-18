@@ -1,25 +1,25 @@
 import React, { useState, useEffect, useRef } from 'react';
-import RotatingIcon from './icon'; 
+import RotatingIcon from './icon';
 
 const DropdownComponent = ({
   options = [],
-  selectedOption = [],
+  selectedOption = [],  
   onOptionChange,
   dropdownKey,
   label,
   loading,
-   width = '100%'
+  width = '100%'
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const handleOptionChange = (option, updatedSelection) => {
-    onOptionChange(updatedSelection);
+  const handleOptionChange = (option) => {
+    onOptionChange(option); 
     setIsOpen(false);
   };
 
   const toggleDropdown = () => {
-    setIsOpen(prev => !prev);
+    setIsOpen((prev) => !prev);
   };
 
   const handleClickOutside = (event) => {
@@ -45,14 +45,17 @@ const DropdownComponent = ({
         {loading ? (
           'Loading...'
         ) : selectedOption.length > 0 ? (
-          selectedOption.join(', ')
+          selectedOption
         ) : (
           label
         )}
-        <RotatingIcon style={{ transform: `rotate(${isOpen ? '180deg' : '0deg'})` }} />
+        <RotatingIcon
+          className="transition-transform"
+          style={{ transition: 'transform 0.1s ease', transform: `rotate(${isOpen ? '180deg' : '0deg'})` }} />
       </button>
+
       {isOpen && (
-        <div className="dropdown bg-white border rounded-md w-full h-[200px] overflow-y-auto " style={{ maxHeight: '200px', width }}>
+        <div className="dropdown bg-white border rounded-md w-full h-[200px] overflow-y-auto" style={{ maxHeight: '200px', width }}>
           {options.length > 0 ? (
             options.map((option) => (
               <div
@@ -60,21 +63,8 @@ const DropdownComponent = ({
                 className={`block px-4 py-2 cursor-pointer hover:bg-[#005382] hover:text-white ${
                   selectedOption.includes(option) ? 'bg-gray-100' : ''
                 }`}
-                onClick={() =>
-                  handleOptionChange(
-                    option,
-                    selectedOption.includes(option)
-                      ? selectedOption.filter((item) => item !== option)
-                      : [...selectedOption, option]
-                  )
-                }
+                onClick={() => handleOptionChange(option)}
               >
-                <input
-                  type="checkbox"
-                  className="mr-2"
-                  checked={selectedOption.includes(option)}
-                  readOnly
-                />
                 {option}
               </div>
             ))

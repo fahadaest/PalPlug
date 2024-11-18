@@ -94,36 +94,37 @@ const ProfileInfo = ({ userId, displayName }) => {
   return (
     <>
     {!isServicesSelectionVisible ? (
-      <form className="p-20 md:w-[682px]" onSubmit={currentStep === 3 ? handleFinish : handleContinue}>
+      <form  onSubmit={currentStep === 3 ? handleFinish : handleContinue}>
         {currentStep === 1 && (
-          <div>
-            <div className="w-full md:w-[640px] mb-4">
+          <div className='w-auto max-w-[1154px] pl-[16px] pr-[16px] md:pt-[40px] md:pl-[120px] md:pr-[80px] md:pb-[40px]'>
+            <div className="mb-4">
               <h1 className="text-xl font-bold">Personal Info</h1>
-              <p className="text-sm text-[#939393] pb-4">
+              <p className="text-[14px] text-[#939393]  pb-4">
                 Tell us a bit about yourself. This information will appear on your public profile, so that buyers can get to know you.
               </p>
-              <div className="w-full border"></div>
-            </div>
+              <div className="border-[#F0F0F0] border w-auto max-w-[640px]"></div>
+              </div>
 
-            <div className="flex flex-col md:flex-row gap-20 pt-4 text-[14px]">
-              <div className=" w-full md:w-1/2">
-                <h5 className="text-[14px] font-semibold text-[#2F2F2F]">First Name</h5>
+            <div className="flex flex-col md:flex-row md:w-[703px]  justify-between pt-4">
+             
+              <div className="w-auto max-w-[328px] flex flex-col gap-[8px]">
+                <h5 className="text-[14px] font-semibold">First Name</h5>
                 <input
                   type="text"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="focus:outline-none w-[328px] h-[48px] border-[1px] p-[12px] rounded-[8px] gap-[10px] text-[#2F2F2F]"
+                  className="h-[42px] focus:border-[#005382] focus:outline-none  border rounded-lg p-[12px]"
                   required
                 />
               </div>
 
-              <div className="w-full md:w-1/2">
-                <h5 className="text-[14px] font-semibold text-[#2F2F2F]">Last Name</h5>
+              <div className="w-auto max-w-[328px]   flex flex-col  gap-[8px]">
+                <h5 className="text-[14px] font-semibold">Last Name</h5>
                 <input
                   type="text"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                 className="focus:outline-none w-[328px] h-[48px] border-[1px] p-[12px] rounded-[8px] gap-[10px] text-[#2F2F2F]"
+                  className="h-[42px] focus:border-[#005382] focus:outline-none  border rounded-lg p-[12px]"
                   required
                 />
               </div>
@@ -151,17 +152,17 @@ const ProfileInfo = ({ userId, displayName }) => {
   />
 </div>
 
-            <div className="pt-4">
-              <h5 className="text-[14px] mb-1 font-semibold text-[#2F2F2F]">Description/Bio</h5>
-               
-              <textarea
-                onChange={(e) => setDescription(e.target.value)}
-                className="text-black border rounded-md h-[140px] md:w-[700px] w-full p-3 text-[16px]  placeholder-gray-500 focus:outline-none"
-                placeholder="Add description"
-              />
+<div className="pt-4  w-auto md:w-[703px] flex flex-col  gap-[8px]">
+  <h5 className="text-[14px] mb-1 font-semibold">Description/Bio</h5>
+  <textarea
+    value={description}
+    onChange={(e) => setDescription(e.target.value)}
+    className="border rounded-[8px] h-[147px] w-full p-3 text-[16px] placeholder-gray-500 focus:border-[#005382] focus:outline-none"
+    placeholder="Add description"
+  />
+  <p className="text-sm text-[#939393] pb-4">min. 150 characters</p>
+</div>
 
-              <p className="text-sm text-[#939393] pb-4">min. 150 characters</p>
-            </div>
 
             <button
               type="submit"
@@ -235,7 +236,7 @@ const ProfileInfo = ({ userId, displayName }) => {
             <div className="mt-28">
               <button
                 type="submit"
-                className="h-[40px] text-white bg-[#005382] text-[12px] font-semibold w-full md:w-[170px] p-3 rounded-lg"
+                className="h-[40px] text-[white] bg-[#005382] text-[12px] font-semibold w-full md:w-[170px] p-3 rounded-lg"
               >
                 Finish
               </button>
