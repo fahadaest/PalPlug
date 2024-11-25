@@ -33,47 +33,47 @@ const StepProgressBar = ({ className }) => {
     return (
         <div className="flex items-center w-full">
             <ol className="flex items-center w-full">
-                <li className="flex w-full items-center">
+                <li className="flex w-full max-w-[182px] items-center">
                     <span
                         ref={(el) => stepsRef.current[0] = el}
                         onClick={() => handleStepClick(1)}
-                        className={`outercircle1 flex items-center justify-center w-10 h-10 border-2 ${currentStep > 1 ? 'border-[#005382] bg-[#005382]' : currentStep === 1 ? 'border-[#005382]' : 'border-gray-700'
+                        className={`outercircle1 flex items-center justify-center w-[32px] h-[32px] border-[2px] ${currentStep > 1 ? 'border-[#005382] bg-[#005382]' : currentStep === 1 ? 'border-[#005382]' : 'border-gray-700'
                             } rounded-full`}
                     >
                         {currentStep > 1 ? (
-                            <Image src={Tick} alt="Tick" className="w-3 h-3" />
+                            <Image src={Tick} alt="Tick" className="w-[12px] h-[8px]" />
                         ) : (
-                            <span className={`innercircle1 flex items-center justify-center w-3 h-3 ${currentStep === 1 ? 'bg-[#005382]' : 'bg-gray-300'} rounded-full`}></span>
+                            <span className={`innercircle1 flex items-center justify-center w-[10px] h-[10px] ${currentStep === 1 ? 'bg-[#005382]'  : 'bg-[#005382]'} rounded-full`}></span>
                         )}
                     </span>
-                    <span className={`line2 flex-1 h-1 ${currentStep >= 2 ? 'bg-[#005382]' : 'bg-gray-100'} dark:${currentStep >= 3 ? 'bg-[#005382]' : 'bg-gray-100'}`}></span>
+                    <span className={`line2 min-w-[93px] max-w-[150px] flex-1 h-[2px] ${currentStep >= 2 ? 'bg-[#005382]' : 'bg-gray-100'} dark:${currentStep >= 3 ? 'bg-[#005382]' : 'bg-gray-100'}`}></span>
                 </li>
-                <li className="flex w-full items-center">
+                <li className="flex w-full max-w-[182px] items-center">
                     <span
                         ref={(el) => stepsRef.current[1] = el}
                         onClick={() => handleStepClick(2)}
-                        className={`outercircle2 flex items-center justify-center w-10 h-10  border-2 ${currentStep > 2 ? 'border-[#005382] bg-[#005382]' : currentStep === 2 ? 'border-[#005382]' : 'border-gray-100'
+                        className={`outercircle2 flex items-center justify-center w-[32px] h-[32px]  border-[2px] ${currentStep > 2 ? 'border-[#005382] bg-[#005382]' : currentStep === 2 ? 'border-[#005382]' : 'border-gray-100'
                             } rounded-full`}
                     >
                         {currentStep > 2 ? (
-                            <Image src={Tick} alt="Tick" className="w-3 h-3" />
+                            <Image src={Tick} alt="Tick" className="w-[12px] h-[8px]" />
                         ) : (
-                            <span className={`innercircle2 flex items-center justify-center w-3 h-3 ${currentStep === 2 ? 'bg-[#005382]' : 'bg-gray-300'} rounded-full`}></span>
+                            <span className={`innercircle2 flex items-center justify-center w-[10px] h-[10px] ${currentStep === 2 ? 'bg-[#005382]' : 'hidden'} rounded-full`}></span>
                         )}
                     </span>
-                    <span className={`line2 flex-1 h-1 ${currentStep >= 3 ? 'bg-[#005382]' : 'bg-gray-100'} dark:${currentStep >= 3 ? 'bg-[#005382]' : 'bg-gray-100'}`}></span>
+                    <span className={`line2 min-w-[93px] max-w-[150px] flex-1 h-[2px] ${currentStep >= 3 ? 'bg-[#005382]' : 'bg-gray-100'} dark:${currentStep >= 3 ? 'bg-[#005382]' : 'bg-gray-100'}`}></span>
                 </li>
-                <li className="flex w-full items-center">
+                <li className="flex  w-full max-w-[182px] items-center">
                     <span
                         ref={(el) => stepsRef.current[2] = el}
                         onClick={() => handleStepClick(3)}
-                        className={`outercircle3 flex items-center justify-center w-10 h-10  border-2 ${currentStep > 3 ? 'border-[#005382] bg-[#005382]' : currentStep === 3 ? 'border-[#005382]' : 'border-gray-100'
+                        className={`outercircle3 flex items-center justify-center w-[32px] h-[32px] border-[2px] ${currentStep > 3 ? 'border-[#005382] bg-[#005382]' : currentStep === 3 ? 'border-[#005382]' : 'border-gray-100'
                             } rounded-full`}
                     >
                         {currentStep > 3 ? (
-                            <Image src={Tick} alt="Tick" className="w-3 h-3" />
+                            <Image src={Tick} alt="Tick" className="w-[12px] h-[8px]" />
                         ) : (
-                            <span className={`innercircle3 flex items-center justify-center w-3 h-3 ${currentStep === 3 ? 'bg-[#005382]' : 'bg-gray-300'} rounded-full`}></span>
+                            <span className={`innercircle3 flex items-center justify-center w-[10px] h-[10px] ${currentStep === 3 ? 'bg-[#005382]' : 'hidden'} rounded-full`}></span>
                         )}
                     </span>
                 </li>

@@ -7,58 +7,48 @@ import MailIcon from '@/assets/images/mail.svg';
 import UserImg from '@/assets/images/user.svg';
 import ArrowIcon from '@/assets/images/arrow.svg';
 import mobileLogo from '@/assets/images/mblLogo.svg';
-import { useRouter, usePathname } from 'next/navigation'; 
+import { useRouter, usePathname } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import SignInModal from '@/components/signInModal/index';
 import StepProgressBar from './StepProgressBar';
 import Search from '@/assets/images/Search.svg';
 import ServicesProgressBar from './ServicesProgressBar';
 import { setCurrentStep, setServicesCurrentStep } from '@/app/redux/slice/user/userSlice';
-
-
 const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
     ssr: false,
 });
-
 const Navbar = () => {
     const user = useSelector((state) => state.user.user);
-    const currentStep = useSelector((state) => state.user.currentStep); 
+    const currentStep = useSelector((state) => state.user.currentStep);
     const currentStepservices = useSelector((state) => state.user.servicescurrentStep);
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
     const router = useRouter();
-    const pathname = usePathname(); 
-
-    const [hasLoggedIn, setHasLoggedIn] = useState(false);  
+    const pathname = usePathname();
+    const [hasLoggedIn, setHasLoggedIn] = useState(false);
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
-    const [isMobile, setIsMobile] = useState(false); 
-
+    const [isMobile, setIsMobile] = useState(false);
     const dropdownRef = useRef(null);
     const modalRef = useRef(null);
-
     const handleStepClick = (step) => {
         dispatch(setServicesCurrentStep(step));  // Dispatching Redux action
     };
     useEffect(() => {
         if (user && !hasLoggedIn) {
-            setHasLoggedIn(true);  
+            setHasLoggedIn(true);
             setModalOpen(false);
         }
     }, [user, hasLoggedIn]);
-
     useEffect(() => {
         const handleResize = () => {
-            setIsMobile(window.innerWidth < 768); 
+            setIsMobile(window.innerWidth < 768);
         };
         handleResize();
-
         window.addEventListener('resize', handleResize);
-
         return () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
-
     const handleClick = (e) => {
         if (e?.target?.tagName === 'IMG') {
             e.stopPropagation();
@@ -67,7 +57,6 @@ const Navbar = () => {
         dispatch(setCurrentStep(1));
         dispatch(setServicesCurrentStep(1));
     };
-
     const toggleDropdown = () => {
         if (isMobile) {
             setDropdownOpen(prevState => {
@@ -76,43 +65,34 @@ const Navbar = () => {
             });
         }
     };
-
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
                 setDropdownOpen(false);
             }
-
             if (modalRef.current && !modalRef.current.contains(event.target)) {
                 setModalOpen(false);
             }
         };
-
         document.addEventListener('mousedown', handleClickOutside);
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
-
     const handleLoginClick = () => {
         setModalOpen(true);
     };
-
     const handleModalClose = () => {
         setModalOpen(false);
     };
-
-  
-
-    const isProfilePage = pathname?.includes('/profile'); 
+    const isProfilePage = pathname?.includes('/profile');
     const isServicesSelectionPage = pathname?.includes('/servicesselection');
-
     return (
         <div className='flex flex-col'>
-            <nav className="bg-white p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px]">
-                <div className="flex  items-center md:space-x-12 flex-grow xs:w-[390px] ">
+            <nav className="bg-white pl-[16px] pr-[16px] sm:p-5 w-[390px] flex flex-row gap-0 items-center sticky z-10 sm:w-full top-0 left-0 min-h-[64px] sm:min-h-[80px]">
+                <div className="flex justify-start items-center gap-[0px] flex-grow xs:w-[390px] ">
                     <div
-                        className=" relative w-10 h-6 sm:w-24 sm:h-8 cursor-pointer"
+                        className="relative w-10 h-6 sm:w-24 sm:h-8 cursor-pointer"
                         onClick={handleClick}
                     >
                         <Image
@@ -125,18 +105,18 @@ const Navbar = () => {
                         <Image
                             src={mobileLogo}
                             alt="Mobile Logo"
-                            className="block md:hidden  pr-0 mr-0 object-contain"
-                            fill
+                            className="block md:hidden object-contain"
+                            style={{ left: '0', top: '0', position: 'absolute' }}
                             priority
                         />
                     </div>
                     {isProfilePage && (
-                        <div className=" flex items-center justify-end w-full max-w-xl ml-auto h-full">
+                        <div className="min-w-[285px] w-[472px] flex items-center justify-end ml-[0px]  sm:ml-[173px]  h-full">
                             <StepProgressBar currentStep={currentStep} className="w-full h-full" />
                         </div>
                     )}
                     {!isProfilePage &&  (
-                        <div className="relative  max-w-[452px] mx-2">
+                        <div className="relative max-w-[452px] mx-2">
                             <Image
                                 src={Search}
                                 alt="Search Icon"
@@ -145,19 +125,16 @@ const Navbar = () => {
                             <input
                                 type="text"
                                 placeholder="Search by company"
-                                className="pl-[22px] p-2 rounded-[4px] placeholder-[#555555] border border-[#F0F0F0] text-[10px] lg:text-lg lg:pl-9 focus:border-blue-500 focus:outline-none w-full max-w-full "
-
+                               className="pl-[22px] h-[40px] p-2 rounded-[4px] placeholder-[#555555] border border-[#F0F0F0] text-[10px] lg:text-lg lg:pl-9 focus:border-blue-500 focus:outline-none w-full max-w-full "
                                 />
                         </div>
                     )}
                 </div>
-
                 {!isProfilePage &&  (
-                    <div className="h-[36px]   xs:w-[116px]  xs:gap-[16px]  md:w-[252px] md:gap-[8px]  flex items-center  flex-shrink-0 ">
+                    <div className="h-[36px]  xs:w-[116px]  xs:gap-[16px]  md:w-[252px] md:gap-[8px]  flex items-center  flex-shrink-0 ">
                         {user ? (
                             <>
                                 <div className=' flex w-[72px]  xs:gap-4'>
-
                                 <Image
                                     src={BellIcon}
                                     alt="Bell Icon"
@@ -170,12 +147,11 @@ const Navbar = () => {
                                     />
                                     </div>
                                 <div className="relative flex items-center  space-x-1">
-                                    {/* User Image visible on both mobile and desktop */}
                                     <Image
                                         src={UserImg}
                                         alt="User Image"
-                                        className= "h-[36px] w-[36px] text-black text-lg cursor-pointer" 
-                                        onClick={toggleDropdown} 
+                                        className= "h-[36px] w-[36px] text-black text-lg cursor-pointer"
+                                        onClick={toggleDropdown}
                                         log
                                     />
                                     {isMobile && isDropdownOpen && (
@@ -187,15 +163,13 @@ const Navbar = () => {
                                             />
                                         </div>
                                     )}
-
-                                    {/* Dropdown trigger for desktop view */}
                                     <div className="hidden  md:flex items-center">
                                         <span className="text-heading font-semibold truncate max-w-[100px] sm:max-w-[120px] md:max-w-[100px] text-xs sm:text-sm md:text-base">
                                             {user.displayName}
                                         </span>
                                         <div className="relative " ref={dropdownRef}>
                                             <button
-                                                onClick={() => setDropdownOpen(!isDropdownOpen)} // Desktop dropdown trigger
+                                                onClick={() => setDropdownOpen(!isDropdownOpen)}
                                                 className={`bg-blue-100 hover:bg-blue-200 focus:ring-2  focus:outline-none  focus:ring-blue-300 font-medium rounded-full  ml-2 w-[16px] h-[16px]  inline-flex items-center justify-center transition-colors duration-300 ${isDropdownOpen ? 'bg-blue-200' : 'bg-blue-100'} ${isDropdownOpen ? 'active:bg-blue-300' : ''} hidden md:block`}
                                                 type="button"
                                             >
@@ -214,7 +188,7 @@ const Navbar = () => {
                                             {isDropdownOpen && (
                                                 <NavbarDropdown
                                                     isOpen={isDropdownOpen}
-                                                    userId={user.id || user.uid}  
+                                                    userId={user.id || user.uid}
                                                     setDropdownOpen={setDropdownOpen}
                                                 />
                                             )}
@@ -224,29 +198,20 @@ const Navbar = () => {
                             </>
                         ) : (
                             <button
-                                onClick={handleLoginClick}
-                                className="bg-[#005382] text-white px-4 py-2 rounded ml-auto"
-                                >
-                                Log in
-                            </button>
+                            onClick={handleLoginClick}
+                            className="bg-[#005382] flex justify-center text-[14px] font-[600] items-center h-[34px] text-primary p-[10px] rounded-[4px] ml-auto"
+                            >
+                            Log in
+                        </button>
                         )}
                     </div>
                 )}
-                  
             </nav>
             {isServicesSelectionPage && (
-              
               <ServicesProgressBar currentStepservices={currentStepservices}   onStepClick={handleStepClick} />
-       
       )}
-          
-
             <SignInModal isOpen={isModalOpen && !user} onClose={handleModalClose} ref={modalRef} />
         </div>
     );
 };
-
 export default Navbar;
-
-
-
