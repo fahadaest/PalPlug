@@ -19,6 +19,7 @@ const Landing = () => {
     const whiteRoundedImges = useSelector(selectWhiteRoundedImges);
     const user = useSelector((state) => state.user.user); 
     const companies = useSelector((state)=>state.companies.companies);
+    const otherCompanies = useSelector(selectOtherCompanies);
  
     const [isModalOpen, setModalOpen] = useState(false);
     
