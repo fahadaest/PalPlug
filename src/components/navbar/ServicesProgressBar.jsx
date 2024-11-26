@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import StepperArrow from "@/assets/images/StepperArrow.svg";
 
-const ServicesProgressBar = ({ currentStepservices }) => {
+const ServicesProgressBar = ({ currentStepservices , onStepClick}) => {
     const stepsRef = useRef([]);
     const progressRef = useRef(null);
 
@@ -21,11 +21,12 @@ const ServicesProgressBar = ({ currentStepservices }) => {
     }, [currentStepservices]);
 
     return (
-            <div className="flex flex-row     h-[24px] w-[436px]    xs:ml-0.5 xs:space-x-0  sm:flex-row items-center md:space-x-4 md:ml-5">
+            <div className="flex flex-row  pr-[16px] pl-[16px] h-[24px] w-[436px] sm:flex-row items-center">
                 {/* Step 1 */}
                 <div
                     className="flex  items-center space-x-2 cursor-pointer"
                     ref={el => stepsRef.current[0] = el}
+                    onClick={() => onStepClick(1)}
                 >
                     <div
                         className={`w-[24px] h-[24px]  rounded-full flex items-center justify-center font-semibold text-[14px] ${
@@ -66,6 +67,7 @@ const ServicesProgressBar = ({ currentStepservices }) => {
                 <div
                     className="flex items-center space-x-2 cursor-pointer"
                     ref={el => stepsRef.current[1] = el}
+                    onClick={() => onStepClick(2)}
                 >
                     <div
                         className={`w-[24px] h-[24px] rounded-full flex items-center justify-center font-semibold text-sm ${
@@ -106,6 +108,7 @@ const ServicesProgressBar = ({ currentStepservices }) => {
                 <div
                     className="flex items-center space-x-2 cursor-pointer"
                     ref={el => stepsRef.current[2] = el}
+                    onClick={() => onStepClick(3)}
                 >
                     <div
                         className={`w-[24px] h-[24px] rounded-full flex items-center justify-center font-semibold text-sm ${

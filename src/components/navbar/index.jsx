@@ -7,11 +7,11 @@ import MailIcon from '@/assets/images/mail.svg';
 import UserImg from '@/assets/images/user.svg';
 import ArrowIcon from '@/assets/images/arrow.svg';
 import mobileLogo from '@/assets/images/mblLogo.svg';
-import { useRouter, usePathname } from 'next/navigation'; 
+import { useRouter, usePathname } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
 import SignInModal from '@/components/signInModal/index';
 import StepProgressBar from './StepProgressBar';
-import Search from '@/assets/images/Search.svg';
+import Search from '@/assets/images/search-loupe.svg';
 import ServicesProgressBar from './ServicesProgressBar';
 const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
     ssr: false,
@@ -19,34 +19,32 @@ const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
 
 const Navbar = () => {
     const user = useSelector((state) => state.user.user);
-    const currentStep = useSelector((state) => state.user.currentStep); 
+    const currentStep = useSelector((state) => state.user.currentStep);
     const currentStepservices = useSelector((state) => state.user.servicescurrentStep);
-    const dispatch = useDispatch(); 
+    const dispatch = useDispatch();
     const router = useRouter();
-    const pathname = usePathname(); 
+    const pathname = usePathname();
 
-    const [hasLoggedIn, setHasLoggedIn] = useState(false);  
+    const [hasLoggedIn, setHasLoggedIn] = useState(false);
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [isModalOpen, setModalOpen] = useState(false);
-    const [isMobile, setIsMobile] = useState(false); 
+    const [isMobile, setIsMobile] = useState(false);
 
     const dropdownRef = useRef(null);
     const modalRef = useRef(null);
 
     useEffect(() => {
         if (user && !hasLoggedIn) {
-            setHasLoggedIn(true);  
+            setHasLoggedIn(true);
             setModalOpen(false);
         }
     }, [user, hasLoggedIn]);
 
     useEffect(() => {
-        // Check for mobile view
         const handleResize = () => {
-            setIsMobile(window.innerWidth < 768); // Mobile view is less than 768px (md breakpoint)
+            setIsMobile(window.innerWidth < 768);
         };
 
-        // Set initial mobile view state
         handleResize();
 
         window.addEventListener('resize', handleResize);
@@ -64,11 +62,10 @@ const Navbar = () => {
     };
 
     const toggleDropdown = () => {
-        // Only toggle the dropdown in mobile view
         if (isMobile) {
             setDropdownOpen(prevState => {
                 const newState = !prevState;
-                console.log(newState ? 'Dropdown opened' : 'Dropdown closed'); // Log state
+                console.log(newState ? 'Dropdown opened' : 'Dropdown closed');
                 return newState;
             });
         }
@@ -99,14 +96,14 @@ const Navbar = () => {
         setModalOpen(false);
     };
 
-  
-
-    const isProfilePage = pathname?.includes('/profile'); 
+    const isProfilePage = pathname?.includes('/profile');
     const isServicesSelectionPage = pathname?.includes('/servicesselection');
 
+    const navbarClass = isProfilePage ? 'shadow-md' : '';
+
     return (
-        <div className='flex flex-col'>
-            <nav className="bg-white p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px]">
+        <div className='flex flex-col  border border-white'>
+            <nav className={`bg-white  p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px] ${navbarClass}`}>
                 <div className="flex  items-center md:space-x-12 flex-grow xs:w-[390px] ">
                     <div
                         className="relative w-10 h-6 sm:w-24 sm:h-8 cursor-pointer"
@@ -128,50 +125,59 @@ const Navbar = () => {
                         />
                     </div>
                     {isProfilePage && (
-                        <div className="flex items-center justify-end w-full max-w-xl ml-auto h-full">
+                        <div className="flex items-center  justify-end w-full max-w-xl ml-auto h-full">
                             <StepProgressBar currentStep={currentStep} className="w-full h-full" />
                         </div>
                     )}
-                    {!isProfilePage &&  (
-                        <div className="relative max-w-[452px] mx-2">
-                            <Image
-                                src={Search}
-                                alt="Search Icon"
-                                className="absolute left-2 top-1/2 transform -translate-y-1/2 w-3 h-4 xs:w-3 xs:h-3 sm:w-3 sm:h-4 lg:w-[16px] lg:h-[16px]"
-                                />
-                            <input
-                                type="text"
-                                placeholder="Search by company"
-                                className="pl-[22px] h-[40px] p-2 rounded-[4px] placeholder-[#555555] border border-[#F0F0F0] text-[10px] lg:text-lg lg:pl-9 focus:border-blue-500 focus:outline-none w-full max-w-full "
+                    {!isProfilePage && (
+                        <div className="w-full border rounded-[8px] md:rounded-[4px] h-[40px] flex items-center max-w-[452px] min-w-[211px]">
 
-                                />
+                            <div className='flex flex-row h-[16px] items-center gap-[4px] w-[158px] pl-[10px]'>
+
+                                <div className="h-[16px] w-[16px]">
+                                    <img
+                                        src={Search.src}
+                                        alt="Search"
+                                        className="h-[16px] w-[16px] max-w-none max-h-none"
+                                    />
+                                </div>
+
+                                <div className="h-[16px] w-[138px]  flex items-center">
+                                    <input
+                                        type="text"
+                                        placeholder="Search by company"
+                                        className="  h-[14px] w-[138px] tracking-tight placeholder-[#555555]  text-[14px] font-[400] leading-[14px]"
+                                    />
+                                </div>
+                            </div>
                         </div>
+
                     )}
                 </div>
 
-                {!isProfilePage &&  (
-                    <div className="h-[36px]  xs:w-[116px]  xs:gap-[16px]  md:w-[252px] md:gap-[8px]  flex items-center  flex-shrink-0 ">
+                {!isProfilePage && (
+                    <div className="h-[36px]  w-[116px] md:w-[252px] gap-[16px] flex items-center  flex-shrink-0">
                         {user ? (
                             <>
-                                <div className=' flex w-[72px]  xs:gap-4'>
+                                <div className=' pl-1 flex gap-[16px]'>
 
-                                <Image
-                                    src={BellIcon}
-                                    alt="Bell Icon"
-                                    className="text-black text-xl cursor-pointer"
+                                    <Image
+                                        src={BellIcon}
+                                        alt="Bell Icon"
+                                        className="text-black h-[24px] w-[24px] cursor-pointer"
                                     />
-                                <Image
-                                    src={MailIcon}
-                                    alt="Mail Icon"
-                                    className="text-black text-xl cursor-pointer"
+                                    <Image
+                                        src={MailIcon}
+                                        alt="Mail Icon"
+                                        className="text-black h-[24px] w-[24px] cursor-pointer"
                                     />
-                                    </div>
-                                <div className="relative flex items-center  space-x-1">
+                                </div>
+                                <div className="relative flex items-center  ">
                                     <Image
                                         src={UserImg}
                                         alt="User Image"
-                                        className= "h-[36px] w-[36px] text-black text-lg cursor-pointer" 
-                                        onClick={toggleDropdown} 
+                                        className="h-[36px] w-[36px] text-black text-lg cursor-pointer"
+                                        onClick={toggleDropdown}
                                         log
                                     />
                                     {isMobile && isDropdownOpen && (
@@ -190,7 +196,7 @@ const Navbar = () => {
                                         </span>
                                         <div className="relative " ref={dropdownRef}>
                                             <button
-                                                onClick={() => setDropdownOpen(!isDropdownOpen)} 
+                                                onClick={() => setDropdownOpen(!isDropdownOpen)}
                                                 className={`bg-blue-100 hover:bg-blue-200 focus:ring-2  focus:outline-none  focus:ring-blue-300 font-medium rounded-full  ml-2 w-[16px] h-[16px]  inline-flex items-center justify-center transition-colors duration-300 ${isDropdownOpen ? 'bg-blue-200' : 'bg-blue-100'} ${isDropdownOpen ? 'active:bg-blue-300' : ''} hidden md:block`}
                                                 type="button"
                                             >
@@ -209,7 +215,7 @@ const Navbar = () => {
                                             {isDropdownOpen && (
                                                 <NavbarDropdown
                                                     isOpen={isDropdownOpen}
-                                                    userId={user.id || user.uid}  
+                                                    userId={user.id || user.uid}
                                                     setDropdownOpen={setDropdownOpen}
                                                 />
                                             )}
@@ -221,27 +227,23 @@ const Navbar = () => {
                             <button
                                 onClick={handleLoginClick}
                                 className="bg-[#005382] flex justify-center text-[14px] font-[600] items-center h-[34px] text-primary p-[10px] rounded-[4px] ml-auto"
-                                >
+                            >
                                 Log in
                             </button>
                         )}
                     </div>
                 )}
-                  
             </nav>
             {isServicesSelectionPage && (
-              
-              <ServicesProgressBar currentStepservices={currentStepservices} />
-       
-      )}
-          
+
+                <ServicesProgressBar currentStepservices={currentStepservices} />
+
+            )}
+
+
 
             <SignInModal isOpen={isModalOpen && !user} onClose={handleModalClose} ref={modalRef} />
         </div>
     );
 };
-
 export default Navbar;
-
-
-

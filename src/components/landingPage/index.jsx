@@ -12,27 +12,8 @@ import Image from 'next/image';
 import RobotsImg from '@/assets/images/Illustration.svg';
 import SignInModal from '@/components/signInModal';
 
-function useTouchDevice() {
-    const [isTouchDevice, setIsTouchDevice] = useState(null); // Start with null to indicate unknown state.
-  
-    useEffect(() => {
-      // Ensure this code runs only on the client side (browser)
-      const checkTouchDevice = () => {
-        if (typeof window !== 'undefined' && 'ontouchstart' in window) {
-          setIsTouchDevice(true);
-        } else {
-          setIsTouchDevice(false);
-        }
-      };
-
-      checkTouchDevice();
-    }, []); // Only run on mount, so no conditional hooks
-
-    return isTouchDevice;
-}
 
 const Landing = () => {
-    const isTouchDevice = useTouchDevice(); 
     const router = useRouter();
     const companies = useSelector(selectCompanies);
     const otherCompanies = useSelector(selectOtherCompanies);
@@ -161,8 +142,3 @@ const Landing = () => {
     );
 };
 export default Landing;
-
-
-
-
-

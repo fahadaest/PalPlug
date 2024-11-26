@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import RotatingIcon from './icon';
 
-const DropdownComponent = ({
+const DropdownComponent = ({ 
   options = [],
   selectedOption = [],  
   onOptionChange,
-  dropdownKey,
-  label,
-  loading,
-  width = '100%'
+  label = 'Select an option',
+  loading = false,
+  width = '100%',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [dropdownWidth, setDropdownWidth] = useState(width); 
   const dropdownRef = useRef(null);
+  const buttonRef = useRef(null);
 
   const handleOptionChange = (option) => {
     onOptionChange(option); 
@@ -35,12 +36,19 @@ const DropdownComponent = ({
     };
   }, []);
 
+  useEffect(() => {
+    if (buttonRef.current) {
+      const buttonWidth = buttonRef.current.getBoundingClientRect().width;
+      setDropdownWidth(buttonWidth);
+    }
+  }, [buttonRef.current, width]);
+
   return (
     <div className="relative w-full" ref={dropdownRef} style={{ width }}>
       <button
+        ref={buttonRef}
         onClick={toggleDropdown}
         className="flex justify-between items-center h-[48px] w-full text-[16px] text-[#4A504B] bg-white border px-4 py-2 rounded-md leading-tight"
-        style={{ width }}
       >
         {loading ? (
           'Loading...'
@@ -49,13 +57,14 @@ const DropdownComponent = ({
         ) : (
           label
         )}
-        <RotatingIcon
-          className="transition-transform"
-          style={{ transition: 'transform 0.1s ease', transform: `rotate(${isOpen ? '180deg' : '0deg'})` }} />
+        <RotatingIcon isRotated={isOpen} />
       </button>
 
       {isOpen && (
-        <div className="dropdown bg-white border rounded-md w-full h-[200px] overflow-y-auto" style={{ maxHeight: '200px', width }}>
+        <div
+          className="dropdown bg-white border rounded-md overflow-y-auto"
+          style={{ maxHeight: '200px', width: dropdownWidth }}
+        >
           {options.length > 0 ? (
             options.map((option) => (
               <div

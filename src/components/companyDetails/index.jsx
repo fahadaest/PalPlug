@@ -128,7 +128,7 @@ const CompanyDetails = () => {
                     <button
                         id="dropdownJobFunctionbutton"
                         onClick={() => handlebuttonClick('dropdownJobFunction')}
-                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
+                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[200px] sm:w-[276px] h-[48px] focus:outline-none"
                         type="button"
                     >
                         <span className="text-sm">{selectedJobFunction}</span>
@@ -183,7 +183,7 @@ const CompanyDetails = () => {
                     <button
                         id="dropdownPricebutton"
                         onClick={() => handlebuttonClick('dropdownPrice')}
-                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
+                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[200px] sm:w-[276px] h-[48px] focus:outline-none"
                         type="button"
                     >
                         <span className="text-sm">{selectedPrice}</span>
@@ -240,7 +240,7 @@ const CompanyDetails = () => {
                         onClick={() =>
                             handlebuttonClick('dropdownHighestRated')
                         }
-                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[276px] h-[48px] focus:outline-none"
+                        className="text-dropdowntext bg-white border border-gray-300 rounded-lg text-sm px-4 py-2.5 flex items-center justify-between w-[200px] sm:w-[276px] h-[48px] focus:outline-none"
                         type="button"
                     >
                         <span className="text-sm">{selectedHighestRated}</span>
