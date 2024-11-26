@@ -5,80 +5,76 @@ import { useDispatch, useSelector } from "react-redux";
 import { setServicesCurrentStep } from "@/app/redux/slice/user/userSlice";
 import Requirement from "./publishPage";
 import { submitAllServices } from "@/app/redux/action";
+import DropdownComponent from "./DropdownComponent";
 
 const ServicesSelection = () => {
   const dropdownRef = useRef(null);
 
-  const [isDetailsVisible, setDetailsVisible] = useState({
-    referral: false,
-    resume: false,
-    interview: false,
+  const [dropdownState, setDropdownState] = useState({
+    referral: { selectedOption: '', isDetailsVisible: false, isOpen: false },
+    resume: { selectedOption: '', isDetailsVisible: false, isOpen: false },
+    interview: { selectedOption: '', isDetailsVisible: false, isOpen: false },
   });
-  
-  const toggleDetails = (service) => {
-    setDetailsVisible((prevState) => ({
-      ...prevState,
-      [service]: !prevState[service],
-    }));
-  };
-  
-  const [isDropdownOpen, setDropdownOpen] = useState({
-    referral: false,
-    resume: false,
-    interview: false,
-  });
-  
+
   const currentStep = useSelector((state) => state.user.servicescurrentStep);
   const dispatch = useDispatch();
-  
-  const [selectedServices, setSelectedServices] = useState({
-    referral: false,
-    resume: false,
-    interview: false,
-  });
-  
-  const handleDropdownClick = (e, type) => {
-    e.preventDefault();  
-    e.stopPropagation(); 
-  
-    setDropdownOpen((prevState) => ({
+
+  const toggleDetails = (service) => {
+    setDropdownState((prevState) => ({
       ...prevState,
-      [type]: !prevState[type],
-    }));
-    setSelectedServices((prevState) => ({
-      ...prevState,
-      [type]: true,
+      [service]: {
+        ...prevState[service],
+        isDetailsVisible: !prevState[service].isDetailsVisible,
+      },
     }));
   };
+
+  const handleDropdownClick = (e, service) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setDropdownState((prevState) => ({
+      ...prevState,
+      [service]: {
+        ...prevState[service],
+        isOpen: !prevState[service].isOpen,
+      },
+    }));
+  };
+
+  const handleOptionChange = (service, option) => {
+    setDropdownState((prevState) => ({
+      ...prevState,
+      [service]: {
+        ...prevState[service],
+        selectedOption: option,
+      },
+    }));
+  };
+
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setDropdownOpen({
-        referral: false,
-        resume: false,
-        interview: false,
-      });
+      setDropdownState((prevState) =>
+        Object.keys(prevState).reduce((acc, key) => {
+          acc[key] = { ...prevState[key], isOpen: false };
+          return acc;
+        }, {})
+      );
     }
   };
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  const allServicesSelected = currentStep === 1
-    ? Object.values(selectedServices).every((value) => value)
-    : true;
-
+  
   const handleContinue = (event) => {
     event.preventDefault();
     event.stopPropagation();
     if (currentStep === 1) {
       dispatch(setServicesCurrentStep(2));
-      setSelectedServices({
-        referral: false,
-        resume: false,
-        interview: false,
-      });
     } else if (currentStep === 2) {
       dispatch(setServicesCurrentStep(3));
     }
@@ -87,27 +83,25 @@ const ServicesSelection = () => {
   const handleFinish = (event) => {
     event.preventDefault();
     event.stopPropagation();
-    
     const formData = {
-      selectedServices,
+      selectedServices: dropdownState,
     };
-   
     dispatch(submitAllServices(formData));
   };
 
   return (
     <>
-      <form onSubmit={currentStep === 3 ? handleFinish : handleContinue}>
-        <div className="bg-gray-100 pt-10 pb-10  flex flex-col   items-center min-h-max px-4">
+       <form onSubmit={currentStep === 3 ? handleFinish : handleContinue}>
+        <div className="bg-gray-100  flex flex-col items-center min-h-max ">
           {currentStep === 1 && (
-            <div className="bg-white sm:h-[auto] pl-4 md:h-[1262px]   w-full sm:w-[978px] md:pl-28 rounded-lg pt-10 pb-10 pr-4 sm:pr-36">
+            <div className="bg-white h-[auto] md:h-[1262px] w-auto max-w-[978px] rounded-[8px] pl-[16px] pr-[16px] md:p-[40px_80px_40px_80px] mt-5 ">
               <h2 className="text-lg font-semibold mb-4">Services you want to offer</h2>
               <p className="mb-6 text-[#555555] text-sm font-normal leading-tight">
                 Select which services you'd like to offer to your customers. You can select one or more services from the list.
               </p>
 
               <div className="mb-6">
-                <label className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-3 cursor-pointer">
+              <label className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-3 cursor-pointer">
                   <input
                     type="checkbox"
                     className="mt-1 accent-[#005382] cursor-pointer"
@@ -129,13 +123,13 @@ const ServicesSelection = () => {
                     </p>
                   </div>
                 </label>
-
-                {isDetailsVisible.referral && (
-                  <>
-                    <div className="flex  flex-col sm:flex-row items-start sm:items-center">
-                      <div className="pl-7 mt-4  w-full flex flex-col sm:flex-row sm:justify-between">
-                        <div className="flex flex-col w-full">
-                          <label className="text-gray-700 text-sm font-medium mb-2" htmlFor="price">
+                {dropdownState.referral.isDetailsVisible && (
+                <>
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center">
+                    <div className="pl-0 sm:pl-7 sm:flex-row sm:justify-between mt-4 w-full flex flex-col">
+              
+                    <div className="flex flex-col w-full">
+                          <label className="text-gray-700 text-[14px] font-[600] mb-2" htmlFor="price">
                             Price
                           </label>
                           <input
@@ -145,59 +139,34 @@ const ServicesSelection = () => {
                             className="h-[48px]  xs:w-[250px] sm:w-[300px]  p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                           />
                         </div>
-                        <div className="mt-2 sm:mt-0 flex items-center ">
-                          <p className="text-sm font-medium italic text-[#939393] leading-tight">
+                        <div className="mt-2 w-[300px] sm:mt-0 flex items-center ">
+                          <p className="text-[14px] font-[500] italic text-[#939393] leading-[20px]">
                             How much should I charge?
                           </p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="mt-4 pl-0 sm:pl-7">
-                      <label className="block text-gray-700 text-sm font-medium mb-2">
-                        Delivery time
-                      </label>
-                      <div className="relative" ref={dropdownRef}>
-                        <button
-                          onClick={(e) => handleDropdownClick(e, "referral")}
-                          className="w-full sm:w-[276px] h-[48px] block bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"
-                        >
-                          Select
-
-                          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <i className="fas fa-chevron-down"></i>
-                          </div>
-                        </button>
-                        <div
-                          className={`absolute z-10 mt-1 w-full sm:w-[276px] rounded-lg border overflow-y-auto   border-gray-300 bg-white ${isDropdownOpen.referral ? 'block' : 'hidden'} max-h-60 overflow-y-auto`}
-                        >
-                        
-                        <div className="group flex items-center px-4 py-2 hover:bg-[#005382]">
-                        <input type="checkbox" className="form-checkbox h-4 w-4  accent-[#005382]" />
-                        <label className="ml-2 text-gray-700 text-sm group-hover:text-white">Option 1</label>
-                        </div>
-
-
-                        <div className="group flex items-center px-4 py-2 hover:bg-[#005382]">
-                        <input type="checkbox" className="form-checkbox h-4 w-4  accent-[#005382]" />
-                        <label className="ml-2 text-gray-700 text-sm group-hover:text-white">Option 2</label>
-                        </div>
-
-                        <div className="group flex items-center px-4 py-2 hover:bg-[#005382]">
-                        <input type="checkbox" className="form-checkbox h-4 w-4  accent-[#005382]" />
-                        <label className="ml-2 text-gray-700 text-sm group-hover:text-white">Option 3</label>
-                        </div>
-
-                        </div>
-                      </div>
+                  <div className="mt-4 pl-0 sm:pl-7">
+                    <label className="block text-[#2F2F2F] text-[14px] font-[600] mb-2">
+                      Delivery time
+                    </label>
+                    <div className="h-[48px] w-[276px]" onClick={(e) => handleDropdownClick(e, "referral")}>
+                      <DropdownComponent
+                        options={['1 day', '2 days', '3 days']}
+                        selectedOption={dropdownState.referral.selectedOption}
+                        onOptionChange={(option) => handleOptionChange("referral", option)}
+                        label="Select Delivery Time"
+                      />
                     </div>
-                  </>
+                  </div>
+                </>
                 )}
               </div>
 
-              <div className="mb-6">
-                <label className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-3 cursor-pointer">
-                  <input
+              <div className="mb-6"> 
+              <label className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-3 cursor-pointer">
+              <input
                     type="checkbox"
                     className="mt-1 accent-[#005382] cursor-pointer"
                     onChange={() => toggleDetails("resume")}
@@ -206,19 +175,18 @@ const ServicesSelection = () => {
                     <h3 className="text-base font-semibold">Resume Review</h3>
                     <p className="text-base font-normal mt-1">About this package</p>
                     <p className="leading-tight text-sm text-[#555555] mt-2">
-                      You will provide a 30 min call with your customer about their resume and provide feedback on improvements. You will also provide one 15 min follow-up review upon revision.
+                    You will provide a 30 min call with your customer about their resume and provide feedback on improvements. You will also provide one 15 min follow up review upon revision.
                     </p>
                   </div>
                 </label>
 
-                {isDetailsVisible.resume && (
-                  <>
-                    <div className="mt-4 flex flex-col sm:flex-row sm:justify-between">
-                      <div className="pl-0 sm:pl-7 w-full flex flex-col sm:flex-row sm:justify-between">
-                     
-                       <div className="pl-0   w-full flex flex-col sm:flex-row sm:justify-between">
-                        <div className="flex flex-col w-full">
-                          <label className="text-gray-700 text-sm font-medium mb-2" htmlFor="price">
+                {dropdownState.resume.isDetailsVisible && (
+                    <>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center">
+                    <div className="pl-0 sm:pl-7 sm:flex-row sm:justify-between mt-4 w-full flex flex-col">
+              
+                    <div className="flex flex-col w-full">
+                          <label className="text-gray-700 text-[14px] font-[600] mb-2" htmlFor="price">
                             Price
                           </label>
                           <input
@@ -228,53 +196,28 @@ const ServicesSelection = () => {
                             className="h-[48px]  xs:w-[250px] sm:w-[300px]  p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                           />
                         </div>
-                        <div className="mt-2 sm:mt-0 flex items-center ">
-                          <p className="text-sm font-medium italic text-[#939393] leading-tight">
+                        <div className="mt-2 w-[300px] sm:mt-0 flex items-center ">
+                          <p className="text-[14px] font-[500] italic text-[#939393] leading-[20px]">
                             How much should I charge?
                           </p>
                         </div>
                       </div>
-                   
-                   
-                      </div>
                     </div>
-                    <div className="mt-4 pl-0 sm:pl-7">
-                      <label className="block text-gray-700 text-sm font-medium mb-2">
-                        Delivery time
-                      </label>
-                      <div className="relative" ref={dropdownRef}>
-                        <button
-                          onClick={(e) => handleDropdownClick(e, "resume")}
-                          className="w-full sm:w-[276px] h-[48px] block bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"
-                        >
-                          Select
-                          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <i className="fas fa-chevron-down"></i>
-                          </div>
-                        </button>
-                       
-                        <div
-                          className={`absolute z-10 mt-1 w-full sm:w-[276px] rounded-lg border border-gray-300 bg-white ${isDropdownOpen.resume ? 'block' : 'hidden'} max-h-60 overflow-y-auto`}
-                        >
-                        <div className="group flex items-center px-4 py-2 hover:bg-[#005382]">
-                        <input type="checkbox" className="form-checkbox h-4 w-4  accent-[#005382]" />
-                        <label className="ml-2 text-gray-700 text-sm group-hover:text-white">Option 1</label>
-                        </div>
 
-
-                        <div className="group flex items-center px-4 py-2 hover:bg-[#005382]">
-                        <input type="checkbox" className="form-checkbox h-4 w-4  accent-[#005382]" />
-                        <label className="ml-2 text-gray-700 text-sm group-hover:text-white">Option 2</label>
-                        </div>
-
-                        <div className="group flex items-center px-4 py-2 hover:bg-[#005382]">
-                        <input type="checkbox" className="form-checkbox h-4 w-4  accent-[#005382]" />
-                        <label className="ml-2 text-gray-700 text-sm group-hover:text-white">Option 3</label>
-                        </div>
-                        </div>
-                      </div>
+                  <div className="mt-4 pl-0 sm:pl-7">
+                    <label className="block text-[#2F2F2F] text-[14px] font-[600] mb-2">
+                      Delivery time
+                    </label>                    
+                    <div className="h-[48px] w-[276px]" onClick={(e) => handleDropdownClick(e, "resume")}>
+                      <DropdownComponent
+                        options={['2 days', '4 days', '6 days']}
+                        selectedOption={dropdownState.resume.selectedOption}
+                        onOptionChange={(option) => handleOptionChange("resume", option)}
+                        label="Select Delivery Time"
+                        />
                     </div>
-                  </>
+                    </div>
+                </>
                 )}
               </div>
 
@@ -289,17 +232,16 @@ const ServicesSelection = () => {
                     <h3 className="text-base font-semibold">Interview Prep</h3>
                     <p className="text-base font-normal mt-1">About this package</p>
                     <p className="leading-tight text-sm text-[#555555] mt-2">
-                      You will set up a 30 min call for preparation before the candidate's interview. It would be helpful to go into detail on what the company looks for in the position as well as some tips and tricks to help your customer crush the interview and land them the job (successful hire not guaranteed).
-                    </p>
+                    You will set up a 30 min call for preparation before the candidate's interview. It would be helpful to go into detail on what the company looks for in the position as well as some tips and tricks to help your customer crush the interview and land them the job (successful hire not guaranteed).                    </p>
                   </div>
                 </label>
 
-                {isDetailsVisible.interview && (
-                  <>
-                    <div className="mt-4 flex flex-col sm:flex-row sm:justify-between">
-                      <div className="pl-0 sm:pl-7 w-full flex flex-col sm:flex-row sm:justify-between">
-                        <div className="flex flex-col w-full">
-                          <label className="text-gray-700 text-sm font-medium mb-2" htmlFor="price">
+                {dropdownState.interview.isDetailsVisible && (
+                <>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center">
+                    <div className="pl-0 sm:pl-7 sm:flex-row sm:justify-between mt-4 w-full flex flex-col">
+                    <div className="flex flex-col w-full">
+                          <label className="text-gray-700 text-[14px] font-[600] mb-2" htmlFor="price">
                             Price
                           </label>
                           <input
@@ -307,58 +249,35 @@ const ServicesSelection = () => {
                             id="price"
                             placeholder="$ Price for this service"
                             className="h-[48px]  xs:w-[250px] sm:w-[300px]  p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                            />
+                          />
                         </div>
-                        <div className="mt-2 sm:mt-0  flex items-center">
-                          <p className="text-sm font-medium italic text-[#939393] leading-tight">
+                        <div className="mt-2 w-[300px] sm:mt-0 flex items-center ">
+                          <p className="text-[14px] font-[500] italic text-[#939393] leading-[20px]">
                             How much should I charge?
                           </p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="mt-4 pl-0 sm:pl-7">
-                      <label className="block text-gray-700 text-sm font-medium mb-2">
-                        Delivery time
-                      </label>
-                      <div className="relative" ref={dropdownRef}>
-                        <button
-                          onClick={(e) => handleDropdownClick(e, "interview")}
-                          className="w-full sm:w-[276px] h-[48px] block bg-white border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:ring-2 focus:ring-blue-600"
-                        >
-                          Select
-                          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                            <i className="fas fa-chevron-down"></i>
-                          </div>
-                        </button>
-                        <div
-                          className={`absolute z-10 mt-1 w-full sm:w-[276px] overflow-y-scroll rounded-lg border   border-gray-300 bg-white ${isDropdownOpen.interview ? 'block' : 'hidden'} max-h-60 overflow-y-auto`}
-                        >
-                          <div className="group flex items-center px-4 py-2 hover:bg-[#005382]">
-                        <input type="checkbox" className="form-checkbox h-4 w-4  accent-[#005382]" />
-                        <label className="ml-2 text-gray-700 text-sm group-hover:text-white">Option 1</label>
-                        </div>
-
-
-                        <div className="group flex items-center px-4 py-2 hover:bg-[#005382]">
-                        <input type="checkbox" className="form-checkbox h-4 w-4  accent-[#005382]" />
-                        <label className="ml-2 text-gray-700 text-sm group-hover:text-white">Option 2</label>
-                        </div>
-
-                        <div className="group flex items-center px-4 py-2 hover:bg-[#005382]">
-                        <input type="checkbox" className="form-checkbox h-4 w-4  accent-[#005382]" />
-                        <label className="ml-2 text-gray-700 text-sm group-hover:text-white">Option 3</label>
-                        </div>
-                        </div>
-                      </div>
-                    </div>
+                  <div className="mt-4 pl-0 sm:pl-7">
+                  
+                  <label className="block text-[#2F2F2F] text-[14px] font-[600] mb-2">
+                    Delivery time
+                  </label>                    
+                  <div className="h-[48px] w-[276px]" onClick={(e) => handleDropdownClick(e, "resume")}>
+                  <DropdownComponent
+                        options={['5 days', '7 days', '10 days']}
+                        selectedOption={dropdownState.interview.selectedOption}
+                        onOptionChange={(option) => handleOptionChange("interview", option)}
+                        label="Select Delivery Time"
+                      />
+                  </div>
+                  </div>                    
                   </>
                 )}
               </div>
-
             </div>
           )}
-          
           {currentStep === 2 && (
             <OrderRequirements/>
           )}
@@ -371,8 +290,7 @@ const ServicesSelection = () => {
     >
         Save & Continue
     </button>
-</div>
-
+    </div>
           {currentStep === 3 && (
             <Requirement/>
           )}
@@ -380,8 +298,6 @@ const ServicesSelection = () => {
       </form>
     </>
   );
-}
+};
 
 export default ServicesSelection;
-
-

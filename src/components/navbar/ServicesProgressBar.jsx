@@ -21,7 +21,7 @@ const ServicesProgressBar = ({ currentStepservices , onStepClick}) => {
     }, [currentStepservices]);
 
     return (
-            <div className="flex flex-row     h-[24px] w-[436px]    xs:ml-0.5 xs:space-x-0  sm:flex-row items-center md:space-x-4 md:ml-5">
+            <div className="flex flex-row  pr-[16px] pl-[16px] h-[24px] w-[436px] sm:flex-row items-center">
                 {/* Step 1 */}
                 <div
                     className="flex  items-center space-x-2 cursor-pointer"

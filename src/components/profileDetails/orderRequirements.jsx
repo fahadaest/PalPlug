@@ -5,10 +5,10 @@ import DropdownComponent from './DropdownComponent';
 const OrderRequirements = () => {
     const [isResumeDropdownVisible, setResumeDropdownVisible] = useState(false);
     const [isAdditionalQuestionsVisible, setIsAdditionalQuestionsVisible] = useState(false);
-
     const [isDropdownOpen, setDropdownOpen] = useState(false);
-    const [questions, setQuestions] = useState([{ id: 1, text: '' }]);
-    const [savedQuestions, setSavedQuestions] = useState([]);
+
+    const [questionText, setQuestionText] = useState("");
+
     const toggleResumeDropdown = () => {
         setResumeDropdownVisible(prev => !prev);
     };
@@ -23,25 +23,21 @@ const OrderRequirements = () => {
         setDropdownOpen(!isDropdownOpen);
     };
 
-    const handleQuestionChange = (id, text) => {
-        setQuestions(questions.map(q => q.id === id ? { ...q, text } : q));
+    const handleQuestionChange = (e) => {
+        setQuestionText(e.target.value);
     };
+    
+   
+    const [selectedResumeOption, setSelectedResumeOption] = useState('');
 
-    const handleSaveQuestion = () => {
-        const nonEmptyQuestions = questions.filter(q => q.text.trim() !== '');
-        setSavedQuestions([...savedQuestions, ...nonEmptyQuestions]);
-        setQuestions([{ id: questions.length + 1, text: '' }]); 
-    };
-
-    const handleAddQuestion = () => {
-        setQuestions([...questions, { id: questions.length + 1, text: '' }]);
-    };
-
+const handleOptionChange = (option) => {
+  setSelectedResumeOption(option); // Update selected option state
+};
 
     return (
-        <div className='w-full max-w-[978px] h-[1216px]    rounded-lg  pt-10 pb-10    sm:px-8 md:px-12 lg:px-16 bg-white'>
-            <div className='pl-[16px] h-[1216px]' >
-                <h1 className='text-lg sm:text-xl  md:text-2xl leading-tight font-semibold'>
+        <div className='w-full max-w-[978px] h-[1216px] rounded-lg pt-10 pb-10 sm:px-8 md:px-12 lg:px-16 bg-white'>
+            <div className='pl-[16px]'>
+                <h1 className='text-lg sm:text-xl md:text-2xl leading-tight font-semibold'>
                     Which of these items will you require to fulfill <br /> your orders?
                 </h1>
                 <p className='text-[14px] sm:text-base font-[400] text-[#555555] pt-2 line-clamp-2'>
@@ -49,7 +45,7 @@ const OrderRequirements = () => {
                     on their order.
                 </p>
 
-                <div className=" flex mt-5 flex-col gap-7 h-[1216px]">
+                <div className="flex mt-5 flex-col gap-7">
                     <div className="flex items-center gap-3 sm:gap-5">
                         <input
                             id="resume"
@@ -60,25 +56,26 @@ const OrderRequirements = () => {
                         <label htmlFor="resume" className="text-[14px] sm:text-[16px] font-semibold">Resume</label>
                     </div>
 
-                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isResumeDropdownVisible ? 'max-h-40' : 'max-h-0'
+                    {/* Resume Dropdown Container */}
+                    <div
+                        className={`transition-all flex gap-[20px] duration-300 ease-in-out overflow-hidden ${
+                            isResumeDropdownVisible ? 'max-h-40' : 'max-h-0'
                         }`}
                         style={{
                             maxHeight: isResumeDropdownVisible ? '200px' : '0px',
-                            display: isResumeDropdownVisible ? 'block' : 'none'
+                            display: isResumeDropdownVisible ? 'block' : 'none',
                         }}
-                    >
-                        <label>Format</label>
-                        <div className='w-[250px] ' onClick={handleDropdownClick}>
-                            <DropdownComponent isOpen={isDropdownOpen}
-                                options={['Option 1', 'Option 2', 'Option 3']}
-
+                        >
+                        <label className='text-[14px] font-[500]'>File Format</label>
+                        <div className="w-[276px]" onClick={handleDropdownClick}>
+                            <DropdownComponent
+                            options={['Option 1', 'Option 2', 'Option 3']}
+                            selectedOption={selectedResumeOption}
+                            onOptionChange={handleOptionChange}
+                            label="Select an option"
                             />
-
                         </div>
-
-
-                    </div>
-
+                        </div>
 
                     <div className="flex items-center gap-3 sm:gap-5">
                         <input
@@ -108,45 +105,45 @@ const OrderRequirements = () => {
                         <label htmlFor="additional-questions" className="text-[14px] sm:text-[16px] font-semibold">Additional Questions</label>
                     </div>
 
+                    {/* Additional Questions Section */}
                     <div
-                        className={`transition-all duration-300 ease-in-out overflow-hidden ${isAdditionalQuestionsVisible ? 'max-h-auto opacity-100' : 'max-h-0 opacity-0'
-                            }`}
-                        style={{ maxHeight: isAdditionalQuestionsVisible ? '800px' : '0px' }}
+                        className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                            isAdditionalQuestionsVisible ? 'max-h-80 opacity-100' : 'max-h-0 opacity-0'
+                        }`}
+                        style={{ maxHeight: isAdditionalQuestionsVisible ? '320px' : '0px' }}
                     >
                         <div className="mt-1 ml-5">
-                            {questions.map((q) => (
-                                <div key={q.id} className="mb-4">
-                                    <label htmlFor={`question-${q.id}`} className="block text-[#2F2F2F] text-sm font-bold mb-2">
-                                        Question
-                                    </label>
-                                    <textarea
-                                        id={`question-${q.id}`}
-                                        onChange={(e) => handleQuestionChange(q.id, e.target.value)}
-                                        className="shadow appearance-none border rounded w-[703px] h-[147px] py-2 px-3 text-sm font-medium text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                        rows="4"
-                                        placeholder="Type out what question you’d like to ask your customer, it will be shown to them  during their request process."
-                                    ></textarea>
-                                    <p className="text-[#939393] text-xs mt-1">max. 600 characters</p>
-                                </div>
-                            ))}
+                            <div className="mb-4">
+                                <label htmlFor="question" className="block text-[#2F2F2F] text-sm font-bold mb-2">
+                                    Question
+                                </label>
+                                <textarea
+                                    id="question"
+                                    className="shadow appearance-none border rounded w-[703px] h-[147px] py-2 px-3 text-sm font-medium text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    rows="4"
+                                    placeholder="Type out what question you’d like to ask your customer, it will be shown to them during their request process."
+                                    value={questionText}
+                                    onChange={handleQuestionChange}  
+                                    maxLength="600"  
+                                ></textarea>
+                                <p className="text-[#939393] text-xs mt-1">{questionText.length} / 600 characters</p>  
+                            </div>
                             <div className="flex flex-wrap gap-4">
-                                <button className="h-[40px] w-full sm:w-[194px] p-2 bg-[#005382] text-white text-sm font-semibold rounded mb-2" type="button"
-                                    onClick={handleSaveQuestion}
-                                    disabled={questions.every(q => !q.text.trim())}
+                                <button
+                                    className={`h-[40px] w-full sm:w-[194px] p-2 text-white text-sm font-semibold rounded mb-2 ${questionText.length > 0 ? 'bg-[#005382]' : 'bg-[#939393]'}`}
+                                    type="button"
+                                    disabled={questionText.length === 0} 
                                 >
                                     Save Question
                                 </button>
-                                <button className="h-[40px] w-full sm:w-[194px] p-2 bg-[#005382] text-white text-sm font-semibold rounded" type="button"
-                                    onClick={handleAddQuestion}
+                                <button
+                                    className={`h-[40px] w-full sm:w-[194px] p-2 ${questionText.length > 0 ? 'bg-[#005382]' : 'bg-[#939393]'} text-white text-sm font-semibold rounded`}
+                                    type="button"
+                                    disabled={questionText.length === 0} 
                                 >
                                     Add another Question
                                 </button>
                             </div>
-                            <ul className="mt-4 list-disc pl-5 text-sm text-[#2F2F2F]">
-                                {savedQuestions.map((q, index) => (
-                                    <li key={index}>{q.text}</li>
-                                ))}
-                            </ul>
                         </div>
                     </div>
                 </div>
@@ -156,3 +153,6 @@ const OrderRequirements = () => {
 }
 
 export default OrderRequirements;
+
+
+

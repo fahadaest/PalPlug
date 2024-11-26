@@ -1,41 +1,48 @@
 import React, { useState, useEffect, useRef } from 'react';
 import RotatingIcon from './icon';
-const DropdownComponent = ({
+
+const DropdownComponent = ({ 
   options = [],
-  selectedOption = [],
+  selectedOption = [],  
   onOptionChange,
   label = 'Select an option',
   loading = false,
   width = '100%',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [dropdownWidth, setDropdownWidth] = useState(width);
+  const [dropdownWidth, setDropdownWidth] = useState(width); 
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
+
   const handleOptionChange = (option) => {
-    onOptionChange(option);
+    onOptionChange(option); 
     setIsOpen(false);
   };
+
   const toggleDropdown = () => {
     setIsOpen((prev) => !prev);
   };
+
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setIsOpen(false);
     }
   };
+
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
   useEffect(() => {
     if (buttonRef.current) {
       const buttonWidth = buttonRef.current.getBoundingClientRect().width;
       setDropdownWidth(buttonWidth);
     }
   }, [buttonRef.current, width]);
+
   return (
     <div className="relative w-full" ref={dropdownRef} style={{ width }}>
       <button
@@ -52,6 +59,7 @@ const DropdownComponent = ({
         )}
         <RotatingIcon isRotated={isOpen} />
       </button>
+
       {isOpen && (
         <div
           className="dropdown bg-white border rounded-md overflow-y-auto"
@@ -77,4 +85,5 @@ const DropdownComponent = ({
     </div>
   );
 };
+
 export default DropdownComponent;

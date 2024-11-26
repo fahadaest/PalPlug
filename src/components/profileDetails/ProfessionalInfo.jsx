@@ -2,11 +2,15 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DropdownComponent from './DropdownComponent';
 import { fetchCountries } from '@/app/redux/action';
+
+
 export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo }) {
     const [educationSections, setEducationSections] = useState([{}]);
     const [certificationSections, setCertificationSections] = useState([{}]);
+
     const dispatch = useDispatch();
     const { countries, loading } = useSelector((state) => state.countries);
+
     useEffect(() => {
         dispatch(fetchCountries());
     }, [dispatch]);
@@ -23,6 +27,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
             setProfessionalInfo({ ...professionalInfo, occupation: updatedOptions });
         }
     };
+
     const addEducationSection = () => {
         setEducationSections([...educationSections, { country: '', college: '', major: '', year: '' }]);
     };
@@ -37,6 +42,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
             setEducationSections(updatedSections);
         }
     };
+
     const addCertificationSection = () => {
         setCertificationSections([...certificationSections, { certificate: '', certification: '', year: '' }]);
     };
@@ -54,12 +60,14 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
     const handleDropdownClick = (e) => {
         e.preventDefault();
     };
+
     return (
         <div
-            className="min-w-[358px] max-w-[1154px] flex flex-col gap-[24px]"
+            className="w-auto max-w-[1154px] flex flex-col gap-[24px]"
             onClick={handleDropdownClick}
         >
-            <div className='flex flex-col gap-[16px]'>
+            <div className='flex flex-col w-full max-w-[632px] gap-[16px]'>
+
             <h1 className="text-[24px] font-[600] leading-[32px]">
                 Professional Info
             </h1>
@@ -68,12 +76,16 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                 know what you do best and how you gained your skills,
                 certifications, and experience.
             </p>
+
+           <div className="border-[#F0F0F0] border w-auto max-w-[640px]"></div>
+
+
             </div>
-                <div className="flex w-[358px] flex-col gap-[8px]">
+                <div className="flex flex-col gap-[8px]">
                 <label className="block text-[14px] font-[600]">
                     Your Occupation
-                </label>
-                <div className=" w-auto md:w-[276px]">
+                </label>      
+                <div className="w-auto max-w-[358px] md:w-[276px]">
                 <DropdownComponent
                 options={['Option 1', 'Option 2', 'Option 3']}
                 selectedOption={professionalInfo.occupation}
@@ -84,6 +96,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
 />
                 </div>
             </div>
+
             <div className="flex flex-col gap-[8px]">
                 <label className="text-[14px] font-[600]">Education</label>
                 {educationSections.map((section, index) => (
@@ -111,7 +124,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                                 width="100%"
                             />
                         </div>
-                        <div className="flex flex-row gap-[8px]">
+                        <div className="flex flex-row gap-[8px]">    
                                 <div className='w-[217px] md:max-w-[234px]'>
                             <DropdownComponent
                                 options={["Option 1", "Option 2", "Option 3"]}
@@ -123,7 +136,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                                 label="Select Major"
                                 width="100%"
                             />
-                                </div>
+                                </div>      
                                 <div className='w-auto max-w-[133px]'>
                             <DropdownComponent
                                 options={["Option 1", "Option 2", "Option 3"]}
@@ -195,7 +208,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                         <div className='flex gap-[8px]'>
                         <button
                     className="bg-[#939393] text-white  p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
-                    onClick={addCertificationSection}
+                    onClick={addCertificationSection} 
                 >
                     Add
                 </button>

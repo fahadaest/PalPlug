@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCountries } from '@/app/redux/action';
 import OTPVerifyModal from './OtpVerifyModal'; 
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
+import RotatingIcon from '../profileDetails/icon';
+
 
 const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
   const modalRef = useRef(null);
@@ -14,6 +16,7 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
   const [isOtpModalOpen, setIsOtpModalOpen] = useState(false); 
   const [selectedCountry, setSelectedCountry] = useState('');
   const [isInputFilled, setIsInputFilled] = useState(false); 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
 
   const dispatch = useDispatch();
   const { countries, loading } = useSelector((state) => state.countries);
@@ -112,33 +115,43 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
             </p>
 
             <form>
-              <div className="mb-6">
-                <label className="block text-[#2F2F2F] font-[600] text-[14px] mb-2" htmlFor="country">
-                  Enter Country
-                </label>
-                {loading ? (
-                  <p>Loading countries...</p>
-                ) : (
-                  <select
-                    value={selectedCountry}
-                    onChange={(e) => setSelectedCountry(e.target.value)} 
-                    className="w-full px-3 py-2 border h-[48px] bg-[white] text-[#413f3f] rounded-[8px]"
-                  >
-                    <option value="" disabled>Select Country</option>
-                    {countries.map((country) => (
-                      <option key={country.code} value={country.dialCode}>
-                        {country.name} ({country.dialCode}) 
-                      </option>
-                    ))}
-                  </select>
-                )}
-              </div>
+            <div className="mb-6 relative">
+  <label className="block text-[#2F2F2F] font-[600] text-[14px] mb-2" htmlFor="country">
+    Enter Country
+  </label>
+  {loading ? (
+    <p>Loading countries...</p>
+  ) : (
+    <>
+      <select   
+        value={selectedCountry}
+        onChange={(e) => setSelectedCountry(e.target.value)} 
+        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+        className="w-full px-3 py-2 border h-[48px] bg-[white] text-[#413f3f] rounded-[8px] appearance-none"
+      >
+        <option value="" disabled>Select Country</option>
+        {countries.map((country) => (
+          <option key={country.code} value={country.dialCode}>
+            {country.name} ({country.dialCode}) 
+          </option>
+        ))}
+      </select>
+      <span
+        className={`absolute right-3 top-10 transform transition-transform ${
+          isDropdownOpen ? 'rotate-180' : 'rotate-0'
+        }`}
+      >
+        <RotatingIcon />
+      </span>
+    </>
+  )}
+</div>
 
-              <div className="mb-6">
-                <label className="block text-[#2F2F2F] font-[600] text-[14px] mb-2" htmlFor="phone">
+                 <div className="mb-6">
+                 <label className="block text-[#2F2F2F] font-[600] text-[14px] mb-2" htmlFor="phone">
                   Enter your Phone Number
-                </label>
-                <input
+                 </label>
+                 <input
                   type="tel"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
@@ -181,4 +194,5 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
 });
 
 export default PhoneVerifyModal;
+
 
