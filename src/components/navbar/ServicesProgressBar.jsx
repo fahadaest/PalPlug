@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import StepperArrow from "@/assets/images/StepperArrow.svg";
 
-const ServicesProgressBar = ({ currentStepservices , onStepClick}) => {
+const ServicesProgressBar = ({ currentStepservices, onStepClick }) => {
     const stepsRef = useRef([]);
     const progressRef = useRef(null);
 
@@ -21,123 +21,118 @@ const ServicesProgressBar = ({ currentStepservices , onStepClick}) => {
     }, [currentStepservices]);
 
     return (
-            <div className="flex flex-row  pr-[16px] pl-[16px] h-[24px] w-[436px] sm:flex-row items-center">
-                {/* Step 1 */}
+        <div className="flex flex-row pr-[16px] pl-[16px] h-[24px] w-[436px] sm:flex-row items-center">
+            {/* Step 1 */}
+            <div
+                className="flex  items-center gap-[8px] cursor-pointer"
+                ref={el => stepsRef.current[0] = el}
+                onClick={() => onStepClick(1)}
+            >
+
                 <div
-                    className="flex  items-center space-x-2 cursor-pointer"
-                    ref={el => stepsRef.current[0] = el}
-                    onClick={() => onStepClick(1)}
+                    className={`w-[24px] h-[24px] rounded-full flex items-center justify-center font-semibold text-[14px] ${currentStepservices === 1
+                        ? 'bg-[#005382] text-white font-semibold'
+                        : currentStepservices > 1
+                            ? 'bg-[#005382] text-white'
+                            : 'bg-[#939393] text-white'
+                        }`}
                 >
-                    <div
-                        className={`w-[24px] h-[24px]  rounded-full flex items-center justify-center font-semibold text-[14px] ${
-                            currentStepservices === 1
-                                ? 'bg-[#005382] text-white font-semibold'
-                                : currentStepservices > 1
-                                    ? 'bg-[#005382] text-white'
-                                    : 'bg-[#939393] text-white'
-                        }`}
-                    >
-                        1
-                    </div>
-                    <span
-                        className={`xs:text-[12px] md:text-[14px] ${
-                            currentStepservices === 1
-                                ? 'text-black font-semibold'
-                                : currentStepservices > 1
-                                    ? 'text-black font-semibold'
-                                    : 'text-[#939393] font-semibold'
-                        }`}
-                    >
-                        Package 
-                    </span>
+                    1
                 </div>
-
-                {/* Arrow for Step 1 */}
-                <div className={`transition-colors ${currentStepservices > 1 ? 'text-black' : 'text-gray-400'}`}>
-                    <Image
-                        src={StepperArrow}
-                        alt="Stepper Arrow"
-                        width={20}
-                        height={20}
-                        className="fill-current"
-                    />
-                </div>
-
-                {/* Step 2 */}
-                <div
-                    className="flex items-center space-x-2 cursor-pointer"
-                    ref={el => stepsRef.current[1] = el}
-                    onClick={() => onStepClick(2)}
+                <span
+                    className={`xs:text-[12px] md:text-[14px] ${currentStepservices === 1
+                        ? 'text-black font-semibold'
+                        : currentStepservices > 1
+                            ? 'text-black font-semibold'
+                            : 'text-[#939393] font-semibold'
+                        }`}
                 >
-                    <div
-                        className={`w-[24px] h-[24px] rounded-full flex items-center justify-center font-semibold text-sm ${
-                            currentStepservices === 2
-                                ? 'bg-[#005382] text-white font-semibold'
-                                : currentStepservices > 2
-                                    ? 'bg-[#005382] text-white'
-                                    : 'bg-[#939393] text-white'
-                        }`}
-                    >
-                        2
-                    </div>
-                    <span
-                        className={` xs:text-[12px] md:text-[14px] ${
-                            currentStepservices === 2
-                                ? 'text-black font-semibold'
-                                : currentStepservices > 2
-                                    ? 'text-black font-semibold'
-                                    : 'text-[#939393] font-semibold'
-                        }`}
-                    >
-                        Requirements
-                    </span>
-                </div>
-
-                {/* Arrow for Step 2 */}
-                <div className={`transition-colors ${currentStepservices > 2 ? 'text-black' : 'text-gray-400'}`}>
-                    <Image
-                        src={StepperArrow}
-                        alt="Stepper Arrow"
-                        width={20}
-                        height={20}
-                        className="fill-current"
-                    />
-                </div>
-
-                {/* Step 3 */}
-                <div
-                    className="flex items-center space-x-2 cursor-pointer"
-                    ref={el => stepsRef.current[2] = el}
-                    onClick={() => onStepClick(3)}
-                >
-                    <div
-                        className={`w-[24px] h-[24px] rounded-full flex items-center justify-center font-semibold text-sm ${
-                            currentStepservices === 3
-                                ? 'bg-[#005382] text-white font-semibold'
-                                : currentStepservices > 3
-                                    ? 'bg-[#005382] text-white'
-                                    : 'bg-[#939393] text-white'
-                        }`}
-                    >
-                        3
-                    </div>
-                    <span
-                        className={` xs:text-[12px] md:text-[14px] ${
-                            currentStepservices === 3
-                                ? 'text-black font-semibold'
-                                : currentStepservices > 3
-                                    ? 'text-black font-semibold'
-                                    : 'text-[#939393] font-semibold'
-                        }`}
-                    >
-                        Publish
-                    </span>
-                </div>
-
-                <div className="progress-bar absolute top-[13px] left-0 w-full h-0.5 bg-gray-300 z-[-1]">
-                    <div className="progress h-full bg-[#005580] transition" ref={progressRef}></div>
-                </div>
+                    Package
+                </span>
             </div>
+
+            {/* Arrow for Step 1 */}
+            <div className={`transition-colors ${currentStepservices > 1 ? 'text-black' : 'text-gray-400'}`}>
+                <Image
+                    src={StepperArrow}
+                    alt="Stepper Arrow"
+                    width={24}
+                    height={24}
+                    className="fill-current"
+                />
+            </div>
+
+            {/* Step 2 */}
+            <div
+                className="flex items-center gap-[8px] cursor-pointer"
+                ref={el => stepsRef.current[1] = el}
+                onClick={() => onStepClick(2)}
+            >
+                <div
+                    className={`w-[24px] h-[24px] rounded-full flex items-center justify-center font-semibold text-sm ${currentStepservices === 2
+                        ? 'bg-[#005382] text-white font-semibold'
+                        : currentStepservices > 2
+                            ? 'bg-[#005382] text-white'
+                            : 'bg-[#939393] text-white'
+                        }`}
+                >
+                    2
+                </div>
+                <span
+                    className={` xs:text-[12px] md:text-[14px] ${currentStepservices === 2
+                        ? 'text-black font-semibold'
+                        : currentStepservices > 2
+                            ? 'text-black font-semibold'
+                            : 'text-[#939393] font-semibold'
+                        }`}
+                >
+                    Requirements
+                </span>
+            </div>
+
+            {/* Arrow for Step 2 */}
+            <div className={`transition-colors ${currentStepservices > 2 ? 'text-black' : 'text-gray-400'}`}>
+                <Image
+                    src={StepperArrow}
+                    alt="Stepper Arrow"
+                    width={24}
+                    height={24}
+                    className="fill-current"
+                />
+            </div>
+
+            {/* Step 3 */}
+            <div
+                className="flex items-center gap-[8px] cursor-pointer"
+                ref={el => stepsRef.current[2] = el}
+                onClick={() => onStepClick(3)}
+            >
+                <div
+                    className={`w-[24px] h-[24px] rounded-full flex items-center justify-center font-semibold text-sm ${currentStepservices === 3
+                        ? 'bg-[#005382] text-white font-semibold'
+                        : currentStepservices > 3
+                            ? 'bg-[#005382] text-white'
+                            : 'bg-[#939393] text-white'
+                        }`}
+                >
+                    3
+                </div>
+                <span
+                    className={` xs:text-[12px] md:text-[14px] ${currentStepservices === 3
+                        ? 'text-black font-semibold'
+                        : currentStepservices > 3
+                            ? 'text-black font-semibold'
+                            : 'text-[#939393] font-semibold'
+                        }`}
+                >
+                    Publish
+                </span>
+            </div>
+
+            <div className="progress-bar absolute top-[13px] left-0 w-full h-0.5 bg-gray-300 z-[-1]">
+                <div className="progress h-full bg-[#005580] transition" ref={progressRef}></div>
+            </div>
+        </div>
     );
 };
 

@@ -13,6 +13,9 @@ import SignInModal from '@/components/signInModal/index';
 import StepProgressBar from './StepProgressBar';
 import Search from '@/assets/images/search-loupe.svg';
 import ServicesProgressBar from './ServicesProgressBar';
+import { setCurrentStep, setServicesCurrentStep } from '@/app/redux/slice/user/userSlice';
+
+
 const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
     ssr: false,
 });
@@ -33,6 +36,9 @@ const Navbar = () => {
     const dropdownRef = useRef(null);
     const modalRef = useRef(null);
 
+    const handleStepClick = (step) => {
+        dispatch(setServicesCurrentStep(step));  // Dispatching Redux action
+    };
     useEffect(() => {
         if (user && !hasLoggedIn) {
             setHasLoggedIn(true);
@@ -44,7 +50,6 @@ const Navbar = () => {
         const handleResize = () => {
             setIsMobile(window.innerWidth < 768);
         };
-
         handleResize();
 
         window.addEventListener('resize', handleResize);
@@ -59,13 +64,14 @@ const Navbar = () => {
             e.stopPropagation();
             router.push('/');
         }
+        dispatch(setCurrentStep(1));
+        dispatch(setServicesCurrentStep(1));
     };
 
     const toggleDropdown = () => {
         if (isMobile) {
             setDropdownOpen(prevState => {
                 const newState = !prevState;
-                console.log(newState ? 'Dropdown opened' : 'Dropdown closed');
                 return newState;
             });
         }
@@ -102,7 +108,7 @@ const Navbar = () => {
     const navbarClass = isProfilePage ? 'shadow-md' : '';
 
     return (
-        <div className='flex flex-col  border border-white'>
+        <div className='flex flex-col'>
             <nav className={`bg-white  p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px] ${navbarClass}`}>
                 <div className="flex  items-center md:space-x-12 flex-grow xs:w-[390px] ">
                     <div
@@ -125,7 +131,7 @@ const Navbar = () => {
                         />
                     </div>
                     {isProfilePage && (
-                        <div className="flex items-center  justify-end w-full max-w-xl ml-auto h-full">
+                        <div className="flex items-center justify-end w-full max-w-xl ml-auto h-full">
                             <StepProgressBar currentStep={currentStep} className="w-full h-full" />
                         </div>
                     )}
@@ -154,6 +160,7 @@ const Navbar = () => {
 
                     )}
                 </div>
+
 
                 {!isProfilePage && (
                     <div className="h-[36px]  w-[116px] md:w-[252px] gap-[16px] flex items-center  flex-shrink-0">
@@ -233,17 +240,18 @@ const Navbar = () => {
                         )}
                     </div>
                 )}
+
             </nav>
             {isServicesSelectionPage && (
 
-                <ServicesProgressBar currentStepservices={currentStepservices} />
+                <ServicesProgressBar currentStepservices={currentStepservices} onStepClick={handleStepClick} />
 
             )}
-
 
 
             <SignInModal isOpen={isModalOpen && !user} onClose={handleModalClose} ref={modalRef} />
         </div>
     );
 };
+
 export default Navbar;
