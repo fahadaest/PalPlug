@@ -94,7 +94,7 @@ const ServicesSelection = () => {
       <form onSubmit={currentStep === 3 ? handleFinish : handleContinue}>
         <div className="bg-gray-100  flex flex-col items-center min-h-max ">
           {currentStep === 1 && (
-            <div className="bg-white h-[auto] flex flex-col gap-[45px] md:h-[1262px] w-auto max-w-[978px] rounded-[8px] pt-[40px] pl-[16px] pr-[16px] md:p-[40px_80px_40px_80px] mt-5">
+            <div className="bg-white h-[auto] flex flex-col gap-[45px]  w-auto max-w-[978px] rounded-[8px] pt-[40px] pl-[16px] pr-[16px] md:p-[40px_80px_40px_80px] mt-5">
 
               <div className="flex flex-col  gap-[16px]">
                 <h2 className="text-lg font-semibold ">Services you want to offer</h2>
@@ -143,7 +143,7 @@ const ServicesSelection = () => {
                             className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-[8px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                           />
                         </div>
-                        <div className="w-[300px] pt-[11px] pb-[11px] flex items-center">
+                        <div className="w-full sm:w-auto pt-[11px] pb-[11px] flex items-start sm:items-center">
                           <p className="text-[14px] font-[500] italic text-[#939393] leading-[20px]">
                             How much should I charge?
                           </p>
@@ -156,7 +156,7 @@ const ServicesSelection = () => {
                       <label className="block text-[#2F2F2F] text-[14px] font-[600]">
                         Delivery time
                       </label>
-                      <div className="h-[48px] w-[276px]" onClick={(e) => handleDropdownClick(e, "referral")}>
+                      <div className="h-[48px] w-[358px] md:w-[276px]" onClick={(e) => handleDropdownClick(e, "referral")}>
                         <DropdownComponent
                           options={['1 day', '2 days', '3 days']}
                           selectedOption={dropdownState.referral.selectedOption}
@@ -203,7 +203,7 @@ const ServicesSelection = () => {
                             className="h-[48px]  xs:w-[250px] sm:w-[300px]  p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                           />
                         </div>
-                        <div className="w-[300px] pt-[11px] pb-[11px] flex items-center">
+                        <div className="w-full sm:w-auto pt-[11px] pb-[11px] flex items-start sm:items-center">
                           <p className="text-[14px] font-[500] italic text-[#939393] leading-[20px]">
                             How much should I charge?
                           </p>
@@ -215,7 +215,7 @@ const ServicesSelection = () => {
                       <label className="block text-[#2F2F2F] text-[14px] font-[600]">
                         Delivery time
                       </label>
-                      <div className="h-[48px] w-[276px]" onClick={(e) => handleDropdownClick(e, "resume")}>
+                      <div className="h-[48px] w-[358px] md:w-[276px]" onClick={(e) => handleDropdownClick(e, "resume")}>
                         <DropdownComponent
                           options={['2 days', '4 days', '6 days']}
                           selectedOption={dropdownState.resume.selectedOption}
@@ -258,11 +258,11 @@ const ServicesSelection = () => {
                             className="h-[48px] xs:w-[250px] sm:w-[300px]  p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                           />
                         </div>
-                        <div className="w-[300px] pt-[11px] pb-[11px] flex items-center">
-                          <p className="text-[14px] font-[500] italic text-[#939393] leading-[20px]">
-                            How much should I charge?
-                          </p>
-                        </div>
+                        <div className="w-full sm:w-auto pt-[11px] pb-[11px] flex items-start sm:items-center">
+      <p className="text-[14px] font-[500] italic text-[#939393] leading-[20px]">
+        How much should I charge?
+      </p>
+    </div>
                       </div>
                     </div>
 
@@ -271,7 +271,7 @@ const ServicesSelection = () => {
                       <label className="block text-[#2F2F2F] text-[14px] font-[600]">
                         Delivery time
                       </label>
-                      <div className="h-[48px] w-[276px]" onClick={(e) => handleDropdownClick(e, "resume")}>
+                      <div className="h-[48px] w-[358px] md:w-[276px]" onClick={(e) => handleDropdownClick(e, "resume")}>
                         <DropdownComponent
                           options={['5 days', '7 days', '10 days']}
                           selectedOption={dropdownState.interview.selectedOption}
