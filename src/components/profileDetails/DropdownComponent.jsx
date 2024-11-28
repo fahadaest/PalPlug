@@ -10,7 +10,7 @@ const DropdownComponent = ({
   width = '100%',
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [dropdownWidth, setDropdownWidth] = useState(width); 
+  const [dropdownWidth, setDropdownWidth] = useState(200);
   const dropdownRef = useRef(null);
   const buttonRef = useRef(null);
 
@@ -30,25 +30,37 @@ const DropdownComponent = ({
   };
 
   useEffect(() => {
+    const resizeObserver = new ResizeObserver(() => {
+      if (buttonRef.current) {
+        const buttonWidth = buttonRef.current.getBoundingClientRect().width;
+        setDropdownWidth(buttonWidth);
+      }
+    });
+
+    if (buttonRef.current) {
+      resizeObserver.observe(buttonRef.current);
+    }
+
+    return () => {
+      if (buttonRef.current) {
+        resizeObserver.unobserve(buttonRef.current);
+      }
+    };
+  }, [buttonRef.current]);
+
+  useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
-  useEffect(() => {
-    if (buttonRef.current) {
-      const buttonWidth = buttonRef.current.getBoundingClientRect().width;
-      setDropdownWidth(buttonWidth);
-    }
-  }, [buttonRef.current, width]);
-
   return (
     <div className="relative w-full" ref={dropdownRef} style={{ width }}>
       <button
         ref={buttonRef}
         onClick={toggleDropdown}
-        className="flex justify-between items-center h-[48px] w-full text-[16px] text-[#4A504B] bg-white border px-4 py-2 rounded-md leading-tight"
+        className="flex justify-between items-center h-[48px] w-full text-[16px] text-[black] bg-white border px-4 py-2 rounded-[8px] leading-tight"
       >
         {loading ? (
           'Loading...'
@@ -62,16 +74,15 @@ const DropdownComponent = ({
 
       {isOpen && (
         <div
-          className="dropdown bg-white border rounded-md overflow-y-auto"
+          className=" bg-white border rounded-[8px] overflow-y-auto"
           style={{ maxHeight: '200px', width: dropdownWidth }}
         >
           {options.length > 0 ? (
             options.map((option) => (
               <div
                 key={option}
-                className={`block px-4 py-2 cursor-pointer hover:bg-[#005382] hover:text-white ${
-                  selectedOption.includes(option) ? 'bg-gray-100' : ''
-                }`}
+                className={`block px-4 py-2 cursor-pointer hover:bg-[#005382] hover:text-white ${selectedOption.includes(option) ? 'bg-gray-100' : ''
+                  }`}
                 onClick={() => handleOptionChange(option)}
               >
                 {option}

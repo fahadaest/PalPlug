@@ -25,8 +25,6 @@ const OrderRequirements = () => {
         e.stopPropagation();
         setDropdownOpen(!isDropdownOpen);
     };
-   
-    
     const handleQuestionChange = (id, text) => {
         setQuestions(questions.map(q => q.id === id ? { ...q, text } : q));
     };
@@ -46,12 +44,12 @@ const OrderRequirements = () => {
     };
 
     return (
-        <div className='w-full max-w-[978px] h-auto pl-[16px] pr-[16px] md:p-[40px_80px_40px_80px] mt-5 rounded-[8px] bg-white'>
+        <div className='w-full max-w-[978px] h-auto pl-[16px] pt-[40px] pr-[16px] md:p-[40px_80px_40px_80px] mt-5 rounded-[8px] bg-white'>
             <div className='flex flex-col gap-[45px]'>
                 <div className='flex flex-col gap-[16px]'>
 
                     <h1 className='text-[16px] leading-tight font-semibold'>
-                        Which of these items will you require to fulfill <br /> your orders?
+                        Which of these items will you require to fulfill <br className='hidden md:block' /> your orders?
                     </h1>
                     <p className='text-[14px] sm:text-base font-[400] text-[#555555] leading-[18px]'>
                         Add questions to help buyers provide you with exactly what you need to start working <br />
@@ -77,13 +75,13 @@ const OrderRequirements = () => {
                     >
                         <div className='flex flex-col gap-[8px] md:ml-[35px]'>
                             <label className='text-[14px] text-[#2F2F2F] font-[600]'>Format</label>
-                            <div className='w-[276px]' onClick={handleDropdownClick}>
+                            <div className='w-[358px] md:w-[276px]' onClick={handleDropdownClick}>
                                 <DropdownComponent
                                     isOpen={isDropdownOpen}
                                     options={['Option 1', 'Option 2', 'Option 3']}
                                     selectedOption={selectedResumeOption}
                                     onOptionChange={handleOptionChange}
-                                     width='276px' 
+                                    width='100%'
                                     label='select Format'
                                 />
                             </div>

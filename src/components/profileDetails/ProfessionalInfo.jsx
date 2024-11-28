@@ -14,6 +14,13 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
     useEffect(() => {
         dispatch(fetchCountries());
     }, [dispatch]);
+
+    useEffect(() => {
+        return () => {
+            setProfessionalInfo((prev) => ({ ...prev, occupation: '' }));
+        };
+    }, [setProfessionalInfo]);
+
     const handleOptionChange = (dropdownKey, updatedOptions, sectionIndex, type) => {
         if (type === "education") {
             const updatedSections = [...educationSections];
@@ -68,32 +75,32 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
         >
             <div className='flex flex-col w-full max-w-[632px] gap-[16px]'>
 
-            <h1 className="text-[24px] font-[600] leading-[32px]">
-                Professional Info
-            </h1>
-            <p className="text-[14px] font-[400] leading-[20px] pt-2 text-[#939393]">
-                This is your time to shine. Let potential candidates/customers
-                know what you do best and how you gained your skills,
-                certifications, and experience.
-            </p>
+                <h1 className="text-[24px] font-[600] leading-[32px]">
+                    Professional Info
+                </h1>
+                <p className="text-[14px] font-[400] leading-[20px] pt-2 text-[#939393]">
+                    This is your time to shine. Let potential candidates/customers
+                    know what you do best and how you gained your skills,
+                    certifications, and experience.
+                </p>
 
-           <div className="border-[#F0F0F0] border w-auto max-w-[640px]"></div>
+                <div className="border-[#F0F0F0] border w-auto max-w-[640px]"></div>
 
 
             </div>
-                <div className="flex flex-col gap-[8px]">
+            <div className="flex flex-col gap-[8px]">
                 <label className="block text-[14px] font-[600]">
                     Your Occupation
-                </label>      
+                </label>
                 <div className="w-auto max-w-[358px] md:w-[276px]">
-                <DropdownComponent
-                options={['Option 1', 'Option 2', 'Option 3']}
-                selectedOption={professionalInfo.occupation}
-                onOptionChange={(updatedOptions) => handleOptionChange('occupation', updatedOptions)}
-                dropdownKey="occupation"
-                label="Select Occupation"
-                width="100%"
-/>
+                    <DropdownComponent
+                        options={['Option 1', 'Option 2', 'Option 3']}
+                        selectedOption={professionalInfo.occupation}
+                        onOptionChange={(updatedOptions) => handleOptionChange('occupation', updatedOptions)}
+                        dropdownKey="occupation"
+                        label="Select Occupation"
+                        width="100%"
+                    />
                 </div>
             </div>
 
@@ -124,45 +131,45 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                                 width="100%"
                             />
                         </div>
-                        <div className="flex flex-row gap-[8px]">    
-                                <div className='w-[217px] md:max-w-[234px]'>
-                            <DropdownComponent
-                                options={["Option 1", "Option 2", "Option 3"]}
-                                selectedOption={section.major}
-                                onOptionChange={(updatedOptions) =>
-                                    handleOptionChange("major", updatedOptions, index, "education")
-                                }
-                                dropdownKey="major"
-                                label="Select Major"
-                                width="100%"
-                            />
-                                </div>      
-                                <div className='w-auto max-w-[133px]'>
-                            <DropdownComponent
-                                options={["Option 1", "Option 2", "Option 3"]}
-                                selectedOption={section.year}
-                                onOptionChange={(updatedOptions) =>
-                                    handleOptionChange("year", updatedOptions, index, "education")
-                                }
-                                dropdownKey="year"
-                                label="Year"
-                                width="133px"
+                        <div className="flex flex-row gap-[8px]">
+                            <div className='w-[217px] md:max-w-[234px]'>
+                                <DropdownComponent
+                                    options={["Option 1", "Option 2", "Option 3"]}
+                                    selectedOption={section.major}
+                                    onOptionChange={(updatedOptions) =>
+                                        handleOptionChange("major", updatedOptions, index, "education")
+                                    }
+                                    dropdownKey="major"
+                                    label="Select Major"
+                                    width="100%"
                                 />
-                                </div>
+                            </div>
+                            <div className='w-auto max-w-[133px]'>
+                                <DropdownComponent
+                                    options={["Option 1", "Option 2", "Option 3"]}
+                                    selectedOption={section.year}
+                                    onOptionChange={(updatedOptions) =>
+                                        handleOptionChange("year", updatedOptions, index, "education")
+                                    }
+                                    dropdownKey="year"
+                                    label="Year"
+                                    width="133px"
+                                />
+                            </div>
                         </div>
                         <div className='flex gap-[8px] md:gap-[16px]'>
-                        <button
-                    className="bg-[#939393] text-white   p-[11px_20px_11px_20px] rounded-[8px] w-full md:w-[111px]"
-                    onClick={addEducationSection}
-                >
-                    Add
-                </button>
-                        <button
-                            className="bg-[#EB5757] text-white  p-[11px_20px_11px_20px] rounded-[8px] w-full md:w-[111px]"
-                            onClick={() => removeEducationSection(index)}
-                        >
-                            Remove
-                        </button>
+                            <button
+                                className="bg-[#939393] text-white   p-[11px_20px_11px_20px] rounded-[8px] w-full md:w-[111px]"
+                                onClick={addEducationSection}
+                            >
+                                Add
+                            </button>
+                            <button
+                                className="bg-[#EB5757] text-white  p-[11px_20px_11px_20px] rounded-[8px] w-full md:w-[111px]"
+                                onClick={() => removeEducationSection(index)}
+                            >
+                                Remove
+                            </button>
                         </div>
                     </div>
                 ))}
@@ -206,18 +213,18 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                             />
                         </div>
                         <div className='flex gap-[8px]'>
-                        <button
-                    className="bg-[#939393] text-white  p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
-                    onClick={addCertificationSection} 
-                >
-                    Add
-                </button>
-                        <button
-                            className="bg-[#EB5757] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
-                            onClick={() => removeCertificationSection(index)}
-                        >
-                            Remove
-                        </button>
+                            <button
+                                className="bg-[#939393] text-white  p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
+                                onClick={addCertificationSection}
+                            >
+                                Add
+                            </button>
+                            <button
+                                className="bg-[#EB5757] text-white p-[11px_20px_11px_20px] rounded w-full md:w-[111px]"
+                                onClick={() => removeCertificationSection(index)}
+                            >
+                                Remove
+                            </button>
                         </div>
                     </div>
                 ))}

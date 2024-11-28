@@ -37,7 +37,7 @@ const Navbar = () => {
     const modalRef = useRef(null);
 
     const handleStepClick = (step) => {
-        dispatch(setServicesCurrentStep(step));  // Dispatching Redux action
+        dispatch(setServicesCurrentStep(step));
     };
     useEffect(() => {
         if (user && !hasLoggedIn) {
@@ -105,11 +105,11 @@ const Navbar = () => {
     const isProfilePage = pathname?.includes('/profile');
     const isServicesSelectionPage = pathname?.includes('/servicesselection');
 
-    const navbarClass = isProfilePage ? 'shadow-md' : '';
+    const inlineStyle = isProfilePage ? { boxShadow: '0px 8px 20px 0px #B8B4B41A' } : {};
 
     return (
         <div className='flex flex-col'>
-            <nav className={`bg-white  p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px] ${navbarClass}`}>
+            <nav className="bg-white  p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px]" style={inlineStyle}>
                 <div className="flex  items-center md:space-x-12 flex-grow xs:w-[390px] ">
                     <div
                         className="relative w-10 h-6 sm:w-24 sm:h-8 cursor-pointer"
