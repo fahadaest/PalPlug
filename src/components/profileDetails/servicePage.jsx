@@ -103,16 +103,19 @@ const ServicesSelection = () => {
                 </p>
               </div>
 
-              <div className=" flex flex-col gap-[16px] ">
-                <label className="flex flex-col sm:flex-row items-start sm:space-y-0 sm:space-x-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="mt-1 accent-[#005382] cursor-pointer"
-                    onChange={() => toggleDetails("referral")}
-                  />
-                  <div className="flex flex-col gap-[16px]">
+              <div className="flex items-baseline flex-nowrap flex-col gap-[16px]">
+                <label className="flex flex-col items-start sm:space-x-6 cursor-pointer">
+                  <div className="flex flex-row justify-start items-center space-x-2">
+                    <input
+                      type="checkbox"
+                      className="accent-[#005382] cursor-pointer"
+                      onChange={() => toggleDetails("referral")}
+                    />
                     <h3 className="text-base font-semibold">Standard Employee Referral</h3>
-                    <p className="text-base font-normal">About this package</p>
+                  </div>
+
+                  <div className="flex flex-col gap-[8px]">
+                    <p className="text-base mt-[8px] font-normal">About this package</p>
                     <p className="leading-tight text-sm text-[#555555] ">
                       You will offer to schedule a{" "}
                       <span className="font-semibold leading-tight">30 min video call</span> with
@@ -130,7 +133,7 @@ const ServicesSelection = () => {
                   <>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center">
 
-                      <div className="pl-0 sm:pl-7 items-end sm:flex-row sm:justify-between w-full flex flex-col">
+                      <div className="pl-0 sm:pl-7 items-end sm:flex-row sm:justify-between w-auto md:w-[789px] flex flex-col">
 
                         <div className="flex gap-[8px] flex-col w-full">
                           <label className="text-gray-700 text-[14px] font-[600] " htmlFor="price">
@@ -143,11 +146,13 @@ const ServicesSelection = () => {
                             className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-[8px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                           />
                         </div>
-                        <div className="w-full sm:w-auto pt-[11px] pb-[11px] flex items-start sm:items-center">
+
+                        <div className="w-[300px]  pt-[11px] pb-[11px] flex items-start sm:items-center">
                           <p className="text-[14px] font-[500] italic text-[#939393] leading-[20px]">
                             How much should I charge?
                           </p>
                         </div>
+
                       </div>
 
                     </div>
@@ -171,15 +176,18 @@ const ServicesSelection = () => {
 
               <div className="flex flex-col gap-[16px]">
                 <div>
-                  <label className="flex flex-col sm:flex-row items-start  sm:space-y-0 sm:space-x-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="mt-1 accent-[#005382] cursor-pointer"
-                      onChange={() => toggleDetails("resume")}
-                    />
-                    <div className="flex flex-col gap-[16px]">
+                  <label className="flex flex-col items-start sm:space-x-6 cursor-pointer">
+                    <div className="flex flex-row justify-start items-center space-x-2">
+
+                      <input
+                        type="checkbox"
+                        className="accent-[#005382] cursor-pointer"
+                        onChange={() => toggleDetails("resume")}
+                      />
                       <h3 className="text-base font-semibold">Resume Review</h3>
-                      <p className="text-base font-normal ">About this package</p>
+                    </div>
+                    <div className="flex flex-col gap-[8px]">
+                      <p className="text-base mt-[8px] font-normal ">About this package</p>
                       <p className="leading-tight text-sm text-[#555555] ">
                         You will provide a 30 min call with your customer about their resume and provide feedback on improvements. You will also provide one 15 min follow up review upon revision.
                       </p>
@@ -190,8 +198,7 @@ const ServicesSelection = () => {
                 {dropdownState.resume.isDetailsVisible && (
                   <>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center">
-                      <div className="pl-0 sm:pl-7 items-end sm:flex-row sm:justify-between w-full flex flex-col">
-
+                      <div className="pl-0 sm:pl-7 items-end sm:flex-row sm:justify-between w-auto md:w-[789px] flex flex-col">
                         <div className="flex gap-[8px] flex-col w-full">
                           <label className="text-gray-700 text-[14px] font-[600]" htmlFor="price">
                             Price
@@ -200,10 +207,10 @@ const ServicesSelection = () => {
                             type="text"
                             id="price"
                             placeholder="$ Price for this service"
-                            className="h-[48px]  xs:w-[250px] sm:w-[300px]  p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                            className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                           />
                         </div>
-                        <div className="w-full sm:w-auto pt-[11px] pb-[11px] flex items-start sm:items-center">
+                        <div className="w-[300px] pt-[11px] pb-[11px] flex items-start sm:items-center">
                           <p className="text-[14px] font-[500] italic text-[#939393] leading-[20px]">
                             How much should I charge?
                           </p>
@@ -229,15 +236,20 @@ const ServicesSelection = () => {
               </div>
 
               <div className="flex flex-col gap-[16px]">
-                <label className="flex flex-col sm:flex-row items-start space-y-4 sm:space-y-0 sm:space-x-3 cursor-pointer">
-                  <input
-                    type="checkbox"
-                    className="mt-1 accent-[#005382] cursor-pointer"
-                    onChange={() => toggleDetails("interview")}
-                  />
-                  <div className="flex flex-col gap-[16px]">
+                <label className="flex flex-col items-start  sm:space-x-6 cursor-pointer">
+                  <div className="flex flex-row justify-start items-center space-x-2">
+
+                    <input
+                      type="checkbox"
+                      className="accent-[#005382] cursor-pointer"
+                      onChange={() => toggleDetails("interview")}
+                    />
+
                     <h3 className="text-base font-semibold">Interview Prep</h3>
-                    <p className="text-base font-normal mt-1">About this package</p>
+
+                  </div>
+                  <div className="flex flex-col gap-[8px]">
+                    <p className="text-base font-normal mt-[8px]">About this package</p>
                     <p className="leading-tight text-sm text-[#555555] mt-2">
                       You will set up a 30 min call for preparation before the candidate's interview. It would be helpful to go into detail on what the company looks for in the position as well as some tips and tricks to help your customer crush the interview and land them the job (successful hire not guaranteed).                    </p>
                   </div>
@@ -246,7 +258,7 @@ const ServicesSelection = () => {
                 {dropdownState.interview.isDetailsVisible && (
                   <>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center">
-                      <div className="pl-0 sm:pl-7 items-end sm:flex-row sm:justify-between w-full flex flex-col">
+                      <div className="pl-0 sm:pl-7 items-end sm:flex-row sm:justify-between w-auto md:w-[789px] flex flex-col">
                         <div className="flex gap-[8px] flex-col w-full">
                           <label className="text-gray-700 text-[14px] font-[600]" htmlFor="price">
                             Price
@@ -258,11 +270,11 @@ const ServicesSelection = () => {
                             className="h-[48px] xs:w-[250px] sm:w-[300px]  p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                           />
                         </div>
-                        <div className="w-full sm:w-auto pt-[11px] pb-[11px] flex items-start sm:items-center">
-      <p className="text-[14px] font-[500] italic text-[#939393] leading-[20px]">
-        How much should I charge?
-      </p>
-    </div>
+                        <div className="w-[300px] pt-[11px] pb-[11px] flex items-start sm:items-center">
+                          <p className="text-[14px] font-[500] italic text-[#939393] leading-[20px]">
+                            How much should I charge?
+                          </p>
+                        </div>
                       </div>
                     </div>
 
