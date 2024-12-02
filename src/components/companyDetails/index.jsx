@@ -100,30 +100,29 @@ const CompanyDetails = () => {
     return (
         <>
             <div
-                className={`w-full h-[48px] ${bgColor} flex items-center justify-center`}>
-                <div className="w-full max-w-[1440px] flex items-center justify-center">
-                    <div className="flex items-center space-x-6">
+                className={`w-full  ${bgColor} flex items-center justify-center`}>
+                <div style={{ boxShadow: '0px 4px 15px 0px #01010117' }} className="w-full h-[48px] md:h-[96px] max-w-[1440px] flex items-center justify-center">
+                    <div className="flex items-center gap-[15px]">
                         {company?.image ? (
                             <Image
                                 src={company?.image}
                                 alt={company?.name}
-                                width={40}
-                                height={40}
+                                className='h-[21px] w-[21px] md:h-[42px] md:w-[42px]'
                             />
                         ) : (
                             <div className="w-[24px] h-[24px] bg-gray-300 rounded-full flex items-center justify-center">
                                 <span className="text-white">N/A</span>
                             </div>
                         )}
-                        <h1 className="text-primary text-[42px] font-semibold">
+                        <h1 className="text-primary text-[21px] md:text-[42px] font-[600]">
                             {displayName}
                         </h1>
                     </div>
                 </div>
             </div>
 
-            <div className="position-relative w-full mt-4 px-4 flex gap-[16px] overflow-x-scroll">
-                <div className="position-relative text-left mb-4 overscroll-none">
+            <div className="position-relative mt-2 mb-[2px] w-full px-4 flex gap-[16px] overflow-x-scroll">
+                <div className="position-relative text-left overscroll-none">
                     <button
                         id="dropdownJobFunctionbutton"
                         onClick={() => handlebuttonClick('dropdownJobFunction')}
@@ -177,7 +176,7 @@ const CompanyDetails = () => {
                     </div>
                 </div>
 
-                <div className="position-relative text-left mb-4 overscroll-none">
+                <div className="position-relative text-left  overscroll-none">
                     <button
                         id="dropdownPricebutton"
                         onClick={() => handlebuttonClick('dropdownPrice')}
@@ -231,7 +230,7 @@ const CompanyDetails = () => {
                     </div>
                 </div>
 
-                <div className="position-relative text-left mb-4 overscroll-none">
+                <div className="position-relative text-left  overscroll-none">
                     <button
                         id="dropdownHighestRatedbutton"
                         onClick={() =>
@@ -302,7 +301,6 @@ const CompanyDetails = () => {
                         {openModal === 'dropdownJobFunction' && (
                             <>
                                 <div className="flex justify-between items-center h-[48px] ">
-                                    <div></div>
                                     <h2 className="text-[18px] font-[600]  text-[#373A36]">
                                         Job Function
                                     </h2>
@@ -411,7 +409,7 @@ const CompanyDetails = () => {
             )}
 
 
-            <div className="w-full  md:py-8  flex flex-col items-center xs:bg-white xs:pl-[16px] xs:pr-[16px]  sm:bg-white sm:pl-[16px] sm:pr-[16px] md:bg-[#F5F5F5]  min-h-screen">
+            <div className="w-full  md:py-8  flex flex-col items-center pl-[16px] pr-[16px] pt-[24px] bg-[#F5F5F5]  min-h-screen">
                 {employees?.map((employee, index) => (
                     <EmployeeCard
                         key={employee.id}
