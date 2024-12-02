@@ -13,10 +13,9 @@ const EmployeeCard = ({
 }) => {
 
     return (
-        
-          <div className="bg-white border  border-gray-300 rounded-lg  pl-[16px] pr-[16px] mb-6 w-full max-w-[1000px] h-auto flex flex-col items-start">
+       <div className="bg-white border  border-gray-300 rounded-lg  pl-[16px] pr-[16px] mb-6 w-full max-w-[1000px] h-auto flex flex-col items-start">
             <div className="flex flex-wrap items-start w-full">
-                <div className="flex items-center w-full sm:w-1/2">
+                <div className="flex items-center w-full pt-2 sm:w-1/2">
                     <Image
                         src={employee.image}
                         alt={employee.name}
@@ -67,7 +66,7 @@ const EmployeeCard = ({
             <div className="w-full h-px bg-gray-200 my-4"></div>
 
             <div
-                className={`flex flex-col pb-[16px] pt-[16px] pl-[16px] w-full ${showReviews ? 'mb-2' : 'mb-6'}`}
+                className={`flex flex-col pb-[16px] pt-[16px]  w-full ${showReviews ? 'mb-2' : 'mb-6'}`}
             >
                 <div className="flex items-center mb-2">
                     <Image
@@ -99,8 +98,8 @@ const EmployeeCard = ({
                 </div>
             </div>
 
-             {showReviews && (
-                <div className="flex flex-col w-full mx-5">
+            {showReviews && (
+                <div className="flex flex-col w-full">
                     {employee?.services?.map((service) => (
                         <div className="flex items-center mb-1" key={service?.title}>
                             <span className="text-[14px] font-medium text-heading mr-2">
@@ -112,29 +111,29 @@ const EmployeeCard = ({
                 </div>
             )}
             {!showReviews && (
-               <div
-               className="flex flex-col lg:flex-row gap-[16px] mb-4"
-               onClick={() => onClick(employee)}
-           >
-               {employee?.services.map((service) => (
-                   <div
-                       key={service.title}
-                       className="w-[326px] sm:w-[326px] lg:w-[284px] group pb-[16px] pt-[16px] pl-[16px] bg-primary border border-gray-300 rounded-[4px] cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between"
-                       onClick={() => onClick(employee)}
-                   >
-                       <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
-                           {service?.title}
-                       </h5>
-                       <p className="text-sm text-grey truncate group-hover:text-primary">
-                           {service?.description}
-                       </p>
-                       <p className="text-sm text-heading truncate group-hover:text-primary">
-                           ${service?.price?.toFixed(2)}
-                       </p>
-                   </div>
-               ))}
-           </div>
-           
+                <div
+                    className="flex flex-col lg:flex-row gap-[16px] mb-4"
+                    onClick={() => onClick(employee)}
+                >
+                    {employee?.services.map((service) => (
+                        <div
+                            key={service.title}
+                            className="w-[326px] sm:w-[326px] lg:w-[284px] group pb-[16px] pt-[16px] pl-[16px] bg-primary border border-gray-300 rounded-[4px] cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between"
+                            onClick={() => onClick(employee)}
+                        >
+                            <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
+                                {service?.title}
+                            </h5>
+                            <p className="text-sm text-grey truncate group-hover:text-primary">
+                                {service?.description}
+                            </p>
+                            <p className="text-sm text-heading truncate group-hover:text-primary">
+                                ${service?.price?.toFixed(2)}
+                            </p>
+                        </div>
+                    ))}
+                </div>
+
             )}
         </div>
 

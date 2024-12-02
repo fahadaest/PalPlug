@@ -23,7 +23,7 @@ const EmployeeDetails = () => {
     const companyStyles = useSelector(selectCompanyStyles);
     const logoClassNames = useSelector(selectLogoClassNames);
     const employees = useSelector(selectEmployees);
-    const companies = useSelector((state)=>state.companies.companies);
+    const companies = useSelector((state) => state.companies.companies);
 
     const employee = employees?.find(
         (emp) => emp?.id.toString() === employeeId
@@ -49,85 +49,84 @@ const EmployeeDetails = () => {
     const renderTabContent = () => {
         if (!activeService) return null;
 
-                return (
-                    <div className="p-4">
-                        <div className="flex justify-between mb-4 text-base text-text-heading">
-                            <h5 className="text-lg font-semibold">
-                                Standard Employee Referral
-                            </h5>
-                            <p className="text-lg ">${activeService?.price?.toFixed(2)}</p>
-                        </div>
-                        <h6 className="text-base font-lightbold mb-2">
-                            About this package
-                        </h6>
-                        <p className="text-sm text-grey30 mb-4">
-                           {activeService?.package}
-                        </p>
-                        <div className="flex items-center mb-4">
-                            <Image
-                                src={TimeImg}
-                                alt="1 day delivery"
-                                width={24}
-                                height={24}
-                                className="mr-2"
-                            />
-                            <p className="text-sm">1 day delivery</p>
-                        </div>
-                        <div className="flex items-center mb-6">
-                            <Image
-                                src={MovieImg}
-                                alt="Video screening required"
-                                width={24}
-                                height={24}
-                                className="mr-2"
-                            />
-                            <p className="text-sm">Video screening required</p>
-                        </div>
-                        <button
-                            className="w-full py-2 bg-[#005382] text-primary rounded-lg mt-4"
-                            onClick={() => setIsModalOpen(true)}
-                        >
-                            Select Package
-                        </button>
-                        <SignInModal
-                        isOpen={isModalOpen && !user}
-                            onClose={() => setIsModalOpen(false)}
-                        />
-                        <p className="text-sm text-center mt-4">Contact {employee?.name}</p>
-                    </div>
-                );
-        }
-    
+        return (
+            <div className="p-4">
+                <div className="flex justify-between mb-4 text-base text-text-heading">
+                    <h5 className="text-lg font-semibold">
+                        Standard Employee Referral
+                    </h5>
+                    <p className="text-lg ">${activeService?.price?.toFixed(2)}</p>
+                </div>
+                <h6 className="text-base font-lightbold mb-2">
+                    About this package
+                </h6>
+                <p className="text-sm text-grey30 mb-4">
+                    {activeService?.package}
+                </p>
+                <div className="flex items-center mb-4">
+                    <Image
+                        src={TimeImg}
+                        alt="1 day delivery"
+                        width={24}
+                        height={24}
+                        className="mr-2"
+                    />
+                    <p className="text-sm">1 day delivery</p>
+                </div>
+                <div className="flex items-center mb-6">
+                    <Image
+                        src={MovieImg}
+                        alt="Video screening required"
+                        width={24}
+                        height={24}
+                        className="mr-2"
+                    />
+                    <p className="text-sm">Video screening required</p>
+                </div>
+                <button
+                    className="w-full py-2 bg-[#005382] text-primary rounded-lg mt-4"
+                    onClick={() => setIsModalOpen(true)}
+                >
+                    Select Package
+                </button>
+                <SignInModal
+                    isOpen={isModalOpen && !user}
+                    onClose={() => setIsModalOpen(false)}
+                />
+                <p className="text-sm text-center mt-4">Contact {employee?.name}</p>
+            </div>
+        );
+    }
+
 
     return (
         <>
             <div
-                className={`w-full h-[48px] ${bgColor} flex items-center justify-center`}
+                className={`w-full h-[48px] md:h-[96px] ${bgColor} flex items-center justify-center`}
             >
                 <div className="w-full flex items-center justify-center">
-                    <div className="flex items-center space-x-6">
-                    {company?.image ? (
-                    <Image
-                        src={company?.image}
-                        alt={displayName}
-                        width={40}
-                        height={40}
-                    //TODO: AS THIS CLASS WAS ADDED TP WHITE OUTLINE OF COMPANY LOGO AS GITHUB ETC CAN BE ADD IN FUTURE IF IMAGE OUTLINE IS NOT WHITE FROM BE SIDE className={`object-contain ${logoClassNames[displayName] || ''}`}
-                    />
-                ) : (
-                    <div className="w-[24px] h-[24px] bg-gray-300 rounded-full flex items-center justify-center">
-                        <span className="text-white">N/A</span> 
-                    </div>
-                )}
-                        <h1 className="text-primary text-[42px] font-semibold">
+                    <div className="flex items-center gap-[15px]">
+                        {company?.image ? (
+                            <Image
+                                src={company?.image}
+                                alt={displayName}
+                                className='h-[21px] w-[21px] md:h-[42px] md:w-[42px]'
+                            //TODO: AS THIS CLASS WAS ADDED TP WHITE OUTLINE OF COMPANY LOGO AS GITHUB ETC CAN BE ADD IN FUTURE IF IMAGE OUTLINE IS NOT WHITE FROM BE SIDE className={`object-contain ${logoClassNames[displayName] || ''}`}
+                            />
+                        ) : (
+                            <div className="w-[24px] h-[24px] bg-gray-300 rounded-full flex items-center justify-center">
+                                <span className="text-white">N/A</span>
+                            </div>
+                        )}
+                        <h1 className="text-primary text-[21px] md:text-[42px] font-semibold">
                             {displayName}
                         </h1>
                     </div>
                 </div>
             </div>
 
-            <div className="bg-employecard-bg-main-card min-h-screen">
-                <div className="flex flex-col lg:flex-row gap-4 p-8 justify-center">
+            <div className="bg-employecard-bg-main-card pr-[16px] pl-[16px] pt-[24px] min-h-screen">
+                <div className="flex flex-col lg:flex-row gap-4 justify-center">
                     <div className="flex-1 max-w-[1000px] space-y-4">
                         <EmployeeCard
                             employee={employee}
