@@ -13,6 +13,7 @@ const EmployeeCard = ({
 }) => {
 
     return (
+        <>
        <div className="bg-white border  border-gray-300 rounded-lg  pl-[16px] pr-[16px] mb-6 w-full max-w-[1000px] h-auto flex flex-col items-start">
             <div className="flex flex-wrap items-start w-full">
                 <div className="flex items-center w-full pt-2 sm:w-1/2">
@@ -118,16 +119,17 @@ const EmployeeCard = ({
                     {employee?.services.map((service) => (
                         <div
                             key={service.title}
-                            className="w-[326px] sm:w-[326px] lg:w-[284px] group pb-[16px] pt-[16px] pl-[16px] bg-primary border border-gray-300 rounded-[4px] cursor-pointer hover:bg-employecard-card-blue-hover transition-colors flex flex-col justify-between"
+                            className="w-[326px] sm:w-[326px] lg:w-[284px] group pb-[16px] pt-[16px] pl-[16px] bg-primary border border-gray-300 rounded-[4px] cursor-pointer md:transition-colors flex flex-col justify-between 
+                            md:hover:bg-employecard-card-blue-hover"
                             onClick={() => onClick(employee)}
                         >
-                            <h5 className="text-lg font-semibold text-heading truncate group-hover:text-primary">
+                            <h5 className="text-lg font-semibold text-heading truncate md:group-hover:text-primary">
                                 {service?.title}
                             </h5>
-                            <p className="text-sm text-grey truncate group-hover:text-primary">
+                            <p className="text-sm text-grey truncate md:group-hover:text-primary">
                                 {service?.description}
                             </p>
-                            <p className="text-sm text-heading truncate group-hover:text-primary">
+                            <p className="text-sm text-heading truncate md:group-hover:text-primary">
                                 ${service?.price?.toFixed(2)}
                             </p>
                         </div>
@@ -136,7 +138,7 @@ const EmployeeCard = ({
 
             )}
         </div>
-
+        </>
     );
 };
 
