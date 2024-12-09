@@ -409,7 +409,7 @@ const CompanyDetails = () => {
             )}
 
 
-            <div className="w-full  md:py-8  flex flex-col items-center pl-[16px] pr-[16px] pt-[24px] bg-[#F5F5F5]  min-h-screen">
+            <div className="w-full flex flex-col items-center gap-[16px] pl-[16px] pr-[16px] pt-[16px] bg-white md:bg-[#F5F5F5] min-h-screen">
                 {employees?.map((employee, index) => (
                     <EmployeeCard
                         key={employee.id}
