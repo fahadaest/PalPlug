@@ -121,7 +121,7 @@ const CompanyDetails = () => {
                 </div>
             </div>
 
-            <div className="position-relative mt-2 mb-[2px] w-full px-4 flex gap-[16px] overflow-x-scroll">
+            <div className="position-relative mt-2 mb-[2px] w-full px-4 flex gap-[16px] overflow-x-scroll overflow-y-visible">
                 <div className="position-relative text-left overscroll-none">
                     <button
                         id="dropdownJobFunctionbutton"
@@ -140,7 +140,7 @@ const CompanyDetails = () => {
                     </button>
                     <div
                         id="dropdownJobFunction"
-                        className={`z-10 ${openDropdown === 'dropdownJobFunction'
+                        className={`absolute z-10 ${openDropdown === 'dropdownJobFunction'
                             ? 'block'
                             : 'hidden'
                             } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
@@ -194,7 +194,7 @@ const CompanyDetails = () => {
                     </button>
                     <div
                         id="dropdownPrice"
-                        className={`z-10 ${openDropdown === 'dropdownPrice'
+                        className={`absolute z-10 ${openDropdown === 'dropdownPrice'
                             ? 'block'
                             : 'hidden'
                             } bg-white divide-y divide-gray-100 rounded-lg shadow w-[218px] position-relative mt-1`}
@@ -250,7 +250,7 @@ const CompanyDetails = () => {
                     </button>
                     <div
                         id="dropdownHighestRated"
-                        className={`z-10 ${openDropdown === 'dropdownHighestRated'
+                        className={`absolute z-10 ${openDropdown === 'dropdownHighestRated'
                             ? 'block'
                             : 'hidden'
                             } bg-white divide-y divide-gray-100 rounded-lg shadow w-[218px] position-relative mt-1`}

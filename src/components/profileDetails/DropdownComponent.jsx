@@ -75,7 +75,19 @@ const DropdownComponent = ({
       {isOpen && (
         <div
           className=" bg-white border rounded-[8px] overflow-y-auto"
-          style={{ maxHeight: '200px', width: dropdownWidth }}
+          style={{
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+            zIndex: 50,
+            backgroundColor: 'white',
+            border: '1px solid #ddd',
+            borderRadius: '8px',
+            maxHeight: '200px',
+            overflowY: 'auto',
+            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+            width: buttonRef.current ? `${buttonRef.current.offsetWidth}px` : '100%',
+          }}
         >
           {options.length > 0 ? (
             options.map((option) => (
