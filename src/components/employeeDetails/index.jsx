@@ -50,7 +50,7 @@ const EmployeeDetails = () => {
         if (!activeService) return null;
 
         return (
-            <div className="p-4">
+            <div className="pt-4 pb-4">
                 <div className="flex justify-between mb-4 text-base text-text-heading">
                     <h5 className="text-lg font-semibold">
                         Standard Employee Referral
@@ -125,15 +125,15 @@ const EmployeeDetails = () => {
                 </div>
             </div>
 
-            <div className="bg-employecard-bg-main-card pr-[16px] pl-[16px] pt-[24px] min-h-screen">
-                <div className="flex flex-col lg:flex-row gap-4 justify-center">
-                    <div className="flex-1 max-w-[1000px] space-y-4">
+            <div className="bg-employecard-bg-main-card pr-[16px] pl-[16px] pb-[24px] pt-[24px] min-h-screen">
+                <div className="flex flex-col lg:flex-row gap-[16px] justify-center">
+                    <div className="flex-1 max-w-[1000px] flex flex-col gap-[16px]">
                         <EmployeeCard
                             employee={employee}
                             showAbout={true}
                             showReviews={true}
                         />
-                        <div className="bg-white p-4 shadow-lg rounded-md">
+                        <div className="bg-white p-4 border-[#F0F0F0] rounded-md">
                             <h2 className="text-lg font-semibold mb-2 text-text-heading">
                                 How it works
                             </h2>
@@ -182,8 +182,8 @@ const EmployeeDetails = () => {
                             </p>
                         </div>
                     </div>
-                    <div className="flex-1 lg:max-w-[436px] bg-primary p-4 h-[522px]">
-                        <ul className="flex flex-wrap text-sm font-medium text-center text-gray-500 mb-4">
+                    <div className="flex-1 rounded-[8px] lg:max-w-[436px] bg-primary p-4 h-[522px]">
+                        <ul className="flex flex-nowrap md:flex-wrap text-sm font-medium text-center text-gray-500">
                             {[
                                 'Referral',
                                 'Resume Review',
