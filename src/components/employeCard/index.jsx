@@ -14,14 +14,14 @@ const EmployeeCard = ({
 
     return (
         <>
-            <div className="bg-white border  border-[#F0F0F0] rounded-lg  pl-[16px] pr-[16px] w-full max-w-[1000px] h-auto flex flex-col items-start">
-                <div className="flex flex-wrap items-start w-full">
-                    <div className="flex items-center w-full pt-2 sm:w-1/2">
+            <div className="bg-white border border-[#F0F0F0] rounded-lg pl-[16px] pr-[16px] pt-[24px] pb-[24px] w-full max-w-[1000px] h-auto flex flex-col items-start">
+                <div className="h-[96px] flex flex-wrap items-start w-full">
+                    <div className="flex h-[72px] gap-[24px] items-center w-full sm:w-1/2 ">
                         <Image
                             src={employee.image}
                             alt={employee.name}
-                            width={90}
-                            height={90}
+                            width={72}
+                            height={72}
                             className="rounded-full object-cover"
                         />
                         <div className="ml-4 text-left">
@@ -64,12 +64,12 @@ const EmployeeCard = ({
                     </div>
                 )}
 
-                <div className="w-full h-px bg-gray-200 my-4"></div>
+                <div className="w-full h-px bg-gray-200 "></div>
 
                 <div
-                    className={`flex flex-col pb-[16px] pt-[16px]  w-full ${showReviews ? 'mb-2' : 'mb-6'}`}
+                    className={`flex flex-col pt-[16px] pb-[24px] w-full ${showReviews ? '' : ''}`}
                 >
-                    <div className="flex items-center mb-2">
+                    <div className="flex items-center">
                         <Image
                             src={StarImg}
                             alt="Rating"
@@ -113,7 +113,7 @@ const EmployeeCard = ({
                 )}
                 {!showReviews && (
                     <div
-                        className="flex flex-col lg:flex-row gap-[16px] mb-4"
+                        className="flex flex-col lg:flex-row gap-[16px]"
                         onClick={() => onClick(employee)}
                     >
                         {employee?.services.map((service) => (

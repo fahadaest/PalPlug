@@ -121,7 +121,7 @@ const CompanyDetails = () => {
                 </div>
             </div>
 
-            <div className="position-relative mt-2 mb-[2px] w-full px-4 flex gap-[16px] overflow-x-scroll overflow-y-visible">
+            <div className="position-relative pb-[16px] pt-[16px] w-full px-4 flex gap-[16px] overflow-x-scroll overflow-y-visible">
                 <div className="position-relative text-left overscroll-none">
                     <button
                         id="dropdownJobFunctionbutton"
