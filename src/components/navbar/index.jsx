@@ -5,7 +5,7 @@ import Logo from '@/assets/images/logo.svg';
 import BellIcon from '@/assets/images/bell.svg';
 import MailIcon from '@/assets/images/mail.svg';
 import UserImg from '@/assets/images/user.svg';
-import ArrowIcon from '@/assets/images/arrow.svg';
+import ArrowIcon from '@/assets/images/navarrow.svg';
 import mobileLogo from '@/assets/images/mblLogo.svg';
 import { useRouter, usePathname } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -163,10 +163,10 @@ const Navbar = () => {
 
 
                 {!isProfilePage && (
-                    <div className="h-[36px]  w-[116px] md:w-[252px] gap-[16px] flex items-center  flex-shrink-0">
+                    <div className="h-[36px] min-w-[116px] md:w-[248px] gap-[16px] flex items-center">
                         {user ? (
                             <>
-                                <div className=' pl-1 flex gap-[16px]'>
+                              <div className='flex w-[64px] gap-[16px] sm:gap-[8px]'>
 
                                     <Image
                                         src={BellIcon}
@@ -179,7 +179,8 @@ const Navbar = () => {
                                         className="text-black h-[24px] w-[24px] cursor-pointer"
                                     />
                                 </div>
-                                <div className="relative flex items-center  ">
+
+                                <div className="md:w-full flex items-center gap-[8px]">
                                     <Image
                                         src={UserImg}
                                         alt="User Image"
@@ -197,11 +198,16 @@ const Navbar = () => {
                                         </div>
                                     )}
 
-                                    <div className="hidden  md:flex items-center">
-                                        <span className="text-heading font-semibold truncate max-w-[100px] sm:max-w-[120px] md:max-w-[100px] text-xs sm:text-sm md:text-base">
-                                            {user.displayName}
-                                        </span>
-                                        <div className="relative " ref={dropdownRef}>
+                                    <div className="hidden w-full md:flex flex-nowrap items-center">
+                                        <div
+                                            className="text-heading h-[16px] w-full font-[600] text-[14px]"
+                                        >
+                                            {user.displayName && user.displayName.length > 20
+                                                ? `${user.displayName.substring(0, 20)}...`
+                                                : user.displayName || "Unknown User"}
+                                        </div>
+
+                                        <div className="relative" ref={dropdownRef}>
                                             <button
                                                 onClick={() => setDropdownOpen(!isDropdownOpen)}
                                                 className={`bg-blue-100 hover:bg-blue-200 focus:ring-2  focus:outline-none  focus:ring-blue-300 font-medium rounded-full  ml-2 w-[16px] h-[16px]  inline-flex items-center justify-center transition-colors duration-300 ${isDropdownOpen ? 'bg-blue-200' : 'bg-blue-100'} ${isDropdownOpen ? 'active:bg-blue-300' : ''} hidden md:block`}
@@ -210,12 +216,13 @@ const Navbar = () => {
                                                 <span className="sr-only">
                                                     Open dropdown
                                                 </span>
+
                                                 <Image
                                                     src={ArrowIcon}
                                                     alt="Arrow Icon"
                                                     width={16}
                                                     height={16}
-                                                    className={`w-4 h-4  transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
+                                                    className={`w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
                                                 />
                                             </button>
                                             {console.log("isDropdownOpen:", isDropdownOpen)}

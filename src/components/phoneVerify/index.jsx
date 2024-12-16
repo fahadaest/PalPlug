@@ -4,7 +4,7 @@ import Image from 'next/image';
 import CloseIcon from '@/assets/images/Closeicon.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCountries } from '@/app/redux/action';
-import OTPVerifyModal from './OtpVerifyModal'; 
+import OTPVerifyModal from './OtpVerifyModal';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
 import RotatingIcon from '../profileDetails/icon';
 
@@ -13,10 +13,10 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
   const modalRef = useRef(null);
   const contentRef = useRef(null);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [isOtpModalOpen, setIsOtpModalOpen] = useState(false); 
+  const [isOtpModalOpen, setIsOtpModalOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState('');
-  const [isInputFilled, setIsInputFilled] = useState(false); 
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
+  const [isInputFilled, setIsInputFilled] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const dispatch = useDispatch();
   const { countries, loading } = useSelector((state) => state.countries);
@@ -32,7 +32,7 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
 
   useEffect(() => {
     setupRecaptcha();
-    dispatch(fetchCountries()); 
+    dispatch(fetchCountries());
   }, [dispatch]);
 
   useEffect(() => {
@@ -45,9 +45,9 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
 
     const formattedPhoneNumber = phoneNumber.replace(/\s+/g, '');
     console.log('Formatted Phone Number:', formattedPhoneNumber);
-  
+
     const phoneRegex = /^\+\d{1,3}\d{7,15}$/;
-  
+
     if (!appVerifier) {
       console.error('Recaptcha verifier not initialized');
       return;
@@ -100,7 +100,7 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
         >
           <div
             ref={contentRef}
-            className="relative w-[520px] h-[472px] bg-white p-[40px] rounded-[8px] shadow-lg"
+            className="relative w-auto max:w-[520px] h-auto sm:h-[472px] bg-white p-[40px] rounded-[8px] shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4">
@@ -115,43 +115,42 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
             </p>
 
             <form>
-            <div className="mb-6 relative">
-  <label className="block text-[#2F2F2F] font-[600] text-[14px] mb-2" htmlFor="country">
-    Enter Country
-  </label>
-  {loading ? (
-    <p>Loading countries...</p>
-  ) : (
-    <>
-      <select   
-        value={selectedCountry}
-        onChange={(e) => setSelectedCountry(e.target.value)} 
-        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="w-full px-3 py-2 border h-[48px] bg-[white] text-[#413f3f] rounded-[8px] appearance-none"
-      >
-        <option value="" disabled>Select Country</option>
-        {countries.map((country) => (
-          <option key={country.code} value={country.dialCode}>
-            {country.name} ({country.dialCode}) 
-          </option>
-        ))}
-      </select>
-      <span
-        className={`absolute right-3 top-10 transform transition-transform ${
-          isDropdownOpen ? 'rotate-180' : 'rotate-0'
-        }`}
-      >
-        <RotatingIcon />
-      </span>
-    </>
-  )}
-</div>
+              <div className="mb-6 relative">
+                <label className="block text-[#2F2F2F] font-[600] text-[14px] mb-2" htmlFor="country">
+                  Enter Country
+                </label>
+                {loading ? (
+                  <p>Loading countries...</p>
+                ) : (
+                  <>
+                    <select
+                      value={selectedCountry}
+                      onChange={(e) => setSelectedCountry(e.target.value)}
+                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                      className="w-full px-3 py-2 border h-[48px] bg-[white] text-[#413f3f] rounded-[8px] appearance-none"
+                    >
+                      <option value="" disabled>Select Country</option>
+                      {countries.map((country) => (
+                        <option key={country.code} value={country.dialCode}>
+                          {country.name} ({country.dialCode})
+                        </option>
+                      ))}
+                    </select>
+                    <span
+                      className={`absolute right-3 top-10 transform transition-transform ${isDropdownOpen ? 'rotate-180' : 'rotate-0'
+                        }`}
+                    >
+                      <RotatingIcon />
+                    </span>
+                  </>
+                )}
+              </div>
 
-                 <div className="mb-6">
-                 <label className="block text-[#2F2F2F] font-[600] text-[14px] mb-2" htmlFor="phone">
+              <div className="mb-6">
+                <label className="block text-[#2F2F2F] font-[600] text-[14px] mb-2" htmlFor="phone">
                   Enter your Phone Number
-                 </label>
-                 <input
+                </label>
+                <input
                   type="tel"
                   value={phoneNumber}
                   onChange={(e) => setPhoneNumber(e.target.value)}
@@ -160,16 +159,16 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
                 />
               </div>
 
-              <div className="flex space-x-4">
+              <div className="flex  space-x-4">
                 <button
                   type="button"
-                  className={`w-[210px] h-[40px] pt-[8px] pb-[11px] pl-[20px] pr-[20px] ${isInputFilled ? 'bg-[#005382]' : 'bg-[#939393]'} text-white text-[16px] font-[600] rounded-[8px]`}
+                  className={`w-full md:w-[210px] h-[40px] pt-[8px] pb-[11px] pl-[20px] pr-[20px] ${isInputFilled ? 'bg-[#005382]' : 'bg-[#939393]'} text-white text-[12px] md:text-[16px] font-[600] rounded-[8px]`}
                   onClick={handleSendVerificationCode}
                 >
                   Verify by SMS
                 </button>
-                <button 
-                  className={`w-[210px] h-[40px] pt-[8px] pb-[11px] pl-[20px] pr-[20px] ${isInputFilled ? 'bg-[#005382]' : 'bg-[#939393]'} text-white text-[16px] font-[600] rounded-[8px]`}
+                <button
+                  className={`w-full md:w-[210px] h-[40px] pt-[8px] pb-[11px] pl-[20px] pr-[20px] ${isInputFilled ? 'bg-[#005382]' : 'bg-[#939393]'} text-white text-[12px] md:text-[16px] font-[600] rounded-[8px]`}
                 >
                   Verify by Call
                 </button>
