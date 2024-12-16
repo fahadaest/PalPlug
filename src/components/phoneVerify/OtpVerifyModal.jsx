@@ -4,7 +4,7 @@ import Image from 'next/image';
 import CloseIcon from '@/assets/images/Closeicon.svg'; 
 import VerificationComplete from './VerificationComplete';
 
-  const OTPVerifyModal = ({ isOpen, phoneNumber, onClose }) => {
+const OTPVerifyModal = ({ isOpen, phoneNumber, onClose }) => {
   const [isVerificationCompleteOpen, setVerificationCompleteOpen] = useState(false);
   const [otp, setOtp] = useState(new Array(6).fill('')); 
   const inputRefs = useRef([]);
@@ -54,38 +54,38 @@ import VerificationComplete from './VerificationComplete';
     <>
       <Modal isOpen={isOpen} onClose={onClose} ModalImg={null}>
         <div className="fixed inset-0 flex items-center justify-center bg-gray-100 bg-opacity-10 p-4 md:p-10 z-20">
-          <div className="w-full max-w-[95%] h-[470px] sm:max-w-[400px] md:max-w-[520px] bg-white p-[40px] gap-[19px] rounded-lg shadow-lg relative">
-            <div className="flex justify-end items-center pb-1">
+          <div className="w-full max-w-[95%] sm:max-w-[400px] md:max-w-[520px] h-auto bg-white p-6 md:p-10 gap-6 rounded-lg shadow-lg relative">
+            <div className="flex justify-end items-center pb-2">
               <button className="text-gray-500" onClick={onClose}>
                 <Image src={CloseIcon} alt="close" className="w-6 h-6 cursor-pointer" />
               </button>
             </div>
 
-            <div className="flex flex-col gap-[16px] mb-1">
-              <h2 className="text-[20px] sm:text-[24px] font-[600]">Verify Phone Number</h2>
-              <p className="text-[#939393] text-[14px] font-[400]">A verification code has been sent to:</p>
-              <div className="h-[1px] w-full bg-[#F0F0F0]"></div>
+            <div className="flex flex-col gap-4 mb-4">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-semibold">Verify Phone Number</h2>
+              <p className="text-gray-500 text-sm sm:text-base">A verification code has been sent to:</p>
+              <div className="h-px w-full bg-gray-200"></div>
             </div>
 
-            <div className="flex justify-center items-center mb-4">
-              <div className="w-[156px] flex justify-between items-center">
-                <span className="text-[14px] font-[400]">{phoneNumber}</span>
-                <a href="#" className="text-[#005382] text-[14px] font-[600]" onClick={onClose}>
+            <div className="flex justify-center items-center mb-6">
+              <div className="flex justify-between items-center w-[156px]">
+                <span className="text-sm sm:text-base">{phoneNumber}</span>
+                <a href="#" className="text-blue-600 text-sm sm:text-base font-semibold" onClick={onClose}>
                   Edit
                 </a>
               </div>
             </div>
 
             {/* Code Input Fields */}
-            <div className="flex flex-col items-center gap-[19px]">
-              <p className="text-[20px] sm:text-[24px] font-[600]">Please enter the verification code</p>
-              <div className="flex justify-center gap-[8px] sm:gap-[19px]">
+            <div className="flex flex-col items-center gap-6">
+              <p className="text-lg sm:text-xl md:text-2xl font-semibold text-center">Please enter the verification code</p>
+              <div className="flex justify-center gap-2 sm:gap-4">
                 {otp.map((digit, index) => (
                   <input
                     key={index}
                     ref={(el) => (inputRefs.current[index] = el)}
                     type="text"
-                    className="w-[40px] h-[53px] accent-black text-[24px] font-bold sm:w-[47px] border border-gray-300 rounded-[4px] text-center"
+                    className="w-10 h-12 sm:w-12 sm:h-14 md:w-14 md:h-16 text-lg sm:text-xl md:text-2xl font-bold border border-gray-300 rounded-md text-center"
                     maxLength="1"
                     value={digit}
                     onChange={(e) => handleOtpChange(e.target.value, index)}
@@ -95,10 +95,10 @@ import VerificationComplete from './VerificationComplete';
               </div>
             </div>
 
-            <div className="flex justify-center items-center mt-4">
+            <div className="flex justify-center items-center mt-6">
               <button
-                className={`w-full md:w-[210px] h-[40px] text-white text-[14px] font-[600] py-2 rounded-[4px] 
-                ${isOtpComplete ? 'bg-[#005382] hover:bg-[#00436b]' : 'bg-[#939393]'}`} 
+                className={`w-full md:w-[210px] h-10 md:h-12 text-white text-sm md:text-base font-semibold rounded-md 
+                ${isOtpComplete ? 'bg-blue-600 hover:bg-blue-700' : 'bg-gray-400'}`} 
                 onClick={handleSubmit}
                 disabled={!isOtpComplete} 
               >
@@ -106,7 +106,7 @@ import VerificationComplete from './VerificationComplete';
               </button>
             </div>
 
-            <p className="text-[#939393] text-[14px] font-[400] text-center mt-2">
+            <p className="text-gray-500 text-sm sm:text-base text-center mt-4">
               If you did not receive the code, please close this dialog box and check that you entered the right number, then try again.
             </p>
           </div>
@@ -121,4 +121,3 @@ import VerificationComplete from './VerificationComplete';
 };
 
 export default OTPVerifyModal;
-

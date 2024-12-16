@@ -34,7 +34,7 @@ const StepProgressBar = ({ className }) => {
     }, [currentStep]);
 
     return (
-        <div className="flex items-center w-full">
+        <div className="flex items-start w-full flex-col pt-[8px] sm:pt-[24px]">
             <ol className="justify-center flex  items-center w-full">
                 <div className='flex justify-center flex-col'>
                     <li className=" flex w-auto md:w-[182px] items-center">
@@ -51,7 +51,7 @@ const StepProgressBar = ({ className }) => {
                         </span>
                         <span className={`line2 min-w-[93px] max-w-[150px] flex-1 h-[2px] ${currentStep >= 2 ? 'bg-[#005382]' : 'bg-gray-100'} dark:${currentStep >= 3 ? 'bg-[#005382]' : 'bg-gray-100'}`}></span>
                     </li>
-                    <p className={`text-[14px] font-[600] ${currentStep > 1 ? 'text-black' : 'text-[#D5D4DC]'} hidden md:block`}>Personal Info</p>
+                   
                 </div>
 
                 <div className='flex justify-center flex-col'>
@@ -69,7 +69,7 @@ const StepProgressBar = ({ className }) => {
                         </span>
                         <span className={`line2 min-w-[93px] max-w-[150px] flex-1 h-[2px] ${currentStep >= 3 ? 'bg-[#005382]' : 'bg-gray-100'} dark:${currentStep >= 3 ? 'bg-[#005382]' : 'bg-gray-100'}`}></span>
                     </li>
-                    <p className={`text-[14px] font-[600] ${currentStep > 2 ? 'text-black' : 'text-[#D5D4DC]'} hidden md:block`}>Professional Info</p>
+                   
                 </div>
 
                 <div className='flex justify-center flex-col'>
@@ -87,9 +87,14 @@ const StepProgressBar = ({ className }) => {
                         </span>
                     </li>
 
-                    <p className={`text-[14px] items-center font-[600] ${currentStep > 3 ? 'text-black' : 'text-[#D5D4DC]'} hidden md:block`}>Account Info</p>
+                  
                 </div>
             </ol>
+            <div className='pt-2 flex flex-row gap-20'>
+            <p className={`text-[14px] font-[600] ${currentStep >= 1 ? 'text-black' : 'text-[#D5D4DC]'} hidden md:block`}>Personal Info</p>
+            <p className={`text-[14px] font-[600] ${currentStep >= 2 ? 'text-black' : 'text-[#D5D4DC]'} hidden md:block`}>Professional Info</p>
+            <p className={`text-[14px] items-center font-[600] ${currentStep >= 3 ? 'text-black' : 'text-[#D5D4DC]'} hidden md:block`}>Account Info</p>
+            </div>
         </div>
     );
 };

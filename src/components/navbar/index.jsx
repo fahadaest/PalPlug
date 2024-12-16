@@ -189,7 +189,7 @@ const Navbar = () => {
                                         log
                                     />
                                     {isMobile && isDropdownOpen && (
-                                        <div className="absolute right-0 mt-2  w-48  border border-gray-200 rounded-lg shadow-lg z-10" ref={dropdownRef}>
+                                        <div className="absolute right-0 mt-2  w-48 rounded-lg shadow-lg z-10" ref={dropdownRef}>
                                             <NavbarDropdown
                                                 isOpen={isDropdownOpen}
                                                 userId={user.id || user.uid}
@@ -198,7 +198,7 @@ const Navbar = () => {
                                         </div>
                                     )}
 
-                                    <div className="hidden w-full md:flex flex-nowrap items-center">
+                                    <div className="hidden w-full max-w-fit md:flex flex-nowrap items-center">
                                         <div
                                             className="text-heading h-[16px] w-full font-[600] text-[14px]"
                                         >

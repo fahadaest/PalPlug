@@ -223,7 +223,7 @@ const ProfileInfo = ({ userId, displayName }) => {
                   <span className="text-[14px] italic font-lightbold text-[#555555]">Private</span>
                 </div>
                 {isVerificationComplete ? (
-                  <button className="h-[40px] text-[#555555] text-[12px] font-semibold w-full md:w-[120px] bg-[#6FCF97] p-3 rounded-xl">
+                  <button className="h-[40px] text-[#555555] text-[12px] font-[600] w-[120px] bg-[#6FCF97]  rounded-[8px]">
                     Verified
                   </button>
                 ) : (
