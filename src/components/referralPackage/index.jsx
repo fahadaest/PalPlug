@@ -5,19 +5,40 @@ import Movies from "@/assets/images/movies.svg";
 import { useState } from "react";
 import Link from "next/link";
 
+const packagesData = [
+  {
+    id: "standard",
+    name: "Standard Employee Referral",
+    price: 20.00,
+    details: "You will receive a 30 min call about your submitted resume with feedback on improvements. You will also receive one 15 min follow up review upon revision",
+    delivery_time: "1 day",
+    requirements: ["Video screening required"]
+  },
+  {
+    id: "interview",
+    name: "Interview Preparation",
+    details: "You will receive a 30 min call about your submitted resume with feedback on improvements. You will also receive one 15 min follow up review upon revision",
+    price: 25.00,
+    delivery_time: "3 day",
+    requirements: ["Video screening required"]
+  },
+  {
+    id: "resume",
+    name: "Resume Review",
+    price: 15.00,
+    details: "You will set up a 30 min call for preparation for an interview. I will go into detail on what the company looks for in the position as well as some tips and tricks to help you crush the interview and land you the job (successful hire not guaranteed)",
+    delivery_time: "2 day",
+    requirements: ["Video screening required"]
+  }
+];
+
 const ReferralPackage = () => {
   const [selectedPackage, setSelectedPackage] = useState(null);
-  const [promoCode, setPromoCode] = useState('');
-
-  const prices = {
-    standard: 20.00,
-    interview: 25.00,
-    resume: 15.00,
-  };
+  const [promoCode, setPromoCode] = useState("");
 
   const handleCheckboxChange = (type) => {
     if (selectedPackage === type) {
-      setSelectedPackage(null); t
+      setSelectedPackage(null);
     } else {
       setSelectedPackage(type);
     }
@@ -27,28 +48,20 @@ const ReferralPackage = () => {
     setPromoCode(e.target.value);
   };
 
-  const totalSelectedPrice = selectedPackage
-    ? prices[selectedPackage]
-    : 0;
+  const selectedPackageData = packagesData.find((pkg) => pkg.id === selectedPackage);
+  const totalSelectedPrice = selectedPackageData ? selectedPackageData.price : 0;
 
-  const serviceFee = 2.83;
+  const serviceFee = 3.90;
   const totalPrice = totalSelectedPrice + serviceFee;
 
-  const isAnyPackageSelected = selectedPackage !== null;
-
-  const selectedPackages = [];
-  if (selectedPackage === "standard") selectedPackages.push("Standard Employee Referral");
-  if (selectedPackage === "interview") selectedPackages.push("Interview Preparation");
-  if (selectedPackage === "resume") selectedPackages.push("Resume Review");
-
-  const paymentSummaryHeading = selectedPackages.length > 0
-    ? selectedPackages.join(" + ")
+  const paymentSummaryHeading = selectedPackageData
+    ? selectedPackageData.name
     : "Payment Summary";
 
   return (
     <>
       <div className="flex justify-center">
-        <div className="flex items-center gap-[30px] justify-between flex-wrap pt-[40px] pr-[24px] pb-[40px] pl-[24px] mt-[25px] w-full max-w-[1252px] h-auto bg-white rounded-[8px]">
+        <div className="flex  gap-[30px] justify-between flex-wrap pt-[40px] pr-[24px] pb-[40px] pl-[24px]  w-full max-w-[1252px] h-auto bg-white rounded-[8px]">
           <div className="w-full md:max-w-[632px] flex flex-col gap-[60px]">
             <div>
               <div className="flex items-center gap-[16px] h-[92px]">
@@ -70,82 +83,37 @@ const ReferralPackage = () => {
 
             <div className="flex justify-center">
               <div className="flex flex-col w-full md:max-w-[573px] gap-[45px]">
-                <div className="flex gap-[16px] h-[150px]">
-                  <label className="cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="accent-[#005382]"
-                      onChange={() => handleCheckboxChange("standard")}
-                      checked={selectedPackage === "standard"}
-                    />
-                  </label>
-                  <div className="flex flex-col w-full md:max-w-[541px] gap-[16px]">
-                    <div className="flex justify-between text-base font-semibold">
-                      Standard Employee Referral
-                      <p className="text-black font-lightbold text-base">${prices.standard}</p>
-                    </div>
-                    <div className="w-full flex flex-col gap-[12px]">
-                      <p className="text-base font-lightbold">About this package</p>
-                      <p className="text-sm font-lightbold text-[#555555]">
-                        Employee referral to Slack. Video call required to determine if candidate is a good fit for the position.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex gap-[16px] h-[150px]">
-                  <label className="cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="accent-[#005382]"
-                      onChange={() => handleCheckboxChange("interview")}
-                      checked={selectedPackage === "interview"}
-                    />
-                  </label>
-                  <div className="flex flex-col w-full md:max-w-[541px] gap-[16px]">
-                    <div className="flex justify-between text-base font-semibold">
-                      Interview Preparation
-                      <p className="text-black font-lightbold text-base">${prices.interview}</p>
-                    </div>
-                    <div className="w-full flex flex-col gap-[12px]">
-                      <p className="text-base font-lightbold">About this package</p>
-                      <p className="text-sm font-lightbold text-[#555555]">
-                        30 min call for interview preparation. Tips and tricks to help you ace the interview (successful hire not guaranteed).
-                      </p>
+                {packagesData.map((pkg) => (
+                  <div key={pkg.id} className="flex gap-[16px] h-[150px]">
+                    <label className="cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="accent-[#005382]"
+                        onChange={() => handleCheckboxChange(pkg.id)}
+                        checked={selectedPackage === pkg.id}
+                      />
+                    </label>
+                    <div className="flex flex-col w-full md:max-w-[541px] gap-[16px]">
+                      <div className="flex justify-between text-base font-semibold">
+                        {pkg.name}
+                        <p className="text-black font-lightbold text-base">${pkg.price.toFixed(2)}</p>
+                      </div>
+                      <div className="w-full md:w-[355px] flex flex-col gap-[12px]">
+                        <p className="text-base font-lightbold">About this package</p>
+                        <p className="text-sm font-lightbold text-[#555555]">
+                          {pkg.details}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-
-                <div className="flex gap-[16px] h-[150px]">
-                  <label className="cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="accent-[#005382]"
-                      onChange={() => handleCheckboxChange("resume")}
-                      checked={selectedPackage === "resume"}
-                    />
-                  </label>
-                  <div className="flex flex-col w-full md:max-w-[541px] gap-[16px]">
-                    <div className="flex justify-between text-base font-semibold">
-                      Resume Review
-                      <p className="text-black font-lightbold text-base">${prices.resume}</p>
-                    </div>
-                    <div className="w-full flex flex-col gap-[12px]">
-                      <p className="text-base font-lightbold">About this package</p>
-                      <p className="text-sm font-lightbold text-[#555555]">
-                        30 min resume review call with feedback and improvement suggestions.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
+                ))}
               </div>
             </div>
           </div>
 
-          {isAnyPackageSelected && (
-            <div className="border rounded-[8px] p-[20px] w-full md:w-[436px] h-auto md:h-[515px]">
-              <div className="flex flex-col h-auto md:h-[426px] w-full gap-[40px]">
+          {selectedPackage && (
+            <div className="border rounded-[8px] p-[20px] w-full mt-[40px] md:w-[436px] h-auto md:h-[515px]">
+              <div className="flex flex-col h-auto md:h-[426px] w-full gap-[30px]">
                 <h3 className="text-lg font-semibold mb-3">{paymentSummaryHeading}</h3>
                 <div className="flex flex-col gap-[12px]">
                   <div className="flex gap-[12px]">
@@ -156,18 +124,20 @@ const ReferralPackage = () => {
                       height={24}
                       className="rounded-full border"
                     />
-                    <span>1 day delivery</span>
+                    <span>{selectedPackageData.delivery_time} delivery</span>
                   </div>
-                  <div className="flex gap-[12px]">
-                    <Image
-                      src={Movies}
-                      alt="Movies Icon"
-                      width={24}
-                      height={24}
-                      className="rounded-full border"
-                    />
-                    <span>Video screening required</span>
-                  </div>
+                  {selectedPackageData.requirements.map((requirement, idx) => (
+                    <div key={idx} className="flex gap-[12px]">
+                      <Image
+                        src={Movies}
+                        alt="Movies Icon"
+                        width={24}
+                        height={24}
+                        className="rounded-full border"
+                      />
+                      <span>{requirement}</span>
+                    </div>
+                  ))}
                 </div>
 
                 <div>
@@ -190,7 +160,7 @@ const ReferralPackage = () => {
                   <span className="text-[24px] font-semibold">${totalPrice.toFixed(2)}</span>
                 </div>
 
-                <div className="flex flex-col gap-[10px]">
+                <div className="flex flex-col gap-[20px]">
                   <Link href="/servicePayment">
                     <button className="w-full h-[40px] text-[12px] font-semibold p-[11px_20px_11px_20px] bg-[#005382] text-white rounded-[8px]">
                       Confirm & Pay
@@ -201,12 +171,10 @@ const ReferralPackage = () => {
               </div>
             </div>
           )}
-
         </div>
-      </div >
+      </div>
     </>
   );
 };
 
 export default ReferralPackage;
-
