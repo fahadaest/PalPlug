@@ -3,7 +3,7 @@ import Image from "next/image";
 import TimerIcon from "@/assets/images/timer.svg";
 import Movies from "@/assets/images/movies.svg";
 import { useState } from "react";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 const packagesData = [
   {
@@ -35,6 +35,7 @@ const packagesData = [
 const ReferralPackage = () => {
   const [selectedPackage, setSelectedPackage] = useState(null);
   const [promoCode, setPromoCode] = useState("");
+  const router = useRouter(); 
 
   const handleCheckboxChange = (type) => {
     if (selectedPackage === type) {
@@ -48,6 +49,10 @@ const ReferralPackage = () => {
     setPromoCode(e.target.value);
   };
 
+  const handlePaymentRoute = () => {
+    router.push("/servicePayment");
+  };
+
   const selectedPackageData = packagesData.find((pkg) => pkg.id === selectedPackage);
   const totalSelectedPrice = selectedPackageData ? selectedPackageData.price : 0;
 
@@ -57,6 +62,7 @@ const ReferralPackage = () => {
   const paymentSummaryHeading = selectedPackageData
     ? selectedPackageData.name
     : "Payment Summary";
+
 
   return (
     <>
@@ -94,8 +100,8 @@ const ReferralPackage = () => {
                       />
                     </label>
                     <div className="flex flex-col w-full md:max-w-[541px] gap-[16px]">
-                      <div className="flex justify-between text-base font-semibold">
-                        {pkg.name}
+                      <div className="flex justify-between">
+                        <p className="text-base font-semibold">{pkg.name}</p>
                         <p className="text-black font-lightbold text-base">${pkg.price.toFixed(2)}</p>
                       </div>
                       <div className="w-full md:w-[355px] flex flex-col gap-[12px]">
@@ -161,11 +167,9 @@ const ReferralPackage = () => {
                 </div>
 
                 <div className="flex flex-col gap-[20px]">
-                  <Link href="/servicePayment">
-                    <button className="w-full h-[40px] text-[12px] font-semibold p-[11px_20px_11px_20px] bg-[#005382] text-white rounded-[8px]">
-                      Confirm & Pay
-                    </button>
-                  </Link>
+                  <button onClick={handlePaymentRoute} className="w-full h-[40px] text-[12px] font-semibold p-[11px_20px_11px_20px] bg-[#005382] text-white rounded-[8px]">
+                    Confirm & Pay
+                  </button>
                   <p className="text-center text-xs text-gray-500">All secure payment</p>
                 </div>
               </div>

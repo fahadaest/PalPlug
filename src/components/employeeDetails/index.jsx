@@ -14,7 +14,6 @@ import {
     selectOtherCompanies,
 } from '@/app/redux/slice/companies/companiesSlice';
 import { useRouter } from 'next/navigation'
-import Link from 'next/link';
 
 const EmployeeDetails = () => {
     const [activeTab, setActiveTab] = useState('Referral');
@@ -85,13 +84,14 @@ const EmployeeDetails = () => {
                     />
                     <p className="text-sm">Video screening required</p>
                 </div>
-                <Link href="/refPayment">
-                    <button
-                        onClick={() => setIsModalOpen(true)}
-                        className="w-full py-2 bg-[#005382] text-primary rounded-lg mt-4">
-                        Select Package
-                    </button>
-                </Link>
+                <button
+                    onClick={() => {
+                        setIsModalOpen(true);
+                        router.push('/refPayment');
+                    }}
+                    className="w-full py-2 bg-[#005382] text-primary rounded-lg mt-4">
+                    Select Package
+                </button>
                 <SignInModal
                     isOpen={isModalOpen && !user}
                     onClose={() => setIsModalOpen(false)}

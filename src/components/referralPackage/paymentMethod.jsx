@@ -17,12 +17,13 @@ const PaymentMethod = () => {
                     <h1 className="font-[600] text-[16px]">Payment Options</h1>
                 </div>
                 <div className="h-auto pt-[10px]">
-                    <div className="w-full md:w-[345px] flex gap-[10px] p-[10px] flex-wrap md:flex-nowrap">
-                        <label htmlFor="credit & debit cards"></label>
+                    <div className="w-full md:w-[390px] flex items-center justify-center gap-[8px] p-[10px] flex-wrap md:flex-nowrap">
                         <input
                             type="radio"
                             className="accent-[#25B2F8] rounded-full focus:none ring-0"
                         />
+                        <label>credit & debit cards
+                        </label>
                         <Image src={Visa} alt="Visa" width={35} height={24} />
                         <Image src={Master} alt="Master" width={35} height={24} />
                         <Image src={Discover} alt="Discover" width={35} height={24} />
@@ -31,7 +32,7 @@ const PaymentMethod = () => {
                 </div>
                 <div className=" flex flex-col justify-evenly bg-[#F8F8F8] h-auto md:h-[320px] p-4">
                     <div className="flex flex-wrap md:flex-nowrap gap-[20px]">
-                        <div className="flex flex-col w-full md:w-auto">
+                        <div className="flex flex-col gap-[8px] w-full md:w-auto">
                             <label className="text-[14px] font-[600]">Card Number</label>
                             <input
                                 type="text"
@@ -39,7 +40,7 @@ const PaymentMethod = () => {
                                 placeholder="placeholder text"
                             />
                         </div>
-                        <div className="flex flex-col w-full md:w-auto">
+                        <div className="flex flex-col gap-[8px]  w-full md:w-auto">
                             <label className="text-[14px] font-[600]">Expiration Date</label>
                             <input
                                 type="date"
@@ -47,7 +48,7 @@ const PaymentMethod = () => {
                                 placeholder="placeholder text"
                             />
                         </div>
-                        <div className="flex flex-col w-full md:w-auto">
+                        <div className="flex flex-col w-full gap-[8px] md:w-auto">
                             <label className="text-[14px] font-[600]">Security Code</label>
                             <input
                                 type="date"
@@ -57,8 +58,8 @@ const PaymentMethod = () => {
                         </div>
                     </div>
 
-                    <div className="flex flex-wrap md:flex-nowrap gap-[20px] mt-[10px]">
-                        <div className="flex flex-col w-full md:w-auto">
+                    <div className="flex flex-wrap md:flex-nowrap gap-[20px] mt-[8px]">
+                        <div className="flex flex-col w-full gap-[8px] md:w-auto">
                             <label className="text-[14px] font-[600]">First Name</label>
                             <input
                                 type="text"
@@ -66,7 +67,7 @@ const PaymentMethod = () => {
                                 placeholder="placeholder text"
                             />
                         </div>
-                        <div className="flex flex-col w-full md:w-auto">
+                        <div className="flex flex-col w-full gap-[8px] md:w-auto">
                             <label className="text-[14px] font-[600]">Last Name</label>
                             <input
                                 type="text"
