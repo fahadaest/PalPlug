@@ -1,7 +1,6 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { PopupWidget } from "react-calendly";
 import {
     selectOtherCompanies,
     selectCompanyStyles,
@@ -146,13 +145,7 @@ const Landing = () => {
             </div>
             <SignInModal isOpen={isModalOpen && !user} onClose={handleModalClose} />
         </div>
-        <PopupWidget
-    url="https://calendly.com/ali-rayhan29"
-    rootElement={typeof window !== "undefined" ? document.body : null}
-    text="Click here to schedule!"
-    textColor="#ffffff"
-    color="#00a2ff"
-/>
+
 </>
     );
 };

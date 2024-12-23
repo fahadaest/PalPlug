@@ -4,7 +4,8 @@ import TimerIcon from "@/assets/images/timer.svg";
 import Movies from "@/assets/images/movies.svg";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
+import Male from "@/assets/images/male.svg";
+import { PopupWidget } from "react-calendly";
 const packagesData = [
   {
     id: "standard",
@@ -71,9 +72,9 @@ const ReferralPackage = () => {
           <div className="w-full md:max-w-[632px] flex flex-col gap-[60px]">
             <div>
               <div className="flex items-center gap-[16px] h-[92px]">
-                <Image
-                  src=""
-                  alt=""
+              <Image
+                  src={Male}
+                  alt="Male"
                   width={64}
                   height={64}
                   className="rounded-full border"
@@ -177,6 +178,13 @@ const ReferralPackage = () => {
           )}
         </div>
       </div>
+      <PopupWidget
+    url="https://calendly.com/ali-rayhan29"
+    rootElement={typeof window !== "undefined" ? document.body : null}
+    text="Click here to schedule!"
+    textColor="#ffffff"
+    color="#005382"
+/>
     </>
   );
 };
