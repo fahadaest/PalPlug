@@ -195,7 +195,7 @@ const EmployeeDetails = () => {
                                 <li key={tab} className="me-2">
                                     <a
                                         href="#"
-                                        className={`inline-block px-4 py-3 rounded-[4px] ${activeTab === tab ? 'bg-[#D2EFFF] text-employecard-card-blue-hover' : 'hover:text-employecard-card-blue-hover hover:bg-gray-100'}`}
+                                        className={`w-[100px] md:w-auto md:h-auto h-[70px]  px-4 py-3 rounded-[4px] flex items-center justify-center ${activeTab === tab ? 'bg-[#D2EFFF] text-employecard-card-blue-hover' : 'hover:text-employecard-card-blue-hover hover:bg-gray-100'}`}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             setActiveTab(tab);
