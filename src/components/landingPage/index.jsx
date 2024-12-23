@@ -52,10 +52,15 @@ const Landing = () => {
                             Sign up as a plug or candidate to get started
                             <br className="hidden lg:block" />
                         </p>
-                        <div className='flex gap-[16px]'>
-                            <button className='h-[40px] w-[131px] bg-[#005382] text-[12px] font-[600] text-white rounded-[8px] pt-[11px] pb-[11px] pl-[20px] pr-[20px]'>Become a Plug</button>
-                            <button className='h-[40px] w-[192px] b text-[12px] font-[600] text-[#005382] border border-[#005382] rounded-[8px] pt-[11px] pb-[11px] pl-[20px] pr-[20px]'>Set Up Candidate Profile</button>
+                        <div className="flex gap-[16px]">
+                            <button className="h-[40px] min-w-[131px] bg-[#005382] text-[12px] font-[600] text-white rounded-[8px] px-[20px] py-[11px]">
+                                Become a Plug
+                            </button>
+                            <button className="h-[40px] min-w-[192px] text-[12px] font-[600] text-[#005382] border border-[#005382] rounded-[8px] px-[20px] py-[11px]">
+                                Set Up Candidate Profile
+                            </button>
                         </div>
+
                     </div>
                     <div className="flex justify-center lg:justify-end w-full lg:w-auto">
                         <Image
