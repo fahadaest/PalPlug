@@ -5,7 +5,6 @@ import EmployeeCard from '../employeCard';
 import { useParams } from 'next/navigation';
 import TimeImg from '@/assets/images/Group.svg';
 import MovieImg from '@/assets/images/movies.svg';
-
 import SignInModal from '@/components/signInModal';
 import { selectEmployees } from '@/app/redux/slice/employee/employeeSlice';
 import { useSelector } from 'react-redux';
@@ -14,6 +13,7 @@ import {
     selectLogoClassNames,
     selectOtherCompanies,
 } from '@/app/redux/slice/companies/companiesSlice';
+import { useRouter } from 'next/navigation'
 
 const EmployeeDetails = () => {
     const [activeTab, setActiveTab] = useState('Referral');
@@ -24,6 +24,7 @@ const EmployeeDetails = () => {
     const logoClassNames = useSelector(selectLogoClassNames);
     const employees = useSelector(selectEmployees);
     const companies = useSelector((state) => state.companies.companies);
+    const router = useRouter()
 
     const employee = employees?.find(
         (emp) => emp?.id.toString() === employeeId
@@ -84,9 +85,11 @@ const EmployeeDetails = () => {
                     <p className="text-sm">Video screening required</p>
                 </div>
                 <button
-                    className="w-full py-2 bg-[#005382] text-primary rounded-lg mt-4"
-                    onClick={() => setIsModalOpen(true)}
-                >
+                    onClick={() => {
+                        setIsModalOpen(true);
+                        router.push('/refPayment');
+                    }}
+                    className="w-full py-2 bg-[#005382] text-primary rounded-lg mt-4">
                     Select Package
                 </button>
                 <SignInModal
