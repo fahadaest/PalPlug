@@ -1,6 +1,8 @@
+import PlugDash from "@/components/plug_DashBoard";
 import ReferralPackage from "@/components/referralPackage";
 
 const RefPayment = () => {
-    return <ReferralPackage />;
+    return <PlugDash/>
+    // <ReferralPackage />;
 };
 export default RefPayment; 
