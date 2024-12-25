@@ -13,7 +13,7 @@ const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
   const router = useRouter();
   const userFromStore = useSelector((state) => state.user.user);
 
-   const handleLogout = async () => {
+  const handleLogout = async () => {
     try {
       await signOut(auth);
       dispatch(logout());
@@ -42,6 +42,10 @@ const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
       console.error('No such route');
     }
   };
+  const handlePlugDasboard = () => {
+    router.push('/profileDashboard');
+  };
+
 
   if (!isOpen) return null;
 
@@ -75,7 +79,7 @@ const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
       <ul className="text-sm text-gray-700 dark:text-gray-200 divide-y divide-gray-100 dark:divide-gray-600">
         <li>
           <a
-             onClick={handleprofile}
+            onClick={handleprofile}
             className="block w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
           >
             Profile
@@ -91,8 +95,8 @@ const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
         </li>
         <li>
           <a
-            href="#"
-            className="block w-full py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+            onClick={handlePlugDasboard}
+            className="block w-full cursor-pointer py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
           >
             Billing and payments
           </a>
