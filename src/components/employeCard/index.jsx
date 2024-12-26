@@ -16,7 +16,7 @@ const EmployeeCard = ({
         <>
             <div className="bg-white border border-[#F0F0F0] rounded-lg pl-[16px] pr-[16px] pt-[24px] pb-[24px] w-full max-w-[1000px] h-auto flex flex-col items-start">
                 <div className="h-[96px] flex flex-wrap items-start w-full">
-                    <div className="flex h-[72px] gap-[24px] items-center w-full sm:w-1/2 ">
+                    <div className="flex h-[72px] gap-[24px] items-center w-full">
                         <Image
                             src={employee.image}
                             alt={employee.name}
@@ -24,7 +24,7 @@ const EmployeeCard = ({
                             height={72}
                             className="rounded-full object-cover"
                         />
-                        <div className="ml-4 text-left">
+                        <div className="text-left">
                             <h2 className="text-2xl font-semibold">
                                 {employee.name}
                             </h2>
@@ -52,6 +52,7 @@ const EmployeeCard = ({
                         </div>
                     </div>
                 </div>
+                <div className="w-full h-px bg-gray-200 "></div>
 
                 {showAbout && (
                     <div className="w-full mt-6">
@@ -64,7 +65,6 @@ const EmployeeCard = ({
                     </div>
                 )}
 
-                <div className="w-full h-px bg-gray-200 "></div>
 
                 <div
                     className={`flex flex-col pt-[16px] pb-[24px] w-full ${showReviews ? '' : ''}`}

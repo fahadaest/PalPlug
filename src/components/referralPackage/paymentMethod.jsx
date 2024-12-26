@@ -1,4 +1,6 @@
-import React from "react";
+"use client"
+
+import React, { useState } from "react";
 import Image from "next/image";
 import TimerIcon from "@/assets/images/timer.svg";
 import Movies from "@/assets/images/movies.svg";
@@ -10,83 +12,154 @@ import Pay from "@/assets/images/Pay.svg";
 import Pal from "@/assets/images/Pal.svg";
 
 const PaymentMethod = () => {
+    const [selectedMethod, setSelectedMethod] = useState("");
+
+    const handleSelect = (method) => {
+        setSelectedMethod(method);
+    };
+
     return (
         <div className="bg-white min-h-screen flex flex-col md:flex-row justify-center items-center gap-[20px] md:gap-[40px] p-4">
-            <div className="h-auto w-full md:w-[822px] md:h-[515px] border rounded-[4px]">
+            <div className="h-auto  border-[#D5D4DC] w-full md:w-[822px] md:h-[515px] border rounded-[4px]">
                 <div className="pl-[20px] flex items-center h-[64px] bg-[#F8F8F8]">
                     <h1 className="font-[600] text-[16px]">Payment Options</h1>
                 </div>
-                <div className="h-auto pt-[10px]">
-                    <div className="w-full md:w-[390px] flex items-center justify-center gap-[8px] p-[10px] flex-wrap md:flex-nowrap">
-                        <input
-                            type="radio"
-                            className="accent-[#25B2F8] rounded-full focus:none ring-0"
-                        />
-                        <label>credit & debit cards
-                        </label>
-                        <Image src={Visa} alt="Visa" width={35} height={24} />
-                        <Image src={Master} alt="Master" width={35} height={24} />
-                        <Image src={Discover} alt="Discover" width={35} height={24} />
-                        <Image src={Amex} alt="Amex" width={35} height={24} />
+                <div
+                    className=" border border-[#D5D4DC] pl-[15px] h-[64px] flex items-center  gap-[5px] md:flex-nowrap cursor-pointer"
+                    onClick={() => handleSelect("cards")}
+                >
+                    <div className="w-full min-w-[358px] flex items-center">
+                        <div className="h-[19px] min-w-[161px] flex gap-[8px] items-center">
+                            <input
+                                type="radio"
+                                name="payment-method"
+                                checked={selectedMethod === "cards"}
+                                onChange={() => handleSelect("cards")}
+                                className="h-[16px] w-[16px] rounded-full border-2 border-[#939393] focus:ring-0 checked:border-[#25B2F8] checked:bg-[#25B2F8]"
+                            />
+                            <label className="text-[12px] font-lightbold">Credit & Debit Cards</label>
+                        </div>
+                        <div className="flex gap-[8px] h-[44px] w-[172px]">
+                            <Image src={Visa} alt="Visa" width={35} height={24} />
+                            <Image src={Master} alt="Master" width={35} height={24} />
+                            <Image src={Discover} alt="Discover" width={35} height={24} />
+                            <Image src={Amex} alt="Amex" width={35} height={24} />
+                        </div>
                     </div>
                 </div>
-                <div className=" flex flex-col justify-evenly bg-[#F8F8F8] h-auto md:h-[320px] p-4">
-                    <div className="flex flex-wrap md:flex-nowrap gap-[20px]">
-                        <div className="flex flex-col gap-[8px] w-full md:w-auto">
-                            <label className="text-[14px] font-[600]">Card Number</label>
-                            <input
-                                type="text"
-                                className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
-                                placeholder="placeholder text"
-                            />
-                        </div>
-                        <div className="flex flex-col gap-[8px]  w-full md:w-auto">
-                            <label className="text-[14px] font-[600]">Expiration Date</label>
-                            <input
-                                type="date"
-                                className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px]"
-                                placeholder="placeholder text"
-                            />
-                        </div>
-                        <div className="flex flex-col w-full gap-[8px] md:w-auto">
-                            <label className="text-[14px] font-[600]">Security Code</label>
-                            <input
-                                type="date"
-                                className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px]"
-                                placeholder="placeholder text"
-                            />
-                        </div>
-                    </div>
 
-                    <div className="flex flex-wrap md:flex-nowrap gap-[20px] mt-[8px]">
-                        <div className="flex flex-col w-full gap-[8px] md:w-auto">
-                            <label className="text-[14px] font-[600]">First Name</label>
-                            <input
-                                type="text"
-                                className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
-                                placeholder="placeholder text"
-                            />
+                {selectedMethod === "cards" && (
+                    <div className="flex flex-col justify-evenly bg-[#F8F8F8] h-auto md:h-[320px] p-4">
+                        <div className="flex flex-wrap md:flex-nowrap gap-[20px]">
+                            <div className="flex flex-col gap-[8px] w-full md:w-auto">
+                                <label className="text-[14px] font-[600]">Card Number</label>
+                                <input
+                                    type="text"
+                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
+                                    placeholder="Card number"
+                                />
+                            </div>
+                            <div className="flex flex-col gap-[8px] w-full md:w-auto">
+                                <label className="text-[14px] font-[600]">Expiration Date</label>
+                                <input
+                                    type="date"
+                                    className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px]"
+                                />
+                            </div>
+                            <div className="flex flex-col w-full gap-[8px] md:w-auto">
+                                <label className="text-[14px] font-[600]">Security Code</label>
+                                <input
+                                    type="text"
+                                    className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px]"
+                                    placeholder="CVV"
+                                />
+                            </div>
                         </div>
-                        <div className="flex flex-col w-full gap-[8px] md:w-auto">
-                            <label className="text-[14px] font-[600]">Last Name</label>
-                            <input
-                                type="text"
-                                className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
-                                placeholder="placeholder text"
-                            />
+                        <div className="flex flex-wrap md:flex-nowrap gap-[20px] mt-[8px]">
+                            <div className="flex flex-col w-full gap-[8px] md:w-auto">
+                                <label className="text-[14px] font-[600]">First Name</label>
+                                <input
+                                    type="text"
+                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
+                                    placeholder="First name"
+                                />
+                            </div>
+                            <div className="flex flex-col w-full gap-[8px] md:w-auto">
+                                <label className="text-[14px] font-[600]">Last Name</label>
+                                <input
+                                    type="text"
+                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
+                                    placeholder="Last name"
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div className="h-auto flex items-center gap-[10px] pl-[20px] mt-[20px]">
+                )}
+
+                <div
+                    className="h-[64px] flex items-center  border border-[#D5D4DC] gap-[10px] pl-[15px] cursor-pointer"
+                    onClick={() => handleSelect("paypal")}
+                >
                     <input
                         type="radio"
-                        className="accent-[#25B2F8] rounded-full focus:none ring-0"
+                        name="payment-method"
+                        checked={selectedMethod === "paypal"}
+                        onChange={() => handleSelect("paypal")}
+                        className="h-[16px] w-[16px] rounded-full border border-[#939393] focus:ring-0 checked:border-[#25B2F8] checked:bg-[#25B2F8]"
                     />
                     <div className="flex">
                         <Image src={Pay} alt="Pay" width={46} height={32} />
                         <Image src={Pal} alt="Pal" width={36} height={18} />
                     </div>
                 </div>
+
+                {selectedMethod === "paypal" && (
+                    <div className="flex flex-col justify-evenly bg-[#F8F8F8] h-auto md:h-[320px] p-4">
+                        <div className="flex flex-wrap md:flex-nowrap gap-[20px]">
+                            <div className="flex flex-col gap-[8px] w-full md:w-auto">
+                                <label className="text-[14px] font-[600]">Card Number</label>
+                                <input
+                                    type="text"
+                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
+                                    placeholder="Card number"
+                                />
+                            </div>
+                            <div className="flex flex-col gap-[8px] w-full md:w-auto">
+                                <label className="text-[14px] font-[600]">Expiration Date</label>
+                                <input
+                                    type="date"
+                                    className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px]"
+                                />
+                            </div>
+                            <div className="flex flex-col w-full gap-[8px] md:w-auto">
+                                <label className="text-[14px] font-[600]">Security Code</label>
+                                <input
+                                    type="text"
+                                    className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px]"
+                                    placeholder="CVV"
+                                />
+                            </div>
+                        </div>
+                        <div className="flex flex-wrap md:flex-nowrap gap-[20px] mt-[8px]">
+                            <div className="flex flex-col w-full gap-[8px] md:w-auto">
+                                <label className="text-[14px] font-[600]">First Name</label>
+                                <input
+                                    type="text"
+                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
+                                    placeholder="First name"
+                                />
+                            </div>
+                            <div className="flex flex-col w-full gap-[8px] md:w-auto">
+                                <label className="text-[14px] font-[600]">Last Name</label>
+                                <input
+                                    type="text"
+                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
+                                    placeholder="Last name"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
 
             <div className="border rounded-[8px] p-[20px] w-full md:w-[436px] h-auto md:h-[515px]">
