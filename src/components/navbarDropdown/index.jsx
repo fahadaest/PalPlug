@@ -42,11 +42,7 @@ const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
       console.error('No such route');
     }
   };
-  const handlePlugDasboard = () => {
-    router.push('/profileDashboard');
-  };
-
-
+  
   if (!isOpen) return null;
 
   return (
@@ -95,7 +91,6 @@ const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
         </li>
         <li>
           <a
-            onClick={handlePlugDasboard}
             className="block w-full cursor-pointer py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
           >
             Billing and payments

@@ -10,13 +10,20 @@ import Master from "@/assets/images/Mastercard.svg";
 import Visa from "@/assets/images/Visa.svg";
 import Pay from "@/assets/images/Pay.svg";
 import Pal from "@/assets/images/Pal.svg";
+import { useRouter } from 'next/navigation';
 
 const PaymentMethod = () => {
     const [selectedMethod, setSelectedMethod] = useState("");
+    const router = useRouter();
 
     const handleSelect = (method) => {
         setSelectedMethod(method);
     };
+
+    const handlePlugDasboard = () => {
+        router.push('/profileDashboard');
+    };
+
 
     return (
         <div className="bg-white min-h-screen flex flex-col md:flex-row justify-center items-center gap-[20px] md:gap-[40px] p-4">
@@ -207,7 +214,8 @@ const PaymentMethod = () => {
                     </div>
 
                     <div className="flex flex-col gap-[10px]">
-                        <button className="w-full h-[40px] text-[12px] font-semibold bg-[#005382] text-white rounded-[8px]">
+                        <button onClick={handlePlugDasboard}
+                            className="w-full h-[40px] text-[12px] font-semibold bg-[#005382] text-white rounded-[8px]">
                             Confirm & Pay
                         </button>
                         <p className="text-center text-xs text-gray-500">All secure payment</p>
