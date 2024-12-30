@@ -54,13 +54,13 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, onClose }) => {
     <>
       <Modal isOpen={isOpen} onClose={onClose} ModalImg={null}>
         <div className="fixed inset-0 flex items-center justify-center bg-gray-100 bg-opacity-10  z-20">
-          <div className="w-full max-w-[95%] sm:max-w-[400px] md:max-w-[520px] p-[40px] h-[404px] bg-white gap-6 rounded-lg shadow-lg relative">
+          <div className="w-full max-w-[95%] sm:max-w-[400px] md:max-w-[520px] p-[40px] h-auto md:h-[404px] bg-white gap-6 rounded-lg shadow-lg relative">
             <div className="flex justify-end items-center">
               <button className="text-gray-500" onClick={onClose}>
                 <Image src={CloseIcon} alt="close" className="w-6 h-6 cursor-pointer" />
               </button>
             </div>
-            <div className='h-[327px] w-[440px] flex flex-col gap-[19px]'>
+            <div className='h-auto md:h-[327px] w-full max-w-[440px] flex flex-col gap-[19px]'>
 
 
               <div className="flex flex-col gap-[16px] w-[440px] h-[70px]">
@@ -68,7 +68,7 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, onClose }) => {
                   <h2 className="text-lg sm:text-xl md:text-2xl font-semibold">Verify Phone Number</h2>
                   <p className="text-gray-500 font-lightbold text-sm sm:text-base">A verification code has been sent to:</p>
                 </div>
-                <div className="w-full max-w-[440px] border border-[#F0F0F0]"></div>
+                <div className="w-[290px] md:w-[440px] border border-[#F0F0F0]"></div>
               </div>
 
               <div className="flex justify-center items-center">
@@ -87,7 +87,7 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, onClose }) => {
                       key={index}
                       ref={(el) => (inputRefs.current[index] = el)}
                       type="text"
-                      className="w-[47px] h-[53px] sm:w-[47px] sm:h-[53px] md:w-[47px] md:h-[53px] text-lg sm:text-xl md:text-2xl font-bold border border-gray-300 rounded-md text-center"
+                      className="w-[37px] h-[53px] sm:w-[47px] sm:h-[53px] md:w-[47px] md:h-[53px] text-lg sm:text-xl md:text-2xl font-bold border border-gray-300 rounded-md text-center"
                       maxLength="1"
                       value={digit}
                       onChange={(e) => handleOtpChange(e.target.value, index)}
@@ -107,8 +107,8 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, onClose }) => {
                   Submit Code
                 </button>
               </div>
-              <div className=''>
-                <p className='text-center font-lightbold text-sm leading-[14px]'>If you did not receive the code, please close this dialog box and check that you entered the right number,, then try again.</p>
+              <div>
+                <p className='text-[#939393]  text-center font-lightbold text-[14px] leading-[14px]'>If you did not receive the code, please close this dialog box and check that you entered the right number,, then try again.</p>
               </div>
             </div>
           </div>

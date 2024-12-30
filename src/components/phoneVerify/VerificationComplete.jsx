@@ -19,15 +19,15 @@ const VerificationComplete = ({ isOpen, onClose }) => {
                             <Image src={CloseIcon} alt="close" className="w-6 h-6 cursor-pointer" />
                         </button>
                     </div>
-                    <div className='h-[126px] w-[440px] flex flex-col gap-[60px]'>
+                    <div className='h-[126px] w-full max-w-[440px] flex flex-col gap-[60px]'>
                         <div className="h-[24px] flex flex-col gap-[8px]">
                             <h1 className="text-2xl sm:text-xl font-semibold">Verification Complete!</h1>
                             <p className="text-[12px] font-lightbold leading-[14px] text-[#939393]">  Your phone number was verified successfully. Thank you!</p>
                         </div>
 
-                        <div className="flex justify-center">
+                        <div className="flex justify-center items-center">
                             <button
-                                className="w-full bg-[#005382] md:w-[210px] h-[40px] text-white text-[12px] pl-[20px] pr-[20px] pt-[11px] pb-[11px] font-semibold rounded-[8px]"
+                                className="w-full bg-[#005382] max-w-[210px] h-[40px] text-white text-[12px] pl-[20px] pr-[20px] pt-[11px] pb-[11px] font-semibold rounded-[8px]"
                                 onClick={() => {
                                     dispatch(setVerificationComplete(true));
                                     onClose();
