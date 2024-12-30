@@ -158,7 +158,7 @@ const Navbar = () => {
                     <div className="h-[36px] min-w-[116px] md:w-[248px] gap-[8px] md:gap-[24px] flex items-center">
                         {user ? (
                             <>
-                                <div className='flex w-[64px] gap-[8px] md:gap-[16px]'>
+                                <div className='flex w-[64px] gap-[5px] md:gap-[16px]'>
 
                                     <Image
                                         src={BellIcon}
@@ -239,4 +239,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
