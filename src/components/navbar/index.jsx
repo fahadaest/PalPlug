@@ -69,10 +69,8 @@ const Navbar = () => {
     };
 
     const toggleDropdown = () => {
-        setDropdownOpen(prevState => {
-            const newState = !prevState;
-            return newState;
-        });
+        setDropdownOpen((prevState) => !prevState);
+
     };
 
     useEffect(() => {
@@ -207,7 +205,7 @@ const Navbar = () => {
                                                 />
                                             </button>
                                             {isDropdownOpen && (
-                                                <div className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg z-10" ref={dropdownRef}>
+                                                <div className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg z-10">
                                                     <NavbarDropdown
                                                         isOpen={isDropdownOpen}
                                                         userId={user.id || user.uid}
