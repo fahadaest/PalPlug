@@ -98,6 +98,10 @@ const Navbar = () => {
         setModalOpen(false);
     };
 
+    const handlePlugDasboard = () => {
+        router.push('/profileDashboard');
+    };
+
     const isProfilePage = pathname?.includes('/profile');
     const isServicesSelectionPage = pathname?.includes('/servicesselection');
 
@@ -173,6 +177,7 @@ const Navbar = () => {
                                 </div>
                                 <div className="md:w-full flex items-center gap-[8px]">
                                     <Image
+                                        onClick={handlePlugDasboard}
                                         src={UserImg}
                                         alt="User Image"
                                         className="h-[36px] w-[36px] text-black text-lg cursor-pointer"
@@ -187,9 +192,9 @@ const Navbar = () => {
                                         </div>
 
                                         <div className="relative flex" ref={dropdownRef}>
-                                            <button
+                                             <button
                                                 onClick={toggleDropdown}
-                                                className={`bg-blue-100 hover:bg-blue-200 focus:ring-2 ml-0 md:ml-2 focus:outline-none  focus:ring-blue-300 font-medium rounded-full  w-[16px] h-[16px]  inline-flex items-center justify-center transition-colors duration-300 ${isDropdownOpen ? 'bg-blue-200' : 'bg-blue-100'} ${isDropdownOpen ? 'active:bg-blue-300' : ''}`}
+                                                className={`bg-blue-100 hover:bg-blue-200 focus:ring-2 ml-0 md:ml-2 focus:outline-none  focus:ring-blue-300 font-medium rounded-full  w-[16px] h-[16px]  inline-flex items-center justify-center transition-colors duration-300 ${isDropdownOpen ? 'bg-blue-200' : 'bg-blue-100'} ${isDropdownOpen ? 'active:bg-blue-300' : 'block'}`}
                                                 type="button"
                                             >
                                                 <span className="sr-only">
@@ -239,3 +244,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

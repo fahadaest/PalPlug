@@ -74,9 +74,12 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, onClose }) => {
               <div className="flex justify-center items-center">
                 <div className="flex justify-between items-center gap-[19px] w-[156px]">
                   <span className="text-sm sm:text-base">{phoneNumber}</span>
-                  <p className="text-[#005382] text-sm sm:text-base font-semibold" onClick={onClose}>
+                  <button
+                    className="text-[#005382] text-sm sm:text-base font-semibold bg-transparent border-none cursor-pointer"
+                    onClick={onClose}
+                  >
                     Edit
-                  </p>
+                  </button>
                 </div>
               </div>
               <div className="flex flex-col items-center">

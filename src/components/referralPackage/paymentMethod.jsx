@@ -20,9 +20,7 @@ const PaymentMethod = () => {
         setSelectedMethod(method);
     };
 
-    const handlePlugDasboard = () => {
-        router.push('/profileDashboard');
-    };
+    
 
 
     return (
@@ -214,7 +212,7 @@ const PaymentMethod = () => {
                     </div>
 
                     <div className="flex flex-col gap-[10px]">
-                        <button onClick={handlePlugDasboard}
+                        <button 
                             className="w-full h-[40px] text-[12px] font-semibold bg-[#005382] text-white rounded-[8px]">
                             Confirm & Pay
                         </button>
