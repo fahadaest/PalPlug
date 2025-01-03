@@ -68,7 +68,7 @@ const ReferralPackage = () => {
   return (
     <>
       <div className="flex justify-center">
-        <div className="flex  gap-[30px] justify-between flex-wrap pt-[40px] pr-[24px] pb-[40px] pl-[24px]  w-full max-w-[1252px] h-auto bg-white rounded-[8px]">
+        <div className="flex gap-[30px] justify-between flex-wrap pt-[40px] pr-[24px] pb-[40px] pl-[24px]  w-full max-w-[1252px] h-auto bg-white rounded-[8px]">
           <div className="w-full md:max-w-[632px] flex flex-col gap-[60px]">
             <div>
               <div className="flex items-center gap-[16px] h-[92px]">
@@ -121,7 +121,7 @@ const ReferralPackage = () => {
           {selectedPackage && (
             <div className="border rounded-[8px] p-[20px] w-full mt-[40px] md:w-[436px] h-auto md:h-[515px]">
               <div className="flex flex-col h-auto md:h-[426px] w-full gap-[30px]">
-                <h3 className="text-lg font-semibold mb-3">{paymentSummaryHeading}</h3>
+                <h3 className="text-lg font-semibold">{paymentSummaryHeading}</h3>
                 <div className="flex flex-col gap-[12px]">
                   <div className="flex gap-[12px]">
                     <Image
@@ -153,25 +153,31 @@ const ReferralPackage = () => {
                     placeholder="Enter promo code"
                     value={promoCode}
                     onChange={handlePromoCodeChange}
-                    className="w-full pt-[16px] pb-[16px] text-[#939393] text-base font-semibold"
+                    className="w-full text-[#939393] text-base font-semibold"
                   />
                 </div>
 
-                <div className="flex justify-between pt-[10px] pb-[10px]">
+                <div className="flex justify-between ">
                   <p className="font-semibold text-[#939393] text-[16px]">Service fee</p>
                   <span className="font-semibold text-[#939393] text-[16px]">${serviceFee.toFixed(2)}</span>
                 </div>
 
-                <div className="flex justify-between pt-[10px] pb-[10px]">
+                <div className="flex justify-between pt-[0px] pb-[0px]">
                   <h3 className="text-[24px] font-semibold">Total</h3>
                   <span className="text-[24px] font-semibold">${totalPrice.toFixed(2)}</span>
                 </div>
 
-                <div className="flex flex-col gap-[20px]">
-                  <button onClick={handlePaymentRoute} className="w-full h-[40px] text-[12px] font-semibold p-[11px_20px_11px_20px] bg-[#005382] text-white rounded-[8px]">
+                <div className="flex h-[138px] flex-col gap-[36px] ">
+                  <button className="w-full h-[40px] border border-[#005382] text-[12px] font-semibold p-[11px_20px_11px_20px] text-[#005382] rounded-[8px]">
+                    Schedule Video Call with Idris
+                  </button>
+
+                  <button  onClick={handlePaymentRoute} className="w-full h-[40px] text-[12px] font-semibold p-[11px_20px_11px_20px] bg-[#005382] text-white rounded-[8px]">
                     Confirm & Pay
                   </button>
+                  <div>
                   <p className="text-center text-xs text-gray-500">All secure payment</p>
+                  </div>
                 </div>
               </div>
             </div>

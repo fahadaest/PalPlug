@@ -225,7 +225,7 @@ const Navbar = () => {
                         ) : (
                             <button
                                 onClick={handleLoginClick}
-                                className="bg-[#005382] flex justify-center text-[14px] font-[600] items-center h-[34px] text-primary p-[10px] rounded-[4px] ml-auto"
+                                className="bg-[#005382] flex justify-center text-[14px] font-[600] items-center h-[34px] text-primary p-[10px] rounded-[8px] ml-auto"
                             >
                                 Log in
                             </button>

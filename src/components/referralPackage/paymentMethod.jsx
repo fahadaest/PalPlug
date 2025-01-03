@@ -211,7 +211,7 @@ const PaymentMethod = () => {
                         <span className="text-[24px] font-semibold">22$</span>
                     </div>
 
-                    <div className="flex flex-col gap-[10px]">
+                    <div className="flex flex-col gap-[36px]">
                         <button 
                             className="w-full h-[40px] text-[12px] font-semibold bg-[#005382] text-white rounded-[8px]">
                             Confirm & Pay
