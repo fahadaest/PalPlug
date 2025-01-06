@@ -100,9 +100,9 @@ const Dashboard = () => {
                 Upload your resume so Plugs can assess if you're a good fit for their company.
               </p>
             </div>
-            <p onClick={handleResumeClick} className="text-[#005382] cursor-pointer text-[14px] md:text-[16px] font-medium mt-2 md:mt-0">
+            <div onClick={handleResumeClick} className="text-[#005382] cursor-pointer text-[14px] md:text-[16px] font-medium mt-2 md:mt-0">
               Get Started
-            </p>
+            </div>
           </div>
 
           <div className="flex flex-col md:flex-row items-center justify-between bg-white h-auto md:h-[76px] rounded-lg shadow-sm border border-gray-200 p-4">
