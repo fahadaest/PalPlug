@@ -42,7 +42,7 @@ const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
       console.error('No such route');
     }
   };
-  
+
   if (!isOpen) return null;
 
   return (

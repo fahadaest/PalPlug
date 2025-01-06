@@ -38,6 +38,12 @@ const Landing = () => {
         dispatch(fetchCompanies());
     }, [dispatch]);
 
+    const handlePlugDasboard = () => {
+        router.push('/profileDashboard');
+    };
+
+
+
     return (
 
         <>
@@ -53,7 +59,7 @@ const Landing = () => {
                             <br className="hidden lg:block" />
                         </p>
                         <div className="flex gap-[16px]">
-                            <button className="h-[40px] min-w-[131px] bg-[#005382] text-[12px] font-[600] text-white rounded-[8px] px-[20px] py-[11px]">
+                            <button  onClick={handlePlugDasboard} className="h-[40px] min-w-[131px] bg-[#005382] text-[12px] font-[600] text-white rounded-[8px] px-[20px] py-[11px]">
                                 Become a Plug
                             </button>
                             <button className="h-[40px] min-w-[192px] text-[12px] font-[600] text-[#005382] border border-[#005382] rounded-[8px] px-[20px] py-[11px]">
