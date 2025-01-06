@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCountries } from '@/app/redux/action';
 import OTPVerifyModal from './OtpVerifyModal';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-import RotatingIcon from '../profileDetails/icon';
+import ArrowIcon from '@/assets/images/navarrow.svg';
 
 const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
   const modalRef = useRef(null);
@@ -24,7 +24,7 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
     const auth = getAuth();
     window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
       size: 'invisible',
-      callback: (response) => {},
+      callback: (response) => { },
     }, getAuth());
   };
 
@@ -101,11 +101,13 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
             className="relative w-full max-w-[90%] md:max-w-[520px] h-auto sm:h-[472px] bg-white p-4 sm:p-6 md:p-10 rounded-[8px] shadow-lg"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-[18px] sm:text-[20px] md:text-[24px] font-[600]">Verify Phone Number</h2>
+            <div className='flex justify-end'>
               <button className="text-gray-500" onClick={onClose}>
                 <Image src={CloseIcon} alt="close" className="w-6 h-6 cursor-pointer" />
               </button>
+            </div>
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-[18px] sm:text-[20px] md:text-[24px] font-[600]">Verify Phone Number</h2>
             </div>
 
             <p className="text-[#939393] mb-6 text-[12px] sm:text-[14px] font-[400]">
@@ -134,11 +136,14 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
                         </option>
                       ))}
                     </select>
-                    <span
-                      className={`absolute right-3 top-8 sm:top-10 transform transition-transform ${isDropdownOpen ? 'rotate-180' : 'rotate-0'
-                        }`}
-                    >
-                      <RotatingIcon />
+                    <span>
+                      <Image
+                        src={ArrowIcon}
+                        alt="Arrow Icon"
+                        width={16}
+                        height={16}
+                        className={`absolute right-3 top-8 sm:top-10 w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
+                      />
                     </span>
                   </>
                 )}

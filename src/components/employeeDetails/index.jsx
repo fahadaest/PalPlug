@@ -186,7 +186,7 @@ const EmployeeDetails = () => {
                         </div>
                     </div>
                     <div className="flex-1 rounded-[8px] lg:max-w-[436px] bg-primary p-4 h-[522px]">
-                        <ul className="flex flex-nowrap md:flex-wrap text-sm font-medium text-center text-gray-500">
+                        <ul className="flex flex-nowrap md:flex-wrap text-sm leading-extra-tight font-semibold text-center text-gray-500">
                             {[
                                 'Referral',
                                 'Resume Review',
@@ -195,7 +195,7 @@ const EmployeeDetails = () => {
                                 <li key={tab} className="me-2">
                                     <a
                                         href="#"
-                                        className={`w-[100px] md:w-auto md:h-auto h-[70px]  px-4 py-3 rounded-[4px] flex items-center justify-center ${activeTab === tab ? 'bg-[#D2EFFF] text-employecard-card-blue-hover' : 'hover:text-employecard-card-blue-hover hover:bg-gray-100'}`}
+                                        className={`w-[100px] md:w-auto md:h-auto h-[34px] pr-[30px] pl-[30px] pt-[10px] pb-[10px]  rounded-[4px] flex items-center justify-center ${activeTab === tab ? 'bg-[#D2EFFF] text-employecard-card-blue-hover' : 'hover:text-employecard-card-blue-hover hover:bg-gray-100'}`}
                                         onClick={(e) => {
                                             e.preventDefault();
                                             setActiveTab(tab);
