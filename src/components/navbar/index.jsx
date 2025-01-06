@@ -149,7 +149,7 @@ const Navbar = () => {
                                 </div>
 
                                 <div className="h-[16px] w-[138px]  flex items-center">
-                                    <input
+                                    <input   
                                         type="text"
                                         placeholder="Search by company"
                                         className="  h-[14px] w-[138px] tracking-tight placeholder-[#555555]  text-[14px] font-[400] leading-[14px]"
