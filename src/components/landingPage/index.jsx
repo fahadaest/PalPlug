@@ -39,7 +39,7 @@ const Landing = () => {
     }, [dispatch]);
 
     const handlePlugDasboard = () => {
-        router.push('/profileDashboard');
+        router.push('/plugDashboard');
     };
 
 

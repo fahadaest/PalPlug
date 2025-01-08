@@ -1,7 +1,7 @@
 import Plug_Dashboard from "@/components/plug_DashBoard";
 
-const profileDashboard = () => {
+const plugDashboard = () => {
     return <Plug_Dashboard />;
 };
 
-export default profileDashboard;
+export default plugDashboard;

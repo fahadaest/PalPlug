@@ -13,6 +13,7 @@ import SignInModal from '@/components/signInModal/index';
 import StepProgressBar from './StepProgressBar';
 import Search from '@/assets/images/search-loupe.svg';
 import ServicesProgressBar from './ServicesProgressBar';
+import PlugDashboardBar from './PlugDashboardBar';
 import { setCurrentStep, setServicesCurrentStep } from '@/app/redux/slice/user/userSlice';
 
 
@@ -104,7 +105,7 @@ const Navbar = () => {
 
     const isProfilePage = pathname?.includes('/profile');
     const isServicesSelectionPage = pathname?.includes('/servicesselection');
-
+    const isPlugDashboard = pathname?.includes('/plugDashboard');
     const inlineStyle = isProfilePage ? { boxShadow: '0px 8px 20px 0px #B8B4B41A' } : {};
 
     return (
@@ -136,29 +137,30 @@ const Navbar = () => {
                         </div>
                     )}
                     {!isProfilePage && (
-                        <div className="w-full border rounded-[8px] md:rounded-[4px] h-[40px] flex items-center max-w-[452px] min-w-[211px]">
-
-                            <div className='flex flex-row h-[16px] items-center gap-[4px] w-[158px] pl-[10px]'>
-
-                                <div className="h-[16px] w-[16px]">
-                                    <img
-                                        src={Search.src}
-                                        alt="Search"
-                                        className="h-[16px] w-[16px] max-w-none max-h-none"
-                                    />
-                                </div>
-
-                                <div className="h-[16px] w-[138px]  flex items-center">
-                                    <input   
-                                        type="text"
-                                        placeholder="Search by company"
-                                        className="  h-[14px] w-[138px] tracking-tight placeholder-[#555555]  text-[14px] font-[400] leading-[14px]"
-                                    />
+                        isPlugDashboard ? (
+                            <PlugDashboardBar />
+                        ) : (
+                            <div className="w-full border rounded-[8px] md:rounded-[4px] h-[40px] flex items-center max-w-[452px] min-w-[211px]">
+                                <div className='flex flex-row h-[16px] items-center gap-[4px] w-[158px] pl-[10px]'>
+                                    <div className="h-[16px] w-[16px]">
+                                        <img
+                                            src={Search.src}
+                                            alt="Search"
+                                            className="h-[16px] w-[16px] max-w-none max-h-none"
+                                        />
+                                    </div>
+                                    <div className="h-[16px] w-[138px] flex items-center">
+                                        <input
+                                            type="text"
+                                            placeholder="Search by company"
+                                            className="h-[14px] w-[138px] tracking-tight placeholder-[#555555] text-[14px] font-[400] leading-[14px]"
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-
+                        )
                     )}
+
                 </div>
 
 
@@ -166,7 +168,7 @@ const Navbar = () => {
                     <div className="h-[36px] min-w-[96px] ml-4 md:ml-0 md:w-[248px] gap-[8px] md:gap-[16px] flex items-center">
                         {user ? (
                             <>
-                              <div className='flex w-[64px] gap-[8px] md:gap-[16px]'>
+                                <div className='flex w-[64px] gap-[8px] md:gap-[16px]'>
 
                                     <Image
                                         src={BellIcon}
