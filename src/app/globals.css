@@ -59,3 +59,11 @@
 .modal-animation {
     animation: slideUp 0.3s ease-out;
 }
+.fontcolor{
+    color: #555555;
+    font-size: 14px;
+    font-family: Poppins;
+    font-weight: 600;
+    line-height: 14px;
+    word-wrap: break-word
+}

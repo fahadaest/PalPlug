@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import RotatingIcon from './icon';
+import React, { useState, useEffect, useRef } from "react";
+import RotatingIcon from "./icon";
 
-const DropdownComponent = ({ 
+const DropdownComponent = ({
   options = [],
-  selectedOption = [],  
+  selectedOption = "",
   onOptionChange,
-  label = 'Select an option',
+  label = "Select an option",
   loading = false,
-  width = '100%',
+  width = "100%",
+  className = "",
+  dropdownClassName = "",
+  buttonClassName = "",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownWidth, setDropdownWidth] = useState(200);
@@ -15,7 +18,7 @@ const DropdownComponent = ({
   const buttonRef = useRef(null);
 
   const handleOptionChange = (option) => {
-    onOptionChange(option); 
+    onOptionChange(option);
     setIsOpen(false);
   };
 
@@ -32,8 +35,7 @@ const DropdownComponent = ({
   useEffect(() => {
     const resizeObserver = new ResizeObserver(() => {
       if (buttonRef.current) {
-        const buttonWidth = buttonRef.current.getBoundingClientRect().width;
-        setDropdownWidth(buttonWidth);
+        setDropdownWidth(buttonRef.current.getBoundingClientRect().width);
       }
     });
 
@@ -49,52 +51,41 @@ const DropdownComponent = ({
   }, [buttonRef.current]);
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
+
   return (
-    <div className="relative w-full" ref={dropdownRef} style={{ width }}>
+    <div className={`relative w-full ${className}`} ref={dropdownRef} style={{ width }}>
       <button
         ref={buttonRef}
         onClick={toggleDropdown}
-        className="flex justify-between items-center h-[48px] w-full text-[16px] text-[black] bg-white border px-4 py-2 rounded-[8px] leading-tight"
+        aria-expanded={isOpen}
+        aria-label={label}
+        className={`flex justify-between items-center h-[48px] w-full text-[16px] text-[black] bg-white border px-4 py-2 rounded-[8px] leading-tight ${buttonClassName}`}
       >
-        {loading ? (
-          'Loading...'
-        ) : selectedOption.length > 0 ? (
-          selectedOption
-        ) : (
-          label
-        )}
+        {loading ? "Loading..." : selectedOption || label}
         <RotatingIcon isRotated={isOpen} />
       </button>
 
       {isOpen && (
         <div
-          className=" bg-white border rounded-[8px] overflow-y-auto"
+          className={`absolute top-full left-0 z-50 border rounded-[8px] overflow-y-auto shadow-md ${dropdownClassName}`}
           style={{
-            position: 'absolute',
-            top: '100%',
-            left: 0,
-            zIndex: 50,
-            backgroundColor: 'white',
-            border: '1px solid #ddd',
-            borderRadius: '8px',
-            maxHeight: '200px',
-            overflowY: 'auto',
-            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-            width: buttonRef.current ? `${buttonRef.current.offsetWidth}px` : '100%',
+            backgroundColor: "white",
+            maxHeight: "200px",
+            overflowY: "auto",
+            width: `${dropdownWidth}px`,
           }}
         >
           {options.length > 0 ? (
             options.map((option) => (
               <div
                 key={option}
-                className={`block px-4 py-2 cursor-pointer hover:bg-[#005382] hover:text-white ${selectedOption.includes(option) ? 'bg-gray-100' : ''
-                  }`}
+                className={`block px-4 py-2 cursor-pointer hover:bg-[#005382] hover:text-white ${selectedOption === option ? "bg-gray-100" : ""}`}
                 onClick={() => handleOptionChange(option)}
               >
                 {option}

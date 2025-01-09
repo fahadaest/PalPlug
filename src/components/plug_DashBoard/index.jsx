@@ -15,13 +15,18 @@ const inboxData = [
 
 const Plug_Dashboard = () => {
     const [selectOrders, setSelectOrders] = useState('');
+    const [showInbox, setShowInbox] = useState(false);
+
     const handleOptionChange = (updatedOption) => {
         setSelectOrders(updatedOption);
     };
 
+    const toggleInboxView = () => {
+        setShowInbox(!showInbox);
+    };
+
     return (
         <>
-
             <div className="bg- min-h-screen p-5">
                 <div className="flex flex-col lg:flex-row gap-5 max-w-[1240px] mx-auto">
                     <div className="flex flex-col gap-5 lg:w-[363px]">
@@ -56,21 +61,28 @@ const Plug_Dashboard = () => {
                             <ul className="flex flex-col gap-4 p-4">
                                 <li className="flex justify-between">
                                     <p className="text-base font-lightbold text-[#555555]">Inbox</p>
-                                    <span className="text-base font-lightbold text-[#005382]">View all</span>
+                                    <button
+                                        className="text-base font-lightbold text-[#005382]"
+                                        onClick={toggleInboxView}
+                                    >
+                                        {showInbox ? "Hide" : "View All"}
+                                    </button>
                                 </li>
                             </ul>
-                            {inboxData.map((item, index) => (
-                                <div key={index} className="flex border h-auto p-4 w-full">
-                                    <img src={item.image} alt="Profile" className="w-10 h-10 rounded-full mr-2" />
-                                    <div className="flex justify-between w-full gap-2">
-                                        <div>
-                                            <h4 className="text-base font-semibold text-gray-800">{item.name}</h4>
-                                            <p className="text-base font-lightbold">{item.description}</p>
+                            {showInbox &&
+                                inboxData.map((item, index) => (
+                                    <div key={index} className="flex border h-auto p-4 w-full">
+                                        <img src={item.image} alt="Profile" className="w-10 h-10 rounded-full mr-2" />
+                                        <div className="flex justify-between w-full gap-2">
+                                            <div>
+                                                <h4 className="text-base font-semibold text-gray-800">{item.name}</h4>
+                                                <p className="text-base font-lightbold">{item.description}</p>
+                                            </div>
+                                            <p className="text-xs text-gray-400">{item.date}</p>
                                         </div>
-                                        <p className="text-xs text-gray-400">{item.date}</p>
                                     </div>
-                                </div>
-                            ))}
+                                ))
+                            }
                         </div>
                     </div>
 
@@ -80,16 +92,14 @@ const Plug_Dashboard = () => {
                                 <h1 className="text-lg font-semibold">Stats overview for</h1>
                                 <div className="w-full h-[48px] max-w-[190px] text-[#4A504B] text-base font-lightbold">
                                     <DropdownComponent
-                                        options={['Active Orders', 'replace Order', 'return order']}
+                                        options={['Active Orders', 'Replace Order', 'Return order']}
                                         selectedOption={selectOrders}
                                         onOptionChange={handleOptionChange}
                                         dropdownKey=""
                                         label="Select Orders"
                                         width="100%"
                                     />
-
                                 </div>
-
                             </div>
                             <div className="flex flex-wrap bg-white">
                                 {["Total Views", "Visits", "Orders", "Revenue"].map((stat, i) => (
@@ -105,10 +115,10 @@ const Plug_Dashboard = () => {
                                 ))}
                             </div>
                         </div>
-                    <div className="bg-[#D2EFFF] flex flex-col lg:flex-row p-6 rounded-lg">
-                        <div className="flex-1 max-w-[500px] flex flex-col gap-4">
-                            <h2 className="text-base font-semibold">A quick guide to getting your first sale</h2>
-                           <ul className="flex flex-col gap-4">
+                        <div className="bg-[#D2EFFF] flex flex-col lg:flex-row p-6 rounded-lg">
+                            <div className="flex-1 max-w-[500px] flex flex-col gap-4">
+                                <h2 className="text-base font-semibold">A quick guide to getting your first sale</h2>
+                                <ul className="flex flex-col gap-4">
                                     {["Set up your profile to completion", "Start at a low price point and work your way up as you grow in your business", "Stay active. Make sure to consistently check your alerts for requests or messages from your customers.", "Deliver on time!", "Follow up with your customers"].map((step, i) => (
                                         <li key={i} className="flex items-center gap-4">
                                             <span className="h-[24px] w-[24px] bg-white flex-shrink-0 rounded-full flex items-center justify-center text-[#005382] text-sm font-semibold">{i + 1}</span>
