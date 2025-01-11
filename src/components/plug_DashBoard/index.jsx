@@ -14,16 +14,22 @@ const inboxData = [
 ];
 
 const Plug_Dashboard = () => {
-    const [selectOrders, setSelectOrders] = useState('');
+    const [selectOrders, setSelectOrders] = useState([]);
     const [showInbox, setShowInbox] = useState(false);
 
-    const handleOptionChange = (updatedOption) => {
-        setSelectOrders(updatedOption);
+    const handleCheckboxChange = (event, option) => {
+        if (event.target.checked) {
+            setSelectOrders([option]);
+        } else {
+            setSelectOrders([]);
+        }
     };
 
     const toggleInboxView = () => {
         setShowInbox(!showInbox);
     };
+
+    const checkboxOptions = ['Active Orders', 'Replace Order', 'Return order'];
 
     return (
         <>
@@ -92,9 +98,22 @@ const Plug_Dashboard = () => {
                                 <h1 className="text-lg font-semibold">Stats overview for</h1>
                                 <div className="w-full h-[48px] max-w-[190px] text-[#4A504B] text-base font-lightbold">
                                     <DropdownComponent
-                                        options={['Active Orders', 'Replace Order', 'Return order']}
-                                        selectedOption={selectOrders}
-                                        onOptionChange={handleOptionChange}
+                                        options={checkboxOptions.map(option => {
+                                            const isChecked = selectOrders.includes(option);
+                                            return (
+                                                <div key={option} className="flex items-center gap-2">
+                                                    <input
+                                                        type="checkbox"
+                                                        checked={isChecked}
+                                                        onChange={(e) => handleCheckboxChange(e, option)}
+                                                        className="form-checkbox"
+                                                    />
+                                                    <span>{option}</span>
+                                                </div>
+                                            );
+                                        })}
+                                        selectedOption={selectOrders.join(', ')}
+                                        onOptionChange={() => { }}
                                         dropdownKey=""
                                         label="Select Orders"
                                         width="100%"
@@ -151,4 +170,3 @@ const Plug_Dashboard = () => {
 };
 
 export default Plug_Dashboard;
-
