@@ -1,44 +1,49 @@
-import { useEffect, useRef } from 'react';
-import Image from 'next/image';
-import StepperArrow from "@/assets/images/StepperArrow.svg";
+'use client';
+import { useState } from "react";
+import DropdownComponent from "../profileDetails/DropdownComponent";
 
 const PlugDashboardBar = () => {
-    return (
-      <div className="w-full h-full justify-start items-start inline-flex">
-        <div className="w-[140px] h-[66px] pl-4 pr-4 pt-2 pb-2 bg-white justify-center items-center gap-2 flex">
-          <div className="flex-col justify-center items-center gap-1 inline-flex">
-            <div className="text-[#555555] text-[14px] font-[Poppins] font-semibold leading-[14px] break-words">
-              Dashboard
-            </div>
-          </div>
-        </div>
-        <div className="w-[159px] h-[66px] pl-4 pr-4 pt-2 pb-2 bg-white justify-center items-center gap-2 flex">
-          <div className="text-[#555555] text-[14px] font-[Poppins] font-semibold leading-[14px] break-words">
-            My Business
-          </div>
-          <div className="w-4 h-4 relative">
-            <div className="w-4 h-4 absolute bg-[#b12d2d] rounded-full" />
-            <div
-              className="absolute w-[5.2px] h-[2.6px] left-[5.2px] top-[7.2px]"
-              style={{ border: "2px solid #555555" }}
-            ></div>
-          </div>
-        </div>
-        <div className="w-[159px] h-[66px] pl-4 pr-4 pt-2 pb-2 bg-white justify-center items-center gap-2 flex">
-          <div className="text-[#555555] text-[14px] font-[Poppins] font-semibold leading-[14px] break-words">
-            Analytics
-          </div>
-          <div className="w-4 h-4 relative">
-            <div className="w-4 h-4 absolute bg-[#F0F0F0] rounded-full" />
-            <div
-              className="absolute w-[5.2px] h-[2.6px] left-[5.2px] top-[7.2px]"
-              style={{ border: "2px solid #555555" }}
-            ></div>
-          </div>
-        </div>
-      </div>
-    );
+  const [dropdownStates, setDropdownStates] = useState({
+    myBusiness: "",
+    analytics: "",
+  });
+
+  const handleDropdownChange = (key, value) => {
+    setDropdownStates((prevState) => ({
+      ...prevState,
+      [key]: value,
+    }));
   };
-  
-  export default PlugDashboardBar;
-  
+
+  return (
+    <div className="w-full max-w-[420px] flex justify-center items-center">
+      <div className="w-[auto] md:w-[140px] h-[66px] pl-1 pr-1 pt-2 pb-2 bg-white flex justify-center items-center">
+          <p className="fontcolor">
+            Dashboard
+        </p>
+      </div>
+
+      <div className="w-[100px] md:w-[140px] h-[66px] pl-1 pr-1 pt-2 pb-2 bg-white flex justify-center items-center">
+        <DropdownComponent
+          label=" My Business"
+          options={["Option 1", "Option 2", "Option 3"]}
+          selectedOption={dropdownStates.myBusiness}
+          onOptionChange={(value) => handleDropdownChange("myBusiness", value)}
+          buttonClassName="border-none flex gap-1 fontcolor"
+        />
+
+      </div>
+      <div className="w-[100px] md:w-[140px] h-[66px] pl-1 pr-1 pt-2 pb-2 bg-white flex justify-center items-center">
+        <DropdownComponent
+          label="Analytics"
+          options={["Option A", "Option B", "Option C"]}
+          selectedOption={dropdownStates.analytics}
+          onOptionChange={(value) => handleDropdownChange("analytics", value)}
+          buttonClassName="border-none flex gap-2 fontcolor"
+        />
+      </div>
+    </div>
+  );
+};
+
+export default PlugDashboardBar;
