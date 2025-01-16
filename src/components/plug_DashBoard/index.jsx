@@ -33,7 +33,7 @@ const Plug_Dashboard = () => {
 
     return (
         <>
-            <div className="bg- min-h-screen p-5">
+            <div className="bg-gradient-to-b from-[#EBF2FB] to-[#FFFFFF] min-h-screen p-5">
                 <div className="flex flex-col lg:flex-row gap-5 max-w-[1240px] mx-auto">
                     <div className="flex flex-col gap-5 lg:w-[363px]">
                         <div className="w-full border flex flex-col gap-4 h-auto bg-white rounded-lg p-4">
@@ -120,10 +120,10 @@ const Plug_Dashboard = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="flex flex-wrap bg-white">
+                            <div className="flex flex-wrap">
                                 {["Total Views", "Visits", "Orders", "Revenue"].map((stat, i) => (
-                                    <div key={i} className="border flex flex-col gap-2 rounded-lg min-w-[150px] flex-1 p-4 text-center hover:bg-gray-100 transition-colors">
-                                        <div className="h-[93px]">
+                                    <div key={i} className="border bg-white flex flex-col gap-2 rounded-lg min-w-[150px] flex-1 p-4 text-center hover:bg-gray-100 transition-colors">
+                                        <div className="h-[93px] ">
                                             <p className="text-[17px] font-lightbold">{stat}</p>
                                             <p className="text-2xl font-bold">
                                                 {stat === "Revenue" ? "$41.78" : stat === "Orders" ? "2" : stat === "Visits" ? "171" : "294"}

@@ -119,7 +119,7 @@ const EmployeeCard = ({
                         {employee?.services.map((service) => (
                             <div
                                 key={service.title}
-                                className="w-[326px] sm:w-[326px] lg:w-[284px] group pb-[16px] pt-[16px] pl-[16px] bg-primary border border-gray-300 rounded-[4px] cursor-pointer md:transition-colors flex flex-col justify-between 
+                                className="w-[326px] sm:w-[326px] lg:w-[310px] group pb-[16px] pt-[16px] pl-[16px] bg-primary border border-gray-300 rounded-[4px] cursor-pointer md:transition-colors flex flex-col justify-between 
                             md:hover:bg-employecard-card-blue-hover"
                                 onClick={() => onClick(employee)}
                             >

@@ -12,8 +12,6 @@ const Resume = () => {
 
     if (file && file.type === "application/pdf") {
       setFileName(file.name);
-    } else {
-      alert("Please upload a valid PDF file.");
     }
   };
 
@@ -31,8 +29,8 @@ const Resume = () => {
 
   return (
     <>
-      <div className="flex justify-center flex-wrap bg-white pl-[20px] pr-[20px] pt-[88px]">
-        <div className="flex flex-col gap-[24px] max-w-[328px] h-auto">
+      <div className="flex justify-center flex-wrap bg-white pl-[20px] pr-[20px] pt-[48px]">
+        <div className="flex w-auto flex-col gap-[24px] max-w-[328px]">
           <div className="flex flex-col gap-[8px]">
             <p className="block text-sm font-semibold text-[#2F2F2F]">
               LinkedIn URL

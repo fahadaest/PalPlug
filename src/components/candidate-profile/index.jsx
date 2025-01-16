@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Image from 'next/image';
 import Done from "@/assets/images/Done.svg";
@@ -9,7 +9,8 @@ import Docuemnt from "@/assets/images/document-checkmark.svg";
 import User_message from "@/assets/images/users-message-support.svg";
 import { setPlugRoute } from '@/app/redux/slice/user/userSlice';
 import { useRouter } from 'next/navigation';
-
+import Resume from "../resumeFile/resume";
+import CloseIcon from '@/assets/images/Closeicon.svg';
 const Dashboard = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -20,9 +21,18 @@ const Dashboard = () => {
     dispatch(setPlugRoute(false));
     router.push(`/profile/${userId}`);
   };
-  const handleResumeClick = () => {
-    router.push(`/ResumeForm`);
+
+  const handleGetStartedClicke = () => {
+    setIsModalVisible(true);
   };
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
+
+
 
   return (
     <div className="bg-white flex flex-col lg:flex-row min-h-screen p-5 lg:p-10 gap-8">
@@ -82,8 +92,8 @@ const Dashboard = () => {
               </p>
             </div>
             <button
-              className="text-[#005382] text-[14px] md:text-[16px] font-medium mt-2 md:mt-0 cursor-pointer"
               onClick={handleGetStartedClick}
+              className="text-[#005382] text-[14px] md:text-[16px] font-medium mt-2 md:mt-0 cursor-pointer"
             >
               Get Started
             </button>
@@ -94,13 +104,14 @@ const Dashboard = () => {
               <Image src={Docuemnt} alt="Document" height={24} width={24} />
             </div>
             <div className="flex-1 px-2 md:px-4 text-center md:text-left">
-              <h3
-                className="text-[14px] md:text-[18px] font-semibold ">Add Your Resume</h3>
+              <h3 className="text-[14px] md:text-[18px] font-semibold">Add Your Resume</h3>
               <p className="text-[12px] md:text-[14px] leading-tight text-[#939393]">
                 Upload your resume so Plugs can assess if you're a good fit for their company.
               </p>
             </div>
-            <div onClick={handleResumeClick} className="text-[#005382] cursor-pointer text-[14px] md:text-[16px] font-medium mt-2 md:mt-0">
+            <div onClick={handleGetStartedClicke} className="text-[#005382] cursor-pointer text-[14px] md:text-[16px] font-medium mt-2 md:mt-0">
+
+
               Get Started
             </div>
           </div>
@@ -121,6 +132,19 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+
+      {isModalVisible && (
+        <div className="fixed inset-0 bg-[#0B0B0B] bg-opacity-50 p-[20px] flex items-center justify-center z-50">
+          <div className="bg-white w-full max-w-[400px] p-6 rounded-lg relative">
+            <div className='flex justify-end'>
+              <button className="text-gray-500" onClick={closeModal}>
+                <Image src={CloseIcon} alt="close" className="w-6 h-6 cursor-pointer" />
+              </button>
+            </div>
+            <Resume />
+          </div>
+        </div>
+      )}
     </div>
   );
 };

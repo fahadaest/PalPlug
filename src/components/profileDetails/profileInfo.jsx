@@ -20,7 +20,7 @@ const ProfileInfo = ({ userId, displayName }) => {
   const [description, setDescription] = useState('');
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [isServicesSelectionVisible, setServicesSelectionVisible] = useState(false);
-  const isVerificationComplete = useSelector((state) => state.user.isVerificationComplete); 
+  const isVerificationComplete = useSelector((state) => state.user.isVerificationComplete);
 
   const router = useRouter();
   const [professionalInfo, setProfessionalInfo] = useState({
@@ -69,7 +69,7 @@ const ProfileInfo = ({ userId, displayName }) => {
         setServicesSelectionVisible(true);
       } else {
         router.push('/');
-        dispatch(setPlugRoute(true)); 
+        dispatch(setPlugRoute(true));
       }
     } catch (error) {
       console.error('Error submitting profile:', error);
@@ -81,7 +81,7 @@ const ProfileInfo = ({ userId, displayName }) => {
   const firstInitial = displayName ? displayName.charAt(0).toUpperCase() : 'S';
 
   const handleOpenPhoneModal = (event) => {
-    event.preventDefault(); 
+    event.preventDefault();
     setIsPhoneModalOpen(true);
   };
 
@@ -96,15 +96,17 @@ const ProfileInfo = ({ userId, displayName }) => {
   return (
     <>
       {!isServicesSelectionVisible ? (
-        <form className="pl-[16px] pr-[16px] md:p-20" onSubmit={currentStep === 3 ? handleFinish : handleContinue}>
+        <form className="pl-[16px] pt-[24px] pr-[16px] md:p-20" onSubmit={currentStep === 3 ? handleFinish : handleContinue}>
           {currentStep === 1 && (
             <div className="flex flex-col gap-[24px]">
-              <div className="w-auto md:w-[698px] flex gap-[16px] flex-col">
-                <h1 className="text-xl font-bold">Personal Info</h1>
-                <p className="text-[14px] text-[#939393]">
-                  Tell us a bit about yourself. This information will appear on your
-                  public profile, so that buyers can get to know you.
-                </p>
+              <div className="w-auto min-w-[354px] max-w-[698px] h-[107px] sm:h-[84px] flex gap-[16px] flex-col">
+                <div className='flex flex-col gap-[8px]'>
+                  <h1 className="text-2xl leading-[32px] font-semibold">Personal Info</h1>
+                  <p className="text-[14px] font-lightbold leading-[16.8px]  text-[#939393]">
+                    Tell us a bit about yourself. This information will appear on your
+                    public profile, so that buyers can get to know you.
+                  </p>
+                </div>
                 <div className="border-[#F0F0F0] border w-auto max-w-[640px]"></div>
               </div>
 
@@ -174,9 +176,8 @@ const ProfileInfo = ({ userId, displayName }) => {
               </div>
               <button
                 type="submit"
-                className={`h-[40px] w-auto max-w-[358px] md:w-[175px] p-[11px_20px_11px_20px] ${
-                  isFormValid ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'
-                } text-white text-[12px] font-[600] rounded-[8px]`}
+                className={`h-[40px] w-auto max-w-[358px] md:w-[175px] p-[11px_20px_11px_20px] ${isFormValid ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'
+                  } text-white text-[12px] font-[600] rounded-[8px]`}
                 disabled={!isFormValid}
               >
                 Continue

@@ -98,7 +98,7 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
         >
           <div
             ref={contentRef}
-            className="relative w-full max-w-[90%] md:max-w-[520px] h-auto sm:h-[472px] bg-white p-4 sm:p-6 md:p-10 rounded-[8px] shadow-lg"
+            className=" w-full max-w-[520px] h-[472px] bg-white  p-[20px] sm:p-[40px] rounded-[8px]"
             onClick={(e) => e.stopPropagation()}
           >
             <div className='flex justify-end'>
@@ -106,86 +106,91 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
                 <Image src={CloseIcon} alt="close" className="w-6 h-6 cursor-pointer" />
               </button>
             </div>
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-[18px] sm:text-[20px] md:text-[24px] font-[600]">Verify Phone Number</h2>
+
+            <div className='h-[392px]'>
+              <div className="w-full max-w-[440px] flex flex-col mb-[16px]">
+                <h1 className="text-[18px] sm:text-[20px] md:text-[24px] font-[600]">Verify Phone Number</h1>
+                <p className="text-[#939393] text-[12px] sm:text-[14px] font-semibold">
+                  Thank you for taking a moment to verify your phone number
+                </p>
+              </div>
+
+              <form className='flex flex-col gap-[32px]'>
+                <div className="flex flex-col gap-[8px]">
+                  <label className="block text-[#2F2F2F] font-[600] text-[12px] sm:text-[14px]" htmlFor="country">
+                    Enter Country
+                  </label>
+                  {loading ? (
+                    <p>Loading countries...</p>
+                  ) : (
+                    <>
+                      <div className="relative w-full">
+                        <select
+                          value={selectedCountry}
+                          onChange={(e) => setSelectedCountry(e.target.value)}
+                          onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                          className="w-full px-3 py-2 border h-[40px] sm:h-[48px] bg-[white] text-[#413f3f] rounded-[8px] appearance-none focus:outline-none"
+                        >
+                          <option value="" disabled>Select Country</option>
+                          {countries.map((country) => (
+                            <option className='w-auto sm:w-[440px]' key={country.code} value={country.dialCode}>
+                              {country.name} ({country.dialCode})
+                            </option>
+                          ))}
+                        </select>
+                        <span className="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                          <Image
+                            src={ArrowIcon}
+                            alt="Arrow Icon"
+                            width={16}
+                            height={16}
+                            className={`w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
+                          />
+                        </span>
+                      </div>
+
+                    </>
+                  )}
+                </div>
+
+                <div className="flex flex-col gap-[8px]">
+                  <label className="block text-[#2F2F2F] font-[600] text-[12px] sm:text-[14px]  sm:" htmlFor="phone">
+                    Enter your Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    placeholder="+ 1 -"
+                    className="w-full px-3 py-2 h-[40px] sm:h-[48px] border border-[#D5D4DC] text-[#2F2F2F] rounded-[8px]"
+                  />
+                </div>
+
+                <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4">
+                  <button
+                    type="button"
+                    className={`w-full md:w-[210px] h-[40px] md:h-[48px] ${isInputFilled ? 'bg-[#005382]' : 'bg-[#939393]'} text-white text-[12px] md:text-[16px] font-[600] rounded-[8px]`}
+                    onClick={handleSendVerificationCode}
+                  >
+                    Verify by SMS
+                  </button>
+                  <button
+                    className={`w-full md:w-[210px] h-[40px] md:h-[48px] ${isInputFilled ? 'bg-[#005382]' : 'bg-[#939393]'} text-white text-[12px] md:text-[16px] font-[600] rounded-[8px]`}
+                  >
+                    Verify by Call
+                  </button>
+                </div>
+              </form>
+              <div>
+                <p className="text-[#939393] text-[12px] sm:text-[14px] font-[400] mt-3 leading-extra-tight">
+                  Your phone number will remain private and will not be shared or used for marketing purposes
+                </p>
+              </div>
+              <div id="recaptcha-container"></div>
             </div>
-
-            <p className="text-[#939393] mb-6 text-[12px] sm:text-[14px] font-[400]">
-              Thank you for taking a moment to verify your phone number
-            </p>
-
-            <form>
-              <div className="mb-6 relative">
-                <label className="block text-[#2F2F2F] font-[600] text-[12px] sm:text-[14px] mb-2" htmlFor="country">
-                  Enter Country
-                </label>
-                {loading ? (
-                  <p>Loading countries...</p>
-                ) : (
-                  <>
-                    <select
-                      value={selectedCountry}
-                      onChange={(e) => setSelectedCountry(e.target.value)}
-                      onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                      className="w-full px-3 py-2 border h-[40px] sm:h-[48px] bg-[white] text-[#413f3f] rounded-[8px] appearance-none"
-                    >
-                      <option value="" disabled>Select Country</option>
-                      {countries.map((country) => (
-                        <option key={country.code} value={country.dialCode}>
-                          {country.name} ({country.dialCode})
-                        </option>
-                      ))}
-                    </select>
-                    <span>
-                      <Image
-                        src={ArrowIcon}
-                        alt="Arrow Icon"
-                        width={16}
-                        height={16}
-                        className={`absolute right-3 top-8 sm:top-10 w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
-                      />
-                    </span>
-                  </>
-                )}
-              </div>
-
-              <div className="mb-6">
-                <label className="block text-[#2F2F2F] font-[600] text-[12px] sm:text-[14px] mb-2" htmlFor="phone">
-                  Enter your Phone Number
-                </label>
-                <input
-                  type="tel"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder="+ 1 -"
-                  className="w-full px-3 py-2 h-[40px] sm:h-[48px] border border-[#D5D4DC] text-[#2F2F2F] rounded-[8px]"
-                />
-              </div>
-
-              <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                <button
-                  type="button"
-                  className={`w-full md:w-[210px] h-[40px] md:h-[48px] ${isInputFilled ? 'bg-[#005382]' : 'bg-[#939393]'} text-white text-[12px] md:text-[16px] font-[600] rounded-[8px]`}
-                  onClick={handleSendVerificationCode}
-                >
-                  Verify by SMS
-                </button>
-                <button
-                  className={`w-full md:w-[210px] h-[40px] md:h-[48px] ${isInputFilled ? 'bg-[#005382]' : 'bg-[#939393]'} text-white text-[12px] md:text-[16px] font-[600] rounded-[8px]`}
-                >
-                  Verify by Call
-                </button>
-              </div>
-            </form>
-
-            <p className="text-[#939393] text-[12px] sm:text-[14px] font-[400] mt-3 leading-extra-tight">
-              Your phone number will remain private and will not be shared or used for marketing purposes
-            </p>
-            <div id="recaptcha-container"></div>
           </div>
         </div>
       </Modal>
-
       <OTPVerifyModal
         isOpen={isOtpModalOpen}
         phoneNumber={phoneNumber}

@@ -188,7 +188,6 @@ const Navbar = () => {
                                         alt="User Image"
                                         className="h-[36px] w-[36px] text-black text-lg cursor-pointer"
                                         onClick={toggleDropdown}
-                                        log
                                     />
                                     {isMobile && isDropdownOpen && (
                                         <div className="absolute right-0 mt-2  w-48 rounded-lg shadow-lg z-10" ref={dropdownRef}>
@@ -218,7 +217,7 @@ const Navbar = () => {
                                                 <span className="sr-only">
                                                     Open dropdown
                                                 </span>
-
+                                                
                                                 <Image
                                                     src={ArrowIcon}
                                                     alt="Arrow Icon"
@@ -227,7 +226,6 @@ const Navbar = () => {
                                                     className={`w-4 h-4 transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : 'rotate-0'}`}
                                                 />
                                             </button>
-                                            {console.log("isDropdownOpen:", isDropdownOpen)}
                                             {isDropdownOpen && (
                                                 <NavbarDropdown
                                                     isOpen={isDropdownOpen}

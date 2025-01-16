@@ -65,8 +65,8 @@ const initialState = {
     { name: 'Abstract', image: Abstract },
   ],
   jobFunctions: ['Product Design', 'Software Development', 'Systems Engineering'],
-  priceRanges: ['$0-$20', '$0-$30', '$0-$40'],
-  ratings: ['4.0-5.0', '4.5-5.0', '5.0'],
+  priceRanges: ['$0-$20', '$21-$40', '$40+'],
+  ratings: ['Highest rated', 'Most hires', 'Most recent'],
   companyStyles: {
     Netflix: 'hover:bg-companies-netflix-black',
     Google: 'hover:bg-companies-google-blue',

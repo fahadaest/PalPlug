@@ -85,7 +85,7 @@ const DropdownComponent = ({
             options.map((option) => (
               <div
                 key={option}
-                className={`block px-4 py-2 cursor-pointer hover:bg-[#005382] hover:text-white ${selectedOption === option ? "bg-gray-100" : ""}`}
+                className={`block px-4 py-2 cursor-pointer hover:bg-gray-100 text-black ${selectedOption === option ? "bg-gray-100" : ""}`}
                 onClick={() => handleOptionChange(option)}
               >
                 {option}
