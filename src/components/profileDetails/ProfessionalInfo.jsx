@@ -17,7 +17,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
 
     useEffect(() => {
         return () => {
-            setProfessionalInfo((prev) => ({ ...prev, occupation: '' }));
+            setProfessionalInfo((prev) => ({ ...prev, occupation: '', employer: '' }));
         };
     }, [setProfessionalInfo]);
 
@@ -30,10 +30,11 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
             const updatedSections = [...certificationSections];
             updatedSections[sectionIndex] = { ...updatedSections[sectionIndex], [dropdownKey]: updatedOptions };
             setCertificationSections(updatedSections);
-        } else if (dropdownKey === 'occupation') {
-            setProfessionalInfo({ ...professionalInfo, occupation: updatedOptions });
+        } else {
+            setProfessionalInfo((prev) => ({ ...prev, [dropdownKey]: updatedOptions }));
         }
     };
+
 
     const addEducationSection = () => {
         setEducationSections([...educationSections, { country: '', college: '', major: '', year: '' }]);
@@ -103,6 +104,35 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                     />
                 </div>
             </div>
+
+            <div className='flex gap-[8px] flex-col md:flex-row'>
+                <div className="flex flex-col gap-[8px]">
+                    <label className="block text-[14px] font-[600]">
+                        Your Employer
+                    </label>
+                    <div className="w-auto md:w-[358px] max-w-[358px]">
+                        <DropdownComponent
+                            options={['Employer 1', 'Employer 2', 'Employer 3']}
+                            selectedOption={professionalInfo.employer}
+                            onOptionChange={(updatedOptions) => handleOptionChange('employer', updatedOptions, null, 'employee')}
+                            dropdownKey="employer"
+                            label="Select Employer"
+                            width="100%"
+                        />
+                    </div>
+                </div>
+
+                <div className="flex flex-col gap-[8px]">
+                    <label className="block text-[14px] font-[600]">
+                        Work Email
+                    </label>
+                    <input 
+                        placeholder='Ex: j.appleseed@google.com'
+                    className="w-auto outline-none font-lightbold text-base text-[#939393] max-w-[358px] p-[12px] h-[48px] border border-[#D5D4DC] rounded-lg">
+                    </input>
+                </div>
+            </div>
+
 
             <div className="flex flex-col gap-[8px]">
                 <label className="text-[14px] font-[600]">Education</label>

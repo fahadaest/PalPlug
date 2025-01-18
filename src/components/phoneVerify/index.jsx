@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchCountries } from '@/app/redux/action';
 import OTPVerifyModal from './OtpVerifyModal';
 import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth';
-import ArrowIcon from '@/assets/images/navarrow.svg';
+import ArrowIcon from '@/assets/images/arrow.svg';
 
 const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
   const modalRef = useRef(null);
@@ -162,7 +162,7 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                     placeholder="+ 1 -"
-                    className="w-full px-3 py-2 h-[40px] sm:h-[48px] border border-[#D5D4DC] text-[#2F2F2F] rounded-[8px]"
+                    className="w-full px-3 py-2 h-[40px] outline-none sm:h-[48px] border border-[#D5D4DC] text-[#2F2F2F] rounded-[8px]"
                   />
                 </div>
 
@@ -201,3 +201,4 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
 });
 
 export default PhoneVerifyModal;
+
