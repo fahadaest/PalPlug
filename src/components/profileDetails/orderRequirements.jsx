@@ -1,25 +1,19 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import DropdownComponent from './DropdownComponent';
-
 const OrderRequirements = () => {
     const [isResumeDropdownVisible, setResumeDropdownVisible] = useState(false);
     const [isAdditionalQuestionsVisible, setIsAdditionalQuestionsVisible] = useState(false);
-
     const [isDropdownOpen, setDropdownOpen] = useState(false);
     const [questions, setQuestions] = useState([{ id: 1, text: '' }]);
     const [savedQuestions, setSavedQuestions] = useState([]);
-
     const [selectedResumeOption, setSelectedResumeOption] = useState('');
-
     const toggleResumeDropdown = () => {
         setResumeDropdownVisible(prev => !prev);
     };
-
     const toggleAdditionalQuestions = () => {
         setIsAdditionalQuestionsVisible(prev => !prev);
     };
-
     const handleDropdownClick = (e) => {
         e.preventDefault();
         e.stopPropagation();
@@ -28,26 +22,22 @@ const OrderRequirements = () => {
     const handleQuestionChange = (id, text) => {
         setQuestions(questions.map(q => q.id === id ? { ...q, text } : q));
     };
-
     const handleSaveQuestion = () => {
         const nonEmptyQuestions = questions.filter(q => q.text.trim() !== '');
         setSavedQuestions([...savedQuestions, ...nonEmptyQuestions]);
         setQuestions([{ id: questions.length + 1, text: '' }]);
     };
-
     const handleAddQuestion = () => {
         setQuestions([...questions, { id: questions.length + 1, text: '' }]);
     };
-
     const handleOptionChange = (option) => {
         setSelectedResumeOption(option);
+        setDropdownOpen(false);
     };
-
     return (
         <div className='w-full max-w-[978px] h-auto pl-[16px] pt-[40px] pr-[16px] md:p-[40px_80px_40px_80px] mt-5 rounded-[8px] bg-white'>
             <div className='flex flex-col gap-[45px]'>
                 <div className='flex flex-col gap-[16px]'>
-
                     <h1 className='text-[16px] leading-tight font-semibold'>
                         Which of these items will you require to fulfill <br className='hidden md:block' /> your orders?
                     </h1>
@@ -56,39 +46,32 @@ const OrderRequirements = () => {
                         on their order.
                     </p>
                 </div>
-                <div className='flex flex-col gap-[16px]'>
-                    <div className="flex items-center gap-[8px] sm:gap-[16px]">
+                <div className="flex flex-col gap-[16px]">
+                    <div className="flex items-center gap-4">
                         <input
                             id="resume"
                             type="checkbox"
                             onChange={toggleResumeDropdown}
                             className="h-4 w-4 text-blue-600 border border-neutral-white checked:accent-[#005382]"
-                        />
-                        <label htmlFor="resume" className="text-[14px] sm:text-[16px] font-semibold">Resume</label>
+                            />
+                        <label htmlFor="resume" className="font-semibold">Resume</label>
                     </div>
-
-                    <div className={`transition-all duration-300 ease-in-out overflow-hidden ${isResumeDropdownVisible ? 'max-h-40' : 'max-h-0'}`}
-                        style={{
-                            maxHeight: isResumeDropdownVisible ? '200px' : '0px',
-                            display: isResumeDropdownVisible ? 'block' : 'none'
-                        }}
-                    >
-                        <div className='flex flex-col gap-[8px] md:ml-[35px]'>
-                            <label className='text-[14px] text-[#2F2F2F] font-[600]'>Format</label>
+                    {isResumeDropdownVisible && (
+                        <div className="flex flex-col gap-[8px] md:ml-[35px]">
+                            <label className="text-sm font-semibold text-[#2F2F2F]">File Format</label>
                             <div className='w-[358px] md:w-[276px]' onClick={handleDropdownClick}>
                                 <DropdownComponent
                                     isOpen={isDropdownOpen}
                                     options={['Option 1', 'Option 2', 'Option 3']}
                                     selectedOption={selectedResumeOption}
                                     onOptionChange={handleOptionChange}
-                                    width='100%'
-                                    label='select Format'
+                                    width="100%"
+                                    label="Select Format"
                                 />
                             </div>
                         </div>
-                    </div>
+                    )}
                 </div>
-
                 <div className="flex items-center gap-[8px] sm:gap-[16px]">
                     <input
                         id="job-link"
@@ -97,7 +80,6 @@ const OrderRequirements = () => {
                     />
                     <label htmlFor="job-link" className="text-[14px] sm:text-[16px] font-semibold">Job Link/URL</label>
                 </div>
-
                 <div className="flex items-center gap-3 sm:gap-5">
                     <input
                         id="portfolio-link"
@@ -106,7 +88,6 @@ const OrderRequirements = () => {
                     />
                     <label htmlFor="portfolio-link" className="text-[14px] sm:text-[16px] font-semibold">Portfolio Link/URL</label>
                 </div>
-
                 <div className="flex items-center gap-[8px] sm:gap-[16px]">
                     <input
                         id="additional-questions"
@@ -116,9 +97,8 @@ const OrderRequirements = () => {
                     />
                     <label htmlFor="additional-questions" className="text-[14px] sm:text-[16px] font-semibold">Additional Questions</label>
                 </div>
-
                 <div
-                    className={`transition-all duration-300 ease-in-out overflow-hidden ${isAdditionalQuestionsVisible ? 'max-h-auto opacity-100' : 'max-h-0 opacity-0'}`}
+                    className={`transition-all duration-300 mt-[-30px] ease-in-out overflow-hidden ${isAdditionalQuestionsVisible ? 'max-h-auto opacity-100' : 'max-h-0 opacity-0'}`}
                     style={{ maxHeight: isAdditionalQuestionsVisible ? '800px' : '0px' }}
                 >
                     <div className="md:ml-[35px]">
@@ -161,5 +141,4 @@ const OrderRequirements = () => {
         </div>
     );
 }
-
 export default OrderRequirements;

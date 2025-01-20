@@ -5,7 +5,7 @@ import Movies from "@/assets/images/movies.svg";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Male from "@/assets/images/male.svg";
-import { PopupWidget } from "react-calendly";
+import { PopupButton } from "react-calendly"
 const packagesData = [
   {
     id: "standard",
@@ -168,9 +168,27 @@ const ReferralPackage = () => {
                 </div>
 
                 <div className="flex h-[138px] flex-col gap-[36px] ">
-                  <button className="w-full h-[40px] border border-[#005382] text-[12px] font-semibold p-[11px_20px_11px_20px] text-[#005382] rounded-[8px]">
-                    Schedule Video Call with Idris
-                  </button>
+                <PopupButton
+                    url="https://calendly.com/ali-rayhan29"
+                    rootElement={typeof window !== "undefined" ? document.body : null}
+                    text="Schedule Video Call with Idris"
+                    styles={{
+                      width: "100%",
+                      height: "40px",
+                      border: "1px solid #005382",
+                      fontSize: "12px",
+                      fontWeight: "600",
+                      color: "#005382",
+                      borderRadius: "8px",
+                      padding: "11px 20px",
+                      textAlign: "center",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      cursor: "pointer",
+                    }}
+                  />
+
 
                   <button  onClick={handlePaymentRoute} className="w-full h-[40px] text-[12px] font-semibold p-[11px_20px_11px_20px] bg-[#005382] text-white rounded-[8px]">
                     Confirm & Pay
@@ -184,13 +202,6 @@ const ReferralPackage = () => {
           )}
         </div>
       </div>
-      <PopupWidget
-    url="https://calendly.com/ali-rayhan29"
-    rootElement={typeof window !== "undefined" ? document.body : null}
-    text="Click here to schedule!"
-    textColor="#ffffff"
-    color="#005382"
-/>
     </>
   );
 };
