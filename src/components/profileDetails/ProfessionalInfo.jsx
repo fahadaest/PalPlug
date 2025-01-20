@@ -97,7 +97,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                     <DropdownComponent
                         options={['Option 1', 'Option 2', 'Option 3']}
                         selectedOption={professionalInfo.occupation}
-                        onOptionChange={(updatedOptions) => handleOptionChange('occupation', updatedOptions)}
+                        onOptionChange={(updatedOptions) => handleOptionChange('occupation', updatedOptions, null, 'occupation')}
                         dropdownKey="occupation"
                         label="Select Occupation"
                         width="100%"
