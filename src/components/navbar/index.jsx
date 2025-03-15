@@ -16,7 +16,6 @@ import ServicesProgressBar from './ServicesProgressBar';
 import PlugDashboardBar from './PlugDashboardBar';
 import { setCurrentStep, setServicesCurrentStep } from '@/app/redux/slice/user/userSlice';
 
-
 const NavbarDropdown = dynamic(() => import('../navbarDropdown'), {
     ssr: false,
 });
@@ -34,11 +33,13 @@ const Navbar = () => {
     const [isModalOpen, setModalOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
 
+
     const dropdownRef = useRef(null);
     const modalRef = useRef(null);
 
     const handleStepClick = (step) => {
-        dispatch(setServicesCurrentStep(step));
+        if(currentStepservices > step)
+            dispatch(setServicesCurrentStep(step));
     };
     useEffect(() => {
         if (user && !hasLoggedIn) {
@@ -107,6 +108,27 @@ const Navbar = () => {
     const isServicesSelectionPage = pathname?.includes('/servicesselection');
     const isPlugDashboard = pathname?.includes('/plugDashboard');
     const inlineStyle = isProfilePage ? { boxShadow: '0px 8px 20px 0px #B8B4B41A' } : {};
+
+
+
+    const isStepEnabled = (step) => {
+        return step <= currentStepservices; // Allow only next step and previous ones
+    };
+    // Add a state variable to track whether the form is valid.
+    // Ensure that before moving to the next step, the function checks whether the required fields are filled.
+    // If the form is incomplete, prevent navigation to the next step.
+
+//     const [isFormValid, setIsFormValid] = useState(false); // Track form validity
+
+// const handleStepClick = (step) => {
+//     if (step > currentStepservices && !isFormValid) {
+//         alert("Please complete the form before proceeding.");
+//         return;
+//     }
+//     dispatch(setServicesCurrentStep(step));
+// };
+
+
 
     return (
         <div className='flex flex-col'>
@@ -252,6 +274,7 @@ const Navbar = () => {
             {isServicesSelectionPage && (
 
                 <ServicesProgressBar currentStepservices={currentStepservices} onStepClick={handleStepClick} />
+                
 
             )}
 

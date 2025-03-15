@@ -10,6 +10,7 @@ import ProfessionalInfo from './ProfessionalInfo';
 import { submitProfile } from '@/app/redux/action';
 import ServicesSelection from './servicePage';
 
+
 const ProfileInfo = ({ userId, displayName }) => {
   const dispatch = useDispatch();
   const currentStep = useSelector((state) => state.user.currentStep);
@@ -21,17 +22,25 @@ const ProfileInfo = ({ userId, displayName }) => {
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [isServicesSelectionVisible, setServicesSelectionVisible] = useState(false);
   const isVerificationComplete = useSelector((state) => state.user.isVerificationComplete);
+  const [isProfessionalInfoValid, setIsProfessionalInfoValid] = useState(false); // New state
+  const [isAccountSecurityValid, setIsAccountSecurityValid] = useState(false);
+ 
 
   const router = useRouter();
   const [professionalInfo, setProfessionalInfo] = useState({
-    occupation: [],
-    country: [],
-    college: [],
-    major: [],
-    year: [],
-    certificate: [],
-    certificationFrom: [],
+    occupation:   /*""*/                [] , 
+    country:   /*""*/                    [] ,
+    college:   /*""*/                    [] ,
+    major:   /*""*/                    [] ,
+    year:   /*""*/                    [] ,
+    certificate:   /*""*/                    [] ,
+    certificationFrom:   /*""*/                    [] ,
   });
+
+  const handleProfessionalInfoValidation = (isValid) => {
+    setIsProfessionalInfoValid(isValid);
+};
+
 
   const handleProfilePictureChange = (event) => {
     const file = event.target.files[0];
@@ -51,7 +60,7 @@ const ProfileInfo = ({ userId, displayName }) => {
   };
 
   const handleFinish = (event) => {
-    dispatch(setCurrentStep(1));
+    // dispatch(setCurrentStep(1));
     event.preventDefault();
     event.stopPropagation();
 
@@ -62,8 +71,16 @@ const ProfileInfo = ({ userId, displayName }) => {
       description,
       professionalInfo,
     };
+    
+     // Directly store the form data into local storage
+    localStorage.setItem('profile', JSON.stringify(formData));
+    // Optionally, update your Redux store with the formData
+    // dispatch(setUser(formData));
+
+
+
     try {
-      dispatch(submitProfile(formData));
+      // dispatch(submitProfile(formData));
       if (isPlugRoute) {
         router.push('/servicesselection');
         setServicesSelectionVisible(true);
@@ -90,7 +107,10 @@ const ProfileInfo = ({ userId, displayName }) => {
   useEffect(() => {
     if (isVerificationComplete) {
       setIsPhoneModalOpen(false);
-    }
+      setIsAccountSecurityValid(true); // Enable Finish button
+    }else {
+      setIsAccountSecurityValid(false); // Disable Finish button
+  }
   }, [isVerificationComplete]);
 
   return (
@@ -186,12 +206,12 @@ const ProfileInfo = ({ userId, displayName }) => {
           )}
           {currentStep === 2 && (
             <>
-              <ProfessionalInfo professionalInfo={professionalInfo} setProfessionalInfo={setProfessionalInfo} />
+              <ProfessionalInfo professionalInfo={professionalInfo} setProfessionalInfo={setProfessionalInfo} onValidationChange={handleProfessionalInfoValidation} /> 
               <div className="w-auto max-w-[358px] md:w-[175px] mt-[8px] md:mt-[100px]">
                 <button
                   type="submit"
-                  className={`h-[40px] w-[100%] p-[11px_20px_11px_20px] ${isFormValid ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'} text-white text-[12px] font-[600] rounded-[8px]`}
-                  disabled={!isFormValid}
+                  className={`h-[40px] w-[100%] p-[11px_20px_11px_20px] ${isProfessionalInfoValid    /*  isFormValid*/  ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'} text-white text-[12px] font-[600] rounded-[8px]`}
+                  disabled={ !isProfessionalInfoValid       /* !isFormValid*/} // Disable based on validation
                 >
                   Continue
                 </button>
@@ -213,7 +233,7 @@ const ProfileInfo = ({ userId, displayName }) => {
                   <span className="text-[14px] font-lightbold text-[#000000]">Email</span>
                   <span className="text-[14px] italic font-lightbold text-[#555555]">Private</span>
                 </div>
-                <button className="h-[40px] text-[#555555] text-[12px] font-[600] w-[120px] bg-[#6FCF97]  rounded-[8px]">
+                <button disabled className="h-[40px] text-[#555555] text-[12px] font-[600] w-[120px] bg-[#6FCF97]  rounded-[8px]">
                   Verified
                 </button>
               </div>
@@ -224,10 +244,12 @@ const ProfileInfo = ({ userId, displayName }) => {
                   <span className="text-[14px] italic font-lightbold text-[#555555]">Private</span>
                 </div>
                 {isVerificationComplete ? (
-                  <button className="h-[40px] text-[#555555] text-[12px] font-[600] w-[120px] bg-[#6FCF97]  rounded-[8px]">
+                   // Once phone is verified, show a disabled "Verified" button
+                  <button disabled className="h-[40px] text-[#555555] text-[12px] font-[600] w-[120px] bg-[#6FCF97]  rounded-[8px]">
                     Verified
                   </button>
                 ) : (
+                   // If phone is not verified, show "Add Phone Number" button 
                   <button
                     className="h-[40px] text-[#555555] text-[12px] font-[600]  w-[146px]  md:w-[191px] border border-[#555555] rounded-[8px]"
                     onClick={handleOpenPhoneModal}
@@ -239,7 +261,9 @@ const ProfileInfo = ({ userId, displayName }) => {
               <div className="w-auto max-w-[358px] md:w-[175px] mt-[300px]">
                 <button
                   type="submit"
-                  className="text-[white] bg-[#005382] mx-auto text-[12px] p-[11px_20px_11px_20px] font-[600] w-full rounded-[8px]"
+                  // className="text-[white] bg-[#005382] mx-auto text-[12px] p-[11px_20px_11px_20px] font-[600] w-full rounded-[8px]"
+                  className={`text-[white] ${isAccountSecurityValid ? 'bg-[#005382] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'} mx-auto text-[12px] p-[11px_20px_11px_20px] font-[600] w-full rounded-[8px]`}
+                  disabled={!isAccountSecurityValid} // Disable the button if account security is not valid
                 >
                   Finish
                 </button>

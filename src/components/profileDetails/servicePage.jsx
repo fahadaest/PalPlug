@@ -10,16 +10,45 @@ import DropdownComponent from "./DropdownComponent";
 const ServicesSelection = () => {
   const dropdownRef = useRef(null);
 
+  // For the 3 Step-1 checkboxes
+  const [selectedServices, setSelectedServices] = useState({
+    referral: false,
+    resume: false,
+    interview: false,
+  });
+
+  // For the 4 Step-2 checkboxes (coming from OrderRequirements)
+  const [orderChecks, setOrderChecks] = useState({
+    resume: false,
+    jobLink: false,
+    portfolio: false,
+    additionalQuestions: false
+  });
+
+  // This controls whether "Save & Continue" is disabled
+  const [isContinueDisabled, setIsContinueDisabled] = useState(true);
+
+  const currentStep = useSelector((state) => state.user.servicescurrentStep);
+  const dispatch = useDispatch();
+
+  // Existing dropdownState for toggling details in Step 1
   const [dropdownState, setDropdownState] = useState({
     referral: { selectedOption: '', isDetailsVisible: false, isOpen: false },
     resume: { selectedOption: '', isDetailsVisible: false, isOpen: false },
     interview: { selectedOption: '', isDetailsVisible: false, isOpen: false },
   });
 
-  const currentStep = useSelector((state) => state.user.servicescurrentStep);
-  const dispatch = useDispatch();
+  // ------------------------------------------------------
+  // A. Handle Step-1 Checkboxes (referral/resume/interview)
+  // ------------------------------------------------------
+  const handleServiceCheckbox = (service) => {
+    // Toggle the check
+    setSelectedServices((prev) => ({
+      ...prev,
+      [service]: !prev[service],
+    }));
 
-  const toggleDetails = (service) => {
+    // Toggle the detail panel
     setDropdownState((prevState) => ({
       ...prevState,
       [service]: {
@@ -29,10 +58,51 @@ const ServicesSelection = () => {
     }));
   };
 
+  // ------------------------------------------------------
+  // B. Listen for clicks outside to close open dropdowns
+  // ------------------------------------------------------
+  const handleClickOutside = (event) => {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+      setDropdownState((prevState) =>
+        Object.keys(prevState).reduce((acc, key) => {
+          acc[key] = { ...prevState[key], isOpen: false };
+          return acc;
+        }, {})
+      );
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+
+  // ------------------------------------------------------
+  // C. Step-based "Disable" logic for the button
+  // ------------------------------------------------------
+  useEffect(() => {
+    if (currentStep === 1) {
+      // Enable if at least one of (referral, resume, interview) is checked
+      const step1Selected = Object.values(selectedServices).some(Boolean);
+      setIsContinueDisabled(!step1Selected);
+    } else if (currentStep === 2) {
+      // Enable if at least one of the child’s checkboxes is checked
+      const step2Selected = Object.values(orderChecks).some(Boolean);
+      setIsContinueDisabled(!step2Selected);
+    } else {
+      // Step 3 or beyond, typically no need to disable
+      setIsContinueDisabled(false);
+    }
+  }, [currentStep, selectedServices, orderChecks]);
+
+  // ------------------------------------------------------
+  // D. The other existing logic (dropdowns, handleContinue, etc.)
+  // ------------------------------------------------------
   const handleDropdownClick = (e, service) => {
     e.preventDefault();
     e.stopPropagation();
-
     setDropdownState((prevState) => ({
       ...prevState,
       [service]: {
@@ -51,24 +121,6 @@ const ServicesSelection = () => {
       },
     }));
   };
-
-  const handleClickOutside = (event) => {
-    if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-      setDropdownState((prevState) =>
-        Object.keys(prevState).reduce((acc, key) => {
-          acc[key] = { ...prevState[key], isOpen: false };
-          return acc;
-        }, {})
-      );
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
 
   const handleContinue = (event) => {
     event.preventDefault();
@@ -89,36 +141,39 @@ const ServicesSelection = () => {
     dispatch(submitAllServices(formData));
   };
 
+  // ------------------------------------------------------
+  // E. Render
+  // ------------------------------------------------------
   return (
     <>
       <form onSubmit={currentStep === 3 ? handleFinish : handleContinue}>
-        <div className="bg-gray-100  flex flex-col items-center min-h-max ">
+        <div className="bg-gray-100 flex flex-col items-center min-h-max ">
+          {/* STEP 1 */}
           {currentStep === 1 && (
-            <div className="bg-white h-[auto] flex flex-col gap-[45px]  w-auto max-w-[978px] rounded-[8px] pt-[40px] pl-[16px] pr-[16px] md:p-[40px_80px_40px_80px] mt-5">
-
-              <div className="flex flex-col  gap-[16px]">
-                <h2 className="text-lg font-semibold ">Services you want to offer</h2>
+            <div className="bg-white h-[auto] flex flex-col gap-[45px] w-auto max-w-[978px] rounded-[8px] pt-[40px] pl-[16px] pr-[16px] md:p-[40px_80px_40px_80px] mt-5">
+              <div className="flex flex-col gap-[16px]">
+                <h2 className="text-lg font-semibold">Services you want to offer</h2>
                 <p className="text-[#555555] text-sm font-normal leading-tight">
                   Select which services you'd like to offer to your customers. You can select one or more services from the list.
                 </p>
               </div>
 
+              {/* 1) Referral */}
               <div className="flex items-baseline flex-nowrap flex-col gap-[16px]">
                 <label className="flex flex-col items-start sm:space-x-6 cursor-pointer">
                   <div className="flex flex-row justify-start items-center space-x-2">
                     <input
                       type="checkbox"
                       className="accent-[#005382] cursor-pointer"
-                      onChange={() => toggleDetails("referral")}
+                      checked={selectedServices.referral}
+                      onChange={() => handleServiceCheckbox("referral")}
                     />
                     <h3 className="text-base font-semibold">Standard Employee Referral</h3>
                   </div>
-
                   <div className="flex flex-col gap-[8px]">
                     <p className="text-base mt-[8px] font-normal">About this package</p>
-                    <p className="leading-tight text-sm text-[#555555] ">
-                      You will offer to schedule a{" "}
-                      <span className="font-semibold leading-tight">30 min video call</span> with
+                    <p className="leading-tight text-sm text-[#555555]">
+                      You will offer to schedule a <span className="font-semibold leading-tight">30 min video call</span> with
                       the candidate to interview them and see if they are a right fit
                       for the position. If everything looks good, you will{" "}
                       <span className="font-semibold leading-tight">submit an employee referral</span>{" "}
@@ -129,14 +184,13 @@ const ServicesSelection = () => {
                     </p>
                   </div>
                 </label>
+                {/* If "referral" is checked, show the detail fields */}
                 {dropdownState.referral.isDetailsVisible && (
                   <>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center">
-
                       <div className="pl-0 sm:pl-7 items-end sm:flex-row sm:justify-between w-auto md:w-[789px] flex flex-col">
-
                         <div className="flex gap-[8px] flex-col w-full">
-                          <label className="text-gray-700 text-[14px] font-[600] " htmlFor="price">
+                          <label className="text-gray-700 text-[14px] font-[600]" htmlFor="price">
                             Price
                           </label>
                           <input
@@ -146,22 +200,21 @@ const ServicesSelection = () => {
                             className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-[8px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                           />
                         </div>
-
-                        <div className="w-[300px]  pt-[11px] pb-[11px] flex items-start sm:items-center">
+                        <div className="w-[300px] pt-[11px] pb-[11px] flex items-start sm:items-center">
                           <p className="text-[14px] font-[500] italic text-[#939393] leading-[20px]">
                             How much should I charge?
                           </p>
                         </div>
-
                       </div>
-
                     </div>
-
                     <div className="flex flex-col gap-[8px] pl-0 sm:pl-7">
                       <label className="block text-[#2F2F2F] text-[14px] font-[600]">
                         Delivery time
                       </label>
-                      <div className="h-[48px] w-[358px] md:w-[276px]" onClick={(e) => handleDropdownClick(e, "referral")}>
+                      <div
+                        className="h-[48px] w-[358px] md:w-[276px]"
+                        onClick={(e) => handleDropdownClick(e, "referral")}
+                      >
                         <DropdownComponent
                           options={['1 day', '2 days', '3 days']}
                           selectedOption={dropdownState.referral.selectedOption}
@@ -174,27 +227,28 @@ const ServicesSelection = () => {
                 )}
               </div>
 
+              {/* 2) Resume Review */}
               <div className="flex flex-col gap-[16px]">
                 <div>
                   <label className="flex flex-col items-start sm:space-x-6 cursor-pointer">
                     <div className="flex flex-row justify-start items-center space-x-2">
-
                       <input
                         type="checkbox"
                         className="accent-[#005382] cursor-pointer"
-                        onChange={() => toggleDetails("resume")}
+                        checked={selectedServices.resume}
+                        onChange={() => handleServiceCheckbox("resume")}
                       />
                       <h3 className="text-base font-semibold">Resume Review</h3>
                     </div>
                     <div className="flex flex-col gap-[8px]">
-                      <p className="text-base mt-[8px] font-normal ">About this package</p>
-                      <p className="leading-tight text-sm text-[#555555] ">
-                        You will provide a 30 min call with your customer about their resume and provide feedback on improvements. You will also provide one 15 min follow up review upon revision.
+                      <p className="text-base mt-[8px] font-normal">About this package</p>
+                      <p className="leading-tight text-sm text-[#555555]">
+                        You will provide a 30 min call with your customer about their resume and provide feedback on improvements.
+                        You will also provide one 15 min follow up review upon revision.
                       </p>
                     </div>
                   </label>
                 </div>
-
                 {dropdownState.resume.isDetailsVisible && (
                   <>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center">
@@ -217,12 +271,14 @@ const ServicesSelection = () => {
                         </div>
                       </div>
                     </div>
-
                     <div className="flex flex-col gap-[8px] pl-0 sm:pl-7">
                       <label className="block text-[#2F2F2F] text-[14px] font-[600]">
                         Delivery time
                       </label>
-                      <div className="h-[48px] w-[358px] md:w-[276px]" onClick={(e) => handleDropdownClick(e, "resume")}>
+                      <div
+                        className="h-[48px] w-[358px] md:w-[276px]"
+                        onClick={(e) => handleDropdownClick(e, "resume")}
+                      >
                         <DropdownComponent
                           options={['2 days', '4 days', '6 days']}
                           selectedOption={dropdownState.resume.selectedOption}
@@ -235,26 +291,27 @@ const ServicesSelection = () => {
                 )}
               </div>
 
+              {/* 3) Interview Prep */}
               <div className="flex flex-col gap-[16px]">
-                <label className="flex flex-col items-start  sm:space-x-6 cursor-pointer">
+                <label className="flex flex-col items-start sm:space-x-6 cursor-pointer">
                   <div className="flex flex-row justify-start items-center space-x-2">
-
                     <input
                       type="checkbox"
                       className="accent-[#005382] cursor-pointer"
-                      onChange={() => toggleDetails("interview")}
+                      checked={selectedServices.interview}
+                      onChange={() => handleServiceCheckbox("interview")}
                     />
-
                     <h3 className="text-base font-semibold">Interview Prep</h3>
-
                   </div>
                   <div className="flex flex-col gap-[8px]">
                     <p className="text-base font-normal mt-[8px]">About this package</p>
                     <p className="leading-tight text-sm text-[#555555] mt-2">
-                      You will set up a 30 min call for preparation before the candidate's interview. It would be helpful to go into detail on what the company looks for in the position as well as some tips and tricks to help your customer crush the interview and land them the job (successful hire not guaranteed).                    </p>
+                      You will set up a 30 min call for preparation before the candidate's interview.
+                      It would be helpful to go into detail on what the company looks for in the position as well as some tips
+                      and tricks to help your customer crush the interview and land them the job (successful hire not guaranteed).
+                    </p>
                   </div>
                 </label>
-
                 {dropdownState.interview.isDetailsVisible && (
                   <>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center">
@@ -267,7 +324,7 @@ const ServicesSelection = () => {
                             type="text"
                             id="price"
                             placeholder="$ Price for this service"
-                            className="h-[48px] xs:w-[250px] sm:w-[300px]  p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                            className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                           />
                         </div>
                         <div className="w-[300px] pt-[11px] pb-[11px] flex items-start sm:items-center">
@@ -277,13 +334,14 @@ const ServicesSelection = () => {
                         </div>
                       </div>
                     </div>
-
                     <div className="flex flex-col gap-[8px] pl-0 sm:pl-7">
-
                       <label className="block text-[#2F2F2F] text-[14px] font-[600]">
                         Delivery time
                       </label>
-                      <div className="h-[48px] w-[358px] md:w-[276px]" onClick={(e) => handleDropdownClick(e, "resume")}>
+                      <div
+                        className="h-[48px] w-[358px] md:w-[276px]"
+                        onClick={(e) => handleDropdownClick(e, "interview")}
+                      >
                         <DropdownComponent
                           options={['5 days', '7 days', '10 days']}
                           selectedOption={dropdownState.interview.selectedOption}
@@ -297,19 +355,28 @@ const ServicesSelection = () => {
               </div>
             </div>
           )}
+
+          {/* STEP 2 */}
           {currentStep === 2 && (
-            <OrderRequirements />
+            // Pass a callback so we know which child checkboxes are checked
+            <OrderRequirements onChildChecksChange={setOrderChecks} />
           )}
 
+          {/* The existing "Save & Continue" button */}
           <div className="w-full max-w-[978px] h-auto flex justify-end xs:flex xs:justify-center sm:justify-center md:justify-end">
             <button
               type="submit"
-              className={`bg-[#005382] text-white p-[11px_20px_11px_20px] mt-5 rounded-[8px]`}
+              disabled={isContinueDisabled}
+              className={`bg-[#005382] text-white p-[11px_20px_11px_20px] mt-5 rounded-[8px] ${
+                isContinueDisabled ? 'opacity-50 cursor-not-allowed' : ''
+              }`}
               style={{ display: currentStep === 3 ? 'none' : 'block' }}
             >
               Save & Continue
             </button>
           </div>
+
+          {/* STEP 3 */}
           {currentStep === 3 && (
             <Requirement />
           )}

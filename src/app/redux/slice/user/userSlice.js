@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { submitProfile } from '../../action';
 const userSlice = createSlice({
   name: 'user',
+  
   initialState: {
     user: null,
     loading: false,

@@ -4,9 +4,12 @@ import DropdownComponent from './DropdownComponent';
 import { fetchCountries } from '@/app/redux/action';
 
 
-export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo }) {
-    const [educationSections, setEducationSections] = useState([{}]);
-    const [certificationSections, setCertificationSections] = useState([{}]);
+
+export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo, onValidationChange }) {
+    const [educationSections, setEducationSections] = useState([{country: '', college: '', major: '', year: ''}]);
+    const [certificationSections, setCertificationSections] = useState([{certificate: '', certification: '', year: ''}]);
+    const [isValid, setIsValid] = useState(false); // Add state for validation
+    
 
     const dispatch = useDispatch();
     const { countries, loading } = useSelector((state) => state.countries);
@@ -33,6 +36,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
         } else {
             setProfessionalInfo((prev) => ({ ...prev, [dropdownKey]: updatedOptions }));
         }
+        validateForm();
     };
 
 
@@ -65,9 +69,35 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
             setCertificationSections(updatedSections);
         }
     };
+
     const handleDropdownClick = (e) => {
         e.preventDefault();
     };
+
+    //
+    const validateForm = () => {
+        const hasOccupation = professionalInfo.occupation !== ""         /*.length > 0 && professionalInfo.occupation[0] !== "" */;
+        const hasEmployer = professionalInfo.employer !== ""             /*.length > 0 && professionalInfo.employer[0] !== "" */;
+
+        const hasEducation = educationSections.some(section =>
+            section.country !== "" || section.college !== "" || section.major !== "" || section.year !== ""
+        );
+
+        const hasCertification = certificationSections.some(section =>
+            section.certificate !== "" || section.certification !== "" || section.year !== ""
+        );
+
+        const formIsValid = hasOccupation || hasEmployer || hasEducation || hasCertification;
+        setIsValid(formIsValid);
+        onValidationChange(formIsValid); // Pass validation status back to ProfileInfo
+    };
+
+    useEffect(() => {
+        validateForm(); // Initial validation
+    }, [professionalInfo, educationSections, certificationSections]);
+
+    //
+
 
     return (
         <div
@@ -257,7 +287,9 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                             </button>
                         </div>
                     </div>
+
                 ))}
+                
             </div>
         </div>
     );

@@ -2,7 +2,10 @@ import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import StepperArrow from "@/assets/images/StepperArrow.svg";
 
-const ServicesProgressBar = ({ currentStepservices, onStepClick }) => {
+
+
+
+const ServicesProgressBar = ({currentStepservices, onStepClick,steps}) => {
     const stepsRef = useRef([]);
     const progressRef = useRef(null);
 
@@ -19,6 +22,7 @@ const ServicesProgressBar = ({ currentStepservices, onStepClick }) => {
 
         updateSteps();
     }, [currentStepservices]);
+   
 
     return (
         <div className="flex flex-row pr-[16px] pl-[16px] h-[24px] w-[436px] sm:flex-row items-center">
@@ -135,5 +139,4 @@ const ServicesProgressBar = ({ currentStepservices, onStepClick }) => {
         </div>
     );
 };
-
-export default ServicesProgressBar;
+export default ServicesProgressBar ;

@@ -9,6 +9,7 @@ const ROUTES = {
     socialRegister: `authentication/social-register/`,
     userRoles: 'users/user-roles/',
     submitProfile: 'user/submitProfile/',
+    // submitProfile: 'users/profile-register/',
     submitAllServices: 'services/submitAllServices/',
     getCompanies:"companies/companies-list/"
      };
