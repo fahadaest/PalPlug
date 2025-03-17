@@ -48,6 +48,42 @@ const EmployeeDetails = () => {
     }, [employee]);
 
     const renderTabContent = () => {
+        if (activeTab === 'Calendly Booking') {
+            return (
+                <div className="pt-4 pb-4">
+                    <div className="flex justify-between mb-4 text-base text-text-heading">
+                        <h5 className="text-lg font-semibold">
+                            Schedule a Meeting
+                        </h5>
+                    </div>
+                    <p className="text-sm text-grey30 mb-4">
+                        Book a meeting with {employee?.name} to discuss your career opportunities.
+                    </p>
+                    <div className="flex items-center mb-4">
+                        <Image
+                            src={TimeImg}
+                            alt="30 minutes meeting"
+                            width={24}
+                            height={24}
+                            className="mr-2"
+                        />
+                        <p className="text-sm">30 minutes meeting</p>
+                    </div>
+                    <button
+                        onClick={() => {
+                            if (employee?.calendlyLink) {
+                                window.open(employee?.calendlyLink, '_blank');
+                            } else {
+                                alert('Calendly link not available for this employee.');
+                            }
+                        }}
+                        className="w-full py-2 bg-[#005382] text-primary rounded-lg mt-4">
+                        Book Meeting
+                    </button>
+                </div>
+            );
+        }
+
         if (!activeService) return null;
 
         return (
@@ -141,12 +177,12 @@ const EmployeeDetails = () => {
                                 How it works
                             </h2>
                             <p className="text-sm font-lightbold text-text-heading">
-                                If you’re looking to land an amazing job of your
-                                dreams at {displayName}, I’m the person that gives you
+                                If you're looking to land an amazing job of your
+                                dreams at {displayName}, I'm the person that gives you
                                 the best shot. I have been at {displayName} for 4 years
                                 and have built a great reputation in the
                                 partnership team and a referral from me will
-                                carry huge weight. I’ve gotten 12 people hired
+                                carry huge weight. I've gotten 12 people hired
                                 through palplug referrrals, resume reviews and
                                 interview prep.
                             </p>
@@ -167,13 +203,13 @@ const EmployeeDetails = () => {
                                 idrisgettani@slack.com prior to our call.
                                 <br />
                                 <br />
-                                This isn’t necessarily an interview but a chance
+                                This isn't necessarily an interview but a chance
                                 to assess if the referral is worth it for you
-                                (Don’t want anyone spending $20 if there isn’t
+                                (Don't want anyone spending $20 if there isn't
                                 really an opportunity to get hired).
                                 <br />
                                 <br />
-                                Once everything looks good, I’ll accept the
+                                Once everything looks good, I'll accept the
                                 request and get to work on your referral. After
                                 I submit it, I will send you the referral
                                 confirmation to finalize the transaction. At
@@ -191,6 +227,7 @@ const EmployeeDetails = () => {
                                 'Referral',
                                 'Resume Review',
                                 'Interview Prep',
+                                'Calendly Booking',
                             ]?.map((tab) => (
                                 <li key={tab} className="me-2">
                                     <a
