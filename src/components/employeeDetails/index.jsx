@@ -226,8 +226,7 @@ const EmployeeDetails = () => {
                             {[
                                 'Referral',
                                 'Resume Review',
-                                'Interview Prep',
-                                'Calendly Booking',
+                                'Interview Prep'
                             ]?.map((tab) => (
                                 <li key={tab} className="me-2">
                                     <a

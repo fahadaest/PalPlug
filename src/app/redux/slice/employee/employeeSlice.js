@@ -41,13 +41,6 @@ const initialState = {
                     price: 50.00,
                     reviewsCount: 2,
                     package:"Employee will schedule a 30 min call to help you prepare for an upcoming interview."
-                },
-                {
-                    title: 'Calendly Booking',
-                    description: 'Schedule a quick chat',
-                    price: 0.00,
-                    reviewsCount: 0,
-                    package: "Schedule a quick 30-minute chat to discuss potential opportunities and see if we're a good fit to work together."
                 }
             ],
         },
@@ -87,13 +80,6 @@ const initialState = {
                     price: 50.00,
                     reviewsCount: 4,
                     package:"Employee will schedule a 30 min call to help you prepare for an upcoming interview."
-                },
-                {
-                    title: 'Calendly Booking',
-                    description: 'Schedule a quick chat',
-                    price: 0.00,
-                    reviewsCount: 0,
-                    package: "Schedule a quick 30-minute chat to discuss potential opportunities and see if we're a good fit to work together."
                 }
             ],
         },
@@ -133,13 +119,6 @@ const initialState = {
                     price: 50.00,
                     reviewsCount: 2,
                     package:"Employee will schedule a 30 min call to help you prepare for an upcoming interview."
-                },
-                {
-                    title: 'Calendly Booking',
-                    description: 'Schedule a quick chat',
-                    price: 0.00,
-                    reviewsCount: 0,
-                    package: "Schedule a quick 30-minute chat to discuss potential opportunities and see if we're a good fit to work together."
                 }
             ],
         },
