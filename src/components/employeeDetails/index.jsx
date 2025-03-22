@@ -56,9 +56,6 @@ const EmployeeDetails = () => {
                             Schedule a Meeting
                         </h5>
                     </div>
-                    <p className="text-sm text-grey30 mb-4">
-                        Book a meeting with {employee?.name} to discuss your career opportunities.
-                    </p>
                     <div className="flex items-center mb-4">
                         <Image
                             src={TimeImg}
@@ -226,7 +223,8 @@ const EmployeeDetails = () => {
                             {[
                                 'Referral',
                                 'Resume Review',
-                                'Interview Prep'
+                                'Interview Prep',
+                                'Calendly Booking',
                             ]?.map((tab) => (
                                 <li key={tab} className="me-2">
                                     <a
