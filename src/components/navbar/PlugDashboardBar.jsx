@@ -11,14 +11,16 @@ const PlugDashboardBar = () => {
   const handleDropdownChange = (key, value) => {
     setDropdownStates((prevState) => ({
       ...prevState,
-      [key]: prevState[key] === value ? "" : value, // Toggle selection
+      [key]: value,
     }));
   };
 
   return (
     <div className="w-full max-w-[420px] flex justify-center items-center">
       <div className="w-[auto] md:w-[140px] h-[66px] pl-1 pr-1 pt-2 pb-2 bg-white flex justify-center items-center">
-        <p className="fontcolor">Dashboard</p>
+          <div className="fontcolor">
+            Dashboard
+          </div>
       </div>
 
       <div className="w-[100px] md:w-[140px] h-[66px] pl-1 pr-1 pt-2 pb-2 bg-white flex justify-center items-center">
@@ -30,8 +32,8 @@ const PlugDashboardBar = () => {
           buttonClassName="border-none flex gap-1 fontcolor"
           allowDeselect={true}
         />
+        
       </div>
-
       <div className="w-[100px] md:w-[140px] h-[66px] pl-1 pr-1 pt-2 pb-2 bg-white flex justify-center items-center">
         <DropdownComponent
           label="Analytics"
