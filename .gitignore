@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Json files 
+package-lock.json
+package.json
+
+# Firebase
+src/app/utils/firebase.js

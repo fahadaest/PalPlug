@@ -5,23 +5,18 @@ import CloseIcon from '@/assets/images/Closeicon.svg';
 import VerificationComplete from './VerificationComplete';
 import { getAuth, PhoneAuthProvider, linkWithCredential } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
-import { setUser } from '@/app/redux/slice/user/userSlice'; // optional: update Redux state
-
+import { setUser } from '@/app/redux/slice/user/userSlice'; 
 const OTPVerifyModal = ({ isOpen, phoneNumber, verificationId, onClose }) => {
   const [isVerificationCompleteOpen, setVerificationCompleteOpen] = useState(false);
   const [otp, setOtp] = useState(new Array(6).fill(''));
   const inputRefs = useRef([]);
   const dispatch = useDispatch();
-
-  // Move the handler above its usage:
   const handleVerificationCompleteClose = () => {
     setVerificationCompleteOpen(false);
     onClose(true);
   };
 
   if (!isOpen) return null;
-
-  // If linking is already complete, immediately show the VerificationComplete modal.
   if (isVerificationCompleteOpen) {
     return (
       <VerificationComplete isOpen={true} onClose={handleVerificationCompleteClose} />
@@ -34,34 +29,30 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, verificationId, onClose }) => {
     try {
       const credential = PhoneAuthProvider.credential(verificationId, otpCode);
       const currentUser = auth.currentUser;
-      if (currentUser) {
-        // Check if a phone provider is already linked
-        const phoneAlreadyLinked = currentUser.providerData.some(
-          (provider) => provider.providerId === 'phone'
-        );
-        if (phoneAlreadyLinked) {
-          console.log("Phone number is already linked; skipping linking.");
-          setVerificationCompleteOpen(true);
-          return;
-        }
-        await linkWithCredential(currentUser, credential);
-        console.log('Phone number linked successfully');
-        // Optional: Update Redux state with the updated user info.
-        dispatch(setUser(currentUser));
-        setVerificationCompleteOpen(true);
-      } else {
-        console.error('No current user found to link phone number');
+  
+      if (!currentUser) {
+        console.log('No current user found to link phone number')
+        return;
       }
+  
+      if (currentUser.providerData.some(provider => provider.providerId === 'phone')) {
+        console.log("Phone number is already linked; skipping linking.");
+        setVerificationCompleteOpen(true);
+        return;
+      }
+  
+      await linkWithCredential(currentUser, credential);
+      console.log('Phone number linked successfully');
+      dispatch(setUser(currentUser));
+      setVerificationCompleteOpen(true);
     } catch (error) {
       if (error.code === 'auth/provider-already-linked') {
         console.log("Phone number already linked; treating as success.");
         setVerificationCompleteOpen(true);
-      } else {
-        console.error('Error linking phone number:', error);
-      }
+      } 
     }
   };
-
+  
   const handleOtpChange = (value, index) => {
     if (/^\d$/.test(value) || value === '') {
       const newOtp = [...otp];
@@ -72,15 +63,12 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, verificationId, onClose }) => {
       }
     }
   };
-
   const handleBackspace = (e, index) => {
     if (e.key === 'Backspace' && !otp[index] && index > 0) {
       inputRefs.current[index - 1].focus();
     }
   };
-
   const isOtpComplete = otp.every((digit) => digit !== '');
-
   return (
     <Modal isOpen={isOpen} onClose={onClose} ModalImg={null}>
       <div className="fixed inset-0 flex items-center justify-center bg-gray-100 bg-opacity-10 z-20">
@@ -94,9 +82,9 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, verificationId, onClose }) => {
             <div className="flex flex-col gap-[16px] w-[440px] h-[70px]">
               <div className="flex flex-col">
                 <h2 className="text-lg sm:text-xl md:text-2xl font-semibold">Verify Phone Number</h2>
-                <p className="text-gray-500 font-lightbold text-sm sm:text-base">
+                <div className="text-gray-500 font-lightbold text-sm sm:text-base">
                   A verification code has been sent to:
-                </p>
+                </div>
               </div>
               <div className="w-[290px] md:w-[440px] border border-[#F0F0F0]"></div>
             </div>
@@ -113,9 +101,9 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, verificationId, onClose }) => {
               </div>
             </div>
             <div className="flex flex-col items-center">
-              <p className="text-lg sm:text-xl md:text-2xl font-semibold text-center">
+              <div className="text-lg sm:text-xl md:text-2xl font-semibold text-center">
                 Please enter the verification code
-              </p>
+              </div>
               <div className="flex justify-center gap-2 sm:gap-4">
                 {otp.map((digit, index) => (
                   <input
@@ -134,9 +122,8 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, verificationId, onClose }) => {
 
             <div className="flex justify-center items-center flex-col">
               <button
-                className={`w-full md:w-[210px] h-[40px] text-white text-[12px] pl-[20px] pr-[20px] pt-[11px] pb-[11px] font-semibold rounded-[8px] ${
-                  isOtpComplete ? 'bg-[#005382]' : 'bg-gray-400'
-                }`}
+                className={`w-full md:w-[210px] h-[40px] text-white text-[12px] pl-[20px] pr-[20px] pt-[11px] pb-[11px] font-semibold rounded-[8px] 
+                ${isOtpComplete ? 'bg-[#005382]' : 'bg-gray-400'}`}
                 onClick={handleSubmit}
                 disabled={!isOtpComplete}
               >
@@ -144,10 +131,10 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, verificationId, onClose }) => {
               </button>
             </div>
             <div>
-              <p className="text-[#939393] text-center font-lightbold text-[14px] leading-[14px]">
+              <div className="text-[#939393] text-center font-lightbold text-[14px] leading-[14px]">
                 If you did not receive the code, please close this dialog box and check that you
                 entered the right number, then try again.
-              </p>
+              </div>
             </div>
           </div>
         </div>

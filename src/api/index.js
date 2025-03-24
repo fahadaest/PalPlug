@@ -1,17 +1,27 @@
 const ROUTES = {
     companiesList: `companies/companies-list/`,
     industriesList: `companies/industries-list/`,
-    countriesList: `locations/countries-list/`,
+    countriesList: `countries/`,
     languagesList: `locations/languages-list/`,
     joinWaitlist: `users/join-waitlist/`,
     profileRegister: 'users/profile-register/',
     linkedinRegister: `authentication/linkedin-register/`,
     socialRegister: `authentication/social-register/`,
     userRoles: 'users/user-roles/',
-    submitProfile: 'user/submitProfile/',
-    // submitProfile: 'users/profile-register/',
+    submitProfile: 'submit-profile/',
     submitAllServices: 'services/submitAllServices/',
-    getCompanies:"companies/companies-list/"
+    getCompanies:"companies/companies-list/",
+    collegesByCountry: 'colleges/',
+    yearsList: 'years/',
      };
 
-export const getRoute = (routeKey) => ROUTES[routeKey];
+     export const getRoute = (routeKey, param = '') => {
+      if (routeKey === 'collegesByCountry') {
+        return `${ROUTES.collegesByCountry}${param}`;
+      }
+      if (routeKey === 'yearsList') {
+        return ROUTES.yearsList;
+      }
+      return ROUTES[routeKey];
+    };
+      

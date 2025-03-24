@@ -9,46 +9,30 @@ import DropdownComponent from "./DropdownComponent";
 
 const ServicesSelection = () => {
   const dropdownRef = useRef(null);
-
-  // For the 3 Step-1 checkboxes
   const [selectedServices, setSelectedServices] = useState({
     referral: false,
     resume: false,
     interview: false,
   });
-
-  // For the 4 Step-2 checkboxes (coming from OrderRequirements)
   const [orderChecks, setOrderChecks] = useState({
     resume: false,
     jobLink: false,
     portfolio: false,
     additionalQuestions: false
   });
-
-  // This controls whether "Save & Continue" is disabled
   const [isContinueDisabled, setIsContinueDisabled] = useState(true);
-
   const currentStep = useSelector((state) => state.user.servicescurrentStep);
   const dispatch = useDispatch();
-
-  // Existing dropdownState for toggling details in Step 1
   const [dropdownState, setDropdownState] = useState({
     referral: { selectedOption: '', isDetailsVisible: false, isOpen: false },
     resume: { selectedOption: '', isDetailsVisible: false, isOpen: false },
     interview: { selectedOption: '', isDetailsVisible: false, isOpen: false },
   });
-
-  // ------------------------------------------------------
-  // A. Handle Step-1 Checkboxes (referral/resume/interview)
-  // ------------------------------------------------------
   const handleServiceCheckbox = (service) => {
-    // Toggle the check
     setSelectedServices((prev) => ({
       ...prev,
       [service]: !prev[service],
     }));
-
-    // Toggle the detail panel
     setDropdownState((prevState) => ({
       ...prevState,
       [service]: {
@@ -57,10 +41,6 @@ const ServicesSelection = () => {
       },
     }));
   };
-
-  // ------------------------------------------------------
-  // B. Listen for clicks outside to close open dropdowns
-  // ------------------------------------------------------
   const handleClickOutside = (event) => {
     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
       setDropdownState((prevState) =>
@@ -78,28 +58,17 @@ const ServicesSelection = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-
-  // ------------------------------------------------------
-  // C. Step-based "Disable" logic for the button
-  // ------------------------------------------------------
   useEffect(() => {
     if (currentStep === 1) {
-      // Enable if at least one of (referral, resume, interview) is checked
       const step1Selected = Object.values(selectedServices).some(Boolean);
       setIsContinueDisabled(!step1Selected);
     } else if (currentStep === 2) {
-      // Enable if at least one of the child’s checkboxes is checked
       const step2Selected = Object.values(orderChecks).some(Boolean);
       setIsContinueDisabled(!step2Selected);
     } else {
-      // Step 3 or beyond, typically no need to disable
       setIsContinueDisabled(false);
     }
   }, [currentStep, selectedServices, orderChecks]);
-
-  // ------------------------------------------------------
-  // D. The other existing logic (dropdowns, handleContinue, etc.)
-  // ------------------------------------------------------
   const handleDropdownClick = (e, service) => {
     e.preventDefault();
     e.stopPropagation();
@@ -140,15 +109,10 @@ const ServicesSelection = () => {
     };
     dispatch(submitAllServices(formData));
   };
-
-  // ------------------------------------------------------
-  // E. Render
-  // ------------------------------------------------------
   return (
     <>
       <form onSubmit={currentStep === 3 ? handleFinish : handleContinue}>
         <div className="bg-gray-100 flex flex-col items-center min-h-max ">
-          {/* STEP 1 */}
           {currentStep === 1 && (
             <div className="bg-white h-[auto] flex flex-col gap-[45px] w-auto max-w-[978px] rounded-[8px] pt-[40px] pl-[16px] pr-[16px] md:p-[40px_80px_40px_80px] mt-5">
               <div className="flex flex-col gap-[16px]">
@@ -157,8 +121,6 @@ const ServicesSelection = () => {
                   Select which services you'd like to offer to your customers. You can select one or more services from the list.
                 </p>
               </div>
-
-              {/* 1) Referral */}
               <div className="flex items-baseline flex-nowrap flex-col gap-[16px]">
                 <label className="flex flex-col items-start sm:space-x-6 cursor-pointer">
                   <div className="flex flex-row justify-start items-center space-x-2">
@@ -184,7 +146,6 @@ const ServicesSelection = () => {
                     </p>
                   </div>
                 </label>
-                {/* If "referral" is checked, show the detail fields */}
                 {dropdownState.referral.isDetailsVisible && (
                   <>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center">
@@ -226,8 +187,6 @@ const ServicesSelection = () => {
                   </>
                 )}
               </div>
-
-              {/* 2) Resume Review */}
               <div className="flex flex-col gap-[16px]">
                 <div>
                   <label className="flex flex-col items-start sm:space-x-6 cursor-pointer">
@@ -290,8 +249,6 @@ const ServicesSelection = () => {
                   </>
                 )}
               </div>
-
-              {/* 3) Interview Prep */}
               <div className="flex flex-col gap-[16px]">
                 <label className="flex flex-col items-start sm:space-x-6 cursor-pointer">
                   <div className="flex flex-row justify-start items-center space-x-2">
@@ -355,14 +312,9 @@ const ServicesSelection = () => {
               </div>
             </div>
           )}
-
-          {/* STEP 2 */}
           {currentStep === 2 && (
-            // Pass a callback so we know which child checkboxes are checked
             <OrderRequirements onChildChecksChange={setOrderChecks} />
           )}
-
-          {/* The existing "Save & Continue" button */}
           <div className="w-full max-w-[978px] h-auto flex justify-end xs:flex xs:justify-center sm:justify-center md:justify-end">
             <button
               type="submit"
@@ -375,8 +327,6 @@ const ServicesSelection = () => {
               Save & Continue
             </button>
           </div>
-
-          {/* STEP 3 */}
           {currentStep === 3 && (
             <Requirement />
           )}

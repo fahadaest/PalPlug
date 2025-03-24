@@ -18,7 +18,8 @@ const countriesSlice = createSlice({
       })
       .addCase(fetchCountries.fulfilled, (state, action) => {
         state.loading = false;
-        state.countries = action.payload; 
+        state.countries = action.payload.countries;
+        // state.countries = action.payload.countries.map(name => ({ name })); 
       })
       .addCase(fetchCountries.rejected, (state, action) => {
         state.loading = false;

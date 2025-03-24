@@ -15,9 +15,6 @@ const StepProgressBar = ({ className }) => {
 
         if (step === 1 || step === currentStep - 1) {
         dispatch(setCurrentStep(step));
-
-        // if (step <= stepsRef.current.length) {
-        //     dispatch(setCurrentStep(step));
         }
     };
 

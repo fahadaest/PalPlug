@@ -23,21 +23,21 @@ const initialState = {
                 {
                     title: 'Referral',
                     description: 'Video screening required',
-                    price: 20.00,
+                    price: 10.00,
                     reviewsCount: 3,
                     package:"Employee referral to Netflix. Video call required to determine if candidate is a good fit for the position. Once accepted, you will receive a referral confirmation (You are not guaranteed to receive an offer from Netflix)."
                 },
                 {
                     title: 'Resume Review',
                     description: 'Video screening required',
-                    price: 40.00,
+                    price: 18.00,
                     reviewsCount: 9,
                     package: "Employee will schedule a 30 min call to give feedback on your attached resume and how to improve it. This package comes with one additional follow-up review."
                 },
                 {
                     title: 'Interview Prep',
                     description: 'Video screening required',
-                    price: 50.00,
+                    price: 41.00,
                     reviewsCount: 2,
                     package:"Employee will schedule a 30 min call to help you prepare for an upcoming interview."
                 },
@@ -61,28 +61,30 @@ const initialState = {
                 {
                     title: 'Referral',
                     description: 'Video screening required',
-                    price: 20.00,
+                    price: 21.00,
                     reviewsCount: 7,
-                      package:"Employee referral to Netflix. Video call required to determine if candidate is a good fit for the position. Once accepted, you will receive a referral confirmation (You are not guaranteed to receive an offer from Netflix)."
+                    package:"Employee referral to Netflix. Video call required to determine if candidate is a good fit for the position. Once accepted, you will receive a referral confirmation (You are not guaranteed to receive an offer from Netflix)."
                 },
                 {
                     title: 'Resume Review',
                     description: 'Video screening required',
-                    price: 40.00,
+                    price: 25.00,
                     reviewsCount: 6,
+                    package: "Employee will schedule a 30 min call to give feedback on your attached resume and how to improve it. This package comes with one additional follow-up review."
                 },
                 {
                     title: 'Interview Prep',
                     description: 'Video screening required',
-                    price: 50.00,
+                    price: 21.00,
                     reviewsCount: 4,
+                    package:"Employee will schedule a 30 min call to help you prepare for an upcoming interview."
                 },
             ],
         },
         {
             id: 3,
             name: 'Angela Wynn',
-            role: 'Marketing @ Airbnb',
+            role: 'Systems Engineering @ Airbnb',
             city: 'San Francisco, CA',
             reviews: 4.78,
             totalReviews:214,
@@ -97,21 +99,23 @@ const initialState = {
                 {
                     title: 'Referral',
                     description: 'Video screening required',
-                    price: 20.00,
+                    price: 21.00,
                     reviewsCount: 8,
                       package:"Employee referral to Netflix. Video call required to determine if candidate is a good fit for the position. Once accepted, you will receive a referral confirmation (You are not guaranteed to receive an offer from Netflix)."
                 },
                 {
                     title: 'Resume Review',
                     description: 'Video screening required',
-                    price: 40.00,
+                    price: 45.00,
                     reviewsCount: 2,
+                    package: "Employee will schedule a 30 min call to give feedback on your attached resume and how to improve it. This package comes with one additional follow-up review."
                 },
                 {
                     title: 'Interview Prep',
                     description: 'Video screening required',
-                    price: 50.00,
+                    price: 20.00,
                     reviewsCount: 2,
+                    package:"Employee will schedule a 30 min call to help you prepare for an upcoming interview."
                 },
             ],
         },

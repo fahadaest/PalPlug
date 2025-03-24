@@ -5,7 +5,8 @@ import CloseIcon from '@/assets/images/Closeicon.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCountries } from '@/app/redux/action';
 import OTPVerifyModal from './OtpVerifyModal';
-import { getAuth, RecaptchaVerifier, PhoneAuthProvider } from 'firebase/auth'; // UPDATED: Import PhoneAuthProvider
+//PhoneAuthProvider is used to initiate phone number authentication and to generate a verification ID that is later used to verify the OTP entered by the user.
+import { getAuth, RecaptchaVerifier, PhoneAuthProvider } from 'firebase/auth'; 
 import ArrowIcon from '@/assets/images/arrow.svg';
 import { setVerificationComplete } from '@/app/redux/slice/user/userSlice';
 
@@ -17,7 +18,6 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [isInputFilled, setIsInputFilled] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  // NEW STATE: store verificationId for linking phone number later
   const [verificationId, setVerificationId] = useState(null);
 
   const dispatch = useDispatch();
@@ -42,7 +42,6 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
     setIsInputFilled(!!phoneNumber && !!selectedCountry);
   }, [phoneNumber, selectedCountry]);
 
-  // UPDATED: Use PhoneAuthProvider.verifyPhoneNumber to get a verificationId instead of signing in
   const handleSendVerificationCode = async () => {
     const auth = getAuth();
     const appVerifier = window.recaptchaVerifier;
@@ -66,7 +65,7 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
         formattedPhoneNumber,
         appVerifier
       );
-      // Save the verificationId to use in OTP verification (linking)
+
       setVerificationId(verificationId);
       setIsOtpModalOpen(true);
     } catch (error) {
@@ -77,7 +76,7 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
-        // Optional: You can handle clicks outside if needed
+
       }
     };
 
@@ -91,12 +90,11 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
     };
   }, [isOpen, onClose]);
 
-  // When the OTP modal closes, check if verification succeeded and update Redux accordingly.
   const handleOtpClose = (isVerified) => {
     setIsOtpModalOpen(false);
     if (isVerified) {
-      dispatch(setVerificationComplete(true)); // Mark verification complete in Redux
-      onClose(); // Close the modal after successful verification
+      dispatch(setVerificationComplete(true)); 
+      onClose(); 
     }
   };
 
@@ -119,17 +117,13 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
                 <Image src={CloseIcon} alt="close" className="w-6 h-6 cursor-pointer" />
               </button>
             </div>
-
             <div className="h-[392px]">
               <div className="w-full max-w-[440px] flex flex-col mb-[16px]">
-                <h1 className="text-[18px] sm:text-[20px] md:text-[24px] font-[600]">
-                  Verify Phone Number
-                </h1>
+                <h1 className="text-[18px] sm:text-[20px] md:text-[24px] font-[600]">Verify Phone Number</h1>
                 <p className="text-[#939393] text-[12px] sm:text-[14px] font-semibold">
                   Thank you for taking a moment to verify your phone number
                 </p>
               </div>
-
               <form className="flex flex-col gap-[32px]">
                 <div className="flex flex-col gap-[8px]">
                   <label
@@ -152,13 +146,13 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
                           <option value="" disabled>
                             Select Country
                           </option>
-                          {countries.map((country) => (
+                          {countries.map((country,index) => (
                             <option
                               className="w-auto sm:w-[440px]"
-                              key={country.code}
-                              value={country.dialCode}
+                              key={index}              
+                              value= {country}        
                             >
-                              {country.name} ({country.dialCode})
+                              {country}()          
                             </option>
                           ))}
                         </select>
@@ -193,7 +187,6 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
                     className="w-full px-3 py-2 h-[40px] outline-none sm:h-[48px] border border-[#D5D4DC] text-[#2F2F2F] rounded-[8px]"
                   />
                 </div>
-
                 <div className="flex flex-col md:flex-row space-y-3 md:space-y-0 md:space-x-4">
                   <button
                     type="button"
@@ -224,7 +217,6 @@ const PhoneVerifyModal = forwardRef(({ isOpen, onClose }, ref) => {
           </div>
         </div>
       </Modal>
-      {/* Pass the verificationId to the OTP modal */}
       <OTPVerifyModal
         isOpen={isOtpModalOpen}
         phoneNumber={phoneNumber}

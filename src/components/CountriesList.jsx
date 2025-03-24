@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { useFetchCountriesQuery } from '@/app/redux/slice/apislice.js';
+import { useFetchCountriesQuery } from '@/app/redux/slice/apislice/apislice.js';
 
 const CountriesList = () => {
   const { data, error, isLoading } = useFetchCountriesQuery();
   const [countries, setCountries] = useState([]);
-
-  // Load from localStorage on mount
   useEffect(() => {
     const storedData = localStorage.getItem('countries');
     if (storedData) {
@@ -13,7 +11,6 @@ const CountriesList = () => {
     }
   }, []);
 
-  // Update state & localStorage when API call completes
   useEffect(() => {
     if (data && data.countries) {
       setCountries(data.countries);
@@ -29,7 +26,7 @@ const CountriesList = () => {
       <h2>Countries List</h2>
       <ul>
         {countries.length > 0 ? (
-          countries.map((country, idx) => <li key={idx}>{country}</li>) // Adjust for API response
+          countries.map((country, idx) => <li key={idx}>{country}</li>) 
         ) : (
           <p>No countries found.</p>
         )}

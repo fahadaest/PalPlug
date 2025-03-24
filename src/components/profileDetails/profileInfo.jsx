@@ -10,7 +10,6 @@ import ProfessionalInfo from './ProfessionalInfo';
 import { submitProfile } from '@/app/redux/action';
 import ServicesSelection from './servicePage';
 
-
 const ProfileInfo = ({ userId, displayName }) => {
   const dispatch = useDispatch();
   const currentStep = useSelector((state) => state.user.currentStep);
@@ -22,19 +21,19 @@ const ProfileInfo = ({ userId, displayName }) => {
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [isServicesSelectionVisible, setServicesSelectionVisible] = useState(false);
   const isVerificationComplete = useSelector((state) => state.user.isVerificationComplete);
-  const [isProfessionalInfoValid, setIsProfessionalInfoValid] = useState(false); // New state
+  const [isProfessionalInfoValid, setIsProfessionalInfoValid] = useState(false); 
   const [isAccountSecurityValid, setIsAccountSecurityValid] = useState(false);
  
 
   const router = useRouter();
   const [professionalInfo, setProfessionalInfo] = useState({
-    occupation:   /*""*/                [] , 
-    country:   /*""*/                    [] ,
-    college:   /*""*/                    [] ,
-    major:   /*""*/                    [] ,
-    year:   /*""*/                    [] ,
-    certificate:   /*""*/                    [] ,
-    certificationFrom:   /*""*/                    [] ,
+    occupation: [] , 
+    country: [] ,
+    college: [] ,
+    major: [] ,
+    year: [] ,
+    certificate: [] ,
+    certificationFrom: [] ,
   });
 
   const handleProfessionalInfoValidation = (isValid) => {
@@ -72,15 +71,14 @@ const ProfileInfo = ({ userId, displayName }) => {
       professionalInfo,
     };
     
-     // Directly store the form data into local storage
+     
     localStorage.setItem('profile', JSON.stringify(formData));
-    // Optionally, update your Redux store with the formData
     // dispatch(setUser(formData));
 
 
 
     try {
-      // dispatch(submitProfile(formData));
+      dispatch(submitProfile(formData));
       if (isPlugRoute) {
         router.push('/servicesselection');
         setServicesSelectionVisible(true);
@@ -107,9 +105,9 @@ const ProfileInfo = ({ userId, displayName }) => {
   useEffect(() => {
     if (isVerificationComplete) {
       setIsPhoneModalOpen(false);
-      setIsAccountSecurityValid(true); // Enable Finish button
+      setIsAccountSecurityValid(true); 
     }else {
-      setIsAccountSecurityValid(false); // Disable Finish button
+      setIsAccountSecurityValid(false); 
   }
   }, [isVerificationComplete]);
 
@@ -244,12 +242,10 @@ const ProfileInfo = ({ userId, displayName }) => {
                   <span className="text-[14px] italic font-lightbold text-[#555555]">Private</span>
                 </div>
                 {isVerificationComplete ? (
-                   // Once phone is verified, show a disabled "Verified" button
                   <button disabled className="h-[40px] text-[#555555] text-[12px] font-[600] w-[120px] bg-[#6FCF97]  rounded-[8px]">
                     Verified
                   </button>
                 ) : (
-                   // If phone is not verified, show "Add Phone Number" button 
                   <button
                     className="h-[40px] text-[#555555] text-[12px] font-[600]  w-[146px]  md:w-[191px] border border-[#555555] rounded-[8px]"
                     onClick={handleOpenPhoneModal}
@@ -261,9 +257,8 @@ const ProfileInfo = ({ userId, displayName }) => {
               <div className="w-auto max-w-[358px] md:w-[175px] mt-[300px]">
                 <button
                   type="submit"
-                  // className="text-[white] bg-[#005382] mx-auto text-[12px] p-[11px_20px_11px_20px] font-[600] w-full rounded-[8px]"
                   className={`text-[white] ${isAccountSecurityValid ? 'bg-[#005382] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'} mx-auto text-[12px] p-[11px_20px_11px_20px] font-[600] w-full rounded-[8px]`}
-                  disabled={!isAccountSecurityValid} // Disable the button if account security is not valid
+                  disabled={!isAccountSecurityValid} 
                 >
                   Finish
                 </button>

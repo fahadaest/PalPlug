@@ -11,7 +11,6 @@
         opacity: 1;
     }
 }
-
 .modal-animation {
     animation: slideUp 0.3s ease-out;
 }
@@ -67,7 +66,3 @@
     line-height: 14px;
     word-wrap: break-word
 }
-
-
-
-

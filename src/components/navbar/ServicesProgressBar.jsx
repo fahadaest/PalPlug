@@ -1,11 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 import StepperArrow from "@/assets/images/StepperArrow.svg";
-
-
-
-
-const ServicesProgressBar = ({currentStepservices, onStepClick,steps}) => {
+const ServicesProgressBar = ({currentStepservices, onStepClick, steps}) => {
     const stepsRef = useRef([]);
     const progressRef = useRef(null);
 
@@ -22,11 +18,8 @@ const ServicesProgressBar = ({currentStepservices, onStepClick,steps}) => {
 
         updateSteps();
     }, [currentStepservices]);
-   
-
     return (
         <div className="flex flex-row pr-[16px] pl-[16px] h-[24px] w-[436px] sm:flex-row items-center">
-            {/* Step 1 */}
             <div
                 className="flex  items-center gap-[8px] cursor-pointer"
                 ref={el => stepsRef.current[0] = el}
@@ -54,8 +47,6 @@ const ServicesProgressBar = ({currentStepservices, onStepClick,steps}) => {
                     Package
                 </span>
             </div>
-
-            {/* Arrow for Step 1 */}
             <div className={`transition-colors ${currentStepservices > 1 ? 'text-black' : 'text-gray-400'}`}>
                 <Image
                     src={StepperArrow}
@@ -65,8 +56,6 @@ const ServicesProgressBar = ({currentStepservices, onStepClick,steps}) => {
                     className="fill-current"
                 />
             </div>
-
-            {/* Step 2 */}
             <div
                 className="flex items-center gap-[8px] cursor-pointer"
                 ref={el => stepsRef.current[1] = el}
@@ -93,8 +82,6 @@ const ServicesProgressBar = ({currentStepservices, onStepClick,steps}) => {
                     Requirements
                 </span>
             </div>
-
-            {/* Arrow for Step 2 */}
             <div className={`transition-colors ${currentStepservices > 2 ? 'text-black' : 'text-gray-400'}`}>
                 <Image
                     src={StepperArrow}
@@ -104,8 +91,6 @@ const ServicesProgressBar = ({currentStepservices, onStepClick,steps}) => {
                     className="fill-current"
                 />
             </div>
-
-            {/* Step 3 */}
             <div
                 className="flex items-center gap-[8px] cursor-pointer"
                 ref={el => stepsRef.current[2] = el}

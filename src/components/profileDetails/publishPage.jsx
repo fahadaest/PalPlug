@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import Robot from '@/assets/images/Robot.svg';
 import Image from 'next/image';
 
+// When the user selects one of the radio buttons, the handleRadioChange function
+// updates this state with the selected value.
 const Requirement = () => {
-  // NEW: Track which radio option is selected
   const [selectedValue, setSelectedValue] = useState('');
-
-  // Handle radio change
   const handleRadioChange = (event) => {
     setSelectedValue(event.target.value);
   };
@@ -91,7 +90,6 @@ const Requirement = () => {
       </div>
 
       <div className="flex sm:w-[80%] sm:justify-center md:justify-end pl-[16px] pr-[16px] md:w-[100%] mt-[300px]">
-        {/* Button is disabled unless user selected 'yes' or 'no' */}
         <button
           disabled={selectedValue === ''}
           className={`bg-[#005382] h-[40px] w-full sm:w-[175px] text-white font-semibold text-sm p-[11px_20px_11px_20px] rounded-[8px] ${
