@@ -38,11 +38,6 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
     useEffect(() => {
         console.log("Fetched Countries:", countries);
     }, [countries]);
-    useEffect(() => {
-
-        const colleges = dispatch(fetchColleges()); 
-        console.log("colleges from store:", colleges);
-    }, [countries]); 
 
     useEffect(() => {
         return () => {
@@ -90,7 +85,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
         dispatch(fetchColleges(selectedCountryName))
           .unwrap()
           .then((res) => {
-            console.log("fetchColleges success:", res);
+            console.log("fetchColleges success:", res["Colleges names"]);
           })
           .catch((err) => {
             console.error("fetchColleges error:", err);

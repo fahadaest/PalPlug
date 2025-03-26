@@ -19,10 +19,7 @@ const collegeSlice = createSlice({
       })
       .addCase(fetchColleges.fulfilled, (state, action) => {
         state.loading = false;
-        // Update this line based on actual API response structure
-        state.colleges = action.payload; // Direct array response or action.payload.colleges
-        // state.colleges = action.payload.colleges;
-        // state.colleges = action.payload["colleges names"] || [];
+        state.colleges = action.payload["Colleges names"] || [];
 
 
       })

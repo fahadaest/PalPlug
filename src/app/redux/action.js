@@ -3,7 +3,7 @@ import { getRequest, postRequest } from '@/axios/index';
 import { getRoute } from '@/api/index'; 
 
 export const submitProfile = createAsyncThunk(
-  'submit-profile',
+  'submitProfile',
   async (profileData, { rejectWithValue }) => {
     try {
       const route = getRoute('submitProfile'); 
