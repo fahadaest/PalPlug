@@ -12,8 +12,9 @@ const StepProgressBar = ({ className }) => {
 
     const handleStepClick = (step) => {
         console.log(`Step ${step} clicked`);
-        if (step <= stepsRef.current.length) {
-            dispatch(setCurrentStep(step));
+
+        if (step === 1 || step === currentStep - 1) {
+        dispatch(setCurrentStep(step));
         }
     };
 

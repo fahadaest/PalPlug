@@ -1,11 +1,15 @@
 
 import { configureStore } from '@reduxjs/toolkit';
+import { apiSlice } from '@/app/redux/slice/apislice/apislice.js';
 import companiesReducer from '@/app/redux/slice/companies/companiesSlice';
 import employeesReducer from '@/app/redux/slice/employee/employeeSlice';
 import userReducer, { setUser } from '@/app/redux/slice/user/userSlice';
 import countriesReducer from '@/app/redux/slice/country/countrySlice';
 import serviceSlice from './slice/servicespublish/serviceSlice';
-
+import { setupListeners } from '@reduxjs/toolkit/query';
+import collegeReducer from '@/app/redux/slice/colleges/collegeSlice';
+import yearReducer from '@/app/redux/slice/year/yearSlice';
+import userRolesReducer from '@/app/redux/slice/userRoles/userRolesSlice';
 
 export const store = configureStore({
   reducer: {
@@ -14,10 +18,17 @@ export const store = configureStore({
     user: userReducer,
     countries: countriesReducer,
     services: serviceSlice, 
+    user: userReducer,
+    colleges: collegeReducer, 
+    years: yearReducer,
+    userRoles: userRolesReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer, 
+    
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware), 
 });
-
-
+setupListeners(store.dispatch)
 if (typeof window !== 'undefined') {
   try {
     const userData = localStorage.getItem('user');

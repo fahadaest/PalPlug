@@ -19,10 +19,7 @@ const PaymentMethod = () => {
     const handleSelect = (method) => {
         setSelectedMethod(method);
     };
-
     
-
-
     return (
         <div className="bg-white min-h-screen flex flex-col md:flex-row justify-center items-center gap-[20px] md:gap-[40px] p-4">
             <div className="h-auto  border-[#D5D4DC] w-full md:w-[822px] md:h-[515px] border rounded-[4px]">
