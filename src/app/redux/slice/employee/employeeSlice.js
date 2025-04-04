@@ -3,6 +3,9 @@ import MaleImg from '@/assets/images/male.svg';
 import Image from 'next/image';
 import FemaleImg from '@/assets/images/female.svg';
 import FemaleImg2 from '@/assets/images/femal2.png';
+
+const generateCalendlyLink = (name) => `https://calendly.com/${name.toLowerCase().replace(/\s+/g, '-')}`;
+
 const initialState = {
     employees: [
         {
@@ -18,6 +21,9 @@ const initialState = {
             referrals: 10,
             interviews: 20,
             image: MaleImg,
+            get calendlyLink() {
+                return generateCalendlyLink(this.name);
+            },
             about: "Whatever the role, I know that I'll always stay true to my favorite Haas School of Business defining principle ~ Student Always.",
             services: [
                 {
@@ -40,7 +46,7 @@ const initialState = {
                     price: 41.00,
                     reviewsCount: 2,
                     package:"Employee will schedule a 30 min call to help you prepare for an upcoming interview."
-                },
+                }
             ],
         },
         {
@@ -56,6 +62,9 @@ const initialState = {
             referrals: 8,
             interviews: 15,
             image: FemaleImg,
+            get calendlyLink() {
+                return generateCalendlyLink(this.name);
+            },
             about: "Whatever the role, I know that I'll always stay true to my favorite Haas School of Business defining principle ~ Student Always.",
             services: [
                 {
@@ -77,7 +86,6 @@ const initialState = {
                     description: 'Video screening required',
                     price: 21.00,
                     reviewsCount: 4,
-                    package:"Employee will schedule a 30 min call to help you prepare for an upcoming interview."
                 },
             ],
         },
@@ -94,6 +102,9 @@ const initialState = {
             referrals: 8,
             interviews: 15,
             image: FemaleImg2,
+            get calendlyLink() {
+                return generateCalendlyLink(this.name);
+            },
             about: "Whatever the role, I know that I'll always stay true to my favorite Haas School of Business defining principle ~ Student Always.",
             services: [
                 {
@@ -101,7 +112,7 @@ const initialState = {
                     description: 'Video screening required',
                     price: 21.00,
                     reviewsCount: 8,
-                      package:"Employee referral to Netflix. Video call required to determine if candidate is a good fit for the position. Once accepted, you will receive a referral confirmation (You are not guaranteed to receive an offer from Netflix)."
+                    package:"Employee referral to Netflix. Video call required to determine if candidate is a good fit for the position. Once accepted, you will receive a referral confirmation (You are not guaranteed to receive an offer from Netflix)."
                 },
                 {
                     title: 'Resume Review',
@@ -115,7 +126,6 @@ const initialState = {
                     description: 'Video screening required',
                     price: 20.00,
                     reviewsCount: 2,
-                    package:"Employee will schedule a 30 min call to help you prepare for an upcoming interview."
                 },
             ],
         },

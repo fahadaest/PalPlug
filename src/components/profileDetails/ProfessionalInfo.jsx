@@ -5,11 +5,13 @@ import { fetchCountries } from '@/app/redux/action';
 import { fetchColleges } from '@/app/redux/action';
 import { fetchYears } from '@/app/redux/action';
 import { fetchUserRoles } from '@/app/redux/action';
-
+import { fetchCollegesNames } from '@/app/redux/action';
 export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo, onValidationChange }) {
     const [educationSections, setEducationSections] = useState([{ country: '', college: '', major: '', year: '' }]);
     const [certificationSections, setCertificationSections] = useState([{ certificate: '', certification: '', year: '' }]);
     const [isValid, setIsValid] = useState(false);
+    const [calendlyLink, setCalendlyLink] = useState('');
+
 
     const dispatch = useDispatch();
     const { countries, loading: countriesLoading } = useSelector((state) => state.countries);
@@ -41,7 +43,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
 
     useEffect(() => {
         return () => {
-            setProfessionalInfo((prev) => ({ ...prev, occupation: '', employer: '' }));
+            setProfessionalInfo((prev) => ({ ...prev, occupation: '', employer: '', calendlyLink: '' }));
         };
     }, [setProfessionalInfo]);
 
@@ -63,7 +65,15 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
         }
         validateForm();
     };
+    const handleCalendlyChange = (e) => {
+        const link = e.target.value;
+        setCalendlyLink(link);
+        setProfessionalInfo((prev) => ({ ...prev, calendlyLink: link }));
+    };
 
+    const validateCalendlyLink = (link) => {
+        return link.startsWith('https://calendly.com/') || link === '';
+    };
     const addEducationSection = () => {
         setEducationSections([...educationSections, { country: '', college: '', major: '', year: '' }]);
     };
@@ -193,7 +203,29 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                     ></input>
                 </div>
             </div>
-
+            <div className="flex flex-col gap-[8px]">
+                <label className="block text-[14px] font-[600]">
+                    Calendly Link
+                </label>
+                <div className="relative w-auto md:w-[358px] max-w-[358px]">
+                    <input 
+                        type="url"
+                        value={calendlyLink}
+                        onChange={handleCalendlyChange}
+                        placeholder='https://calendly.com/your-username'
+                        className={`w-full outline-none font-lightbold text-base text-[#939393] p-[12px] h-[48px] border ${
+                            calendlyLink && !validateCalendlyLink(calendlyLink) 
+                            ? 'border-red-500' 
+                            : 'border-[#D5D4DC]'
+                        } rounded-lg`}
+                    />
+                    {calendlyLink && !validateCalendlyLink(calendlyLink) && (
+                        <p className="absolute text-[12px] text-red-500 mt-1">
+                            Please enter a valid Calendly link (https://calendly.com/...)
+                        </p>
+                    )}
+                </div>
+            </div>
             <div className="flex flex-col gap-[8px]">
                 <label className="text-[14px] font-[600]">Education</label>
                 {educationSections.map((section, index) => (

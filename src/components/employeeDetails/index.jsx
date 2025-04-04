@@ -65,70 +65,111 @@ const EmployeeDetails = () => {
     (service) => service?.title === activeTab
   );
 
-  // Renders right-hand tab content based on activeService
+  // Renders right-hand tab content
   const renderTabContent = () => {
-    if (!activeService) return null;
+    // If user selects "Calendly Booking", show Calendly code
+    if (activeTab === 'Calendly Booking') {
+      return (
+        <div className="pt-4 pb-4">
+          <div className="flex justify-between mb-4 text-base text-text-heading">
+            <h5 className="text-lg font-semibold">Schedule a Meeting</h5>
+          </div>
+          <div className="text-sm text-grey30 mb-4">
+            Book a meeting with {employee?.name} to discuss your career opportunities.
+          </div>
+          <div className="flex items-center mb-4">
+            <Image
+              src={TimeImg}
+              alt="30 minutes meeting"
+              width={24}
+              height={24}
+              className="mr-2"
+            />
+            <p className="text-sm">30 minutes meeting</p>
+          </div>
+          <button
+            onClick={() => {
+              if (employee?.calendlyLink) {
+                window.open(employee.calendlyLink, '_blank');
+              } else {
+                alert('Calendly link not available for this employee.');
+              }
+            }}
+            className="w-full py-2 bg-[#005382] text-primary rounded-lg mt-4"
+          >
+            Book Meeting
+          </button>
+        </div>
+      );
+    }
 
-    return (
-      <div className="pt-4 pb-4">
-        <div className="flex justify-between mb-4 text-base text-text-heading">
-          <h5 className="text-lg font-semibold">
-            Standard Employee {activeService.title}
-          </h5>
-          <p className="text-lg ">${activeService?.price?.toFixed(2)}</p>
-        </div>
-        <h6 className="text-base font-lightbold mb-2">
-          About this package
-        </h6>
-        <p className="text-sm text-grey30 mb-4">
-        {activeService?.package || "No package details available. Please contact the employee for more information."}
-        </p>
-        <div className="flex items-center mb-4">
-          <Image
-            src={TimeImg}
-            alt="1 day delivery"
-            width={24}
-            height={24}
-            className="mr-2"
+    // Otherwise, show the standard employee service if found
+    if (activeService) {
+      return (
+        <div className="pt-4 pb-4">
+          <div className="flex justify-between mb-4 text-base text-text-heading">
+            <h5 className="text-lg font-semibold">
+              Standard Employee {activeService.title}
+            </h5>
+            <p className="text-lg ">${activeService?.price?.toFixed(2)}</p>
+          </div>
+          <h6 className="text-base font-lightbold mb-2">
+            About this package
+          </h6>
+          <p className="text-sm text-grey30 mb-4">
+            {activeService?.package ||
+              'No package details available. Please contact the employee for more information.'}
+          </p>
+          <div className="flex items-center mb-4">
+            <Image
+              src={TimeImg}
+              alt="1 day delivery"
+              width={24}
+              height={24}
+              className="mr-2"
+            />
+            <p className="text-sm">1 day delivery</p>
+          </div>
+          <div className="flex items-center mb-6">
+            <Image
+              src={MovieImg}
+              alt="Video screening required"
+              width={24}
+              height={24}
+              className="mr-2"
+            />
+            <p className="text-sm">Video screening required</p>
+          </div>
+          <button
+            onClick={() => {
+              setIsModalOpen(true);
+              router.push(
+                `/refPayment?employeeId=${employee.id}&service=${encodeURIComponent(
+                  activeTab
+                )}`
+              );
+            }}
+            className="w-full py-2 bg-[#005382] text-primary rounded-lg mt-4"
+          >
+            Select Package
+          </button>
+          <SignInModal
+            isOpen={isModalOpen && !user}
+            onClose={() => setIsModalOpen(false)}
           />
-          <p className="text-sm">1 day delivery</p>
+          <p className="text-sm text-center mt-4">Contact {employee?.name}</p>
         </div>
-        <div className="flex items-center mb-6">
-          <Image
-            src={MovieImg}
-            alt="Video screening required"
-            width={24}
-            height={24}
-            className="mr-2"
-          />
-          <p className="text-sm">Video screening required</p>
-        </div>
-        <button
-          onClick={() => {
-            setIsModalOpen(true);
-            router.push(`/refPayment?employeeId=${employee.id}&service=${encodeURIComponent(activeTab)}`);   //'/refPayment'
-          }}
-          className="w-full py-2 bg-[#005382] text-primary rounded-lg mt-4"
-        >
-          Select Package
-        </button>
-        <SignInModal
-          isOpen={isModalOpen && !user}
-          onClose={() => setIsModalOpen(false)}
-        />
-        <p className="text-sm text-center mt-4">
-          Contact {employee?.name}
-        </p>
-      </div>
-    );
+      );
+    }
+
+    // If no matching service and not Calendly, nothing to display
+    return null;
   };
 
   return (
     <>
       {/* Header bar with company name/logo */}
-      <div
-        className={`w-full h-[48px] md:h-[96px] ${bgColor} flex items-center justify-center`}
-      >
+      <div className={`w-full h-[48px] md:h-[96px] ${bgColor} flex items-center justify-center`}>
         <div className="w-full flex items-center justify-center">
           <div className="flex items-center gap-[15px]">
             {company?.image ? (
@@ -164,43 +205,43 @@ const EmployeeDetails = () => {
                 How it works
               </h2>
               <p className="text-sm font-lightbold text-text-heading">
-                If you’re looking to land an amazing job of your dreams at {displayName}, I’m the person that gives you
-                the best shot. I have been at {displayName} for 4 years and have built a great reputation in the
-                partnership team and a referral from me will carry huge weight. I’ve gotten 12 people hired
-                through palplug referrals, resume reviews and interview prep.
+                If you’re looking to land an amazing job of your dreams at {displayName}, I’m the person
+                that gives you the best shot. I have been at {displayName} for 4 years and have built a
+                great reputation in the partnership team and a referral from me will carry huge weight.
+                I’ve gotten 12 people hired through palplug referrals, resume reviews and interview prep.
               </p>
               <p className="text-sm font-lightbold text-text-heading">
-                Even though I would love to get everyone hired, I would need to see your skillset to evaluate if
-                you would be a good candidate for the job to save everyone the time and effort.
+                Even though I would love to get everyone hired, I would need to see your skillset
+                to evaluate if you would be a good candidate for the job to save everyone the time and effort.
               </p>
               <p className="text-sm font-semibold text-employecard-card-grey-text">
                 Referrals:
               </p>
               <p className="text-sm text-grey40">
-                   Once you request a referral, I will reach out to you to schedule a time to hop on a quick video
+                Once you request a referral, I will reach out to you to schedule a time to hop on a quick video
                 call to review your experience. Please have your resume uploaded or sent to me at
                 idrisgettani@slack.com prior to our call.
                 <br /><br />
                 This isn’t necessarily an interview but a chance to assess if the referral is worth it for you
                 (Don’t want anyone spending $20 if there isn’t really an opportunity to get hired).
                 <br /><br />
-                Once everything looks good, I’ll accept the request and get to work on your referral. After I submit it,
-                I will send you the referral confirmation to finalize the transaction. At that point, I will close
-                the transaction and the money will be transferred.
+                Once everything looks good, I’ll accept the request and get to work on your referral.
+                After I submit it, I will send you the referral confirmation to finalize the transaction.
+                At that point, I will close the transaction and the money will be transferred.
                 <br /><br />
                 Best of luck!
               </p>
             </div>
           </div>
 
-          {/* Right column: Tabs for Referral, Resume Review, Interview Prep */}
+          {/* Right column: Tabs (Referral, Resume Review, Interview Prep, Calendly Booking) */}
           <div className="flex-1 rounded-[8px] lg:max-w-[436px] bg-primary p-4 h-[522px]">
             <ul className="flex flex-nowrap md:flex-wrap text-sm leading-extra-tight font-semibold text-center text-gray-500">
-              {['Referral', 'Resume Review', 'Interview Prep'].map((tab) => (
+              {['Referral', 'Resume Review', 'Interview Prep', 'Calendly Booking'].map((tab) => (
                 <li key={tab} className="me-2">
                   <a
                     href="#"
-                    className={`w-[100px] md:w-auto md:h-auto h-[34px] pr-[30px] pl-[30px] pt-[10px] pb-[10px]  rounded-[4px] flex items-center justify-center ${
+                    className={`w-[100px] md:w-auto md:h-auto h-[34px] pr-[30px] pl-[30px] pt-[10px] pb-[10px] rounded-[4px] flex items-center justify-center ${
                       activeTab === tab
                         ? 'bg-[#D2EFFF] text-employecard-card-blue-hover'
                         : 'hover:text-employecard-card-blue-hover hover:bg-gray-100'
@@ -215,9 +256,7 @@ const EmployeeDetails = () => {
                 </li>
               ))}
             </ul>
-            <div className="flex-1 overflow-auto">
-              {renderTabContent()}
-            </div>
+            <div className="flex-1 overflow-auto">{renderTabContent()}</div>
           </div>
         </div>
       </div>

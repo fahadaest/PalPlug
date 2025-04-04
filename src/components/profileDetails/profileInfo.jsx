@@ -194,8 +194,7 @@ const ProfileInfo = ({ userId, displayName }) => {
               </div>
               <button
                 type="submit"
-                className={`h-[40px] w-auto max-w-[358px] md:w-[175px] p-[11px_20px_11px_20px] ${isFormValid ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'
-                  } text-white text-[12px] font-[600] rounded-[8px]`}
+                className={`h-[40px] w-auto max-w-[358px] md:w-[175px] p-[11px_20px_11px_20px] ${isFormValid ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'} text-white text-[12px] font-[600] rounded-[8px]`}
                 disabled={!isFormValid}
               >
                 Continue
