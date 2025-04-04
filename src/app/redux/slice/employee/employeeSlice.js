@@ -3,6 +3,9 @@ import MaleImg from '@/assets/images/male.svg';
 import Image from 'next/image';
 import FemaleImg from '@/assets/images/female.svg';
 import FemaleImg2 from '@/assets/images/femal2.png';
+
+const generateCalendlyLink = (name) => `https://calendly.com/${name.toLowerCase().replace(/\s+/g, '-')}`;
+
 const initialState = {
     employees: [
         {
@@ -18,7 +21,9 @@ const initialState = {
             referrals: 10,
             interviews: 20,
             image: MaleImg,
-            calendlyLink: 'https://calendly.com/idris-gettani',
+            get calendlyLink() {
+                return generateCalendlyLink(this.name);
+            },
             about: "Whatever the role, I know that I'll always stay true to my favorite Haas School of Business defining principle ~ Student Always.",
             services: [
                 {
@@ -64,7 +69,9 @@ const initialState = {
             referrals: 8,
             interviews: 15,
             image: FemaleImg,
-            calendlyLink: 'https://calendly.com/maddy-grey',
+            get calendlyLink() {
+                return generateCalendlyLink(this.name);
+            },
             about: "Whatever the role, I know that I'll always stay true to my favorite Haas School of Business defining principle ~ Student Always.",
             services: [
                 {
@@ -110,7 +117,9 @@ const initialState = {
             referrals: 8,
             interviews: 15,
             image: FemaleImg2,
-            calendlyLink: 'https://calendly.com/angela-wynn',
+            get calendlyLink() {
+                return generateCalendlyLink(this.name);
+            },
             about: "Whatever the role, I know that I'll always stay true to my favorite Haas School of Business defining principle ~ Student Always.",
             services: [
                 {
