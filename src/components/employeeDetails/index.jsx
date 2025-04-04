@@ -56,6 +56,11 @@ const EmployeeDetails = () => {
                             Schedule a Meeting
                         </h5>
                     </div>
+
+                    <div className="text-sm text-grey30 mb-4">
+                        Book a meeting with {employee?.name} to discuss your career opportunities.
+                    </div>
+
                     <div className="flex items-center mb-4">
                         <Image
                             src={TimeImg}
