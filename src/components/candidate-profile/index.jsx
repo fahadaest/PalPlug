@@ -11,6 +11,7 @@ import { setPlugRoute } from '@/app/redux/slice/user/userSlice';
 import { useRouter } from 'next/navigation';
 import Resume from "../resumeFile/resume";
 import CloseIcon from '@/assets/images/Closeicon.svg';
+
 const Dashboard = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -22,17 +23,15 @@ const Dashboard = () => {
     router.push(`/profile/${userId}`);
   };
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const handleGetStartedClicke = () => {
     setIsModalVisible(true);
   };
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
   const closeModal = () => {
     setIsModalVisible(false);
   };
-
-
 
   return (
     <div className="bg-white flex flex-col lg:flex-row min-h-screen p-5 lg:p-10 gap-8">
@@ -110,8 +109,6 @@ const Dashboard = () => {
               </p>
             </div>
             <div onClick={handleGetStartedClicke} className="text-[#005382] cursor-pointer text-[14px] md:text-[16px] font-medium mt-2 md:mt-0">
-
-
               Get Started
             </div>
           </div>
@@ -141,7 +138,7 @@ const Dashboard = () => {
                 <Image src={CloseIcon} alt="close" className="w-6 h-6 cursor-pointer" />
               </button>
             </div>
-            <Resume />
+            <Resume isOpen={isModalVisible} onClose={closeModal} />
           </div>
         </div>
       )}
