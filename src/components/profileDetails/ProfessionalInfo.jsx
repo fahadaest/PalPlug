@@ -21,9 +21,9 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
 
     useEffect(() => {
         if (years.length === 0) {
-          console.warn("No years data returned, check the API or the slice!");
+            console.warn("No years data returned, check the API or the slice!");
         }
-      }, [years]);
+    }, [years]);
 
     useEffect(() => {
         dispatch(fetchYears());
@@ -79,20 +79,20 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
             setEducationSections(updatedSections);
         }
     };
-    
+
     const handleCountryChange = (selectedCountryName, index) => {
         handleOptionChange("country", selectedCountryName, index, "education");
         dispatch(fetchColleges(selectedCountryName))
-          .unwrap()
-          .then((res) => {
-            console.log("fetchColleges success:", res["Colleges names"]);
-          })
-          .catch((err) => {
-            console.error("fetchColleges error:", err);
-          });
-      };
-    
-    
+            .unwrap()
+            .then((res) => {
+                console.log("fetchColleges success:", res["Colleges names"]);
+            })
+            .catch((err) => {
+                console.error("fetchColleges error:", err);
+            });
+    };
+
+
     const addCertificationSection = () => {
         setCertificationSections([...certificationSections, { certificate: '', certification: '', year: '' }]);
     };
@@ -115,46 +115,39 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
 
     const validateForm = () => {
         const hasNonEmptyField = (section, fields) =>
-          fields.some(field => String(section[field] || "").trim() !== "");
+            fields.some(field => String(section[field] || "").trim() !== "");
         const { occupation, employer } = professionalInfo || {};
         const safeOccupation = occupation ? String(occupation) : "";
         const safeEmployer = employer ? String(employer) : "";
         const hasProfessionalInfo =
-          safeOccupation.trim() !== "" || safeEmployer.trim() !== "";
+            safeOccupation.trim() !== "" || safeEmployer.trim() !== "";
         const hasEducation = educationSections.some(section =>
-          hasNonEmptyField(section, ["country", "college", "major", "year"])
+            hasNonEmptyField(section, ["country", "college", "major", "year"])
         );
         const hasCertification = certificationSections.some(section =>
-          hasNonEmptyField(section, ["certificate", "certification", "year"])
+            hasNonEmptyField(section, ["certificate", "certification", "year"])
         );
         const formIsValid = hasProfessionalInfo || hasEducation || hasCertification;
         setIsValid(formIsValid);
         onValidationChange(formIsValid);
-      };
-      
-      
+    };
+
+
     useEffect(() => {
         validateForm();
     }, [professionalInfo, educationSections, certificationSections]);
 
     const collegeOptions = Array.isArray(colleges)
-    ? colleges.map((college) => typeof college === 'string' ? college : college.name)
-    : [];
-  
+        ? colleges.map((college) => typeof college === 'string' ? college : college.name)
+        : [];
+
 
     return (
-        <div
-            className="w-auto max-w-[1154px] flex flex-col gap-[24px]"
-            onClick={handleDropdownClick}
-        >
+        <div className="w-auto max-w-[1154px] flex flex-col gap-[24px]" onClick={handleDropdownClick}>
             <div className='flex flex-col w-full max-w-[632px] gap-[16px]'>
-                <h1 className="text-[24px] font-[600] leading-[32px]">
-                    Professional Info
-                </h1>
+                <h1 className="text-[24px] font-[600] leading-[32px]">Professional Info</h1>
                 <p className="text-[14px] font-[400] leading-[20px] pt-2 text-[#939393]">
-                    This is your time to shine. Let potential candidates/customers
-                    know what you do best and how you gained your skills,
-                    certifications, and experience.
+                    This is your time to shine. Let potential candidates/customers know what you do best and how you gained your skills, certifications, and experience.
                 </p>
                 <div className="border-[#F0F0F0] border w-auto max-w-[640px]"></div>
             </div>
@@ -219,7 +212,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                                 width="100%"
                                 className="text-black"
                             />
-                           <DropdownComponent
+                            <DropdownComponent
                                 options={collegeOptions}
                                 selectedOption={section.college}
                                 onOptionChange={(updatedOptions) =>
@@ -244,11 +237,11 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                                 />
                             </div>
                             <div className='w-auto max-w-[133px]'>
-                                 <DropdownComponent
+                                <DropdownComponent
                                     options={years}
                                     selectedOption={section.year}
                                     onOptionChange={(updatedOptions) =>
-                                        handleOptionChange("year",updatedOptions, index, "education")
+                                        handleOptionChange("year", updatedOptions, index, "education")
                                     }
                                     dropdownKey="year"
                                     label="Year"
