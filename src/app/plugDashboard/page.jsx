@@ -4,4 +4,4 @@ const plugDashboard = () => {
     return <Plug_Dashboard />;
 };
 
-export default plugDashboard;
+export default plugDashboard; 
