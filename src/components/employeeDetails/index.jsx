@@ -24,7 +24,6 @@ const EmployeeDetails = () => {
   const companyStyles = useSelector(selectCompanyStyles);
   const logoClassNames = useSelector(selectLogoClassNames);
   const employees = useSelector(selectEmployees);
-  // const companies = useSelector((state) => state.companies.companies);
   const companies = [
         ...useSelector(selectCompanies),
         ...useSelector(selectOtherCompanies),

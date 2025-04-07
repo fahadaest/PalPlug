@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DropdownComponent from './DropdownComponent';
 import { fetchCountries, fetchColleges, fetchYears, fetchUserRoles  } from '@/app/redux/action';
@@ -84,33 +84,34 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
         }
     };
 
-    const validateForm = () => {
+    const validateForm = useCallback(() => {
         const { occupation, employer, workEmail } = professionalInfo;
         const hasProfessionalInfo = Boolean(occupation || employer || workEmail);
-
+      
         const hasEducation = educationSections.some(
-            (sec) =>
-                sec.country.trim() !== '' ||
-                sec.college.trim() !== '' ||
-                sec.major.trim() !== '' ||
-                sec.year.toString().trim() !== ''
+          (sec) =>
+            sec.country.trim() ||
+            sec.college.trim() ||
+            sec.major.trim() ||
+            sec.year.toString().trim()
         );
-
+      
         const hasCertification = certificationSections.some(
-            (sec) =>
-                sec.certificate.trim() !== '' ||
-                sec.certification.trim() !== '' ||
-                sec.year.toString().trim() !== ''
+          (sec) =>
+            sec.certificate.trim() ||
+            sec.certification.trim() ||
+            sec.year.toString().trim()
         );
-
+      
         const formIsValid = hasProfessionalInfo || hasEducation || hasCertification;
         setIsValid(formIsValid);
         onValidationChange(formIsValid);
-    };
+      }, [professionalInfo, educationSections, certificationSections, onValidationChange]);
 
-    useEffect(() => {
+      useEffect(() => {
         validateForm();
-    }, [professionalInfo, educationSections, certificationSections]);
+      }, [validateForm]);
+      
 
     const handleDropdownClick = (e) => e.preventDefault();
 
