@@ -4,8 +4,8 @@ import OrderRequirements from "./orderRequirements";
 import { useDispatch, useSelector } from "react-redux";
 import { setServicesCurrentStep } from "@/app/redux/slice/user/userSlice";
 import Requirement from "./publishPage";
-import { submitAllServices } from "@/app/redux/action";
 import DropdownComponent from "./DropdownComponent";
+import { loadServices, saveServices } from '@/app/utils/storage';
 
 const ServicesSelection = () => {
   const dropdownRef = useRef(null);
@@ -20,13 +20,15 @@ const ServicesSelection = () => {
     portfolio: false,
     additionalQuestions: false
   });
+  const [resumeFormat, setResumeFormat] = useState('');
+  const [additionalQuestionsList, setAdditionalQuestionsList] = useState([]);
   const [isContinueDisabled, setIsContinueDisabled] = useState(true);
   const currentStep = useSelector((state) => state.user.servicescurrentStep);
   const dispatch = useDispatch();
   const [dropdownState, setDropdownState] = useState({
-    referral: { selectedOption: '', isDetailsVisible: false, isOpen: false },
-    resume: { selectedOption: '', isDetailsVisible: false, isOpen: false },
-    interview: { selectedOption: '', isDetailsVisible: false, isOpen: false },
+    referral: { selectedOption: '', isDetailsVisible: false, isOpen: false,  price: '' },
+    resume: { selectedOption: '', isDetailsVisible: false, isOpen: false,  price: '' },
+    interview: { selectedOption: '', isDetailsVisible: false, isOpen: false,  price: '' },
   });
   const handleServiceCheckbox = (service) => {
     setSelectedServices((prev) => ({
@@ -96,22 +98,49 @@ const ServicesSelection = () => {
     event.stopPropagation();
     if (currentStep === 1) {
       dispatch(setServicesCurrentStep(2));
+      const svc = loadServices();
+      svc.services = Object.entries(dropdownState)
+        .filter(([key, cfg]) => selectedServices[key])
+        .map(([key, cfg]) => ({
+          service_type: key.toUpperCase(),     
+          price: cfg.price, 
+          delivery_time: cfg.selectedOption,
+        }));
+      saveServices(svc);
+      dispatch(setServicesCurrentStep(2));
+
     } else if (currentStep === 2) {
+      const svc = loadServices();
+      svc.order_requirements = Object.entries(orderChecks)
+        .filter(([key, checked]) => checked)   
+        .map(([key, checked]) => {
+          const mapping = {
+            resume: 'Resume',
+            jobLink: 'Job Link/URL',
+            portfolio: 'Portfolio Link/URL',
+            additionalQuestions: 'Additional Questions',
+          };
+          const entry = {
+            name: mapping[key],
+            is_required: checked,
+          };
+          if (key === 'resume') {
+            entry.file_format = resumeFormat;
+          }
+          if (key === 'additionalQuestions') {
+            entry.question = additionalQuestionsList;
+          }
+          return entry;
+        });
+      saveServices(svc);
       dispatch(setServicesCurrentStep(3));
+
     }
   };
 
-  const handleFinish = (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const formData = {
-      selectedServices: dropdownState,
-    };
-    dispatch(submitAllServices(formData));
-  };
   return (
     <>
-      <form onSubmit={currentStep === 3 ? handleFinish : handleContinue}>
+      <form onSubmit={handleContinue}>
         <div className="bg-gray-100 flex flex-col items-center min-h-max ">
           {currentStep === 1 && (
             <div className="bg-white h-[auto] flex flex-col gap-[45px] w-auto max-w-[978px] rounded-[8px] pt-[40px] pl-[16px] pr-[16px] md:p-[40px_80px_40px_80px] mt-5">
@@ -156,8 +185,15 @@ const ServicesSelection = () => {
                           </label>
                           <input
                             type="text"
-                            id="price"
+                            id="price-referral"
                             placeholder="$ Price for this service"
+                            value={dropdownState.referral.price}
+                            onChange={(e) =>
+                              setDropdownState(prev => ({
+                                ...prev,
+                                referral: { ...prev.referral, price: e.target.value },
+                              }))
+                            }
                             className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-[8px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                           />
                         </div>
@@ -218,8 +254,15 @@ const ServicesSelection = () => {
                           </label>
                           <input
                             type="text"
-                            id="price"
+                            id="price-resume"
                             placeholder="$ Price for this service"
+                            value={dropdownState.resume.price}
+                            onChange={(e) =>
+                              setDropdownState(prev => ({
+                                ...prev,
+                                resume: { ...prev.resume, price: e.target.value },
+                              }))
+                            }
                             className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                           />
                         </div>
@@ -279,8 +322,15 @@ const ServicesSelection = () => {
                           </label>
                           <input
                             type="text"
-                            id="price"
+                            id="price-interview"
                             placeholder="$ Price for this service"
+                            value={dropdownState.interview.price}
+                            onChange={(e) =>
+                              setDropdownState(prev => ({
+                                ...prev,
+                                interview: { ...prev.interview, price: e.target.value },
+                              }))
+                            }
                             className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
                           />
                         </div>
@@ -313,7 +363,7 @@ const ServicesSelection = () => {
             </div>
           )}
           {currentStep === 2 && (
-            <OrderRequirements onChildChecksChange={setOrderChecks} />
+            <OrderRequirements onChildChecksChange={setOrderChecks} onFormatChange={setResumeFormat} onQuestionsChange={setAdditionalQuestionsList}/>
           )}
           <div className="w-full max-w-[978px] h-auto flex justify-end xs:flex xs:justify-center sm:justify-center md:justify-end">
             <button

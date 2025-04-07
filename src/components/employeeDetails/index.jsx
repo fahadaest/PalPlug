@@ -11,63 +11,53 @@ import { useSelector } from 'react-redux';
 import {
   selectCompanyStyles,
   selectLogoClassNames,
+  selectCompanies,
+  selectOtherCompanies,
 } from '@/app/redux/slice/companies/companiesSlice';
 
 const EmployeeDetails = () => {
-  // Default to "Referral" if no query param is found
   const [activeTab, setActiveTab] = useState('Referral');
-
-  // For reading "?service=..." from the URL
   const searchParams = useSearchParams();
-
   const user = useSelector((state) => state.user.user);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { name, employeeId } = useParams();
-
   const companyStyles = useSelector(selectCompanyStyles);
   const logoClassNames = useSelector(selectLogoClassNames);
   const employees = useSelector(selectEmployees);
-  const companies = useSelector((state) => state.companies.companies);
+  const companies = [
+        ...useSelector(selectCompanies),
+        ...useSelector(selectOtherCompanies),
+      ];
   const router = useRouter();
-
-  // Update activeTab if a service query param is present
   useEffect(() => {
     const serviceParam = searchParams.get('service');
     if (serviceParam) {
       setActiveTab(serviceParam);
     }
   }, [searchParams]);
-
-  // Find the matching employee by ID
   const employee = employees?.find(
     (emp) => emp?.id.toString() === employeeId
   );
 
-  // If no matching employee, redirect
   useEffect(() => {
     if (!employee) {
       router.push('/');
     }
   }, [employee, router]);
 
-  // Determine company for styling
   const displayName =
     name?.charAt(0)?.toUpperCase() + name.slice(1)?.toLowerCase();
   const company = companies?.find(
     (comp) => comp?.name === displayName
   );
   const bgColor = companyStyles[company?.name]
-    ? companyStyles[company?.name]?.replace('hover:', '')
+    ? companyStyles[company?.name]?.replace(/(.*?:)?hover:/, '')
     : 'bg-gray-800';
 
-  // Match the activeTab to one of the employee's services
   const activeService = employee?.services?.find(
     (service) => service?.title === activeTab
   );
-
-  // Renders right-hand tab content
   const renderTabContent = () => {
-    // If user selects "Calendly Booking", show Calendly code
     if (activeTab === 'Calendly Booking') {
       return (
         <div className="pt-4 pb-4">
@@ -102,8 +92,6 @@ const EmployeeDetails = () => {
         </div>
       );
     }
-
-    // Otherwise, show the standard employee service if found
     if (activeService) {
       return (
         <div className="pt-4 pb-4">
@@ -161,14 +149,11 @@ const EmployeeDetails = () => {
         </div>
       );
     }
-
-    // If no matching service and not Calendly, nothing to display
     return null;
   };
 
   return (
     <>
-      {/* Header bar with company name/logo */}
       <div className={`w-full h-[48px] md:h-[96px] ${bgColor} flex items-center justify-center`}>
         <div className="w-full flex items-center justify-center">
           <div className="flex items-center gap-[15px]">
@@ -189,11 +174,8 @@ const EmployeeDetails = () => {
           </div>
         </div>
       </div>
-
-      {/* Main content */}
       <div className="bg-employecard-bg-main-card pr-[16px] pl-[16px] pb-[24px] pt-[24px] min-h-screen">
         <div className="flex flex-col lg:flex-row gap-[16px] justify-center">
-          {/* Left column: Employee info and "How it works" */}
           <div className="flex-1 max-w-[1000px] flex flex-col gap-[16px]">
             <EmployeeCard
               employee={employee}
@@ -233,8 +215,6 @@ const EmployeeDetails = () => {
               </p>
             </div>
           </div>
-
-          {/* Right column: Tabs (Referral, Resume Review, Interview Prep, Calendly Booking) */}
           <div className="flex-1 rounded-[8px] lg:max-w-[436px] bg-primary p-4 h-[522px]">
             <ul className="flex flex-nowrap md:flex-wrap text-sm leading-extra-tight font-semibold text-center text-gray-500">
               {['Referral', 'Resume Review', 'Interview Prep', 'Calendly Booking'].map((tab) => (

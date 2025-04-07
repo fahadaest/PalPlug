@@ -37,23 +37,19 @@ const DropdownComponent = ({
   };
 
   useEffect(() => {
+    const btn = buttonRef.current;
+    if (!btn) return;
+    setDropdownWidth(btn.getBoundingClientRect().width);
     const resizeObserver = new ResizeObserver(() => {
-      if (buttonRef.current) {
-        setDropdownWidth(buttonRef.current.getBoundingClientRect().width);
-      }
+      setDropdownWidth(btn.getBoundingClientRect().width);
     });
-
-    if (buttonRef.current) {
-      resizeObserver.observe(buttonRef.current);
-    }
-
+    resizeObserver.observe(btn);
+  
     return () => {
-      if (buttonRef.current) {
-        resizeObserver.unobserve(buttonRef.current);
-      }
+      resizeObserver.unobserve(btn);
     };
-  }, [buttonRef.current]);
-
+  }, []);  
+  
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {

@@ -7,9 +7,9 @@ import EmployeeCard from '../employeCard';
 import {
   selectCompanyStyles,
   selectLogoClassNames,
-  // We are not using the original job functions list from redux.
-  // selectJobFunctions,
   selectPriceRanges,
+  selectOtherCompanies,
+  selectCompanies
 } from '@/app/redux/slice/companies/companiesSlice';
 import { useSelector } from 'react-redux';
 import { selectEmployees } from '@/app/redux/slice/employee/employeeSlice';
@@ -24,35 +24,27 @@ const CompanyDetails = () => {
   const companyStyles = useSelector(selectCompanyStyles);
   const employees = useSelector(selectEmployees);
   const logoClassNames = useSelector(selectLogoClassNames);
-  const companies = useSelector((state) => state.companies.companies);
-
-  // Single select for job function – default is empty.
+  const companies = [
+        ...useSelector(selectCompanies),
+        ...useSelector(selectOtherCompanies)
+      ];
   const [selectedJobFunction, setSelectedJobFunction] = useState('');
-  // Price filter remains multi-select.
   const [selectedPrices, setSelectedPrices] = useState([]);
-  // Highest Rated state is kept for UI (no filtering applied)
   const [selectedHighestRated, setSelectedHighestRated] = useState('Highest Rated');
-
-  // Error message state for Price dropdown if job function is not selected.
   const [jobFunctionError, setJobFunctionError] = useState('');
 
   const [openDropdown, setOpenDropdown] = useState(null);
   const [openModal, setOpenModal] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-
-  // Instead of using the jobFunctions from redux, override with custom options.
   const jobFunctionOptions = ['Referral', 'Resume Review', 'Interview Prep'];
-  const priceRanges = useSelector(selectPriceRanges); // For example: ["$0-$20", "$21-$40", "$40+"]
-
-  // Find the company based on URL param
+  const priceRanges = useSelector(selectPriceRanges); 
   const displayName =
     name?.charAt(0)?.toUpperCase() + name.slice(1)?.toLowerCase();
   const company = companies?.find((comp) => comp?.name === displayName);
   const bgColor = companyStyles[company?.name]
-    ? companyStyles[company?.name]?.replace('hover:', '')
+    ? companyStyles[company?.name]?.replace(/(.*?:)?hover:/, '')
     : 'bg-gray-800';
 
-  // Toggle modals/dropdowns
   const toggleModal = (modalId) => {
     setOpenModal(openModal === modalId ? null : modalId);
   };
@@ -60,7 +52,6 @@ const CompanyDetails = () => {
     setOpenDropdown(openDropdown === dropdownId ? null : dropdownId);
   };
 
-  // Handle screen size changes
   const checkIsMobile = () => window.innerWidth <= 768;
   useEffect(() => {
     const handleResize = () => setIsMobile(checkIsMobile());
@@ -69,9 +60,7 @@ const CompanyDetails = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // Main button clicks (filter dropdowns)
   const handlebuttonClick = (id) => {
-    // For Price dropdown, if no job function is selected, show error message and do not open dropdown.
     if (id === 'dropdownPrice' && (selectedJobFunction === '' || selectedJobFunction === 'Job Function')) {
       setJobFunctionError('Please select the Job Function');
       return;
@@ -85,22 +74,18 @@ const CompanyDetails = () => {
       toggleDropdown(id);
     }
   };
-
-  // Dropdown selection for single select Job Function.
   const handleJobFunctionSelection = (value) => {
-    // If the same value is clicked, deselect it.
     if (selectedJobFunction === value) {
       setSelectedJobFunction('');
     } else {
       setSelectedJobFunction(value);
     }
-    // Close dropdown/modal and clear any error.
+   
     setJobFunctionError('');
     setOpenModal(null);
     setOpenDropdown(null);
   };
 
-  // Price selection – multi-select
   const togglePriceSelection = (value) => {
     setSelectedPrices((prev) =>
       prev.includes(value) ? prev.filter((v) => v !== value) : [...prev, value]
@@ -109,21 +94,18 @@ const CompanyDetails = () => {
     setOpenDropdown(null);
   };
 
-  // Highest Rated selection UI – even though filtering logic is not applied.
   const handleHighestRatedSelection = (value) => {
     setSelectedHighestRated(value);
     setOpenModal(null);
     setOpenDropdown(null);
   };
 
-  // Navigate to employee details page (if user clicks entire card)
   const handleEmployeeClick = (employeeId) => {
     router.push(`/company/${name}/employees/${employeeId}`, undefined, {
       shallow: true,
     });
   };
 
-  // NEW: Navigate to employee details page with the chosen service
   const handleServiceSelect = (employeeId, serviceTitle) => {
     router.push(
       `/company/${name}/employees/${employeeId}?service=${encodeURIComponent(
@@ -131,17 +113,11 @@ const CompanyDetails = () => {
       )}`
     );
   };
-
-  // Filtering logic using the new conditions:
-  // - If no job function is selected, then ignore price filtering (all employees will show).
-  // - If a job function is selected, filter employees based on the price ranges selected for that service.
   const filteredEmployees = employees.filter((employee) => {
-    // If no filters are selected at all, show all employees.
     if (selectedJobFunction === '' && selectedPrices.length === 0) {
       return true;
     }
 
-    // If a job function is selected, look for the corresponding service.
     let passes = false;
     if (selectedJobFunction !== '') {
       const service = employee.services?.find(
@@ -149,11 +125,9 @@ const CompanyDetails = () => {
           s.title.toLowerCase() === selectedJobFunction.toLowerCase()
       );
       if (service) {
-        // If no price filter is selected, employee passes.
         if (selectedPrices.length === 0) {
           passes = true;
         } else {
-          // Check if the service price falls within any selected price range.
           selectedPrices.forEach((priceRange) => {
             if (
               priceRange === '$0-$20' &&
@@ -179,7 +153,6 @@ const CompanyDetails = () => {
 
   return (
     <>
-      {/* Top header with company name/logo */}
       <div className={`w-full ${bgColor} flex items-center justify-center`}>
         <div
           style={{ boxShadow: '0px 4px 15px 0px #01010117' }}
@@ -203,10 +176,7 @@ const CompanyDetails = () => {
           </div>
         </div>
       </div>
-
-      {/* Filter buttons */}
       <div className="position-relative pb-[16px] pt-[16px] w-full px-4 flex gap-[16px] overflow-x-scroll overflow-y-visible">
-        {/* Dropdown: Job Function */}
         <div className="position-relative text-left overscroll-none">
           <button
             id="dropdownJobFunctionbutton"
@@ -242,7 +212,6 @@ const CompanyDetails = () => {
               {jobFunctionOptions.map((option, index) => (
                 <li key={index}>
                   <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                    {/* Using radio button behavior via controlled checkbox */}
                     <input
                       id={`job-function-checkbox-${index + 1}`}
                       type="checkbox"
@@ -262,8 +231,6 @@ const CompanyDetails = () => {
             </ul>
           </div>
         </div>
-
-        {/* Dropdown: Price */}
         <div className="position-relative text-left overscroll-none">
           <button
             id="dropdownPricebutton"
@@ -321,8 +288,6 @@ const CompanyDetails = () => {
             </ul>
           </div>
         </div>
-
-        {/* Dropdown: Highest Rated (UI only; no filtering logic) */}
         <div className="position-relative text-left overscroll-none">
           <button
             id="dropdownHighestRatedbutton"
@@ -376,8 +341,6 @@ const CompanyDetails = () => {
           </div>
         </div>
       </div>
-
-      {/* Mobile modal (filters) */}
       {openModal && isMobile && (
         <div className="fixed inset-0 bg-[#F2F2F7B2] bg-opacity-50 flex justify-center items-end z-50">
           <div
@@ -477,8 +440,6 @@ const CompanyDetails = () => {
           </div>
         </div>
       )}
-
-      {/* Employee Cards */}
       <div className="w-full flex flex-col items-center gap-[16px] pl-[16px] pr-[16px] pt-[16px] bg-white md:bg-[#F5F5F5] min-h-screen">
         {filteredEmployees.length > 0 ? (
           filteredEmployees.map((employee) => (

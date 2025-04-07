@@ -10,18 +10,19 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import collegeReducer from '@/app/redux/slice/colleges/collegeSlice';
 import yearReducer from '@/app/redux/slice/year/yearSlice';
 import userRolesReducer from '@/app/redux/slice/userRoles/userRolesSlice';
+import profileSubmitReducer from '@/app/redux/slice/submitProfileData/profileSubmitSlice';
 
 export const store = configureStore({
   reducer: {
     companies: companiesReducer,
     employees: employeesReducer,
-    user: userReducer,
     countries: countriesReducer,
     services: serviceSlice, 
     user: userReducer,
     colleges: collegeReducer, 
     years: yearReducer,
     userRoles: userRolesReducer,
+    profileSubmit: profileSubmitReducer,
     [apiSlice.reducerPath]: apiSlice.reducer, 
     
   },
@@ -37,7 +38,7 @@ if (typeof window !== 'undefined') {
       store.dispatch(setUser(parsedUserData));
     }
   } catch (error) {
-    console.error('Error loading user data from localStorage:', error);
+    console.log('Error loading user data from localStorage:', error);
   }
 }
 

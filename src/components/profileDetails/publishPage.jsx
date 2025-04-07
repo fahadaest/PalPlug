@@ -1,14 +1,36 @@
 import React, { useState } from 'react';
 import Robot from '@/assets/images/Robot.svg';
 import Image from 'next/image';
+import { useDispatch } from 'react-redux';
+import { loadServices, saveServices } from '@/app/utils/storage';
+import { submitProfileData } from '@/app/redux/slice/submitProfileData/profileSubmitSlice';
 
 // When the user selects one of the radio buttons, the handleRadioChange function
 // updates this state with the selected value.
 const Requirement = () => {
   const [selectedValue, setSelectedValue] = useState('');
+  const dispatch = useDispatch();
   const handleRadioChange = (event) => {
     setSelectedValue(event.target.value);
   };
+
+  const onPublish = (e) => {
+    const svc = loadServices();
+    svc.form_w9_confirmation = { is_us_person: selectedValue === 'yes' };
+    saveServices(svc);
+    console.log("[Publish] final services payload:", svc);
+  
+    dispatch(submitProfileData(svc))
+    .unwrap()
+    .then((res) => {
+      console.log("submitProfileData succeeded:", res);
+    })
+    .catch((err) => {
+      console.log("submitProfileData failed:", err);
+    });
+  
+  };
+
 
   return (
     <div className="bg-white pl-[16px] pt-[40px] pr-[16px] border md:p-[40px_80px_40px_80px] mt-5 rounded-[8px] w-full max-w-[978px]">
@@ -91,6 +113,8 @@ const Requirement = () => {
 
       <div className="flex sm:w-[80%] sm:justify-center md:justify-end pl-[16px] pr-[16px] md:w-[100%] mt-[300px]">
         <button
+          type="button"
+          onClick={onPublish}
           disabled={selectedValue === ''}
           className={`bg-[#005382] h-[40px] w-full sm:w-[175px] text-white font-semibold text-sm p-[11px_20px_11px_20px] rounded-[8px] ${
             selectedValue === '' ? 'opacity-50 cursor-not-allowed' : ''
