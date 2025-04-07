@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import DropdownComponent from './DropdownComponent';
 
-const OrderRequirements = ({ onChildChecksChange }) => {
+const OrderRequirements = ({ onChildChecksChange, onFormatChange, onQuestionsChange }) => {
   // Track which checkboxes are checked
   const [childChecks, setChildChecks] = useState({
     resume: false,
@@ -61,9 +61,10 @@ const OrderRequirements = ({ onChildChecksChange }) => {
   const handleOptionChange = (option) => {
     setSelectedResumeOption(option);
     setDropdownOpen(false);
+    if (onFormatChange) onFormatChange(option);
   };
 
-  // Existing question logic
+
   const handleQuestionChange = (id, text) => {
     setQuestions(questions.map(q => q.id === id ? { ...q, text } : q));
   };
@@ -72,6 +73,7 @@ const OrderRequirements = ({ onChildChecksChange }) => {
     const nonEmptyQuestions = questions.filter(q => q.text.trim() !== '');
     setSavedQuestions([...savedQuestions, ...nonEmptyQuestions]);
     setQuestions([{ id: questions.length + 1, text: '' }]);
+    if (onQuestionsChange) onQuestionsChange([...savedQuestions, ...nonEmptyQuestions]);
   };
 
   const handleAddQuestion = () => {
@@ -91,8 +93,6 @@ const OrderRequirements = ({ onChildChecksChange }) => {
             on their order.
           </p>
         </div>
-
-        {/* Resume */}
         <div className="flex flex-col gap-[16px]">
           <div className="flex items-center gap-4">
             <input
@@ -120,8 +120,6 @@ const OrderRequirements = ({ onChildChecksChange }) => {
             </div>
           )}
         </div>
-
-        {/* Job Link/URL */}
         <div className="flex items-center gap-[8px] sm:gap-[16px]">
           <input
             id="job-link"
@@ -132,8 +130,6 @@ const OrderRequirements = ({ onChildChecksChange }) => {
           />
           <label htmlFor="job-link" className="text-[14px] sm:text-[16px] font-semibold">Job Link/URL</label>
         </div>
-
-        {/* Portfolio Link/URL */}
         <div className="flex items-center gap-3 sm:gap-5">
           <input
             id="portfolio-link"
@@ -144,8 +140,6 @@ const OrderRequirements = ({ onChildChecksChange }) => {
           />
           <label htmlFor="portfolio-link" className="text-[14px] sm:text-[16px] font-semibold">Portfolio Link/URL</label>
         </div>
-
-        {/* Additional Questions */}
         <div className="flex items-center gap-[8px] sm:gap-[16px]">
           <input
             id="additional-questions"

@@ -5,10 +5,11 @@ import { useRouter } from 'next/navigation';
 import PhoneIcon from '@/assets/images/VPhone.svg';
 import EmailIcon from '@/assets/images/VEmail.svg';
 import PhoneVerifyModal from '../phoneVerify';
-import { setCurrentStep, setPlugRoute, submitProfileInfo } from '@/app/redux/slice/user/userSlice';
+import { setCurrentStep, setPlugRoute,} from '@/app/redux/slice/user/userSlice';
 import ProfessionalInfo from './ProfessionalInfo';
-import { submitProfile } from '@/app/redux/action';
+import { submitProfileData } from '@/app/redux/slice/submitProfileData/profileSubmitSlice';
 import ServicesSelection from './servicePage';
+import { saveServices } from '@/app/utils/storage';
 
 const ProfileInfo = ({ userId, displayName }) => {
   const dispatch = useDispatch();
@@ -16,38 +17,32 @@ const ProfileInfo = ({ userId, displayName }) => {
   const isPlugRoute = useSelector((state) => state.user.isplugroute);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [profilePicture, setProfilePicture] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null);
   const [description, setDescription] = useState('');
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [isServicesSelectionVisible, setServicesSelectionVisible] = useState(false);
   const isVerificationComplete = useSelector((state) => state.user.isVerificationComplete);
   const [isProfessionalInfoValid, setIsProfessionalInfoValid] = useState(false); 
   const [isAccountSecurityValid, setIsAccountSecurityValid] = useState(false);
- 
-
   const router = useRouter();
   const [professionalInfo, setProfessionalInfo] = useState({
-    occupation: [] , 
-    country: [] ,
-    college: [] ,
-    major: [] ,
-    year: [] ,
-    certificate: [] ,
-    certificationFrom: [] ,
+    occupation: '' ,
+    employer: '' ,
+    workEmail: '',  
+    country: '',
+    college: '',
+    major: '',
+    education_year: null,
+    certificate: '',
+    certification: '',
+    certification_year: null,
   });
-
-  const handleProfessionalInfoValidation = (isValid) => {
-    setIsProfessionalInfoValid(isValid);
-};
-
-
   const handleProfilePictureChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setProfilePicture(URL.createObjectURL(file));
+      setProfilePicture(file);
     }
   };
-
   const handleContinue = (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -57,9 +52,7 @@ const ProfileInfo = ({ userId, displayName }) => {
       dispatch(setCurrentStep(3));
     }
   };
-
   const handleFinish = (event) => {
-    // dispatch(setCurrentStep(1));
     event.preventDefault();
     event.stopPropagation();
 
@@ -73,12 +66,15 @@ const ProfileInfo = ({ userId, displayName }) => {
     
      
     localStorage.setItem('profile', JSON.stringify(formData));
-    // dispatch(setUser(formData));
 
-
+    saveServices({
+      first_name: firstName,
+      last_name: lastName,
+      work_email: professionalInfo.workEmail,
+    });
 
     try {
-      dispatch(submitProfile(formData));
+      dispatch(submitProfileData(formData));
       if (isPlugRoute) {
         router.push('/servicesselection');
         setServicesSelectionVisible(true);
@@ -87,13 +83,9 @@ const ProfileInfo = ({ userId, displayName }) => {
         dispatch(setPlugRoute(true));
       }
     } catch (error) {
-      console.error('Error submitting profile:', error);
+      console.log('Error submitting profile:', error);
     }
   };
-
-  const isFormValid = firstName.trim() !== '' && lastName.trim() !== '';
-
-  const firstInitial = displayName ? displayName.charAt(0).toUpperCase() : 'S';
 
   const handleOpenPhoneModal = (event) => {
     event.preventDefault();
@@ -110,6 +102,10 @@ const ProfileInfo = ({ userId, displayName }) => {
       setIsAccountSecurityValid(false); 
   }
   }, [isVerificationComplete]);
+  
+  const isFormValid = firstName.trim() !== '' && lastName.trim() !== '';
+
+  const firstInitial = displayName ? displayName.charAt(0).toUpperCase() : 'S';
 
   return (
     <>
@@ -162,7 +158,7 @@ const ProfileInfo = ({ userId, displayName }) => {
                 >
                   {profilePicture ? (
                     <img
-                      src={profilePicture}
+                      src={URL.createObjectURL(profilePicture)}
                       alt="Profile Picture"
                       className="w-full h-full rounded-full object-cover"
                     />
@@ -203,12 +199,12 @@ const ProfileInfo = ({ userId, displayName }) => {
           )}
           {currentStep === 2 && (
             <>
-              <ProfessionalInfo professionalInfo={professionalInfo} setProfessionalInfo={setProfessionalInfo} onValidationChange={handleProfessionalInfoValidation} /> 
+              <ProfessionalInfo professionalInfo={professionalInfo} setProfessionalInfo={setProfessionalInfo} onValidationChange={setIsProfessionalInfoValid} /> 
               <div className="w-auto max-w-[358px] md:w-[175px] mt-[8px] md:mt-[100px]">
                 <button
                   type="submit"
-                  className={`h-[40px] w-[100%] p-[11px_20px_11px_20px] ${isProfessionalInfoValid    /*  isFormValid*/  ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'} text-white text-[12px] font-[600] rounded-[8px]`}
-                  disabled={ !isProfessionalInfoValid       /* !isFormValid*/} // Disable based on validation
+                  className={`h-[40px] w-[100%] p-[11px_20px_11px_20px] ${isProfessionalInfoValid ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'} text-white text-[12px] font-[600] rounded-[8px]`}
+                  disabled={ !isProfessionalInfoValid } 
                 >
                   Continue
                 </button>

@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DropdownComponent from './DropdownComponent';
-import { fetchCountries } from '@/app/redux/action';
-import { fetchColleges } from '@/app/redux/action';
-import { fetchYears } from '@/app/redux/action';
-import { fetchUserRoles } from '@/app/redux/action';
-import { fetchCollegesNames } from '@/app/redux/action';
+import { fetchCountries, fetchColleges, fetchYears, fetchUserRoles  } from '@/app/redux/action';
 export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo, onValidationChange }) {
     const [educationSections, setEducationSections] = useState([{ country: '', college: '', major: '', year: '' }]);
     const [certificationSections, setCertificationSections] = useState([{ certificate: '', certification: '', year: '' }]);
@@ -19,52 +15,107 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
     const { years, loading: yearsLoading } = useSelector((state) => state.years);
     const { roles, loading: rolesLoading } = useSelector((state) => state.userRoles);
 
-    const fallbackYears = years && years.length > 0 ? years : ['Static 2020', 'Static 2021'];
-
-    useEffect(() => {
-        if (years.length === 0) {
-            console.warn("No years data returned, check the API or the slice!");
-        }
-    }, [years]);
 
     useEffect(() => {
         dispatch(fetchYears());
-    }, [dispatch]);
-
-    useEffect(() => {
         if (!countries.length) {
             dispatch(fetchCountries());
         }
+        dispatch(fetchUserRoles());
     }, [dispatch, countries.length]);
 
     useEffect(() => {
-        console.log("Fetched Countries:", countries);
-    }, [countries]);
+        setProfessionalInfo((prev) => ({...prev, collegesArray: educationSections,}));
+    }, [educationSections, setProfessionalInfo]);
 
     useEffect(() => {
-        return () => {
-            setProfessionalInfo((prev) => ({ ...prev, occupation: '', employer: '', calendlyLink: '' }));
-        };
-    }, [setProfessionalInfo]);
+        setProfessionalInfo((prev) => ({...prev, certificationsArray: certificationSections,}));
+    }, [certificationSections, setProfessionalInfo]);
 
-    useEffect(() => {
-        dispatch(fetchUserRoles());
-    }, [dispatch]);
-
-    const handleOptionChange = (dropdownKey, updatedOptions, sectionIndex, type) => {
-        if (type === "education") {
-            const updatedSections = [...educationSections];
-            updatedSections[sectionIndex] = { ...updatedSections[sectionIndex], [dropdownKey]: updatedOptions };
-            setEducationSections(updatedSections);
-        } else if (type === "certification") {
-            const updatedSections = [...certificationSections];
-            updatedSections[sectionIndex] = { ...updatedSections[sectionIndex], [dropdownKey]: updatedOptions };
-            setCertificationSections(updatedSections);
+    const handleOptionChange = (dropdownKey, updatedValue, sectionIndex, type) => {
+        if (type === 'education') {
+            const updated = [...educationSections];
+            updated[sectionIndex] = { ...updated[sectionIndex], [dropdownKey]: updatedValue };
+            setEducationSections(updated);
+        } else if (type === 'certification') {
+            const updated = [...certificationSections];
+            updated[sectionIndex] = { ...updated[sectionIndex], [dropdownKey]: updatedValue };
+            setCertificationSections(updated);
         } else {
-            setProfessionalInfo((prev) => ({ ...prev, [dropdownKey]: updatedOptions }));
+            setProfessionalInfo((prev) => ({ ...prev, [dropdownKey]: updatedValue }));
         }
         validateForm();
     };
+
+    const addEducationSection = () => {
+        setEducationSections([
+            ...educationSections,
+            { country: '', college: '', major: '', year: '' },
+        ]);
+    };
+
+    const removeEducationSection = (index) => {
+        if (educationSections.length > 1) {
+            const updated = educationSections.filter((_, i) => i !== index);
+            setEducationSections(updated);
+        } else {
+            setEducationSections([{ country: '', college: '', major: '', year: '' }]);
+        }
+    };
+
+    const handleCountryChange = (selectedCountry, index) => {
+        handleOptionChange('country', selectedCountry, index, 'education');
+        dispatch(fetchColleges(selectedCountry))
+            .unwrap()
+            .then((res) => console.log('fetchColleges success:', res['Colleges names']))
+            .catch((err) => console.log('fetchColleges error:', err));
+    };
+
+    const addCertificationSection = () => {
+        setCertificationSections([...certificationSections, { certificate: '', certification: '', year: '' }]);
+    };
+
+    const removeCertificationSection = (index) => {
+        if (certificationSections.length > 1) {
+            const updated = certificationSections.filter((_, i) => i !== index);
+            setCertificationSections(updated);
+        } else {
+            setCertificationSections([{ certificate: '', certification: '', year: '' }]);
+        }
+    };
+
+    const validateForm = () => {
+        const { occupation, employer, workEmail } = professionalInfo;
+        const hasProfessionalInfo = Boolean(occupation || employer || workEmail);
+
+        const hasEducation = educationSections.some(
+            (sec) =>
+                sec.country.trim() !== '' ||
+                sec.college.trim() !== '' ||
+                sec.major.trim() !== '' ||
+                sec.year.toString().trim() !== ''
+        );
+
+        const hasCertification = certificationSections.some(
+            (sec) =>
+                sec.certificate.trim() !== '' ||
+                sec.certification.trim() !== '' ||
+                sec.year.toString().trim() !== ''
+        );
+
+        const formIsValid = hasProfessionalInfo || hasEducation || hasCertification;
+        setIsValid(formIsValid);
+        onValidationChange(formIsValid);
+    };
+
+    useEffect(() => {
+        validateForm();
+    }, [professionalInfo, educationSections, certificationSections]);
+
+    const handleDropdownClick = (e) => e.preventDefault();
+
+    const collegeOptions = colleges || [];
+
     const handleCalendlyChange = (e) => {
         const link = e.target.value;
         setCalendlyLink(link);
@@ -74,83 +125,6 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
     const validateCalendlyLink = (link) => {
         return link.startsWith('https://calendly.com/') || link === '';
     };
-    const addEducationSection = () => {
-        setEducationSections([...educationSections, { country: '', college: '', major: '', year: '' }]);
-    };
-
-    const removeEducationSection = (index) => {
-        if (educationSections.length > 1) {
-            const updatedSections = educationSections.filter((_, i) => i !== index);
-            setEducationSections(updatedSections);
-        } else {
-            const resetSection = { country: '', college: '', major: '', year: '' };
-            const updatedSections = [...educationSections];
-            updatedSections[index] = resetSection;
-            setEducationSections(updatedSections);
-        }
-    };
-
-    const handleCountryChange = (selectedCountryName, index) => {
-        handleOptionChange("country", selectedCountryName, index, "education");
-        dispatch(fetchColleges(selectedCountryName))
-            .unwrap()
-            .then((res) => {
-                console.log("fetchColleges success:", res["Colleges names"]);
-            })
-            .catch((err) => {
-                console.error("fetchColleges error:", err);
-            });
-    };
-
-
-    const addCertificationSection = () => {
-        setCertificationSections([...certificationSections, { certificate: '', certification: '', year: '' }]);
-    };
-
-    const removeCertificationSection = (index) => {
-        if (certificationSections.length > 1) {
-            const updatedSections = certificationSections.filter((_, i) => i !== index);
-            setCertificationSections(updatedSections);
-        } else {
-            const resetSection = { certificate: '', certification: '', year: '' };
-            const updatedSections = [...certificationSections];
-            updatedSections[index] = resetSection;
-            setCertificationSections(updatedSections);
-        }
-    };
-
-    const handleDropdownClick = (e) => {
-        e.preventDefault();
-    };
-
-    const validateForm = () => {
-        const hasNonEmptyField = (section, fields) =>
-            fields.some(field => String(section[field] || "").trim() !== "");
-        const { occupation, employer } = professionalInfo || {};
-        const safeOccupation = occupation ? String(occupation) : "";
-        const safeEmployer = employer ? String(employer) : "";
-        const hasProfessionalInfo =
-            safeOccupation.trim() !== "" || safeEmployer.trim() !== "";
-        const hasEducation = educationSections.some(section =>
-            hasNonEmptyField(section, ["country", "college", "major", "year"])
-        );
-        const hasCertification = certificationSections.some(section =>
-            hasNonEmptyField(section, ["certificate", "certification", "year"])
-        );
-        const formIsValid = hasProfessionalInfo || hasEducation || hasCertification;
-        setIsValid(formIsValid);
-        onValidationChange(formIsValid);
-    };
-
-
-    useEffect(() => {
-        validateForm();
-    }, [professionalInfo, educationSections, certificationSections]);
-
-    const collegeOptions = Array.isArray(colleges)
-        ? colleges.map((college) => typeof college === 'string' ? college : college.name)
-        : [];
-
 
     return (
         <div className="w-auto max-w-[1154px] flex flex-col gap-[24px]" onClick={handleDropdownClick}>
@@ -169,7 +143,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                     <DropdownComponent
                         options={roles.map(({ title }) => title)}
                         selectedOption={professionalInfo.occupation}
-                        onOptionChange={(updatedOptions) => handleOptionChange('occupation', updatedOptions, null, 'occupation')}
+                        onOptionChange={(val) => handleOptionChange('occupation', val, null, 'occupation')}
                         dropdownKey="occupation"
                         label="Select Occupation"
                         width="100%"
@@ -186,7 +160,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                         <DropdownComponent
                             options={['Employer 1', 'Employer 2', 'Employer 3']}
                             selectedOption={professionalInfo.employer}
-                            onOptionChange={(updatedOptions) => handleOptionChange('employer', updatedOptions, null, 'employee')}
+                            onOptionChange={(val) => handleOptionChange('employer', val, null, 'employee')}
                             dropdownKey="employer"
                             label="Select Employer"
                             width="100%"
@@ -198,9 +172,15 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                         Work Email
                     </label>
                     <input
-                        placeholder='Ex: j.appleseed@google.com'
+                        type="email"
+                        placeholder="Ex: j.appleseed@google.com"
                         className="w-auto outline-none font-lightbold text-base text-[#939393] max-w-[358px] p-[12px] h-[48px] border border-[#D5D4DC] rounded-lg"
-                    ></input>
+                        value={professionalInfo.workEmail || ''}
+                        onChange={(e) =>
+                            setProfessionalInfo({ ...professionalInfo, workEmail: e.target.value })
+                        }
+                        required
+                    />
                 </div>
             </div>
             <div className="flex flex-col gap-[8px]">
@@ -208,16 +188,15 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                     Calendly Link
                 </label>
                 <div className="relative w-auto md:w-[358px] max-w-[358px]">
-                    <input 
+                    <input
                         type="url"
                         value={calendlyLink}
                         onChange={handleCalendlyChange}
                         placeholder='https://calendly.com/your-username'
-                        className={`w-full outline-none font-lightbold text-base text-[#939393] p-[12px] h-[48px] border ${
-                            calendlyLink && !validateCalendlyLink(calendlyLink) 
-                            ? 'border-red-500' 
+                        className={`w-full outline-none font-lightbold text-base text-[#939393] p-[12px] h-[48px] border ${calendlyLink && !validateCalendlyLink(calendlyLink)
+                            ? 'border-red-500'
                             : 'border-[#D5D4DC]'
-                        } rounded-lg`}
+                            } rounded-lg`}
                     />
                     {calendlyLink && !validateCalendlyLink(calendlyLink) && (
                         <p className="absolute text-[12px] text-red-500 mt-1">
@@ -234,26 +213,22 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                             <DropdownComponent
                                 options={countries}
                                 selectedOption={section.country}
-                                onOptionChange={(selectedValue) => {
-                                    console.log("Selected Country:", selectedValue);
-                                    handleCountryChange(selectedValue, index);
-                                }}
+                                onOptionChange={(val) => handleCountryChange(val, index)}
                                 dropdownKey="country"
                                 label="Select Country"
                                 loading={countriesLoading}
                                 width="100%"
-                                className="text-black"
+                                searchable={true}
                             />
                             <DropdownComponent
                                 options={collegeOptions}
                                 selectedOption={section.college}
-                                onOptionChange={(updatedOptions) =>
-                                    handleOptionChange("college", updatedOptions, index, "education")
-                                }
+                                onOptionChange={(val) => handleOptionChange('college', val, index, 'education')}
                                 dropdownKey="college"
                                 label="Select College"
                                 loading={collegesLoading}
                                 width="100%"
+                                searchable={true}
                             />
                         </div>
                         <div className="flex flex-row gap-[8px]">
@@ -272,13 +247,12 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                                 <DropdownComponent
                                     options={years}
                                     selectedOption={section.year}
-                                    onOptionChange={(updatedOptions) =>
-                                        handleOptionChange("year", updatedOptions, index, "education")
-                                    }
+                                    onOptionChange={(val) => handleOptionChange('year', val, index, 'education')}
                                     dropdownKey="year"
                                     label="Year"
                                     loading={yearsLoading}
                                     width="133px"
+                                    searchable={true}
                                 />
                             </div>
                         </div>
@@ -310,7 +284,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                                     type="text"
                                     value={section.certificate}
                                     onChange={(e) =>
-                                        handleOptionChange("certificate", e.target.value, index, "certification")
+                                        handleOptionChange('certificate', e.target.value, index, 'certification')
                                     }
                                     placeholder="Enter Certificate"
                                     className="w-full border p-2 h-[48px] rounded-lg"
@@ -333,9 +307,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                             <DropdownComponent
                                 options={years}
                                 selectedOption={section.year}
-                                onOptionChange={(updatedOptions) =>
-                                    handleOptionChange("year", updatedOptions, index, "certification")
-                                }
+                                onOptionChange={(val) => handleOptionChange('year', val, index, 'certification')}
                                 dropdownKey="year"
                                 label="Year"
                                 loading={yearsLoading}
