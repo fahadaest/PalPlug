@@ -5,10 +5,12 @@ import Image from "next/image";
 import TimerIcon from "@/assets/images/timer.svg";
 import Movies from "@/assets/images/movies.svg";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectEmployees } from "@/app/redux/slice/employee/employeeSlice";
 import Male from "@/assets/images/male.svg";
 import { PopupButton } from "react-calendly";
+import PaymentProgressBar from "@/components/navbar/PaymentProgressBar";
+import { setServicesCurrentStep } from "@/app/redux/slice/user/userSlice";
 
 // Static packages data for referral packages
 const packagesData = [
@@ -48,10 +50,17 @@ const serviceToPackageId = {
 
 const ReferralPackage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const employeeIdParam = searchParams.get("employeeId");
   const serviceParam = searchParams.get("service");
   const employees = useSelector(selectEmployees);
+  const currentStepservices = useSelector((state) => state.user.servicescurrentStep);
+
+  useEffect(() => {
+    dispatch(setServicesCurrentStep(1));
+  }, [dispatch]);
+
   const employee = employees.find(
     (emp) => emp.id.toString() === employeeIdParam
   );
@@ -94,7 +103,14 @@ const ReferralPackage = () => {
   };
 
   const handlePaymentRoute = () => {
+    dispatch(setServicesCurrentStep(2));
     router.push("/servicePayment");
+  };
+
+  const handleStepClick = (step) => {
+    if (currentStepservices > step) {
+      dispatch(setServicesCurrentStep(step));
+    }
   };
 
   const selectedPackageData = modifiedPackagesData.find(
@@ -109,6 +125,10 @@ const ReferralPackage = () => {
 
   return (
     <>
+      <PaymentProgressBar 
+        currentStepservices={currentStepservices}
+        onStepClick={handleStepClick}
+      />
       <div className="flex justify-center">
         <div className="flex gap-[30px] justify-between flex-wrap pt-[40px] pr-[24px] pb-[40px] pl-[24px] w-full max-w-[1252px] h-auto bg-white rounded-[8px]">
           <div className="w-full md:max-w-[632px] flex flex-col gap-[60px]">
