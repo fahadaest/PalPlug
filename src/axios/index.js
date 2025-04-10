@@ -23,9 +23,6 @@ export const getRequest = (route, data) => {
             return failedResponse(error);
         });
 };
-
-
-
 export const postRequest = (route, data, requireAccessToken) => {
     const accessToken = window.sessionStorage.getItem('accessToken');
     let authenticatedHeaders;

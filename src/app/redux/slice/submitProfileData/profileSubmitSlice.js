@@ -7,25 +7,46 @@ export const submitProfileData = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const formData = new FormData();
+      if (payload.id) {
+        formData.append('id', payload.id);
+      }
+      const verifiedPhone = payload.phone; 
+      if (verifiedPhone) {
+        formData.append('phone', verifiedPhone);
+      }
       formData.append('first_name', payload.firstName ?? payload.first_name);
-      formData.append('last_name',  payload.lastName  ?? payload.last_name);
-      formData.append('description', payload.description);
+      formData.append('last_name', payload.lastName ?? payload.last_name);
 
-      const workEmail =
-        payload.professionalInfo?.workEmail?? payload.work_email;
-      formData.append('work_email', workEmail);
-
-      if (payload.profilePicture) {
-        formData.append('profile_image', payload.profilePicture); 
+      if (payload.description !== undefined) {
+        formData.append('description', payload.description);
       }
 
-      formData.append('occupation',payload.professionalInfo?.occupation??'');
-      formData.append('employer',payload.professionalInfo?.employer??'');
-      const prof = payload.professionalInfo || {};
-      const educationArray      = prof.collegesArray       || [];
-      formData.append('colleges', JSON.stringify(educationArray));
-      const certificationsArray = prof.certificationsArray || [];
-      formData.append('certifications', JSON.stringify(certificationsArray));
+      if (payload.profilePicture) {
+        formData.append('profile_image', payload.profilePicture);
+      }
+
+      const workEmail =
+        payload.work_email ||
+        payload.firstName?.work_email ||  
+        (payload.professionalInfo && payload.professionalInfo.workEmail);
+      if (workEmail) {
+        formData.append('work_email', workEmail);
+      }
+
+      if (payload.professionalInfo) {
+        if (payload.professionalInfo.occupation) {
+          formData.append('occupation', payload.professionalInfo.occupation);
+        }
+        if (payload.professionalInfo.employer) {
+          formData.append('employer', payload.professionalInfo.employer);
+        }
+        if (payload.professionalInfo.collegesArray) {
+          formData.append('colleges', JSON.stringify(payload.professionalInfo.collegesArray));
+        }
+        if (payload.professionalInfo.certificationsArray) {
+          formData.append('certifications', JSON.stringify(payload.professionalInfo.certificationsArray));
+        }
+      }
 
       if (payload.services) {
         formData.append('services', JSON.stringify(payload.services));

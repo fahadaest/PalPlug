@@ -9,12 +9,16 @@ const userSlice = createSlice({
     isAuthenticated: false,
     accessToken: null,
     currentStep: 1,
-    servicescurrentStep:1,
-    profileSubmissionStatus: null, 
-    isplugroute: true, 
+    servicescurrentStep: 1,
+    profileSubmissionStatus: null,
+    isplugroute: true,
     isVerificationComplete: false,
+    verifiedPhone: null,
   },
   reducers: {
+    setVerifiedPhone: (state, action) => {
+      state.verifiedPhone = action.payload;
+    },
     loginRequest: (state) => {
       state.loading = true;
     },
@@ -33,27 +37,27 @@ const userSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
       state.accessToken = null;
-      localStorage.removeItem('user'); 
+      localStorage.removeItem('user');
     },
     setUser: (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = true;
-      localStorage.setItem('user', JSON.stringify(action.payload)); 
+      localStorage.setItem('user', JSON.stringify(action.payload));
     },
     setCurrentStep: (state, action) => {
-      state.currentStep = action.payload; 
+      state.currentStep = action.payload;
     },
     setServicesCurrentStep: (state, action) => {
-      state.servicescurrentStep = action.payload; 
+      state.servicescurrentStep = action.payload;
     },
     setPlugRoute: (state, action) => {
       state.isplugroute = action.payload;
     },
     setVerificationComplete: (state, action) => {
-      state.isVerificationComplete = action.payload; 
+      state.isVerificationComplete = action.payload;
     }
   },
-  
+
   extraReducers: (builder) => {
     builder
       .addCase(submitProfile.pending, (state) => {
@@ -63,7 +67,7 @@ const userSlice = createSlice({
       .addCase(submitProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.profileSubmissionStatus = 'success';
-        state.user = action.payload; 
+        state.user = action.payload;
       })
       .addCase(submitProfile.rejected, (state, action) => {
         state.loading = false;
@@ -73,6 +77,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { loginRequest, loginSuccess, loginFailure, logout, setUser, setCurrentStep, setServicesCurrentStep, setPlugRoute, setVerificationComplete  } = userSlice.actions;
+export const { loginRequest, loginSuccess, loginFailure, logout, setUser, setCurrentStep, setServicesCurrentStep, setPlugRoute, setVerificationComplete, setVerifiedPhone } = userSlice.actions;
 
 export default userSlice.reducer;

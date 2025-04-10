@@ -18,6 +18,7 @@ const OrderRequirements = ({ onChildChecksChange, onFormatChange, onQuestionsCha
   const [questions, setQuestions] = useState([{ id: 1, text: '' }]);
   const [savedQuestions, setSavedQuestions] = useState([]);
   const [selectedResumeOption, setSelectedResumeOption] = useState('');
+  const [questionError, setQuestionError] = useState('');
 
   // --------------------------------------------
   // NEW: Checkbox handlers that also toggle UI
@@ -64,13 +65,22 @@ const OrderRequirements = ({ onChildChecksChange, onFormatChange, onQuestionsCha
     if (onFormatChange) onFormatChange(option);
   };
 
-
   const handleQuestionChange = (id, text) => {
+    if (text.trim().length > 600) {
+      setQuestionError("You have exceeded the maximum of 600 characters.");
+    } else {
+      setQuestionError('');
+    }
     setQuestions(questions.map(q => q.id === id ? { ...q, text } : q));
   };
 
   const handleSaveQuestion = () => {
     const nonEmptyQuestions = questions.filter(q => q.text.trim() !== '');
+    setSavedQuestions([...savedQuestions, ...nonEmptyQuestions]);
+    setQuestions([{ id: questions.length + 1, text: '' }]);
+    if (questionError) {
+      return;
+    }
     setSavedQuestions([...savedQuestions, ...nonEmptyQuestions]);
     setQuestions([{ id: questions.length + 1, text: '' }]);
     if (onQuestionsChange) onQuestionsChange([...savedQuestions, ...nonEmptyQuestions]);
@@ -171,6 +181,9 @@ const OrderRequirements = ({ onChildChecksChange, onFormatChange, onQuestionsCha
                   placeholder="Type out what question you’d like to ask your customer, it will be shown to them  during their request process."
                 ></textarea>
                 <p className="text-[#939393] text-xs pb-[16px]">max. 600 characters</p>
+                {questionError && (
+                 <p className="text-red-500 text-xs pb-[16px]">{questionError}</p>
+               )}
               </div>
             ))}
             <div className="flex flex-wrap gap-[16px]">
@@ -178,7 +191,7 @@ const OrderRequirements = ({ onChildChecksChange, onFormatChange, onQuestionsCha
                 className="h-[40px] w-full sm:w-[194px] p-2 bg-[#005382] text-white text-sm font-semibold rounded mb-2"
                 type="button"
                 onClick={handleSaveQuestion}
-                disabled={questions.every(q => !q.text.trim())}
+                disabled={questions.every(q => !q.text.trim()) || !!questionError }
               >
                 Save Question
               </button>
