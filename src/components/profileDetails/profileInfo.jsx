@@ -62,7 +62,7 @@ const ProfileInfo = ({ userId, displayName }) => {
       try {
         fallbackValues = JSON.parse(servicesObjStr);
       } catch (e) {
-        console.log('Error parsing services object from localStorage:', e);
+  
       }
     }
     const finalFirstName = firstName.trim() !== '' ? firstName : fallbackValues.first_name;
@@ -82,7 +82,7 @@ const ProfileInfo = ({ userId, displayName }) => {
     if (storedProfileId) {
     payloadData.id = storedProfileId;
     }
-    console.log("Payload being submitted:", payloadData);
+  
     localStorage.setItem('profile', JSON.stringify(payloadData));
     
     saveServices({
@@ -98,7 +98,7 @@ const ProfileInfo = ({ userId, displayName }) => {
       router.push('/servicesselection');
       setServicesSelectionVisible(true);
     } catch (error) {
-      console.error('Error submitting profile:', error);
+    
     }
   };
 
