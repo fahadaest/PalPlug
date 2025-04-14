@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { auth } from '@/app/utils/firebase';
 import { logout, setUser } from '@/app/redux/slice/user/userSlice';
+import { usePathname } from 'next/navigation';
 
 const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -56,16 +57,21 @@ function AuthProvider({ children }) {
 }
 
 export default function RootLayout({ children }) {
+  const pathname = usePathname();
+  const hideNavbarPaths = ['/refPayment'];
+
+  const shouldHideNavbar = hideNavbarPaths.some(path => pathname?.startsWith(path));
+
   return (
     <html lang="en">
       <body className={poppins.className}>
         <StoreProvider>
           <AuthProvider>
-            <Navbar />
+            {!shouldHideNavbar && <Navbar />}
             <main>{children}</main>
           </AuthProvider>
         </StoreProvider>
       </body>
     </html>
-  );
+  )
 }
