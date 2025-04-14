@@ -5,7 +5,7 @@ import CloseIcon from '@/assets/images/Closeicon.svg';
 import VerificationComplete from './VerificationComplete';
 import { getAuth, PhoneAuthProvider, linkWithCredential } from 'firebase/auth';
 import { useDispatch } from 'react-redux';
-import { setUser } from '@/app/redux/slice/user/userSlice'; 
+import { setUser, setVerifiedPhone } from '@/app/redux/slice/user/userSlice'; 
 const OTPVerifyModal = ({ isOpen, phoneNumber, verificationId, onClose }) => {
   const [isVerificationCompleteOpen, setVerificationCompleteOpen] = useState(false);
   const [otp, setOtp] = useState(new Array(6).fill(''));
@@ -31,23 +31,22 @@ const OTPVerifyModal = ({ isOpen, phoneNumber, verificationId, onClose }) => {
       const currentUser = auth.currentUser;
   
       if (!currentUser) {
-        console.log('No current user found to link phone number')
         return;
       }
   
       if (currentUser.providerData.some(provider => provider.providerId === 'phone')) {
-        console.log("Phone number is already linked; skipping linking.");
+        dispatch(setVerifiedPhone(phoneNumber));
         setVerificationCompleteOpen(true);
         return;
       }
   
       await linkWithCredential(currentUser, credential);
-      console.log('Phone number linked successfully');
+      dispatch(setVerifiedPhone(phoneNumber));
       dispatch(setUser(currentUser));
       setVerificationCompleteOpen(true);
     } catch (error) {
       if (error.code === 'auth/provider-already-linked') {
-        console.log("Phone number already linked; treating as success.");
+        dispatch(setVerifiedPhone(phoneNumber));
         setVerificationCompleteOpen(true);
       } 
     }

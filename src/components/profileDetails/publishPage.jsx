@@ -4,31 +4,46 @@ import Image from 'next/image';
 import { useDispatch } from 'react-redux';
 import { loadServices, saveServices } from '@/app/utils/storage';
 import { submitProfileData } from '@/app/redux/slice/submitProfileData/profileSubmitSlice';
+import { useRouter } from 'next/navigation';
 
-// When the user selects one of the radio buttons, the handleRadioChange function
-// updates this state with the selected value.
 const Requirement = () => {
   const [selectedValue, setSelectedValue] = useState('');
   const dispatch = useDispatch();
+  const router = useRouter();
   const handleRadioChange = (event) => {
     setSelectedValue(event.target.value);
   };
 
   const onPublish = (e) => {
+    e.preventDefault();
     const svc = loadServices();
     svc.form_w9_confirmation = { is_us_person: selectedValue === 'yes' };
+
+    if (!svc.work_email) {
+      const storedProfile = JSON.parse(localStorage.getItem('profile') || '{}');
+      if (storedProfile.workEmail || storedProfile.work_email) {
+        svc.work_email = storedProfile.workEmail || storedProfile.work_email;
+      }
+    }
+
+    const profileId = localStorage.getItem('profile_id');
+    if (profileId) {
+      svc.id = profileId;
+    }
+
     saveServices(svc);
     console.log("[Publish] final services payload:", svc);
-  
+
     dispatch(submitProfileData(svc))
-    .unwrap()
-    .then((res) => {
-      console.log("submitProfileData succeeded:", res);
-    })
-    .catch((err) => {
-      console.log("submitProfileData failed:", err);
-    });
-  
+      .unwrap()
+      .then((res) => {
+        console.log("submitProfileData succeeded:", res);
+        router.push('/');
+      })
+      .catch((err) => {
+        console.log("submitProfileData failed:", err);
+      });
+
   };
 
 
@@ -116,9 +131,8 @@ const Requirement = () => {
           type="button"
           onClick={onPublish}
           disabled={selectedValue === ''}
-          className={`bg-[#005382] h-[40px] w-full sm:w-[175px] text-white font-semibold text-sm p-[11px_20px_11px_20px] rounded-[8px] ${
-            selectedValue === '' ? 'opacity-50 cursor-not-allowed' : ''
-          }`}
+          className={`bg-[#005382] h-[40px] w-full sm:w-[175px] text-white font-semibold text-sm p-[11px_20px_11px_20px] rounded-[8px] ${selectedValue === '' ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
         >
           Publish
         </button>

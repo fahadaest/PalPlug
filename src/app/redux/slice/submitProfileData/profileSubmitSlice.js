@@ -2,50 +2,61 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { postRequest } from '@/axios/index';
 import { getRoute } from '@/api/index';
 
+const appendField = (formData, key, value, transform) => {
+  if (value !== undefined && value !== null) {
+    formData.append(key, transform ? transform(value) : value);
+  }
+};
+
 export const submitProfileData = createAsyncThunk(
   'profileSubmit/submitProfileData',
   async (payload, { rejectWithValue }) => {
     try {
       const formData = new FormData();
-      formData.append('first_name', payload.firstName ?? payload.first_name);
-      formData.append('last_name',  payload.lastName  ?? payload.last_name);
-      formData.append('description', payload.description);
+
+      appendField(formData, 'id', payload.id);
+      appendField(formData, 'phone', payload.phone);
+      appendField(formData, 'first_name', payload.firstName ?? payload.first_name);
+      appendField(formData, 'last_name', payload.lastName ?? payload.last_name);
+      appendField(formData, 'description', payload.description);
+      appendField(formData, 'profile_image', payload.profilePicture);
+
 
       const workEmail =
-        payload.professionalInfo?.workEmail?? payload.work_email;
-      formData.append('work_email', workEmail);
+        payload.work_email ||
+        payload.firstName?.work_email ||
+        (payload.professionalInfo && payload.professionalInfo.workEmail);
+      appendField(formData, 'work_email', workEmail);
 
-      if (payload.profilePicture) {
-        formData.append('profile_image', payload.profilePicture); 
+      const { professionalInfo } = payload;
+      if (professionalInfo) {
+        const { occupation, employer, collegesArray, certificationsArray } = professionalInfo;
+        if (occupation && occupation.trim() !== '') {
+          appendField(formData, 'occupation', occupation);
+        }
+        if (employer && employer.trim() !== '') {
+          appendField(formData, 'employer', employer);
+        }
+        appendField(formData, 'colleges', collegesArray, JSON.stringify);
+        appendField(formData, 'certifications', certificationsArray, JSON.stringify);
       }
 
-      formData.append('occupation',payload.professionalInfo?.occupation??'');
-      formData.append('employer',payload.professionalInfo?.employer??'');
-      const prof = payload.professionalInfo || {};
-      const educationArray      = prof.collegesArray       || [];
-      formData.append('colleges', JSON.stringify(educationArray));
-      const certificationsArray = prof.certificationsArray || [];
-      formData.append('certifications', JSON.stringify(certificationsArray));
+      appendField(formData, 'services', payload.services, JSON.stringify);
+      appendField(formData, 'order_requirements', payload.order_requirements, JSON.stringify);
+      appendField(formData, 'form_w9_confirmation', payload.form_w9_confirmation, JSON.stringify);
 
-      if (payload.services) {
-        formData.append('services', JSON.stringify(payload.services));
-      }
-      if (payload.order_requirements) {
-        formData.append('order_requirements', JSON.stringify(payload.order_requirements));
-      }
-      if (payload.form_w9_confirmation) {
-        formData.append('form_w9_confirmation', JSON.stringify(payload.form_w9_confirmation));
-      }
 
       const route = getRoute('submitProfile');
       const response = await postRequest(route, formData, true);
       return response;
     } catch (error) {
-      return rejectWithValue(error.response?.data || error.message || 'Unknown error');
-
+      return rejectWithValue(
+        error.response?.data || error.message || 'Unknown error'
+      );
     }
   }
 );
+
 
 const profileSubmitSlice = createSlice({
   name: 'profileSubmit',

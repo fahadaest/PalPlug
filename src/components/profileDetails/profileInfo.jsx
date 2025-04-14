@@ -25,6 +25,7 @@ const ProfileInfo = ({ userId, displayName }) => {
   const [isProfessionalInfoValid, setIsProfessionalInfoValid] = useState(false); 
   const [isAccountSecurityValid, setIsAccountSecurityValid] = useState(false);
   const router = useRouter();
+  const verifiedPhone = useSelector((state) => state.user.verifiedPhone);
   const [professionalInfo, setProfessionalInfo] = useState({
     occupation: '' ,
     employer: '' ,
@@ -52,38 +53,52 @@ const ProfileInfo = ({ userId, displayName }) => {
       dispatch(setCurrentStep(3));
     }
   };
-  const handleFinish = (event) => {
+  const handleFinish = async (event) => {
     event.preventDefault();
     event.stopPropagation();
-
-    const formData = {
-      firstName,
-      lastName,
-      profilePicture,
-      description,
-      professionalInfo,
-    };
+    const servicesObjStr = localStorage.getItem('services');
+    let fallbackValues = {};
+    if (servicesObjStr) {
+      try {
+        fallbackValues = JSON.parse(servicesObjStr);
+      } catch (e) {
+  
+      }
+    }
+    const finalFirstName = firstName.trim() !== '' ? firstName : fallbackValues.first_name;
+    const finalLastName  = lastName.trim() !== '' ? lastName : fallbackValues.last_name;
+    const finalWorkEmail = (professionalInfo && professionalInfo.workEmail && professionalInfo.workEmail.trim() !== '') ? professionalInfo.workEmail : fallbackValues.work_email;
     
-     
-    localStorage.setItem('profile', JSON.stringify(formData));
-
+    const payloadData = {
+      firstName: finalFirstName,
+      lastName: finalLastName,
+      profilePicture, 
+      description: description.trim() !== '' ? description : undefined,
+      professionalInfo, 
+      phone: verifiedPhone,
+      work_email: finalWorkEmail,
+    };
+    const storedProfileId = localStorage.getItem('profile_id');
+    if (storedProfileId) {
+    payloadData.id = storedProfileId;
+    }
+  
+    localStorage.setItem('profile', JSON.stringify(payloadData));
+    
     saveServices({
-      first_name: firstName,
-      last_name: lastName,
-      work_email: professionalInfo.workEmail,
+      first_name: finalFirstName,
+      last_name: finalLastName,
+      work_email: finalWorkEmail,
     });
 
+    
     try {
-      dispatch(submitProfileData(formData));
-      if (isPlugRoute) {
-        router.push('/servicesselection');
-        setServicesSelectionVisible(true);
-      } else {
-        router.push('/');
-        dispatch(setPlugRoute(true));
-      }
+      const resultAction = await dispatch(submitProfileData(payloadData)).unwrap();
+      localStorage.setItem('profile_id', resultAction.profile_id);
+      router.push('/servicesselection');
+      setServicesSelectionVisible(true);
     } catch (error) {
-      console.log('Error submitting profile:', error);
+    
     }
   };
 

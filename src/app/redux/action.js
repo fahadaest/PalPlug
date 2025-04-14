@@ -65,7 +65,6 @@ export const fetchUserRoles = createAsyncThunk(
   'data/fetchUserRoles',
   async (_, { rejectWithValue }) => {
     try {
-      // Using the provided API URL directly
       const response = await getRequest("https://palplug.com/d/api/users/user-roles/");
       return response;
     } catch (error) {
