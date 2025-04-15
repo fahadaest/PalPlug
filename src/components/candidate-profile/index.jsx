@@ -11,6 +11,8 @@ import { setPlugRoute } from '@/app/redux/slice/user/userSlice';
 import { useRouter } from 'next/navigation';
 import Resume from "../resumeFile/resume";
 import CloseIcon from '@/assets/images/Closeicon.svg';
+// Add this import at the top with other imports
+import ViewPublicProfile from "../viewpublicprofile";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -31,6 +33,18 @@ const Dashboard = () => {
 
   const closeModal = () => {
     setIsModalVisible(false);
+  };
+
+  // Add this state near other useState declarations
+  const [isPublicProfileVisible, setIsPublicProfileVisible] = useState(false);
+
+  // Add this handler with other handlers
+  const handleViewPublicProfile = () => {
+    setIsPublicProfileVisible(true);
+  };
+
+  const closePublicProfile = () => {
+    setIsPublicProfileVisible(false);
   };
 
   return (
@@ -68,7 +82,15 @@ const Dashboard = () => {
 
       <div className="bg-white border rounded-lg p-4 md:p-6 w-full lg:w-[853px] h-auto lg:h-[390px] pt-6 border-t border-gray-200">
         <div className="pb-5">
-          <h2 className="text-lg font-semibold">Profile Checklist</h2>
+          <div className="flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Profile Checklist</h2>
+            <button 
+              onClick={handleViewPublicProfile}
+              className="text-[#005382] text-[14px] md:text-[16px] font-medium cursor-pointer"
+            >
+              View Public Profile
+            </button>
+          </div>
           <div className="flex gap-4 items-center">
             <div className="w-full md:w-[511px] bg-[#D2EFFF] mt-1 rounded-[8px] h-[8px]">
               <div className="bg-[#005382] h-[8px] rounded-[5px]" style={{ width: '25%' }}></div>
@@ -142,6 +164,12 @@ const Dashboard = () => {
           </div>
         </div>
       )}
+      {/* Add this before the closing div */}
+      <ViewPublicProfile 
+        isOpen={isPublicProfileVisible} 
+        onClose={closePublicProfile}
+        user={user}
+      />
     </div>
   );
 };
