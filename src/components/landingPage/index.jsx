@@ -88,7 +88,7 @@ const Landing = () => {
                         return (
                             <div
                                 key={index}
-                                className={`relative bg-[#FFFFFF] shadow-lg rounded-[10px] flex items-center p-4 transition-colors duration-100 md h-[76px]  ${bgClass}`}
+                                className={`relative bg-[#FFFFFF] shadow-lg rounded-[10px] flex items-center p-4 transition-colors duration-100 md h-[76px]  ${bgClass} group`}
                                 onClick={() => handleCompanyClick(company?.name)}
                             >
                                 <div className="flex-shrink-0">
@@ -105,10 +105,10 @@ const Landing = () => {
                                     )}
                                 </div>
                                 <div className="ml-4 w-[74px] h-[24px] flex-grow flex items-center justify-between">
-                                    <h2 className="text-[24px] font-semibold text-black md-hover:text-white transition-colors duration-100">
+                                    <h2 className="text-[24px] font-semibold text-black group-hover:text-white md-hover:text-white transition-colors duration-100">
                                         {company?.name}
                                     </h2>
-                                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-0 md-hover:opacity-100 transition-opacity duration-150">
+                                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 md-hover:opacity-100 transition-opacity duration-150">
                                         <span className="text-white">
                                             Explore
                                         </span>
@@ -129,7 +129,7 @@ const Landing = () => {
                         return (
                             <div
                                 key={index}
-                                className={`relative  bg-[#FFFFFF] rounded-[10px] shadow-lg flex items-center p-4 cursor-pointer transition-colors duration-150 md h-[76px] ${bgClass}`}
+                                className={`relative  bg-[#FFFFFF] rounded-[10px] shadow-lg flex items-center p-4 cursor-pointer transition-colors duration-150 md h-[76px] ${bgClass} group`}
                                 onClick={() => handleCompanyClick(company?.name)}
                             >
                                 <div className="flex-shrink-0">
@@ -141,11 +141,11 @@ const Landing = () => {
                                         className={`object-contain ${whiteRoundedImges[company?.name] || ''}`} />
                                 </div>
                                 <div className="ml-4 w-[116px] h-[24px] flex-grow flex items-center justify-between">
-                                    <h2 className="text-[24px] font-semibold text-black md-hover:text-white transition-colors duration-150">
+                                    <h2 className="text-[24px] font-semibold text-black group-hover:text-white md-hover:text-white transition-colors duration-150">
                                         {company.name}
                                     </h2>
-                                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-0 md-hover:opacity-100 transition-opacity duration-150">
-                                        <span className="text-white ">
+                                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 md-hover:opacity-100 transition-opacity duration-150">
+                                        <span className="text-white">
                                             Explore
                                         </span>
                                     </div>

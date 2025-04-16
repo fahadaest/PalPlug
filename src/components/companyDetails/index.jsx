@@ -156,7 +156,7 @@ const CompanyDetails = () => {
       <div className={`w-full ${bgColor} flex items-center justify-center`}>
         <div
           style={{ boxShadow: '0px 4px 15px 0px #01010117' }}
-          className="w-full h-[48px] md:h-[96px] max-w-[1440px] flex items-center justify-center"
+          className="w-full h-[48px] md:h-[96px] max-w-full flex items-center justify-center"
         >
           <div className="flex items-center gap-[15px]">
             {company?.image ? (

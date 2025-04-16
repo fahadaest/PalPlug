@@ -22,15 +22,15 @@ const PaymentMethod = () => {
     
     return (
         <div className="bg-white min-h-screen flex flex-col md:flex-row justify-center items-center gap-[20px] md:gap-[40px] p-4">
-            <div className="h-auto  border-[#D5D4DC] w-full md:w-[822px] md:h-[515px] border rounded-[4px]">
-                <div className="pl-[20px] flex items-center h-[64px] bg-[#F8F8F8]">
+            <div className="h-auto  border-[#D5D4DC] w-full md:w-[822px] md:h-[515px] border rounded-[8px] overflow-hidden">
+                <div className="pl-[20px] flex items-center h-[64px] bg-[#F8F8F8] rounded-t-[8px] border-b border-[#D5D4DC]">
                     <h1 className="font-[600] text-[16px]">Payment Options</h1>
                 </div>
                 <div
-                    className=" border border-[#D5D4DC] pl-[15px] h-[64px] flex items-center  gap-[5px] md:flex-nowrap cursor-pointer"
+                    className="pl-[15px] h-[64px] flex items-center gap-[5px] md:flex-nowrap cursor-pointer border-b border-[#D5D4DC]"
                     onClick={() => handleSelect("cards")}
                 >
-                    <div className="w-full min-w-[358px] flex items-center">
+                    <div className="w-full min-w-[358px] flex items-center ">
                         <div className="h-[19px] min-w-[161px] flex gap-[8px] items-center">
                             <input
                                 type="radio"
@@ -57,7 +57,7 @@ const PaymentMethod = () => {
                                 <label className="text-[14px] font-[600]">Card Number</label>
                                 <input
                                     type="text"
-                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
+                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
                                     placeholder="Card number"
                                 />
                             </div>
@@ -65,14 +65,14 @@ const PaymentMethod = () => {
                                 <label className="text-[14px] font-[600]">Expiration Date</label>
                                 <input
                                     type="date"
-                                    className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px]"
+                                    className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
                                 />
                             </div>
                             <div className="flex flex-col w-full gap-[8px] md:w-auto">
                                 <label className="text-[14px] font-[600]">Security Code</label>
                                 <input
                                     type="text"
-                                    className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px]"
+                                    className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
                                     placeholder="CVV"
                                 />
                             </div>
@@ -82,7 +82,7 @@ const PaymentMethod = () => {
                                 <label className="text-[14px] font-[600]">First Name</label>
                                 <input
                                     type="text"
-                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
+                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
                                     placeholder="First name"
                                 />
                             </div>
@@ -90,7 +90,7 @@ const PaymentMethod = () => {
                                 <label className="text-[14px] font-[600]">Last Name</label>
                                 <input
                                     type="text"
-                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
+                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
                                     placeholder="Last name"
                                 />
                             </div>
@@ -99,7 +99,7 @@ const PaymentMethod = () => {
                 )}
 
                 <div
-                    className="h-[64px] flex items-center  border border-[#D5D4DC] gap-[10px] pl-[15px] cursor-pointer"
+                  className={`h-[64px] flex items-center gap-[10px] pl-[15px] cursor-pointer border-[#D5D4DC] ${selectedMethod === "paypal" ? "border-t-0 border-b": selectedMethod === "cards" ? "border-t border-b-0" : "border-t border-b"}`}
                     onClick={() => handleSelect("paypal")}
                 >
                     <input
@@ -122,7 +122,7 @@ const PaymentMethod = () => {
                                 <label className="text-[14px] font-[600]">Card Number</label>
                                 <input
                                     type="text"
-                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
+                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
                                     placeholder="Card number"
                                 />
                             </div>
@@ -130,14 +130,14 @@ const PaymentMethod = () => {
                                 <label className="text-[14px] font-[600]">Expiration Date</label>
                                 <input
                                     type="date"
-                                    className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px]"
+                                    className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
                                 />
                             </div>
                             <div className="flex flex-col w-full gap-[8px] md:w-auto">
                                 <label className="text-[14px] font-[600]">Security Code</label>
                                 <input
                                     type="text"
-                                    className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px]"
+                                    className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
                                     placeholder="CVV"
                                 />
                             </div>
@@ -147,7 +147,7 @@ const PaymentMethod = () => {
                                 <label className="text-[14px] font-[600]">First Name</label>
                                 <input
                                     type="text"
-                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
+                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
                                     placeholder="First name"
                                 />
                             </div>
@@ -155,7 +155,7 @@ const PaymentMethod = () => {
                                 <label className="text-[14px] font-[600]">Last Name</label>
                                 <input
                                     type="text"
-                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px]"
+                                    className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
                                     placeholder="Last name"
                                 />
                             </div>
@@ -194,18 +194,18 @@ const PaymentMethod = () => {
                         <input
                             type="text"
                             placeholder="Enter promo code"
-                            className="w-full pt-[16px] pb-[16px] text-[#939393] text-base font-semibold"
+                            className="w-full pt-[16px] pb-[16px] text-[#939393] text-base font-semibold "
                         />
                     </div>
 
                     <div className="flex justify-between pt-[10px] pb-[10px]">
                         <p className="font-semibold text-[#939393] text-[16px]">Service fee</p>
-                        <span className="font-semibold text-[#939393] text-[16px]">20$</span>
+                        <span className="font-semibold text-[#939393] text-[16px]">$20</span>
                     </div>
 
                     <div className="flex justify-between pt-[10px] pb-[10px]">
                         <h3 className="text-[24px] font-semibold">Total</h3>
-                        <span className="text-[24px] font-semibold">22$</span>
+                        <span className="text-[24px] font-semibold">$22</span>
                     </div>
 
                     <div className="flex flex-col gap-[36px]">

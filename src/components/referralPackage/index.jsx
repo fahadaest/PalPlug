@@ -44,7 +44,6 @@ const serviceToPackageId = {
   "Resume Review": "resume",
   "Interview Prep": "interview",
 };
-
 const ReferralPackage = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -54,17 +53,19 @@ const ReferralPackage = () => {
   const employee = employees.find(
     (emp) => emp.id.toString() === employeeIdParam
   );
-  const [selectedPackage, setSelectedPackage] = useState(null);
+  const [selectedPackage, setSelectedPackage] = useState([]);
   const [promoCode, setPromoCode] = useState("");
   useEffect(() => {
     if (serviceParam && serviceToPackageId[serviceParam]) {
-      setSelectedPackage(serviceToPackageId[serviceParam]);
+      setSelectedPackage((prev) => {
+        const pkgId = serviceToPackageId[serviceParam];
+        return prev.includes(pkgId) ? prev : [...prev, pkgId];
+      });
     }
   }, [serviceParam]);
   const selectedEmployeeService = employee?.services?.find(
     (s) => s.title === serviceParam
   );
-
   const modifiedPackagesData = packagesData.map((pkg) => {
     if (
       pkg.id === serviceToPackageId[serviceParam] &&
@@ -79,33 +80,41 @@ const ReferralPackage = () => {
     }
     return pkg;
   });
-
   const handleCheckboxChange = (type) => {
-    if (selectedPackage === type) {
-      setSelectedPackage(null);
+    if (selectedPackage.includes(type)) {
+      setSelectedPackage(selectedPackage.filter(pkg => pkg !== type));
     } else {
-      setSelectedPackage(type);
+      setSelectedPackage([...selectedPackage, type]);
     }
   };
-
   const handlePromoCodeChange = (e) => {
     setPromoCode(e.target.value);
   };
-
   const handlePaymentRoute = () => {
     router.push("/servicePayment");
   };
-
-  const selectedPackageData = modifiedPackagesData.find(
-    (pkg) => pkg.id === selectedPackage
+  const selectedPackageData = modifiedPackagesData.filter(
+    (pkg) => selectedPackage.includes(pkg.id)
   );
-  const totalSelectedPrice = selectedPackageData ? selectedPackageData.price : 0;
+  const totalSelectedPrice = selectedPackageData.reduce(
+    (sum, pkg) => sum + pkg.price, 0
+  );
+  const totalDeliveryDays = selectedPackageData.reduce(
+    (sum, pkg) => sum + parseInt(pkg.delivery_time), 0
+  );
+  const uniqueRequirements = Array.from(
+    new Set(selectedPackageData.flatMap(pkg => pkg.requirements))
+  );
   const serviceFee = 3.90;
   const totalPrice = totalSelectedPrice + serviceFee;
-  const paymentSummaryHeading = selectedPackageData
-    ? selectedPackageData.name
-    : "Payment Summary";
-
+  const packageNames = selectedPackageData.map(pkg => pkg.name);
+  const paymentSummaryHeading = packageNames.length === 0
+    ? "Payment Summary"
+    : packageNames.length === 1
+      ? packageNames[0]
+      : packageNames.length === 2
+        ? packageNames.join(" & ")
+        : packageNames.slice(0, packageNames.length - 1).join(", ") + " & " + packageNames[packageNames.length - 1];
   return (
     <>
       <div className="flex justify-center">
@@ -134,7 +143,6 @@ const ReferralPackage = () => {
               </div>
               <div className="border border-[#F0F0F0] w-full"></div>
             </div>
-
             <div className="flex justify-center">
               <div className="flex flex-col w-full md:max-w-[573px] gap-[45px]">
                 {modifiedPackagesData.map((pkg) => (
@@ -144,7 +152,7 @@ const ReferralPackage = () => {
                         type="checkbox"
                         className="accent-[#005382]"
                         onChange={() => handleCheckboxChange(pkg.id)}
-                        checked={selectedPackage === pkg.id}
+                        checked={selectedPackage.includes(pkg.id)}
                       />
                     </label>
                     <div className="flex flex-col w-full md:max-w-[541px] gap-[16px]">
@@ -169,7 +177,7 @@ const ReferralPackage = () => {
           {selectedPackage && (
             <div className="border rounded-[8px] p-[20px] w-full mt-[40px] md:w-[436px] h-auto md:h-[515px]">
               <div className="flex flex-col h-auto md:h-[426px] w-full gap-[30px]">
-                <h3 className="text-lg font-semibold">{paymentSummaryHeading}</h3>
+                <h3 className="text-lg font-semibold ">{paymentSummaryHeading}</h3>
                 <div className="flex flex-col gap-[12px]">
                   <div className="flex gap-[12px]">
                     <Image
@@ -179,10 +187,10 @@ const ReferralPackage = () => {
                       height={24}
                       className="rounded-full border"
                     />
-                    <span>{selectedPackageData.delivery_time} delivery</span>
+                    <span>{totalDeliveryDays} day{totalDeliveryDays > 1 ? "s" : ""} delivery</span>
                   </div>
-                  {selectedPackageData.requirements.map((requirement, idx) => (
-                    <div key={idx} className="flex gap-[12px]">
+                  {uniqueRequirements.map((requirement, idx) => (
+                    <div key={`{reqIdx}`} className="flex gap-[12px]">
                       <Image
                         src={Movies}
                         alt="Movies Icon"
@@ -227,7 +235,7 @@ const ReferralPackage = () => {
                     rootElement={
                       typeof window !== "undefined" ? document.body : null
                     }
-                    text="Schedule Video Call with Idris"
+                    text={`Schedule Video Call with ${employee?.name || "Unknown"}`}
                     styles={{
                       width: "100%",
                       height: "40px",
@@ -247,6 +255,7 @@ const ReferralPackage = () => {
 
                   <button
                     onClick={handlePaymentRoute}
+
                     className="w-full h-[40px] text-[12px] font-semibold p-[11px_20px_11px_20px] bg-[#005382] text-white rounded-[8px]"
                   >
                     Confirm & Pay

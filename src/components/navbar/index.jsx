@@ -238,9 +238,9 @@ const Navbar = () => {
                     </div>
                   )}
                   <div className="hidden md:flex items-center">
-                    <span className="text-sm font-semibold">
-                      {user.displayName && user.displayName.length > 20
-                        ? `${user.displayName.substring(0, 20)}...`
+                    <span className="text-sm font-semibold whitespace-nowrap">
+                      {user.displayName && user.displayName.length > 24
+                        ? `${user.displayName.substring(0, 24)}...`
                         : user.displayName || 'Unknown User'}
                     </span>
                     <div className="relative" ref={dropdownRef}>
@@ -272,7 +272,7 @@ const Navbar = () => {
             ) : (
               <button
                 onClick={handleLoginClick}
-                className="bg-[#005382] text-primary text-sm font-semibold rounded-md py-2 px-4"
+                className="bg-[#005382] text-primary text-sm font-semibold rounded-md py-2 px-4 ml-auto"
               >
                 Log in
               </button>

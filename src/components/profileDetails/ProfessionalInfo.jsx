@@ -175,7 +175,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                     <input
                         type="email"
                         placeholder="Ex: j.appleseed@google.com"
-                        className="w-auto outline-none font-lightbold text-base text-[#939393] max-w-[358px] p-[12px] h-[48px] border border-[#D5D4DC] rounded-lg"
+                        className="outline-none font-lightbold text-base text-[#939393] w-[358px] p-[12px] h-[48px] border border-[#D5D4DC] rounded-lg focus:border-[#005382] focus:outline-none"
                         value={professionalInfo.workEmail || ''}
                         onChange={(e) =>
                             setProfessionalInfo({ ...professionalInfo, workEmail: e.target.value })
@@ -194,7 +194,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                         value={calendlyLink}
                         onChange={handleCalendlyChange}
                         placeholder='https://calendly.com/your-username'
-                        className={`w-full outline-none font-lightbold text-base text-[#939393] p-[12px] h-[48px] border ${calendlyLink && !validateCalendlyLink(calendlyLink)
+                        className={`w-full outline-none font-lightbold text-base text-[#939393] p-[12px] h-[48px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none ${calendlyLink && !validateCalendlyLink(calendlyLink)
                             ? 'border-red-500'
                             : 'border-[#D5D4DC]'
                             } rounded-lg`}
@@ -241,7 +241,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                                         handleOptionChange("major", e.target.value, index, "education")
                                     }
                                     placeholder="Enter Major"
-                                    className="w-full border p-2 h-[48px] rounded-lg"
+                                    className="w-full border p-2 h-[48px] rounded-lg border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
                                 />
                             </div>
                             <div className='w-auto max-w-[133px]'>
@@ -280,27 +280,27 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                     <div key={index} className="flex gap-[8px] flex-col">
                         <div className="w-auto max-w-[672px] flex gap-[8px] flex-col md:flex-row">
                             <div className="w-full">
-                                <label className="block text-[14px] font-[600] mb-1">Select Certificate</label>
+                                {/* <label className="block text-[14px] font-[600] mb-1">Select Certificate</label> */}
                                 <input
                                     type="text"
                                     value={section.certificate}
                                     onChange={(e) =>
                                         handleOptionChange('certificate', e.target.value, index, 'certification')
                                     }
-                                    placeholder="Enter Certificate"
-                                    className="w-full border p-2 h-[48px] rounded-lg"
+                                    placeholder="Certificate or Award"
+                                    className="w-full border p-2 h-[48px] rounded-lg  border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
                                 />
                             </div>
                             <div className="w-full">
-                                <label className="block text-[14px] font-[600] mb-1">Select Certification</label>
+                                {/* <label className="block text-[14px] font-[600] mb-1">Select Certification</label> */}
                                 <input
                                     type="text"
                                     value={section.certification}
                                     onChange={(e) =>
                                         handleOptionChange("certification", e.target.value, index, "certification")
                                     }
-                                    placeholder="Enter Certification"
-                                    className="w-full border p-2 h-[48px] rounded-lg"
+                                    placeholder="Certificate from (ex: Adobe) "
+                                    className="w-full border p-2 h-[48px] rounded-lg border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
                                 />
                             </div>
                         </div>
