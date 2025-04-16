@@ -5,6 +5,7 @@ import employeesReducer from '@/app/redux/slice/employee/employeeSlice';
 import userReducer, { setUser } from '@/app/redux/slice/user/userSlice';
 import countriesReducer from '@/app/redux/slice/country/countrySlice';
 import serviceSlice from './slice/servicespublish/serviceSlice';
+import resumeReducer from './slice/resume/resumeSlice';
 
 
 export const store = configureStore({
@@ -13,7 +14,8 @@ export const store = configureStore({
     employees: employeesReducer,
     user: userReducer,
     countries: countriesReducer,
-    services: serviceSlice, 
+    services: serviceSlice,
+    resume: resumeReducer,
   },
 });
 

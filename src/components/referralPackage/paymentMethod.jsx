@@ -14,10 +14,14 @@ import { useRouter } from 'next/navigation';
 
 const PaymentMethod = () => {
     const [selectedMethod, setSelectedMethod] = useState("");
-    const router = useRouter();
+    const router = useRouter();  // Make sure this is added
 
     const handleSelect = (method) => {
         setSelectedMethod(method);
+    };
+
+    const handleConfirmAndPay = () => {
+        router.push('/requirements');  // Make sure the path matches your Next.js route configuration
     };
 
     
@@ -213,6 +217,7 @@ const PaymentMethod = () => {
 
                     <div className="flex flex-col gap-[36px]">
                         <button 
+                            onClick={handleConfirmAndPay}
                             className="w-full h-[40px] text-[12px] font-semibold bg-[#005382] text-white rounded-[8px]">
                             Confirm & Pay
                         </button>

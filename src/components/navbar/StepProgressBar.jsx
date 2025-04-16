@@ -5,17 +5,9 @@ import { setCurrentStep } from '../../app/redux/slice/user/userSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
 const StepProgressBar = ({ className }) => {
-    const dispatch = useDispatch();
     const currentStep = useSelector((state) => state.user.currentStep);
     const stepsRef = useRef([]);
     const progressRef = useRef(null);
-
-    const handleStepClick = (step) => {
-        console.log(`Step ${step} clicked`);
-        if (step <= stepsRef.current.length) {
-            dispatch(setCurrentStep(step));
-        }
-    };
 
     useEffect(() => {
         const updateSteps = () => {
@@ -35,12 +27,11 @@ const StepProgressBar = ({ className }) => {
 
     return (
         <div className="flex items-start w-full flex-col pt-[8px] sm:pt-[24px]">
-            <ol className="justify-center flex  items-center w-full">
+            <ol className="justify-center flex items-center w-full">
                 <div className='flex justify-center flex-col'>
-                    <li className=" flex w-auto md:w-[182px] items-center">
+                    <li className="flex w-auto md:w-[182px] items-center">
                         <span
                             ref={(el) => stepsRef.current[0] = el}
-                            onClick={() => handleStepClick(1)}
                             className={`outercircle1 flex items-center justify-center w-[32px] h-[32px] border-[2px] ${currentStep > 1 ? 'border-[#005382] bg-[#005382]' : currentStep === 1 ? 'border-[#005382]' : 'border-gray-700'} rounded-full`}
                         >
                             {currentStep > 1 ? (

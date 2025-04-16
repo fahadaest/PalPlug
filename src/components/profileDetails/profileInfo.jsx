@@ -40,13 +40,35 @@ const ProfileInfo = ({ userId, displayName }) => {
     }
   };
 
+  useEffect(() => {
+    const handlePopState = (event) => {
+      if (!event.state?.step) {
+        if (currentStep > 1) {
+          dispatch(setCurrentStep(currentStep - 1));
+        } else {
+          router.back();
+        }
+      } else {
+        const nextStep = event.state.step;
+        if (nextStep <= 3) {
+          dispatch(setCurrentStep(nextStep));
+        }
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [currentStep, dispatch, router]);
+
   const handleContinue = (event) => {
     event.preventDefault();
     event.stopPropagation();
     if (currentStep === 1) {
       dispatch(setCurrentStep(2));
+      window.history.pushState({ step: 2 }, '');
     } else if (currentStep === 2) {
       dispatch(setCurrentStep(3));
+      window.history.pushState({ step: 3 }, '');
     }
   };
 
@@ -92,6 +114,20 @@ const ProfileInfo = ({ userId, displayName }) => {
       setIsPhoneModalOpen(false);
     }
   }, [isVerificationComplete]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      if (currentStep > 1) {
+        dispatch(setCurrentStep(currentStep - 1));
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [currentStep, dispatch]);
 
   return (
     <>
@@ -168,7 +204,7 @@ const ProfileInfo = ({ userId, displayName }) => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="border rounded-[8px] h-[147px] p-3 text-[16px] font-[400] placeholder-[#939393] focus:border-[#005382] focus:outline-none"
-                  placeholder="Share a bit about your work experience, cool projects you’ve completed, and your area of expertise to show candidates."
+                  placeholder="Share a bit about your work experience, cool projects you've completed, and your area of expertise to show candidates."
                 />
                 <p className="text-[12px] text-[#939393] mt-[4px]">
                   min. 150 characters

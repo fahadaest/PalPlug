@@ -42,8 +42,8 @@ const ViewPublicProfile = ({ isOpen, onClose, user }) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-[#0B0B0B] bg-opacity-50 flex items-start z-50">
-      <div className="w-[881px] h-fit bg-white rounded-[8px] p-10 relative mt-[73px] ml-[280px] gap-2">
+    <div className="fixed inset-0 bg-[#0B0B0B] bg-opacity-50 flex items-start justify-center z-50">
+      <div className="w-[881px] h-fit bg-white rounded-[8px] p-10 relative mt-[73px] gap-2">
         <div className="absolute top-4 right-4">
           <button onClick={onClose} className="text-gray-500">
             <Image src={CloseIcon} alt="close" className="w-6 h-6 cursor-pointer" />

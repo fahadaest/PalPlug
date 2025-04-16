@@ -1,15 +1,22 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Doc from '@/assets/images/doc.svg';
 import Pen from '@/assets/images/Pen.svg';
 
-const Resume = ({ isOpen, onClose }) => {
-    const [fileName, setFileName] = useState('');
-    const [fileSize, setFileSize] = useState('');
-    const [linkedInUrl, setLinkedInUrl] = useState('');
-    const [portfolioLink, setPortfolioLink] = useState('');
+const Resume = ({ isOpen, onClose, onSave, initialData = {} }) => {
+    const [fileName, setFileName] = useState(initialData.fileName || '');
+    const [fileSize, setFileSize] = useState(initialData.fileSize || '');
+    const [linkedInUrl, setLinkedInUrl] = useState(initialData.linkedInUrl || '');
+    const [portfolioLink, setPortfolioLink] = useState(initialData.portfolioLink || '');
+
+    useEffect(() => {
+        setFileName(initialData.fileName || '');
+        setFileSize(initialData.fileSize || '');
+        setLinkedInUrl(initialData.linkedInUrl || '');
+        setPortfolioLink(initialData.portfolioLink || '');
+    }, [initialData]);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -34,7 +41,19 @@ const Resume = ({ isOpen, onClose }) => {
             alert('Resume/CV Upload is mandatory.');
             return;
         }
-        console.log('Resume saved:', { fileName, linkedInUrl, portfolioLink });
+        
+        const resumeData = {
+            fileName,
+            fileSize,
+            linkedInUrl,
+            portfolioLink
+        };
+        
+        if (onSave) {
+            onSave(resumeData);
+        }
+        
+        console.log('Resume saved:', resumeData);
         onClose();
     };
 
