@@ -4,12 +4,13 @@ import Image from "next/image";
 import TimerIcon from "@/assets/images/timer.svg";
 import Movies from "@/assets/images/movies.svg";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { selectEmployees } from "@/app/redux/slice/employee/employeeSlice";
 import Male from "@/assets/images/male.svg";
 import { PopupButton } from "react-calendly";
+import PaymentProgressBar from "@/components/navbar/PaymentProgressBar";
+import { setServicesCurrentStep } from "@/app/redux/slice/user/userSlice";
 
-// Static packages data for referral packages
 const packagesData = [
   {
     id: "standard",
@@ -44,25 +45,40 @@ const serviceToPackageId = {
   "Resume Review": "resume",
   "Interview Prep": "interview",
 };
+
 const ReferralPackage = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const employeeIdParam = searchParams.get("employeeId");
   const serviceParam = searchParams.get("service");
+  const selectedPackagesParam = searchParams.get("selectedPackages");
+
   const employees = useSelector(selectEmployees);
+  const currentStepservices = useSelector((state) => state.user.servicescurrentStep);
+
+  useEffect(() => {
+    dispatch(setServicesCurrentStep(1));
+  }, [dispatch]);
+
   const employee = employees.find(
     (emp) => emp.id.toString() === employeeIdParam
   );
   const [selectedPackage, setSelectedPackage] = useState([]);
-  const [promoCode, setPromoCode] = useState("");
   useEffect(() => {
-    if (serviceParam && serviceToPackageId[serviceParam]) {
+    if (selectedPackagesParam) {
+      const packagesFromUrl = selectedPackagesParam.split(",").filter(Boolean);
+      setSelectedPackage(packagesFromUrl);
+    } else if (serviceParam && serviceToPackageId[serviceParam]) {
       setSelectedPackage((prev) => {
         const pkgId = serviceToPackageId[serviceParam];
         return prev.includes(pkgId) ? prev : [...prev, pkgId];
       });
     }
-  }, [serviceParam]);
+  }, [serviceParam, selectedPackagesParam]);
+
+  const [promoCode, setPromoCode] = useState("");
+
   const selectedEmployeeService = employee?.services?.find(
     (s) => s.title === serviceParam
   );
@@ -82,7 +98,7 @@ const ReferralPackage = () => {
   });
   const handleCheckboxChange = (type) => {
     if (selectedPackage.includes(type)) {
-      setSelectedPackage(selectedPackage.filter(pkg => pkg !== type));
+      setSelectedPackage(selectedPackage.filter((pkg) => pkg !== type));
     } else {
       setSelectedPackage([...selectedPackage, type]);
     }
@@ -90,33 +106,53 @@ const ReferralPackage = () => {
   const handlePromoCodeChange = (e) => {
     setPromoCode(e.target.value);
   };
-  const handlePaymentRoute = () => {
-    router.push("/servicePayment");
-  };
   const selectedPackageData = modifiedPackagesData.filter(
     (pkg) => selectedPackage.includes(pkg.id)
   );
   const totalSelectedPrice = selectedPackageData.reduce(
-    (sum, pkg) => sum + pkg.price, 0
+    (sum, pkg) => sum + pkg.price,
+    0
   );
   const totalDeliveryDays = selectedPackageData.reduce(
-    (sum, pkg) => sum + parseInt(pkg.delivery_time), 0
-  );
-  const uniqueRequirements = Array.from(
-    new Set(selectedPackageData.flatMap(pkg => pkg.requirements))
+    (sum, pkg) => sum + parseInt(pkg.delivery_time),
+    0
   );
   const serviceFee = 3.90;
   const totalPrice = totalSelectedPrice + serviceFee;
-  const packageNames = selectedPackageData.map(pkg => pkg.name);
-  const paymentSummaryHeading = packageNames.length === 0
-    ? "Payment Summary"
-    : packageNames.length === 1
+  const packageNames = selectedPackageData.map((pkg) => pkg.name);
+  const paymentSummaryHeading =
+    packageNames.length === 0
+      ? "Payment Summary"
+      : packageNames.length === 1
       ? packageNames[0]
       : packageNames.length === 2
-        ? packageNames.join(" & ")
-        : packageNames.slice(0, packageNames.length - 1).join(", ") + " & " + packageNames[packageNames.length - 1];
+      ? packageNames.join(" & ")
+      : packageNames.slice(0, packageNames.length - 1).join(", ") +
+        " & " +
+        packageNames[packageNames.length - 1];
+
+  const handlePaymentRoute = () => {
+    dispatch(setServicesCurrentStep(2));
+    router.push(
+      `/servicePayment?employeeId=${employeeIdParam}&service=${serviceParam}` +
+        `&totalPrice=${totalPrice.toFixed(2)}&serviceFee=${serviceFee.toFixed(
+          2
+        )}&totalDeliveryDays=${totalDeliveryDays}` +
+        `&selectedPackages=${selectedPackage.join(",")}`
+    );
+  };
+  const handleStepClick = (step) => {
+    if (currentStepservices > step) {
+      dispatch(setServicesCurrentStep(step));
+    }
+  };
+
   return (
     <>
+      <PaymentProgressBar
+        currentStepservices={currentStepservices}
+        onStepClick={handleStepClick}
+      />
       <div className="flex justify-center">
         <div className="flex gap-[30px] justify-between flex-wrap pt-[40px] pr-[24px] pb-[40px] pl-[24px] w-full max-w-[1252px] h-auto bg-white rounded-[8px]">
           <div className="w-full md:max-w-[632px] flex flex-col gap-[60px]">
@@ -163,7 +199,9 @@ const ReferralPackage = () => {
                         </p>
                       </div>
                       <div className="w-full md:w-[355px] flex flex-col gap-[12px]">
-                        <p className="text-base font-lightbold">About this package</p>
+                        <p className="text-base font-lightbold">
+                          About this package
+                        </p>
                         <p className="text-sm font-lightbold text-[#555555]">
                           {pkg.details}
                         </p>
@@ -174,10 +212,12 @@ const ReferralPackage = () => {
               </div>
             </div>
           </div>
-          {selectedPackage && (
+          {selectedPackage.length > 0 && (
             <div className="border rounded-[8px] p-[20px] w-full mt-[40px] md:w-[436px] h-auto md:h-[515px]">
               <div className="flex flex-col h-auto md:h-[426px] w-full gap-[30px]">
-                <h3 className="text-lg font-semibold ">{paymentSummaryHeading}</h3>
+                <h3 className="text-lg font-semibold ">
+                  {paymentSummaryHeading}
+                </h3>
                 <div className="flex flex-col gap-[12px]">
                   <div className="flex gap-[12px]">
                     <Image
@@ -187,10 +227,17 @@ const ReferralPackage = () => {
                       height={24}
                       className="rounded-full border"
                     />
-                    <span>{totalDeliveryDays} day{totalDeliveryDays > 1 ? "s" : ""} delivery</span>
+                    <span>
+                      {totalDeliveryDays} day
+                      {totalDeliveryDays > 1 ? "s" : ""} delivery
+                    </span>
                   </div>
-                  {uniqueRequirements.map((requirement, idx) => (
-                    <div key={`{reqIdx}`} className="flex gap-[12px]">
+                  {Array.from(
+                    new Set(
+                      selectedPackageData.flatMap((pkg) => pkg.requirements)
+                    )
+                  ).map((requirement, idx) => (
+                    <div key={idx} className="flex gap-[12px]">
                       <Image
                         src={Movies}
                         alt="Movies Icon"
@@ -235,7 +282,9 @@ const ReferralPackage = () => {
                     rootElement={
                       typeof window !== "undefined" ? document.body : null
                     }
-                    text={`Schedule Video Call with ${employee?.name || "Unknown"}`}
+                    text={`Schedule Video Call with ${
+                      employee?.name || "Unknown"
+                    }`}
                     styles={{
                       width: "100%",
                       height: "40px",
@@ -255,7 +304,6 @@ const ReferralPackage = () => {
 
                   <button
                     onClick={handlePaymentRoute}
-
                     className="w-full h-[40px] text-[12px] font-semibold p-[11px_20px_11px_20px] bg-[#005382] text-white rounded-[8px]"
                   >
                     Confirm & Pay

@@ -39,6 +39,7 @@ const Navbar = () => {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const dropdownRef = useRef(null);
   const modalRef = useRef(null);
+
   const handleStepClick = (step) => {
     if (currentStepservices > step) {
       dispatch(setServicesCurrentStep(step));
@@ -62,21 +63,6 @@ const Navbar = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  const handleClick = (e) => {
-    if (e?.target?.tagName === 'IMG') {
-      e.stopPropagation();
-      router.push('/');
-    }
-    dispatch(setCurrentStep(1));
-    dispatch(setServicesCurrentStep(1));
-  };
-
-  const toggleDropdown = () => {
-    if (isMobile) {
-      setDropdownOpen((prevState) => !prevState);
-    }
-  };
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -96,6 +82,26 @@ const Navbar = () => {
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
+
+  // Don't render the navbar on the payment page
+  if (pathname?.includes('/servicePayment')) {
+    return null;
+  }
+
+  const handleClick = (e) => {
+    if (e?.target?.tagName === 'IMG') {
+      e.stopPropagation();
+      router.push('/');
+    }
+    dispatch(setCurrentStep(1));
+    dispatch(setServicesCurrentStep(1));
+  };
+
+  const toggleDropdown = () => {
+    if (isMobile) {
+      setDropdownOpen((prevState) => !prevState);
+    }
+  };
 
   const handleLoginClick = () => setModalOpen(true);
   const handleModalClose = () => setModalOpen(false);
