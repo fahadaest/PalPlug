@@ -151,7 +151,6 @@ const EmployeeDetails = () => {
     }
     return null;
   };
-
   return (
     <>
       <div className={`w-full h-[48px] md:h-[96px] ${bgColor} flex items-center justify-center`}>
@@ -197,9 +196,11 @@ const EmployeeDetails = () => {
                 Even though I would love to get everyone hired, I would need to see your skillset
                 to evaluate if you would be a good candidate for the job to save everyone the time and effort.
               </p>
-              <p className="text-sm font-semibold text-employecard-card-grey-text mt-4">
+              <div className='mt-5'>
+              <p className="text-sm font-semibold text-employecard-card-grey-text">
                 Referrals:
               </p>
+              </div>
               <p className="text-sm text-grey40">
                 Once you request a referral, I will reach out to you to schedule a time to hop on a quick video
                 call to review your experience. Please have your resume uploaded or sent to me at

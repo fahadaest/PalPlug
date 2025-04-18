@@ -96,13 +96,18 @@ const ReferralPackage = () => {
     }
     return pkg;
   });
-  const handleCheckboxChange = (type) => {
-    if (selectedPackage.includes(type)) {
-      setSelectedPackage(selectedPackage.filter((pkg) => pkg !== type));
-    } else {
-      setSelectedPackage([...selectedPackage, type]);
-    }
-  };
+    const handleCheckboxChange = (type) => {
+        setSelectedPackage((prev) => {
+          if (prev.includes(type)) {
+            if (type === requiredPackageId) {
+              return prev;
+            }
+            return prev.filter((id) => id !== type);
+          }
+          return [...prev, type];
+        });
+      };
+
   const handlePromoCodeChange = (e) => {
     setPromoCode(e.target.value);
   };
@@ -141,6 +146,7 @@ const ReferralPackage = () => {
         `&selectedPackages=${selectedPackage.join(",")}`
     );
   };
+  const requiredPackageId = serviceToPackageId[serviceParam];
   const handleStepClick = (step) => {
     if (currentStepservices > step) {
       dispatch(setServicesCurrentStep(step));
@@ -187,6 +193,7 @@ const ReferralPackage = () => {
                       <input
                         type="checkbox"
                         className="accent-[#005382]"
+                        disabled={pkg.id === requiredPackageId}
                         onChange={() => handleCheckboxChange(pkg.id)}
                         checked={selectedPackage.includes(pkg.id)}
                       />

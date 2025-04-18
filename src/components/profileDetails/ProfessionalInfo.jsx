@@ -280,7 +280,6 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                     <div key={index} className="flex gap-[8px] flex-col">
                         <div className="w-auto max-w-[672px] flex gap-[8px] flex-col md:flex-row">
                             <div className="w-full">
-                                {/* <label className="block text-[14px] font-[600] mb-1">Select Certificate</label> */}
                                 <input
                                     type="text"
                                     value={section.certificate}
@@ -292,7 +291,6 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                                 />
                             </div>
                             <div className="w-full">
-                                {/* <label className="block text-[14px] font-[600] mb-1">Select Certification</label> */}
                                 <input
                                     type="text"
                                     value={section.certification}
