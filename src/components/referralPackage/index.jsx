@@ -11,7 +11,6 @@ import { PopupButton } from "react-calendly";
 import PaymentProgressBar from "@/components/navbar/PaymentProgressBar";
 import { setServicesCurrentStep } from "@/app/redux/slice/user/userSlice";
 
-// Static packages data for referral packages
 const packagesData = [
   {
     id: "standard",
@@ -53,6 +52,8 @@ const ReferralPackage = () => {
   const searchParams = useSearchParams();
   const employeeIdParam = searchParams.get("employeeId");
   const serviceParam = searchParams.get("service");
+  const selectedPackagesParam = searchParams.get("selectedPackages");
+
   const employees = useSelector(selectEmployees);
   const currentStepservices = useSelector((state) => state.user.servicescurrentStep);
 
@@ -63,17 +64,24 @@ const ReferralPackage = () => {
   const employee = employees.find(
     (emp) => emp.id.toString() === employeeIdParam
   );
-  const [selectedPackage, setSelectedPackage] = useState(null);
-  const [promoCode, setPromoCode] = useState("");
+  const [selectedPackage, setSelectedPackage] = useState([]);
   useEffect(() => {
-    if (serviceParam && serviceToPackageId[serviceParam]) {
-      setSelectedPackage(serviceToPackageId[serviceParam]);
+    if (selectedPackagesParam) {
+      const packagesFromUrl = selectedPackagesParam.split(",").filter(Boolean);
+      setSelectedPackage(packagesFromUrl);
+    } else if (serviceParam && serviceToPackageId[serviceParam]) {
+      setSelectedPackage((prev) => {
+        const pkgId = serviceToPackageId[serviceParam];
+        return prev.includes(pkgId) ? prev : [...prev, pkgId];
+      });
     }
-  }, [serviceParam]);
+  }, [serviceParam, selectedPackagesParam]);
+
+  const [promoCode, setPromoCode] = useState("");
+
   const selectedEmployeeService = employee?.services?.find(
     (s) => s.title === serviceParam
   );
-
   const modifiedPackagesData = packagesData.map((pkg) => {
     if (
       pkg.id === serviceToPackageId[serviceParam] &&
@@ -88,43 +96,66 @@ const ReferralPackage = () => {
     }
     return pkg;
   });
-
-  const handleCheckboxChange = (type) => {
-    if (selectedPackage === type) {
-      setSelectedPackage(null);
-    } else {
-      setSelectedPackage(type);
-    }
-  };
+    const handleCheckboxChange = (type) => {
+        setSelectedPackage((prev) => {
+          if (prev.includes(type)) {
+            if (type === requiredPackageId) {
+              return prev;
+            }
+            return prev.filter((id) => id !== type);
+          }
+          return [...prev, type];
+        });
+      };
 
   const handlePromoCodeChange = (e) => {
     setPromoCode(e.target.value);
   };
+  const selectedPackageData = modifiedPackagesData.filter(
+    (pkg) => selectedPackage.includes(pkg.id)
+  );
+  const totalSelectedPrice = selectedPackageData.reduce(
+    (sum, pkg) => sum + pkg.price,
+    0
+  );
+  const totalDeliveryDays = selectedPackageData.reduce(
+    (sum, pkg) => sum + parseInt(pkg.delivery_time),
+    0
+  );
+  const serviceFee = 3.90;
+  const totalPrice = totalSelectedPrice + serviceFee;
+  const packageNames = selectedPackageData.map((pkg) => pkg.name);
+  const paymentSummaryHeading =
+    packageNames.length === 0
+      ? "Payment Summary"
+      : packageNames.length === 1
+      ? packageNames[0]
+      : packageNames.length === 2
+      ? packageNames.join(" & ")
+      : packageNames.slice(0, packageNames.length - 1).join(", ") +
+        " & " +
+        packageNames[packageNames.length - 1];
 
   const handlePaymentRoute = () => {
     dispatch(setServicesCurrentStep(2));
-    router.push("/servicePayment");
+    router.push(
+      `/servicePayment?employeeId=${employeeIdParam}&service=${serviceParam}` +
+        `&totalPrice=${totalPrice.toFixed(2)}&serviceFee=${serviceFee.toFixed(
+          2
+        )}&totalDeliveryDays=${totalDeliveryDays}` +
+        `&selectedPackages=${selectedPackage.join(",")}`
+    );
   };
-
+  const requiredPackageId = serviceToPackageId[serviceParam];
   const handleStepClick = (step) => {
     if (currentStepservices > step) {
       dispatch(setServicesCurrentStep(step));
     }
   };
 
-  const selectedPackageData = modifiedPackagesData.find(
-    (pkg) => pkg.id === selectedPackage
-  );
-  const totalSelectedPrice = selectedPackageData ? selectedPackageData.price : 0;
-  const serviceFee = 3.90;
-  const totalPrice = totalSelectedPrice + serviceFee;
-  const paymentSummaryHeading = selectedPackageData
-    ? selectedPackageData.name
-    : "Payment Summary";
-
   return (
     <>
-      <PaymentProgressBar 
+      <PaymentProgressBar
         currentStepservices={currentStepservices}
         onStepClick={handleStepClick}
       />
@@ -154,7 +185,6 @@ const ReferralPackage = () => {
               </div>
               <div className="border border-[#F0F0F0] w-full"></div>
             </div>
-
             <div className="flex justify-center">
               <div className="flex flex-col w-full md:max-w-[573px] gap-[45px]">
                 {modifiedPackagesData.map((pkg) => (
@@ -163,8 +193,9 @@ const ReferralPackage = () => {
                       <input
                         type="checkbox"
                         className="accent-[#005382]"
+                        disabled={pkg.id === requiredPackageId}
                         onChange={() => handleCheckboxChange(pkg.id)}
-                        checked={selectedPackage === pkg.id}
+                        checked={selectedPackage.includes(pkg.id)}
                       />
                     </label>
                     <div className="flex flex-col w-full md:max-w-[541px] gap-[16px]">
@@ -175,7 +206,9 @@ const ReferralPackage = () => {
                         </p>
                       </div>
                       <div className="w-full md:w-[355px] flex flex-col gap-[12px]">
-                        <p className="text-base font-lightbold">About this package</p>
+                        <p className="text-base font-lightbold">
+                          About this package
+                        </p>
                         <p className="text-sm font-lightbold text-[#555555]">
                           {pkg.details}
                         </p>
@@ -186,10 +219,12 @@ const ReferralPackage = () => {
               </div>
             </div>
           </div>
-          {selectedPackage && (
+          {selectedPackage.length > 0 && (
             <div className="border rounded-[8px] p-[20px] w-full mt-[40px] md:w-[436px] h-auto md:h-[515px]">
               <div className="flex flex-col h-auto md:h-[426px] w-full gap-[30px]">
-                <h3 className="text-lg font-semibold">{paymentSummaryHeading}</h3>
+                <h3 className="text-lg font-semibold ">
+                  {paymentSummaryHeading}
+                </h3>
                 <div className="flex flex-col gap-[12px]">
                   <div className="flex gap-[12px]">
                     <Image
@@ -199,9 +234,16 @@ const ReferralPackage = () => {
                       height={24}
                       className="rounded-full border"
                     />
-                    <span>{selectedPackageData.delivery_time} delivery</span>
+                    <span>
+                      {totalDeliveryDays} day
+                      {totalDeliveryDays > 1 ? "s" : ""} delivery
+                    </span>
                   </div>
-                  {selectedPackageData.requirements.map((requirement, idx) => (
+                  {Array.from(
+                    new Set(
+                      selectedPackageData.flatMap((pkg) => pkg.requirements)
+                    )
+                  ).map((requirement, idx) => (
                     <div key={idx} className="flex gap-[12px]">
                       <Image
                         src={Movies}
@@ -247,7 +289,9 @@ const ReferralPackage = () => {
                     rootElement={
                       typeof window !== "undefined" ? document.body : null
                     }
-                    text="Schedule Video Call with Idris"
+                    text={`Schedule Video Call with ${
+                      employee?.name || "Unknown"
+                    }`}
                     styles={{
                       width: "100%",
                       height: "40px",

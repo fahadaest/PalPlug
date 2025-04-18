@@ -25,6 +25,7 @@ function AuthProvider({ children }) {
           id: user.uid,
           displayName: user.displayName,
           email: user.email,
+          photoUrl:  user.photoURL,
         };
         dispatch(setUser(userData));
         // Store user data in localStorage

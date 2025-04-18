@@ -83,7 +83,7 @@ const Navbar = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Don't render the navbar on the payment page
+  
   if (pathname?.includes('/servicePayment')) {
     return null;
   }
@@ -129,7 +129,7 @@ const Navbar = () => {
         className="bg-white p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px]"
         style={inlineStyle}
       >
-        <div className="flex items-center md:space-x-12 flex-grow xs:w-[390px]">
+        <div className="flex items-center md:space-x-12 flex-1 min-w-0">
           <div className="relative w-10 h-6 sm:w-24 sm:h-8 cursor-pointer" onClick={handleClick}>
             <Image
               src={Logo}
@@ -203,10 +203,10 @@ const Navbar = () => {
             ))}
         </div>
         {!isProfilePage && (
-          <div className="h-[36px] min-w-[96px] ml-4 md:ml-0 md:w-[248px] flex items-center gap-4">
+          <div className="h-[36px] flex items-center ml-4 md:ml-0 gap-4">
             {user ? (
               <>
-                <div className="flex gap-4">
+                <div className="flex gap-3 items-center space-x-3 flex-shrink-0">
                   <Image
                     src={BellIcon}
                     alt="Bell Icon"
@@ -222,15 +222,20 @@ const Navbar = () => {
                     className="cursor-pointer"
                   />
                 </div>
-                <div className="flex items-center gap-2">
-                  <Image
-                    src={UserImg}
-                    alt="User Image"
-                    width={36}
-                    height={36}
-                    className="cursor-pointer"
+                <div className="flex items-center gap-4">
+                  <div
+                    className="w-7 h-7 md:w-9 md:h-9 bg-stone-300 rounded-full overflow-hidden cursor-pointer flex-shrink-0"
                     onClick={toggleDropdown}
-                  />
+                  >
+                    <Image
+                      src={user.photoUrl ?? UserImg}
+                      alt={user.displayName || 'User'}
+                      width={36}
+                      height={36}
+                      unoptimized
+                      className="cursor-pointer w-full h-full object-cover"
+                    />
+                  </div>
                   {isMobile && isDropdownOpen && (
                     <div
                       className="absolute right-0 mt-2 w-48 rounded-lg shadow-lg z-10"
@@ -244,17 +249,16 @@ const Navbar = () => {
                     </div>
                   )}
                   <div className="hidden md:flex items-center">
-                    <span className="text-sm font-semibold">
-                      {user.displayName && user.displayName.length > 20
-                        ? `${user.displayName.substring(0, 20)}...`
+                    <span className="text-sm font-semibold whitespace-nowrap">
+                      {user.displayName && user.displayName.length > 24
+                        ? `${user.displayName.substring(0, 24)}...`
                         : user.displayName || 'Unknown User'}
                     </span>
                     <div className="relative" ref={dropdownRef}>
                       <button
                         onClick={() => setDropdownOpen(!isDropdownOpen)}
-                        className={`ml-2 inline-flex items-center justify-center w-4 h-4 transition-transform ${
-                          isDropdownOpen ? 'rotate-180' : 'rotate-0'
-                        }`}
+                        className={`ml-2 inline-flex items-center justify-center w-4 h-4 transition-transform ${isDropdownOpen ? 'rotate-180' : 'rotate-0'
+                          }`}
                         type="button"
                       >
                         <Image
@@ -278,7 +282,7 @@ const Navbar = () => {
             ) : (
               <button
                 onClick={handleLoginClick}
-                className="bg-[#005382] text-primary text-sm font-semibold rounded-md py-2 px-4"
+                className="bg-[#005382] text-primary text-sm font-semibold rounded-md py-2 px-4 ml-auto"
               >
                 Log in
               </button>

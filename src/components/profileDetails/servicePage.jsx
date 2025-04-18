@@ -194,7 +194,7 @@ const ServicesSelection = () => {
                                 referral: { ...prev.referral, price: e.target.value },
                               }))
                             }
-                            className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-[8px] text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                            className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-[8px] text-gray-700 focus:outline-none border-[#D5D4DC] focus:border-[#005382]"
                           />
                         </div>
                         <div className="w-[300px] pt-[11px] pb-[11px] flex items-start sm:items-center">
@@ -263,7 +263,7 @@ const ServicesSelection = () => {
                                 resume: { ...prev.resume, price: e.target.value },
                               }))
                             }
-                            className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                            className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none border-[#D5D4DC] focus:border-[#005382]"
                           />
                         </div>
                         <div className="w-[300px] pt-[11px] pb-[11px] flex items-start sm:items-center">
@@ -331,7 +331,7 @@ const ServicesSelection = () => {
                                 interview: { ...prev.interview, price: e.target.value },
                               }))
                             }
-                            className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                            className="h-[48px] xs:w-[250px] sm:w-[300px] p-4 text-[16px] border rounded-lg text-gray-700 focus:outline-none border-[#D5D4DC] focus:border-[#005382]"
                           />
                         </div>
                         <div className="w-[300px] pt-[11px] pb-[11px] flex items-start sm:items-center">

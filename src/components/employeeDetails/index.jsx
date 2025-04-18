@@ -151,7 +151,6 @@ const EmployeeDetails = () => {
     }
     return null;
   };
-
   return (
     <>
       <div className={`w-full h-[48px] md:h-[96px] ${bgColor} flex items-center justify-center`}>
@@ -186,19 +185,22 @@ const EmployeeDetails = () => {
               <h2 className="text-lg font-semibold mb-2 text-text-heading">
                 How it works
               </h2>
-              <p className="text-sm font-lightbold text-text-heading">
+              <p className="text-sm font-lightbold text-text-heading mb-4">
                 If you’re looking to land an amazing job of your dreams at {displayName}, I’m the person
                 that gives you the best shot. I have been at {displayName} for 4 years and have built a
                 great reputation in the partnership team and a referral from me will carry huge weight.
                 I’ve gotten 12 people hired through palplug referrals, resume reviews and interview prep.
               </p>
+            
               <p className="text-sm font-lightbold text-text-heading">
                 Even though I would love to get everyone hired, I would need to see your skillset
                 to evaluate if you would be a good candidate for the job to save everyone the time and effort.
               </p>
+              <div className='mt-5'>
               <p className="text-sm font-semibold text-employecard-card-grey-text">
                 Referrals:
               </p>
+              </div>
               <p className="text-sm text-grey40">
                 Once you request a referral, I will reach out to you to schedule a time to hop on a quick video
                 call to review your experience. Please have your resume uploaded or sent to me at
@@ -217,7 +219,7 @@ const EmployeeDetails = () => {
           </div>
           <div className="flex-1 rounded-[8px] lg:max-w-[436px] bg-primary p-4 h-[522px]">
             <ul className="flex flex-nowrap md:flex-wrap text-sm leading-extra-tight font-semibold text-center text-gray-500">
-              {['Referral', 'Resume Review', 'Interview Prep', 'Calendly Booking'].map((tab) => (
+              {['Referral', 'Resume Review', 'Interview Prep' ].map((tab) => (
                 <li key={tab} className="me-2">
                   <a
                     href="#"

@@ -96,7 +96,13 @@ const ProfileInfo = ({ userId, displayName }) => {
       const resultAction = await dispatch(submitProfileData(payloadData)).unwrap();
       localStorage.setItem('profile_id', resultAction.profile_id);
       router.push('/servicesselection');
+      if (isPlugRoute) {
+      router.push('/servicesselection');
       setServicesSelectionVisible(true);
+    } else {
+      router.push('/candidate-profile');
+      dispatch(setPlugRoute(true));
+    }
     } catch (error) {
     
     }

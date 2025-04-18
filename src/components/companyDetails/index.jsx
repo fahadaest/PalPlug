@@ -25,9 +25,9 @@ const CompanyDetails = () => {
   const employees = useSelector(selectEmployees);
   const logoClassNames = useSelector(selectLogoClassNames);
   const companies = [
-        ...useSelector(selectCompanies),
-        ...useSelector(selectOtherCompanies)
-      ];
+    ...useSelector(selectCompanies),
+    ...useSelector(selectOtherCompanies)
+  ];
   const [selectedJobFunction, setSelectedJobFunction] = useState('');
   const [selectedPrices, setSelectedPrices] = useState([]);
   const [selectedHighestRated, setSelectedHighestRated] = useState('Highest Rated');
@@ -37,10 +37,12 @@ const CompanyDetails = () => {
   const [openModal, setOpenModal] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
   const jobFunctionOptions = ['Referral', 'Resume Review', 'Interview Prep'];
-  const priceRanges = useSelector(selectPriceRanges); 
-  const displayName =
-    name?.charAt(0)?.toUpperCase() + name.slice(1)?.toLowerCase();
-  const company = companies?.find((comp) => comp?.name === displayName);
+  const priceRanges = useSelector(selectPriceRanges);
+  const slug = name?.toLowerCase() || '';
+  const company = companies.find(
+    (comp) => comp.name.toLowerCase() === slug
+  );
+  const displayName = company?.name || 'Unknown Company';
   const bgColor = companyStyles[company?.name]
     ? companyStyles[company?.name]?.replace(/(.*?:)?hover:/, '')
     : 'bg-gray-800';
@@ -80,7 +82,7 @@ const CompanyDetails = () => {
     } else {
       setSelectedJobFunction(value);
     }
-   
+
     setJobFunctionError('');
     setOpenModal(null);
     setOpenDropdown(null);
@@ -194,16 +196,14 @@ const CompanyDetails = () => {
               alt="Arrow Icon"
               width={16}
               height={16}
-              className={`w-4 h-4 ml-2 transition-transform duration-300 ${
-                openDropdown === 'dropdownJobFunction' ? 'rotate-180' : 'rotate-0'
-              }`}
+              className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownJobFunction' ? 'rotate-180' : 'rotate-0'
+                }`}
             />
           </button>
           <div
             id="dropdownJobFunction"
-            className={`absolute z-10 ${
-              openDropdown === 'dropdownJobFunction' ? 'block' : 'hidden'
-            } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
+            className={`absolute z-10 ${openDropdown === 'dropdownJobFunction' ? 'block' : 'hidden'
+              } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
           >
             <ul
               className="p-3 space-y-1 text-sm text-dropdowntext"
@@ -246,9 +246,8 @@ const CompanyDetails = () => {
               alt="Arrow Icon"
               width={16}
               height={16}
-              className={`w-4 h-4 ml-2 transition-transform duration-300 ${
-                openDropdown === 'dropdownPrice' ? 'rotate-180' : 'rotate-0'
-              }`}
+              className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownPrice' ? 'rotate-180' : 'rotate-0'
+                }`}
             />
           </button>
           {jobFunctionError && (
@@ -258,9 +257,8 @@ const CompanyDetails = () => {
           )}
           <div
             id="dropdownPrice"
-            className={`absolute z-10 ${
-              openDropdown === 'dropdownPrice' ? 'block' : 'hidden'
-            } bg-white divide-y divide-gray-100 rounded-lg shadow w-[218px] position-relative mt-1`}
+            className={`absolute z-10 ${openDropdown === 'dropdownPrice' ? 'block' : 'hidden'
+              } bg-white divide-y divide-gray-100 rounded-lg shadow w-[218px] position-relative mt-1`}
           >
             <ul
               className="p-3 space-y-1 text-sm text-dropdowntext"
@@ -301,16 +299,14 @@ const CompanyDetails = () => {
               alt="Arrow Icon"
               width={16}
               height={16}
-              className={`w-4 h-4 ml-2 transition-transform duration-300 ${
-                openDropdown === 'dropdownHighestRated' ? 'rotate-180' : 'rotate-0'
-              }`}
+              className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownHighestRated' ? 'rotate-180' : 'rotate-0'
+                }`}
             />
           </button>
           <div
             id="dropdownHighestRated"
-            className={`absolute z-10 ${
-              openDropdown === 'dropdownHighestRated' ? 'block' : 'hidden'
-            } bg-white divide-y divide-gray-100 rounded-lg shadow w-[218px] position-relative mt-1`}
+            className={`absolute z-10 ${openDropdown === 'dropdownHighestRated' ? 'block' : 'hidden'
+              } bg-white divide-y divide-gray-100 rounded-lg shadow w-[218px] position-relative mt-1`}
           >
             <ul
               className="p-3 space-y-1 text-sm text-dropdowntext"
@@ -344,9 +340,8 @@ const CompanyDetails = () => {
       {openModal && isMobile && (
         <div className="fixed inset-0 bg-[#F2F2F7B2] bg-opacity-50 flex justify-center items-end z-50">
           <div
-            className={`bg-white w-full max-w-md rounded-l-[8px] rounded-r-[8px] p-4 ${
-              openModal ? 'modal-animation' : ''
-            }`}
+            className={`bg-white w-full max-w-md rounded-l-[8px] rounded-r-[8px] p-4 ${openModal ? 'modal-animation' : ''
+              }`}
           >
             <div className="flex justify-center items-center">
               <Image src={Drawar} alt="Drawer" width={36} height={4} />

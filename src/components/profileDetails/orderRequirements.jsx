@@ -176,7 +176,7 @@ const OrderRequirements = ({ onChildChecksChange, onFormatChange, onQuestionsCha
                 <textarea
                   id={`question-${q.id}`}
                   onChange={(e) => handleQuestionChange(q.id, e.target.value)}
-                  className="border rounded-[8px] w-full max-w-[703px] h-[147px] py-2 px-3 text-[16px] font-[400] text-gray-700 leading-[24px]"
+                  className="w-full max-w-[703px] h-[147px] py-2 px-3 text-[16px] font-[400] text-gray-700 leading-[24px] border border-[#D5D4DC] rounded-[8px] focus:border-[#005382] focus:outline-none"
                   rows="4"
                   placeholder="Type out what question you’d like to ask your customer, it will be shown to them  during their request process."
                 ></textarea>
