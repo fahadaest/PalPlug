@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import CloseIcon from '@/assets/images/Closeicon.svg';
 import DefaultAvatar from '@/assets/images/user11.svg';
-import Doc from '@/assets/images/doc.svg'; // Add this import for the document icon
+import Doc from '@/assets/images/doc.svg'; 
 
 const ViewPublicProfile = ({ isOpen, onClose, user }) => {
   if (!isOpen) return null;

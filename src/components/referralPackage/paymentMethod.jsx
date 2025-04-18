@@ -14,14 +14,14 @@ import { useRouter } from 'next/navigation';
 
 const PaymentMethod = () => {
     const [selectedMethod, setSelectedMethod] = useState("");
-    const router = useRouter();  // Make sure this is added
+    const router = useRouter();  
 
     const handleSelect = (method) => {
         setSelectedMethod(method);
     };
 
     const handleConfirmAndPay = () => {
-        router.push('/requirements');  // Make sure the path matches your Next.js route configuration
+        router.push('/requirements'); 
     };
 
     

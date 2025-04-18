@@ -4,12 +4,15 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Doc from '@/assets/images/doc.svg';
 import Pen from '@/assets/images/Pen.svg';
+import { useDispatch } from 'react-redux';
+import { setResumeUploaded } from '@/app/redux/slice/user/userSlice';
 
 const Resume = ({ isOpen, onClose, onSave, initialData = {} }) => {
     const [fileName, setFileName] = useState(initialData.fileName || '');
     const [fileSize, setFileSize] = useState(initialData.fileSize || '');
     const [linkedInUrl, setLinkedInUrl] = useState(initialData.linkedInUrl || '');
     const [portfolioLink, setPortfolioLink] = useState(initialData.portfolioLink || '');
+    const dispatch = useDispatch();
 
     useEffect(() => {
         setFileName(initialData.fileName || '');
@@ -20,7 +23,21 @@ const Resume = ({ isOpen, onClose, onSave, initialData = {} }) => {
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
-        if (file && file.type === 'application/pdf') {
+        const maxSize = 5 * 1024 * 1024;
+
+        if (file) {
+            if (file.type !== 'application/pdf') {
+                alert('Please upload a PDF file only');
+                event.target.value = '';
+                return;
+            }
+
+            if (file.size > maxSize) {
+                alert('File size should not exceed 5MB');
+                event.target.value = '';
+                return;
+            }
+
             setFileName(file.name);
             setFileSize((file.size / 1024 / 1024).toFixed(1) + ' mb');
         }
@@ -52,8 +69,6 @@ const Resume = ({ isOpen, onClose, onSave, initialData = {} }) => {
         if (onSave) {
             onSave(resumeData);
         }
-        
-        console.log('Resume saved:', resumeData);
         onClose();
     };
 

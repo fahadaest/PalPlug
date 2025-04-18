@@ -2,38 +2,50 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DropdownComponent from './DropdownComponent';
 import { fetchCountries } from '@/app/redux/action';
-
+import { updateProfileCompletion } from '@/app/redux/slice/user/userSlice'; 
 
 export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo }) {
-    const [educationSections, setEducationSections] = useState([{}]);
-    const [certificationSections, setCertificationSections] = useState([{}]);
+  const dispatch = useDispatch();
+  const [educationSections, setEducationSections] = useState([{}]);
+  const [certificationSections, setCertificationSections] = useState([{}]);
+  const { countries, loading } = useSelector((state) => state.countries);
+  
+  const checkProfessionalInfoComplete = () => {
+    const isComplete = professionalInfo.occupation && 
+                      professionalInfo.employer && 
+                      educationSections[0].country;
+    if (isComplete) {
+      dispatch(updateProfileCompletion({ professionalInfo: true }));
+    }
+  };
 
-    const dispatch = useDispatch();
-    const { countries, loading } = useSelector((state) => state.countries);
+  useEffect(() => {
+    checkProfessionalInfoComplete();
+  }, [professionalInfo, educationSections, dispatch]);
 
-    useEffect(() => {
-        dispatch(fetchCountries());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(fetchCountries());
+  }, [dispatch]);
 
-    useEffect(() => {
-        return () => {
-            setProfessionalInfo((prev) => ({ ...prev, occupation: '', employer: '' }));
-        };
-    }, [setProfessionalInfo]);
-
-    const handleOptionChange = (dropdownKey, updatedOptions, sectionIndex, type) => {
-        if (type === "education") {
-            const updatedSections = [...educationSections];
-            updatedSections[sectionIndex] = { ...updatedSections[sectionIndex], [dropdownKey]: updatedOptions };
-            setEducationSections(updatedSections);
-        } else if (type === "certification") {
-            const updatedSections = [...certificationSections];
-            updatedSections[sectionIndex] = { ...updatedSections[sectionIndex], [dropdownKey]: updatedOptions };
-            setCertificationSections(updatedSections);
-        } else {
-            setProfessionalInfo((prev) => ({ ...prev, [dropdownKey]: updatedOptions }));
-        }
+  useEffect(() => {
+    return () => {
+      setProfessionalInfo((prev) => ({ ...prev, occupation: '', employer: '' }));
     };
+  }, [setProfessionalInfo]);
+
+  const handleOptionChange = (dropdownKey, updatedOptions, sectionIndex, type) => {
+    if (type === "education") {
+      const updatedSections = [...educationSections];
+      updatedSections[sectionIndex] = { ...updatedSections[sectionIndex], [dropdownKey]: updatedOptions };
+      setEducationSections(updatedSections);
+    } else if (type === "certification") {
+      const updatedSections = [...certificationSections];
+      updatedSections[sectionIndex] = { ...updatedSections[sectionIndex], [dropdownKey]: updatedOptions };
+      setCertificationSections(updatedSections);
+    } else {
+      setProfessionalInfo((prev) => ({ ...prev, [dropdownKey]: updatedOptions }));
+    }
+  };
 
 
     const addEducationSection = () => {

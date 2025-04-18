@@ -4,21 +4,14 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import TimerIcon from "@/assets/images/timer.svg";
 import Movies from "@/assets/images/movies.svg";
-import DefaultAvatar from '@/assets/images/user11.svg';
-import { useSelector } from 'react-redux';
 import Male from "@/assets/images/male.svg";
+import { useSelector } from 'react-redux';
+import defaultData from '@/assets/data/defaultData.json'; 
 
 const Requirements = () => {
     const [jobUrl, setJobUrl] = useState('');
     const [portfolioUrl, setPortfolioUrl] = useState('');
     const user = useSelector((state) => state.user.userData);
-
-    const defaultData = {
-        displayName: 'Idris Gettani',
-        photoURL: DefaultAvatar,
-        title: 'Partner Success @ Airbnb',
-        location: 'San Francisco, CA',
-    };
 
     const data = {
         displayName: user?.displayName || defaultData.displayName,
@@ -29,14 +22,12 @@ const Requirements = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle submission logic here
     };
 
     return (
         <div className="min-h-screen bg-white">
             <div className="max-w-[1200px] mx-auto p-4">
                 <div className="flex gap-8 mt-8">
-                    {/* Left Section */}
                     <div className="flex-1">
                         <div className="flex items-center gap-[16px] h-[92px]">
                             <Image
@@ -83,7 +74,6 @@ const Requirements = () => {
                         </form>
                     </div>
 
-                    {/* Right Section */}
                     <div className="w-[436px]">
                         <div className="border border-gray-300 rounded-[8px] p-6 h-[318px] mt-[60px] ml-auto flex flex-col justify-between">
                             <div>

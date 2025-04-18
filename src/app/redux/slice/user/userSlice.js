@@ -1,19 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { submitProfile } from '../../action';
+
+const initialState = {
+  user: null,
+  loading: false,
+  error: null,
+  isAuthenticated: false,
+  accessToken: null,
+  currentStep: 1,
+  servicescurrentStep: 1,
+  profileSubmissionStatus: null, 
+  isplugroute: true, 
+  isVerificationComplete: false,
+  profileCompletion: {
+    personalInfo: false,
+    professionalInfo: false,
+    finalStep: false,
+    resumeUploaded: false, 
+  }
+};
+
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    user: null,
-    loading: false,
-    error: null,
-    isAuthenticated: false,
-    accessToken: null,
-    currentStep: 1,
-    servicescurrentStep:1,
-    profileSubmissionStatus: null, 
-    isplugroute: true, 
-    isVerificationComplete: false,
-  },
+  initialState,
   reducers: {
     loginRequest: (state) => {
       state.loading = true;
@@ -51,6 +60,15 @@ const userSlice = createSlice({
     },
     setVerificationComplete: (state, action) => {
       state.isVerificationComplete = action.payload; 
+    },
+    updateProfileCompletion: (state, action) => {
+      state.profileCompletion = {
+        ...state.profileCompletion,
+        ...action.payload
+      };
+    },
+    setResumeUploaded: (state, action) => {
+      state.profileCompletion.resumeUploaded = action.payload;
     }
   },
   
@@ -73,6 +91,18 @@ const userSlice = createSlice({
   },
 });
 
-export const { loginRequest, loginSuccess, loginFailure, logout, setUser, setCurrentStep, setServicesCurrentStep, setPlugRoute, setVerificationComplete  } = userSlice.actions;
+export const { 
+  loginRequest, 
+  loginSuccess, 
+  loginFailure, 
+  logout, 
+  setUser, 
+  setCurrentStep, 
+  setServicesCurrentStep, 
+  setPlugRoute, 
+  setVerificationComplete,
+  updateProfileCompletion,
+  setResumeUploaded
+} = userSlice.actions;
 
 export default userSlice.reducer;

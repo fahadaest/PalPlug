@@ -5,7 +5,12 @@ import { useRouter } from 'next/navigation';
 import PhoneIcon from '@/assets/images/VPhone.svg';
 import EmailIcon from '@/assets/images/VEmail.svg';
 import PhoneVerifyModal from '../phoneVerify';
-import { setCurrentStep, setPlugRoute, submitProfileInfo } from '@/app/redux/slice/user/userSlice';
+import { 
+  setCurrentStep, 
+  setPlugRoute, 
+  submitProfileInfo, 
+  updateProfileCompletion 
+} from '@/app/redux/slice/user/userSlice';
 import ProfessionalInfo from './ProfessionalInfo';
 import { submitProfile } from '@/app/redux/action';
 import ServicesSelection from './servicePage';
@@ -64,18 +69,21 @@ const ProfileInfo = ({ userId, displayName }) => {
     event.preventDefault();
     event.stopPropagation();
     if (currentStep === 1) {
+      dispatch(updateProfileCompletion({ personalInfo: true }));
       dispatch(setCurrentStep(2));
       window.history.pushState({ step: 2 }, '');
     } else if (currentStep === 2) {
+      dispatch(updateProfileCompletion({ professionalInfo: true }));
       dispatch(setCurrentStep(3));
       window.history.pushState({ step: 3 }, '');
     }
   };
 
   const handleFinish = (event) => {
-    dispatch(setCurrentStep(1));
     event.preventDefault();
     event.stopPropagation();
+    dispatch(updateProfileCompletion({ finalStep: true }));
+    dispatch(setCurrentStep(1));
 
     const formData = {
       firstName,
@@ -84,18 +92,10 @@ const ProfileInfo = ({ userId, displayName }) => {
       description,
       professionalInfo,
     };
-    try {
-      dispatch(submitProfile(formData));
-      if (isPlugRoute) {
-        router.push('/servicesselection');
-        setServicesSelectionVisible(true);
-      } else {
-        router.push('/');
-        dispatch(setPlugRoute(true));
-      }
-    } catch (error) {
-      console.error('Error submitting profile:', error);
-    }
+    
+    dispatch(submitProfile(formData));
+    router.push('/candidate-profile');
+    setServicesSelectionVisible(false);
   };
 
   const isFormValid = firstName.trim() !== '' && lastName.trim() !== '';
