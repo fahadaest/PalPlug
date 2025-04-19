@@ -1,20 +1,29 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { submitProfile } from '../../action';
+
+const initialState = {
+  user: null,
+  loading: false,
+  error: null,
+  isAuthenticated: false,
+  accessToken: null,
+  currentStep: 1,
+  servicescurrentStep: 1,
+  profileSubmissionStatus: null, 
+  isplugroute: true, 
+  isVerificationComplete: false,
+  verifiedPhone: null,
+  profileCompletion: {
+    personalInfo: false,
+    professionalInfo: false,
+    finalStep: false,
+    resumeUploaded: false, 
+  }
+};
+
 const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    user: null,
-    loading: false,
-    error: null,
-    isAuthenticated: false,
-    accessToken: null,
-    currentStep: 1,
-    servicescurrentStep: 1,
-    profileSubmissionStatus: null,
-    isplugroute: true,
-    isVerificationComplete: false,
-    verifiedPhone: null,
-  },
+  initialState,
   reducers: {
     setVerifiedPhone: (state, action) => {
       state.verifiedPhone = action.payload;
@@ -55,6 +64,15 @@ const userSlice = createSlice({
     },
     setVerificationComplete: (state, action) => {
       state.isVerificationComplete = action.payload;
+    },
+    updateProfileCompletion: (state, action) => {
+      state.profileCompletion = {
+        ...state.profileCompletion,
+        ...action.payload
+      };
+    },
+    setResumeUploaded: (state, action) => {
+      state.profileCompletion.resumeUploaded = action.payload;
     }
   },
 
@@ -77,6 +95,19 @@ const userSlice = createSlice({
   },
 });
 
-export const { loginRequest, loginSuccess, loginFailure, logout, setUser, setCurrentStep, setServicesCurrentStep, setPlugRoute, setVerificationComplete, setVerifiedPhone } = userSlice.actions;
+export const { 
+  loginRequest, 
+  loginSuccess, 
+  loginFailure, 
+  logout, 
+  setUser, 
+  setCurrentStep, 
+  setServicesCurrentStep, 
+  setPlugRoute, 
+  setVerificationComplete,
+  setVerifiedPhone,
+  updateProfileCompletion,
+  setResumeUploaded
+} = userSlice.actions;
 
 export default userSlice.reducer;
