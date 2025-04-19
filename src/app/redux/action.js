@@ -3,7 +3,7 @@ import { getRequest, postRequest } from '@/axios/index';
 import { getRoute } from '@/api/index'; 
 
 export const submitProfile = createAsyncThunk(
-  'user/submitProfile',
+  'submitProfile',
   async (profileData, { rejectWithValue }) => {
     try {
       const route = getRoute('submitProfile'); 
@@ -14,6 +14,7 @@ export const submitProfile = createAsyncThunk(
     }
   }
 );
+
 export const submitAllServices = createAsyncThunk(
   'services/submitAllServices/',
   async (servicesData, { rejectWithValue }) => {
@@ -26,16 +27,48 @@ export const submitAllServices = createAsyncThunk(
     }
   }
 );
+
 export const fetchCountries = createAsyncThunk(
-    'data/fetchCountries',
-    async () => {
-        return getRequest(getRoute('countriesList'));
-    }
+  'data/fetchCountries',
+  async () => {
+    return getRequest(getRoute('countriesList'));
+  }
 );
 
 export const fetchCompanies = createAsyncThunk(
   'fetchCompanies',
   async () => {
     return getRequest(getRoute('getCompanies'));
+  }
+);
+
+export const fetchColleges = createAsyncThunk(
+  'data/fetchColleges',
+  async (country, { rejectWithValue }) => {
+    try {
+      const route = getRoute('collegesByCountry', encodeURIComponent(country));
+      const response = await getRequest(route);
+      console.log("Colleges Response:", response);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+export const fetchYears = createAsyncThunk(
+  'data/fetchYears',
+  async () => {
+    return getRequest(getRoute('yearsList'));
+  }
+);
+export const fetchUserRoles = createAsyncThunk(
+  'data/fetchUserRoles',
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await getRequest("https://palplug.com/d/api/users/user-roles/");
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
   }
 );

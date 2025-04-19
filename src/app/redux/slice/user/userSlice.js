@@ -12,6 +12,7 @@ const initialState = {
   profileSubmissionStatus: null, 
   isplugroute: true, 
   isVerificationComplete: false,
+  verifiedPhone: null,
   profileCompletion: {
     personalInfo: false,
     professionalInfo: false,
@@ -24,6 +25,9 @@ const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
+    setVerifiedPhone: (state, action) => {
+      state.verifiedPhone = action.payload;
+    },
     loginRequest: (state) => {
       state.loading = true;
     },
@@ -42,24 +46,24 @@ const userSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
       state.accessToken = null;
-      localStorage.removeItem('user'); 
+      localStorage.removeItem('user');
     },
     setUser: (state, action) => {
       state.user = action.payload;
       state.isAuthenticated = true;
-      localStorage.setItem('user', JSON.stringify(action.payload)); 
+      localStorage.setItem('user', JSON.stringify(action.payload));
     },
     setCurrentStep: (state, action) => {
-      state.currentStep = action.payload; 
+      state.currentStep = action.payload;
     },
     setServicesCurrentStep: (state, action) => {
-      state.servicescurrentStep = action.payload; 
+      state.servicescurrentStep = action.payload;
     },
     setPlugRoute: (state, action) => {
       state.isplugroute = action.payload;
     },
     setVerificationComplete: (state, action) => {
-      state.isVerificationComplete = action.payload; 
+      state.isVerificationComplete = action.payload;
     },
     updateProfileCompletion: (state, action) => {
       state.profileCompletion = {
@@ -71,7 +75,7 @@ const userSlice = createSlice({
       state.profileCompletion.resumeUploaded = action.payload;
     }
   },
-  
+
   extraReducers: (builder) => {
     builder
       .addCase(submitProfile.pending, (state) => {
@@ -81,7 +85,7 @@ const userSlice = createSlice({
       .addCase(submitProfile.fulfilled, (state, action) => {
         state.loading = false;
         state.profileSubmissionStatus = 'success';
-        state.user = action.payload; 
+        state.user = action.payload;
       })
       .addCase(submitProfile.rejected, (state, action) => {
         state.loading = false;
@@ -101,6 +105,7 @@ export const {
   setServicesCurrentStep, 
   setPlugRoute, 
   setVerificationComplete,
+  setVerifiedPhone,
   updateProfileCompletion,
   setResumeUploaded
 } = userSlice.actions;

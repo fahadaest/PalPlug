@@ -12,8 +12,9 @@ import {
   updateProfileCompletion 
 } from '@/app/redux/slice/user/userSlice';
 import ProfessionalInfo from './ProfessionalInfo';
-import { submitProfile } from '@/app/redux/action';
+import { submitProfileData } from '@/app/redux/slice/submitProfileData/profileSubmitSlice';
 import ServicesSelection from './servicePage';
+import { saveServices } from '@/app/utils/storage';
 
 const ProfileInfo = ({ userId, displayName }) => {
   const dispatch = useDispatch();
@@ -21,27 +22,32 @@ const ProfileInfo = ({ userId, displayName }) => {
   const isPlugRoute = useSelector((state) => state.user.isplugroute);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  const [profilePicture, setProfilePicture] = useState('');
+  const [profilePicture, setProfilePicture] = useState(null);
   const [description, setDescription] = useState('');
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [isServicesSelectionVisible, setServicesSelectionVisible] = useState(false);
   const isVerificationComplete = useSelector((state) => state.user.isVerificationComplete);
-
+  const [isProfessionalInfoValid, setIsProfessionalInfoValid] = useState(false); 
+  const [isAccountSecurityValid, setIsAccountSecurityValid] = useState(false);
   const router = useRouter();
+  const verifiedPhone = useSelector((state) => state.user.verifiedPhone);
   const [professionalInfo, setProfessionalInfo] = useState({
-    occupation: [],
-    country: [],
-    college: [],
-    major: [],
-    year: [],
-    certificate: [],
-    certificationFrom: [],
+    occupation: '' ,
+    employer: '' ,
+    workEmail: '',  
+    country: '',
+    college: '',
+    major: '',
+    education_year: null,
+    certificate: '',
+    certification: '',
+    certification_year: null,
   });
 
   const handleProfilePictureChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setProfilePicture(URL.createObjectURL(file));
+      setProfilePicture(file);
     }
   };
 
@@ -79,28 +85,57 @@ const ProfileInfo = ({ userId, displayName }) => {
     }
   };
 
-  const handleFinish = (event) => {
+  const handleFinish = async (event) => {
     event.preventDefault();
     event.stopPropagation();
-    dispatch(updateProfileCompletion({ finalStep: true }));
-    dispatch(setCurrentStep(1));
+    const servicesObjStr = localStorage.getItem('services');
+    let fallbackValues = {};
+    if (servicesObjStr) {
+      try {
+        fallbackValues = JSON.parse(servicesObjStr);
+      } catch (e) {}
+    }
 
-    const formData = {
-      firstName,
-      lastName,
-      profilePicture,
-      description,
-      professionalInfo,
+    const finalFirstName = firstName.trim() !== '' ? firstName : fallbackValues.first_name;
+    const finalLastName  = lastName.trim() !== '' ? lastName : fallbackValues.last_name;
+    const finalWorkEmail = (professionalInfo && professionalInfo.workEmail && professionalInfo.workEmail.trim() !== '') ? professionalInfo.workEmail : fallbackValues.work_email;
+    
+    const payloadData = {
+      firstName: finalFirstName,
+      lastName: finalLastName,
+      profilePicture, 
+      description: description.trim() !== '' ? description : undefined,
+      professionalInfo, 
+      phone: verifiedPhone,
+      work_email: finalWorkEmail,
     };
     
-    dispatch(submitProfile(formData));
-    router.push('/candidate-profile');
-    setServicesSelectionVisible(false);
+    const storedProfileId = localStorage.getItem('profile_id');
+    if (storedProfileId) {
+      payloadData.id = storedProfileId;
+    }
+
+    localStorage.setItem('profile', JSON.stringify(payloadData));
+    
+    saveServices({
+      first_name: finalFirstName,
+      last_name: finalLastName,
+      work_email: finalWorkEmail,
+    });
+
+    try {
+      const resultAction = await dispatch(submitProfileData(payloadData)).unwrap();
+      localStorage.setItem('profile_id', resultAction.profile_id);
+      router.push('/servicesselection');
+      if (isPlugRoute) {
+        router.push('/servicesselection');
+        setServicesSelectionVisible(true);
+      } else {
+        router.push('/candidate-profile');
+        dispatch(setPlugRoute(true));
+      }
+    } catch (error) {}
   };
-
-  const isFormValid = firstName.trim() !== '' && lastName.trim() !== '';
-
-  const firstInitial = displayName ? displayName.charAt(0).toUpperCase() : 'S';
 
   const handleOpenPhoneModal = (event) => {
     event.preventDefault();
@@ -112,22 +147,15 @@ const ProfileInfo = ({ userId, displayName }) => {
   useEffect(() => {
     if (isVerificationComplete) {
       setIsPhoneModalOpen(false);
+      setIsAccountSecurityValid(true); 
+    } else {
+      setIsAccountSecurityValid(false); 
     }
   }, [isVerificationComplete]);
 
-  useEffect(() => {
-    const handlePopState = () => {
-      if (currentStep > 1) {
-        dispatch(setCurrentStep(currentStep - 1));
-      }
-    };
+  const isFormValid = firstName.trim() !== '' && lastName.trim() !== '';
 
-    window.addEventListener('popstate', handlePopState);
-
-    return () => {
-      window.removeEventListener('popstate', handlePopState);
-    };
-  }, [currentStep, dispatch]);
+  const firstInitial = displayName ? displayName.charAt(0).toUpperCase() : 'S';
 
   return (
     <>
@@ -180,7 +208,7 @@ const ProfileInfo = ({ userId, displayName }) => {
                 >
                   {profilePicture ? (
                     <img
-                      src={profilePicture}
+                      src={URL.createObjectURL(profilePicture)}
                       alt="Profile Picture"
                       className="w-full h-full rounded-full object-cover"
                     />
@@ -212,8 +240,7 @@ const ProfileInfo = ({ userId, displayName }) => {
               </div>
               <button
                 type="submit"
-                className={`h-[40px] w-auto max-w-[358px] md:w-[175px] p-[11px_20px_11px_20px] ${isFormValid ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'
-                  } text-white text-[12px] font-[600] rounded-[8px]`}
+                className={`h-[40px] w-auto max-w-[358px] md:w-[175px] p-[11px_20px_11px_20px] ${isFormValid ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'} text-white text-[12px] font-[600] rounded-[8px]`}
                 disabled={!isFormValid}
               >
                 Continue
@@ -222,12 +249,12 @@ const ProfileInfo = ({ userId, displayName }) => {
           )}
           {currentStep === 2 && (
             <>
-              <ProfessionalInfo professionalInfo={professionalInfo} setProfessionalInfo={setProfessionalInfo} />
+              <ProfessionalInfo professionalInfo={professionalInfo} setProfessionalInfo={setProfessionalInfo} onValidationChange={setIsProfessionalInfoValid} /> 
               <div className="w-auto max-w-[358px] md:w-[175px] mt-[8px] md:mt-[100px]">
                 <button
                   type="submit"
-                  className={`h-[40px] w-[100%] p-[11px_20px_11px_20px] ${isFormValid ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'} text-white text-[12px] font-[600] rounded-[8px]`}
-                  disabled={!isFormValid}
+                  className={`h-[40px] w-[100%] p-[11px_20px_11px_20px] ${isProfessionalInfoValid ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'} text-white text-[12px] font-[600] rounded-[8px]`}
+                  disabled={!isProfessionalInfoValid}  
                 >
                   Continue
                 </button>
@@ -235,47 +262,11 @@ const ProfileInfo = ({ userId, displayName }) => {
             </>
           )}
           {currentStep === 3 && (
-            <div className="flex flex-col gap-[24px]">
-              <div className="flex flex-col gap-[16px] max-w-[632px]">
-                <h1 className="text-xl font-bold">Account Security</h1>
-                <p className="text-sm text-[#939393] pb-4">
-                  Trust and safety is a big deal in our community. Please verify your email and phone number so that we can keep your account secured.
-                </p>
-                <div className=" w-full border"></div>
-              </div>
-              <div className="flex justify-between items-center">
-                <div className="flex flex-nowrap flex-row gap-[16px]">
-                  <img src={EmailIcon.src} alt="Email" className="h-[24px] w-[18px]" />
-                  <span className="text-[14px] font-lightbold text-[#000000]">Email</span>
-                  <span className="text-[14px] italic font-lightbold text-[#555555]">Private</span>
-                </div>
-                <button className="h-[40px] text-[#555555] text-[12px] font-[600] w-[120px] bg-[#6FCF97]  rounded-[8px]">
-                  Verified
-                </button>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="flex flex-nowrap flex-row gap-[16px]">
-                  <img src={PhoneIcon.src} alt="Phone" className="h-[16.55px] w-[16.55px]" />
-                  <span className="text-[14px] font-lightbold text-[#000000]">Phone Number</span>
-                  <span className="text-[14px] italic font-lightbold text-[#555555]">Private</span>
-                </div>
-                {isVerificationComplete ? (
-                  <button className="h-[40px] text-[#555555] text-[12px] font-[600] w-[120px] bg-[#6FCF97]  rounded-[8px]">
-                    Verified
-                  </button>
-                ) : (
-                  <button
-                    className="h-[40px] text-[#555555] text-[12px] font-[600]  w-[146px]  md:w-[191px] border border-[#555555] rounded-[8px]"
-                    onClick={handleOpenPhoneModal}
-                  >
-                    Add Phone Number
-                  </button>
-                )}
-              </div>
-              <div className="w-auto max-w-[358px] md:w-[175px] mt-[300px]">
+            <div className="w-auto flex justify-center items-center">
+              <div className="flex justify-center items-center flex-col gap-[14px]">
                 <button
                   type="submit"
-                  className="text-[white] bg-[#005382] mx-auto text-[12px] p-[11px_20px_11px_20px] font-[600] w-full rounded-[8px]"
+                  className="bg-[#005580] text-white p-3 rounded-lg"
                 >
                   Finish
                 </button>
@@ -286,13 +277,7 @@ const ProfileInfo = ({ userId, displayName }) => {
       ) : (
         <ServicesSelection />
       )}
-
-      {isPhoneModalOpen && (
-        <PhoneVerifyModal
-          isOpen={isPhoneModalOpen}
-          onClose={handleClosePhoneModal}
-        />
-      )}
+      {isPhoneModalOpen && <PhoneVerifyModal handleClosePhoneModal={handleClosePhoneModal} />}
     </>
   );
 };

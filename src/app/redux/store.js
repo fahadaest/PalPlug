@@ -1,25 +1,37 @@
 
 import { configureStore } from '@reduxjs/toolkit';
+import { apiSlice } from '@/app/redux/slice/apislice/apislice.js';
 import companiesReducer from '@/app/redux/slice/companies/companiesSlice';
 import employeesReducer from '@/app/redux/slice/employee/employeeSlice';
 import userReducer, { setUser } from '@/app/redux/slice/user/userSlice';
 import countriesReducer from '@/app/redux/slice/country/countrySlice';
 import serviceSlice from './slice/servicespublish/serviceSlice';
 import resumeReducer from './slice/resume/resumeSlice';
+import { setupListeners } from '@reduxjs/toolkit/query';
+import collegeReducer from '@/app/redux/slice/colleges/collegeSlice';
+import yearReducer from '@/app/redux/slice/year/yearSlice';
+import userRolesReducer from '@/app/redux/slice/userRoles/userRolesSlice';
+import profileSubmitReducer from '@/app/redux/slice/submitProfileData/profileSubmitSlice';
 
 
 export const store = configureStore({
   reducer: {
     companies: companiesReducer,
     employees: employeesReducer,
-    user: userReducer,
     countries: countriesReducer,
     services: serviceSlice,
     resume: resumeReducer,
+    user: userReducer,
+    colleges: collegeReducer,
+    years: yearReducer,
+    userRoles: userRolesReducer,
+    profileSubmit: profileSubmitReducer,
+    [apiSlice.reducerPath]: apiSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(apiSlice.middleware), 
 });
-
-
+setupListeners(store.dispatch)
 if (typeof window !== 'undefined') {
   try {
     const userData = localStorage.getItem('user');
@@ -28,7 +40,7 @@ if (typeof window !== 'undefined') {
       store.dispatch(setUser(parsedUserData));
     }
   } catch (error) {
-    console.error('Error loading user data from localStorage:', error);
+    console.log('Error loading user data from localStorage:', error);
   }
 }
 

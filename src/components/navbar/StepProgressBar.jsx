@@ -9,6 +9,14 @@ const StepProgressBar = ({ className }) => {
     const stepsRef = useRef([]);
     const progressRef = useRef(null);
 
+const handleStepClick = (step) => {
+    console.log(`Step ${step} clicked`);
+
+    if (step === 1 || step === currentStep - 1) {
+        dispatch(setCurrentStep(step));
+    }
+};
+
     useEffect(() => {
         const updateSteps = () => {
             stepsRef.current.forEach((step, index) => {
