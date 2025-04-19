@@ -11,7 +11,7 @@ import { setPlugRoute, setResumeUploaded } from '@/app/redux/slice/user/userSlic
 import { useRouter } from 'next/navigation';
 import Resume from "../resumeFile/resume";
 import CloseIcon from '@/assets/images/Closeicon.svg';
-import ViewPublicProfile from "../viewpublicprofile";
+import ViewPublicProfile from "../viewPublicprofile/index";
 import Doc from '@/assets/images/doc.svg';
 import Pen from '@/assets/images/Pen.svg';
 
