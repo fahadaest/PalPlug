@@ -12,8 +12,9 @@ import RobotsImg from '@/assets/images/Illustration.svg';
 import SignInModal from '@/components/signInModal';
 import { fetchCompanies } from '@/app/redux/action';
 
-const Landing = () => {
+const Landing = ({ userId }) => {
     const dispatch = useDispatch();
+    const [isPlug, setIsPlug] = useState(false);
     const router = useRouter();
     const companyStyles = useSelector(selectCompanyStyles);
     const whiteRoundedImges = useSelector(selectWhiteRoundedImges);
@@ -39,8 +40,11 @@ const Landing = () => {
     }, [dispatch]);
 
     const handlePlugDasboard = () => {
-        router.push('/plugDashboard');
+        router.push(`/profile/${userId}`);
     };
+    useEffect(() => {
+        setIsPlug(localStorage.getItem('isPlug') === 'true');
+    }, []);
 
 
 
@@ -59,9 +63,11 @@ const Landing = () => {
                             <br className="hidden lg:block" />
                         </p>
                         <div className="flex gap-[16px]">
-                            <button  onClick={handlePlugDasboard} className="h-[40px] min-w-[131px] bg-[#005382] text-[12px] font-[600] text-white rounded-[8px] px-[20px] py-[11px]">
+                        {!isPlug && (
+                            <button onClick={handlePlugDasboard} className="h-[40px] min-w-[131px] bg-[#005382] text-[12px] font-[600] text-white rounded-[8px] px-[20px] py-[11px]">
                                 Become a Plug
                             </button>
+                               )}
                             <button className="h-[40px] min-w-[192px] text-[12px] font-[600] text-[#005382] border border-[#005382] rounded-[8px] px-[20px] py-[11px]">
                                 Set Up Candidate Profile
                             </button>
