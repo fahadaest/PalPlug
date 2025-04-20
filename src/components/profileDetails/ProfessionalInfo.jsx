@@ -1,36 +1,36 @@
-import { useEffect, useState, useCallback} from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import DropdownComponent from './DropdownComponent';
-import { fetchCountries, fetchColleges, fetchYears, fetchUserRoles  } from '@/app/redux/action';
+import { fetchCountries, fetchColleges, fetchYears, fetchUserRoles } from '@/app/redux/action';
+import { updateProfileCompletion } from '@/app/redux/slice/user/userSlice';
+
 export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo, onValidationChange }) {
-    const [educationSections, setEducationSections] = useState([{ country: '', college: '', major: '', year: '' }]);
-    const [certificationSections, setCertificationSections] = useState([{ certificate: '', certification: '', year: '' }]);
-    const [isValid, setIsValid] = useState(false);
-    const [calendlyLink, setCalendlyLink] = useState('');
+  const dispatch = useDispatch();
+  const [educationSections, setEducationSections] = useState([{ country: '', college: '', major: '', year: '' }]);
+  const [certificationSections, setCertificationSections] = useState([{ certificate: '', certification: '', year: '' }]);
+  const [isValid, setIsValid] = useState(false);
+  const [calendlyLink, setCalendlyLink] = useState('');
 
+  const { countries, loading: countriesLoading } = useSelector((state) => state.countries);
+  const { colleges, loading: collegesLoading } = useSelector((state) => state.colleges);
+  const { years, loading: yearsLoading } = useSelector((state) => state.years);
+  const { roles, loading: rolesLoading } = useSelector((state) => state.userRoles);
 
-    const dispatch = useDispatch();
-    const { countries, loading: countriesLoading } = useSelector((state) => state.countries);
-    const { colleges, loading: collegesLoading } = useSelector((state) => state.colleges);
-    const { years, loading: yearsLoading } = useSelector((state) => state.years);
-    const { roles, loading: rolesLoading } = useSelector((state) => state.userRoles);
-
-
-    useEffect(() => {
-        dispatch(fetchYears());
-        if (!countries.length) {
-            dispatch(fetchCountries());
-        }
-        dispatch(fetchUserRoles());
-    }, [dispatch, countries.length]);
+  useEffect(() => {
+    dispatch(fetchYears());
+    if (!countries.length) {
+      dispatch(fetchCountries());
+    }
+    dispatch(fetchUserRoles());
+  }, [dispatch, countries.length]);
 
     useEffect(() => {
         setProfessionalInfo((prev) => ({...prev, collegesArray: educationSections,}));
     }, [educationSections, setProfessionalInfo]);
 
-    useEffect(() => {
-        setProfessionalInfo((prev) => ({...prev, certificationsArray: certificationSections,}));
-    }, [certificationSections, setProfessionalInfo]);
+  useEffect(() => {
+    setProfessionalInfo((prev) => ({ ...prev, certificationsArray: certificationSections }));
+  }, [certificationSections, setProfessionalInfo]);
 
     const handleOptionChange = (dropdownKey, updatedValue, sectionIndex, type) => {
         if (type === 'education') {

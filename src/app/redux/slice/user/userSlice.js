@@ -105,6 +105,7 @@ export const {
   setServicesCurrentStep, 
   setPlugRoute, 
   setVerificationComplete,
+  setVerifiedPhone,
   updateProfileCompletion,
   setResumeUploaded
 } = userSlice.actions;
