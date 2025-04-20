@@ -8,6 +8,7 @@ import { selectEmployees } from '@/app/redux/slice/employee/employeeSlice';
 const EmployeeCard = ({
     employee,
     onClick,
+    onServiceSelect, // new prop for service button clicks
     showAbout = false,
     showReviews = false,
 }) => {
@@ -16,7 +17,7 @@ const EmployeeCard = ({
         <>
             <div className="bg-white border border-[#F0F0F0] rounded-lg pl-[16px] pr-[16px] pt-[24px] pb-[24px] w-full max-w-[1000px] h-auto flex flex-col items-start">
                 <div className="h-[96px] flex flex-wrap items-start w-full">
-                    <div className="flex h-[72px] gap-[24px] items-center w-full">
+                    <div className="flex h-[72px] gap-[24px] items-center w-500">
                         <Image
                             src={employee.image}
                             alt={employee.name}
@@ -114,14 +115,23 @@ const EmployeeCard = ({
                 {!showReviews && (
                     <div
                         className="flex flex-col lg:flex-row gap-[16px]"
-                        onClick={() => onClick(employee)}
+                        // onClick={() => onClick(employee)}
                     >
                         {employee?.services.map((service) => (
                             <div
                                 key={service.title}
                                 className="w-[326px] sm:w-[326px] lg:w-[310px] group pb-[16px] pt-[16px] pl-[16px] bg-primary border border-gray-300 rounded-[4px] cursor-pointer md:transition-colors flex flex-col justify-between 
                             md:hover:bg-employecard-card-blue-hover"
-                                onClick={() => onClick(employee)}
+                                // onClick={() => onClick(employee)}
+                                onClick={(e) => {
+                                    // Prevent triggering the entire card click
+                                    e.stopPropagation();
+                                    if (onServiceSelect) {
+                                      onServiceSelect(employee.id, service.title);
+                                    } else if (onClick) {
+                                      onClick(employee);
+                                    }
+                                  }}
                             >
                                 <h5 className="text-lg font-semibold text-heading truncate md:group-hover:text-primary">
                                     {service?.title}
@@ -147,5 +157,6 @@ EmployeeCard.propTypes = {
     showAbout: PropTypes.bool,
     showReviews: PropTypes.bool,
     onClick: PropTypes.func,
+    onServiceSelect: PropTypes.func, // new prop type
 };
 export default EmployeeCard;

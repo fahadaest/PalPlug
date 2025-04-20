@@ -18,6 +18,9 @@ const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
       await signOut(auth);
       dispatch(logout());
       localStorage.removeItem('user');
+      localStorage.removeItem('profile');
+      localStorage.removeItem('profile_id');
+      localStorage.removeItem('services');
       router.push('/'); 
       setDropdownOpen(false);
     } catch (error) {

@@ -4,6 +4,7 @@ import Dashboard from "@/assets/images/DashRobort.svg";
 import Promo from "@/assets/images/promo.svg";
 import Image from 'next/image';
 import DropdownComponent from '../profileDetails/DropdownComponent';
+import { useSelector } from 'react-redux';
 
 const inboxData = [
     { date: '2023/12/24', name: 'jacklyn', description: 'How are you.', image: 'https://via.placeholder.com/40' },
@@ -16,6 +17,7 @@ const inboxData = [
 const Plug_Dashboard = () => {
     const [selectOrders, setSelectOrders] = useState([]);
     const [showInbox, setShowInbox] = useState(false);
+    const user = useSelector((state) => state.user.user);
 
     const handleCheckboxChange = (event, option) => {
         if (event.target.checked) {
@@ -39,7 +41,7 @@ const Plug_Dashboard = () => {
                         <div className="w-full border flex flex-col gap-4 h-auto bg-white rounded-lg p-4">
                             <div className="flex items-center gap-4">
                                 <div className="w-[44px] h-[44px] rounded-full bg-gray-300"></div>
-                                <span className="text-base font-semibold">UserName</span>
+                                <span className="text-base font-semibold">{user?.displayName || 'Guest User'}</span>
                             </div>
                             <ul className="flex flex-col gap-4">
                                 <li className="flex justify-between ">

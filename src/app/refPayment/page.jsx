@@ -1,6 +1,13 @@
+'use client';
+import React, { Suspense } from "react";
 import ReferralPackage from "@/components/referralPackage";
 
 const RefPayment = () => {
-    return <ReferralPackage />;
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ReferralPackage />
+    </Suspense>
+  );
 };
-export default RefPayment; 
+
+export default RefPayment;

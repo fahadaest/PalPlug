@@ -1,7 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Robot from '@/assets/images/Robot.svg';
 import Image from 'next/image';
+import { useDispatch } from 'react-redux';
+import { loadServices, saveServices } from '@/app/utils/storage';
+import { submitProfileData } from '@/app/redux/slice/submitProfileData/profileSubmitSlice';
+import { useRouter } from 'next/navigation';
+
 const Requirement = () => {
+  const [selectedValue, setSelectedValue] = useState('');
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const handleRadioChange = (event) => {
+    setSelectedValue(event.target.value);
+  };
+
+  const onPublish = (e) => {
+    e.preventDefault();
+    const svc = loadServices();
+    svc.form_w9_confirmation = { is_us_person: selectedValue === 'yes' };
+
+    if (!svc.work_email) {
+      const storedProfile = JSON.parse(localStorage.getItem('profile') || '{}');
+      if (storedProfile.workEmail || storedProfile.work_email) {
+        svc.work_email = storedProfile.workEmail || storedProfile.work_email;
+      }
+    }
+
+    const profileId = localStorage.getItem('profile_id');
+    if (profileId) {
+      svc.id = profileId;
+    }
+
+    saveServices(svc);
+    console.log("[Publish] final services payload:", svc);
+
+    dispatch(submitProfileData(svc))
+      .unwrap()
+      .then((res) => {
+        console.log("submitProfileData succeeded:", res);
+        router.push('/');
+      })
+      .catch((err) => {
+        console.log("submitProfileData failed:", err);
+      });
+
+  };
+
+
   return (
     <div className="bg-white pl-[16px] pt-[40px] pr-[16px] border md:p-[40px_80px_40px_80px] mt-5 rounded-[8px] w-full max-w-[978px]">
 
@@ -24,13 +69,21 @@ const Requirement = () => {
               What is a U.S. person (as defined by the U.S. tax authorities)?
             </a>
           </p>
+
           <div className="flex flex-col gap-[16px]">
             <p className="text-sm sm:text-base text-gray-800 font-semibold">
               Are you a U.S. person?
             </p>
 
             <label className="block border border-gray-800 rounded-[4px] cursor-pointer p-2">
-              <input type="radio" name="us_person" className="mr-2 accent-[#005382]" />
+              <input
+                type="radio"
+                name="us_person"
+                value="no"
+                checked={selectedValue === 'no'}
+                onChange={handleRadioChange}
+                className="mr-2 accent-[#005382]"
+              />
               <span className="text-gray-800 text-[14px] font-medium">No</span>
               <div className='pl-[16px] pr-[16px]'>
                 <p className="text-[12px] sm:text-base text-gray-600">
@@ -40,10 +93,16 @@ const Requirement = () => {
             </label>
 
             <label className="block border border-gray-800 rounded-[4px] cursor-pointer p-2">
-              <input type="radio" name="us_person" className="mr-2 accent-[#005382]" />
+              <input
+                type="radio"
+                name="us_person"
+                value="yes"
+                checked={selectedValue === 'yes'}
+                onChange={handleRadioChange}
+                className="mr-2 accent-[#005382]"
+              />
               <span className="text-gray-800 text-[14px] font-medium">Yes</span>
               <div className='pl-[16px] pr-[16px]'>
-
                 <p className="text-[12px] sm:text-base text-gray-600">
                   U.S. tax authorities might request Form W-9 and information regarding your activity on Fiverr.
                 </p>
@@ -65,10 +124,16 @@ const Requirement = () => {
             </p>
           </div>
         </div>
-
       </div>
+
       <div className="flex sm:w-[80%] sm:justify-center md:justify-end pl-[16px] pr-[16px] md:w-[100%] mt-[300px]">
-        <button className="bg-[#005382] h-[40px] w-full sm:w-[175px] text-white font-semibold text-sm p-[11px_20px_11px_20px] rounded-[8px]">
+        <button
+          type="button"
+          onClick={onPublish}
+          disabled={selectedValue === ''}
+          className={`bg-[#005382] h-[40px] w-full sm:w-[175px] text-white font-semibold text-sm p-[11px_20px_11px_20px] rounded-[8px] ${selectedValue === '' ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+        >
           Publish
         </button>
       </div>
@@ -76,4 +141,5 @@ const Requirement = () => {
     </div>
   );
 };
+
 export default Requirement;
