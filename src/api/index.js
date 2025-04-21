@@ -8,7 +8,7 @@ const ROUTES = {
     linkedinRegister: `authentication/linkedin-register/`,
     socialRegister: `authentication/social-register/`,
     userRoles: 'users/user-roles/',
-    submitProfile: 'submit-profile/',
+    submitProfile: 'submit-profile/1/',
     submitAllServices: 'services/submitAllServices/',
     getCompanies:"companies/companies-list/",
     collegesByCountry: 'colleges/',
