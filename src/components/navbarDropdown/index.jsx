@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import UserImg from '@/assets/images/user.svg';
 import Image from 'next/image';
 import { signOut } from 'firebase/auth';
@@ -10,10 +10,6 @@ import { useRouter } from 'next/navigation';
 
 const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
   const dispatch = useDispatch();
-  const [isPlug, setIsPlug] = useState(false);
-  useEffect(() => {
-    setIsPlug(localStorage.getItem('isPlug') === 'true');
-  }, []);
   const router = useRouter();
   const userFromStore = useSelector((state) => state.user.user);
 
@@ -69,7 +65,6 @@ const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
           </div>
         </div>
       </div>
-      {!isPlug && (
       <div className="flex justify-center my-4 px-4">
         <button
           onClick={handleBecomeAPlug}
@@ -79,7 +74,6 @@ const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
           Become a plug
         </button>
       </div>
-      )}
       <div className="border-t border-gray-200 dark:border-gray-600"></div>
       <ul className="text-sm text-gray-700 dark:text-gray-200 divide-y divide-gray-100 dark:divide-gray-600">
         <li>

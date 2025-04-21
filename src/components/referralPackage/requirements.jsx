@@ -1,5 +1,4 @@
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import TimerIcon from '@/assets/images/timer.svg';
@@ -10,12 +9,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useRouter, useSearchParams } from 'next/navigation';
 import PaymentProgressBar from '@/components/navbar/PaymentProgressBar';
 import { setServicesCurrentStep } from '@/app/redux/slice/user/userSlice';
-
 const Requirements = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const params = useSearchParams();
-
   useEffect(() => {
     const nav = document.querySelector('nav');
     if (nav) nav.style.display = 'none';
@@ -23,58 +20,77 @@ const Requirements = () => {
       if (nav) nav.style.display = '';
     };
   }, []);
-
   const employeeIdParam = params.get('employeeId');
   const serviceParam = params.get('service');
   const selectedPackagesParam = params.get('selectedPackages');
   const totalPriceParam = params.get('totalPrice');
   const serviceFeeParam = params.get('serviceFee');
-  const totalDeliveryDaysParam = params.get('totalDeliveryDays');
-
+  const totalDeliveryDaysParam = Number(params.get('totalDeliveryDays')) || 1;
+  const packageIdToName = {
+        standard: 'Standard Employee Referral',
+        interview: 'Interview Preparation',
+        resume: 'Resume Review',
+      };
+      const selectedPackageIds = selectedPackagesParam
+        ? selectedPackagesParam.split(',').filter(Boolean)
+        : [];
+      const packageNames = selectedPackageIds.map(
+        (id) => packageIdToName[id] || id
+      );
+      let paymentSummaryHeading = '';
+      if (packageNames.length === 0) {
+        paymentSummaryHeading = 'Payment Summary';
+      } else if (packageNames.length === 1) {
+        paymentSummaryHeading = packageNames[0];
+      } else if (packageNames.length === 2) {
+        paymentSummaryHeading = packageNames.join(' & ');
+      } else {
+        paymentSummaryHeading =
+          packageNames.slice(0, -1).join(', ') +
+          ' & ' +
+          packageNames[packageNames.length - 1];
+      }
   const currentStepservices = useSelector(s => s.user.servicescurrentStep);
-
   useEffect(() => {
     dispatch(setServicesCurrentStep(3));
   }, [dispatch]);
-
   const handleStepClick = (step) => {
     if (currentStepservices >= step) {
       dispatch(setServicesCurrentStep(step));
       if (step === 1) {
         router.push(
-          `/servicePayment?employeeId=${employeeIdParam}` +
-          `&service=${serviceParam}` +
-          `&selectedPackages=${selectedPackagesParam || ''}`
-        );
-      } else if (step === 2) {
-        router.push(
-          `/servicePayment?employeeId=${employeeIdParam}` +
-          `&service=${serviceParam}` +
-          `&selectedPackages=${selectedPackagesParam || ''}` +
+          `/refPayment?employeeId=${employeeIdParam}` +
+          `&service=${encodeURIComponent(serviceParam)}` +
+          `&selectedPackages=${encodeURIComponent(selectedPackagesParam || '')}` +
           `&totalPrice=${totalPriceParam || ''}` +
           `&serviceFee=${serviceFeeParam || ''}` +
           `&totalDeliveryDays=${totalDeliveryDaysParam || ''}`
         );
+      } else if (step === 2) {
+        router.push(
+          `/servicePayment?employeeId=${employeeIdParam}` +
+          `&service=${encodeURIComponent(serviceParam)}` +
+          `&selectedPackages=${selectedPackagesParam || ''}` +
+          `&totalPrice=${totalPriceParam || ''}` +
+          `&serviceFee=${serviceFeeParam || ''}` +
+          `&totalDeliveryDays=${totalDeliveryDaysParam}`
+        );
       }
     }
   };
-
   const [jobUrl, setJobUrl] = useState('');
   const [portfolioUrl, setPortfolioUrl] = useState('');
   const user = useSelector(state => state.user.userData);
-
   const data = {
     displayName: user?.displayName || defaultData.displayName,
     photoURL: user?.photoURL || defaultData.photoURL,
     title: user?.title || defaultData.title,
     location: user?.location || defaultData.location,
   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     router.push('/');
   };
-
   return (
     <>
       <PaymentProgressBar
@@ -133,7 +149,7 @@ const Requirements = () => {
             <div className="w-[436px]">
               <div className="border border-gray-300 rounded-[8px] p-6 h-[318px] mt-[60px] ml-auto flex flex-col justify-between">
                 <div>
-                  <h3 className="font-semibold mb-4">Standard Employee Referral</h3>
+                  <h3 className="font-semibold mb-4">{paymentSummaryHeading}</h3>
                   <div className="space-y-4">
                     <div className="flex items-center gap-2">
                       <Image
@@ -143,7 +159,10 @@ const Requirements = () => {
                         height={20}
                         className="rounded-full"
                       />
-                      <span className="text-sm">1 day delivery</span>
+                      <span className="text-sm">
+                        {totalDeliveryDaysParam} day
+                        {totalDeliveryDaysParam > 1 ? 's' : ''} delivery
+                      </span>
                     </div>
                     <div className="flex items-center gap-2">
                       <Image
@@ -171,5 +190,4 @@ const Requirements = () => {
     </>
   );
 };
-
 export default Requirements;

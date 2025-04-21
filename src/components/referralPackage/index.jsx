@@ -10,7 +10,6 @@ import Male from "@/assets/images/male.svg";
 import { PopupButton } from "react-calendly";
 import PaymentProgressBar from "@/components/navbar/PaymentProgressBar";
 import { setServicesCurrentStep } from "@/app/redux/slice/user/userSlice";
-
 const packagesData = [
   {
     id: "standard",
@@ -45,7 +44,6 @@ const serviceToPackageId = {
   "Resume Review": "resume",
   "Interview Prep": "interview",
 };
-
 const ReferralPackage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -53,14 +51,11 @@ const ReferralPackage = () => {
   const employeeIdParam = searchParams.get("employeeId");
   const serviceParam = searchParams.get("service");
   const selectedPackagesParam = searchParams.get("selectedPackages");
-
   const employees = useSelector(selectEmployees);
   const currentStepservices = useSelector((state) => state.user.servicescurrentStep);
-
   useEffect(() => {
     dispatch(setServicesCurrentStep(1));
   }, [dispatch]);
-
   const employee = employees.find(
     (emp) => emp.id.toString() === employeeIdParam
   );
@@ -76,9 +71,7 @@ const ReferralPackage = () => {
       });
     }
   }, [serviceParam, selectedPackagesParam]);
-
   const [promoCode, setPromoCode] = useState("");
-
   const selectedEmployeeService = employee?.services?.find(
     (s) => s.title === serviceParam
   );
@@ -107,7 +100,6 @@ const ReferralPackage = () => {
           return [...prev, type];
         });
       };
-
   const handlePromoCodeChange = (e) => {
     setPromoCode(e.target.value);
   };
@@ -135,7 +127,6 @@ const ReferralPackage = () => {
       : packageNames.slice(0, packageNames.length - 1).join(", ") +
         " & " +
         packageNames[packageNames.length - 1];
-
   const handlePaymentRoute = () => {
     dispatch(setServicesCurrentStep(2));
     router.push(
@@ -152,7 +143,6 @@ const ReferralPackage = () => {
       dispatch(setServicesCurrentStep(step));
     }
   };
-
   return (
     <>
       <PaymentProgressBar
@@ -256,7 +246,6 @@ const ReferralPackage = () => {
                     </div>
                   ))}
                 </div>
-
                 <div>
                   <input
                     type="text"
@@ -266,7 +255,6 @@ const ReferralPackage = () => {
                     className="w-full text-[#939393] text-base font-semibold"
                   />
                 </div>
-
                 <div className="flex justify-between ">
                   <p className="font-semibold text-[#939393] text-[16px]">
                     Service fee
@@ -275,14 +263,12 @@ const ReferralPackage = () => {
                     ${serviceFee.toFixed(2)}
                   </span>
                 </div>
-
                 <div className="flex justify-between pt-[0px] pb-[0px]">
                   <h3 className="text-[24px] font-semibold">Total</h3>
                   <span className="text-[24px] font-semibold">
                     ${totalPrice.toFixed(2)}
                   </span>
                 </div>
-
                 <div className="flex h-[138px] flex-col gap-[36px] ">
                   <PopupButton
                     url="https://calendly.com/ali-rayhan29"
@@ -308,7 +294,6 @@ const ReferralPackage = () => {
                       cursor: "pointer",
                     }}
                   />
-
                   <button
                     onClick={handlePaymentRoute}
                     className="w-full h-[40px] text-[12px] font-semibold p-[11px_20px_11px_20px] bg-[#005382] text-white rounded-[8px]"
@@ -329,5 +314,4 @@ const ReferralPackage = () => {
     </>
   );
 };
-
 export default ReferralPackage;
