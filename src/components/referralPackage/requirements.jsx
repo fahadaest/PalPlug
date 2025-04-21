@@ -58,7 +58,6 @@ const Requirements = () => {
     if (currentStepservices >= step) {
       dispatch(setServicesCurrentStep(step));
       if (step === 1) {
-        // back to Order Details (page 1)
         router.push(
           `/refPayment?employeeId=${employeeIdParam}` +
           `&service=${encodeURIComponent(serviceParam)}` +
@@ -68,7 +67,6 @@ const Requirements = () => {
           `&totalDeliveryDays=${totalDeliveryDaysParam || ''}`
         );
       } else if (step === 2) {
-        // back to Confirm & Pay (page 2), with full state
         router.push(
           `/servicePayment?employeeId=${employeeIdParam}` +
           `&service=${encodeURIComponent(serviceParam)}` +
@@ -102,7 +100,6 @@ const Requirements = () => {
       <div className="bg-white min-h-screen">
         <div className="max-w-[1200px] mx-auto p-4">
           <div className="flex gap-8 mt-8">
-            {/* Left side form */}
             <div className="flex-1">
               <div className="flex items-center gap-[16px] h-[92px]">
                 <Image
@@ -149,7 +146,6 @@ const Requirements = () => {
                 </div>
               </form>
             </div>
-            {/* Right side summary card */}
             <div className="w-[436px]">
               <div className="border border-gray-300 rounded-[8px] p-6 h-[318px] mt-[60px] ml-auto flex flex-col justify-between">
                 <div>
@@ -163,7 +159,6 @@ const Requirements = () => {
                         height={20}
                         className="rounded-full"
                       />
-                      {/* ──────────────── UPDATED: dynamic days ──────────────── */}
                       <span className="text-sm">
                         {totalDeliveryDaysParam} day
                         {totalDeliveryDaysParam > 1 ? 's' : ''} delivery

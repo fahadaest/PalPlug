@@ -190,6 +190,7 @@ const PaymentMethod = () => {
                             </div>
                         </div>
                     )}
+
                     <div
                         className={`h-[64px] flex items-center gap-[10px] pl-[15px] cursor-pointer border-[#D5D4DC] ${
                             selectedMethod === 'paypal'
@@ -270,6 +271,7 @@ const PaymentMethod = () => {
                         </div>
                     )}
                 </div>
+
                 <div className="border rounded-[8px] p-[20px] w-full md:w-[436px] h-auto md:h-[515px]">
                     <div className="flex flex-col h-auto w-full gap-[20px]">
                         <h3 className="text-lg font-semibold mb-3">
@@ -300,6 +302,7 @@ const PaymentMethod = () => {
                                 <span>Video screening required</span>
                             </div>
                         </div>
+
                         <div>
                             <input
                                 type="text"
