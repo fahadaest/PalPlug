@@ -6,12 +6,12 @@ import employeesReducer from '@/app/redux/slice/employee/employeeSlice';
 import userReducer, { setUser } from '@/app/redux/slice/user/userSlice';
 import countriesReducer from '@/app/redux/slice/country/countrySlice';
 import serviceSlice from './slice/servicespublish/serviceSlice';
-import resumeReducer from './slice/resume/resumeSlice';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import collegeReducer from '@/app/redux/slice/colleges/collegeSlice';
 import yearReducer from '@/app/redux/slice/year/yearSlice';
 import userRolesReducer from '@/app/redux/slice/userRoles/userRolesSlice';
 import profileSubmitReducer from '@/app/redux/slice/submitProfileData/profileSubmitSlice';
+import resumeReducer from './slice/resume/resumeSlice';
 
 
 export const store = configureStore({
@@ -22,11 +22,12 @@ export const store = configureStore({
     services: serviceSlice,
     resume: resumeReducer,
     user: userReducer,
-    colleges: collegeReducer,
+    colleges: collegeReducer, 
     years: yearReducer,
     userRoles: userRolesReducer,
     profileSubmit: profileSubmitReducer,
-    [apiSlice.reducerPath]: apiSlice.reducer,
+    [apiSlice.reducerPath]: apiSlice.reducer, 
+    
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(apiSlice.middleware), 

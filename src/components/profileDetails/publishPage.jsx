@@ -37,11 +37,10 @@ const Requirement = () => {
     dispatch(submitProfileData(svc))
       .unwrap()
       .then((res) => {
-        console.log("submitProfileData succeeded:", res);
+        localStorage.setItem('isPlug', 'true');
         router.push('/');
       })
       .catch((err) => {
-        console.log("submitProfileData failed:", err);
       });
 
   };

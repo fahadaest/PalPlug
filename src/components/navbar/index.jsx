@@ -228,7 +228,7 @@ const Navbar = () => {
                     onClick={toggleDropdown}
                   >
                     <Image
-                      src={user.photoUrl ?? UserImg}
+                      src={user.photoUrl}
                       alt={user.displayName || 'User'}
                       width={36}
                       height={36}
