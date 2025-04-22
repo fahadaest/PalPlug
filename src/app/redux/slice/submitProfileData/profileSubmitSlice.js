@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { postRequest } from '@/axios/index';
 import { getRoute } from '@/api/index';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
 
 const appendField = (formData, key, value, transform) => {
   if (value !== undefined && value !== null) {
