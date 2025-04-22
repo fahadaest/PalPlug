@@ -52,52 +52,32 @@ const ProfileInfo = ({ userId, displayName }) => {
       dispatch(setCurrentStep(3));
     }
   };
-  const handleFinish = async (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const servicesObjStr = localStorage.getItem('services');
-    let fallbackValues = {};
-    if (servicesObjStr) {
-      try {
-        fallbackValues = JSON.parse(servicesObjStr);
-      } catch (e) {
-  
-      }
-    }
-    const finalFirstName = firstName.trim() !== '' ? firstName : fallbackValues.first_name;
-    const finalLastName  = lastName.trim() !== '' ? lastName : fallbackValues.last_name;
-    const finalWorkEmail = (professionalInfo && professionalInfo.workEmail && professionalInfo.workEmail.trim() !== '') ? professionalInfo.workEmail : fallbackValues.work_email;
-    
-    const payloadData = {
-      firstName: finalFirstName,
-      lastName: finalLastName,
-      profilePicture, 
-      description: description.trim() !== '' ? description : undefined,
-      professionalInfo, 
-      phone: verifiedPhone,
-      work_email: finalWorkEmail,
-      profile_type: isPlugRoute ? 1 : 2
-    };
-    const storedProfileId = localStorage.getItem('profile_id');
-    if (storedProfileId) {
-      payloadData.id = storedProfileId;
-    }
-  
-    localStorage.setItem('profile', JSON.stringify(payloadData));
-    
-    saveServices({
-      first_name: finalFirstName,
-      last_name: finalLastName,
-      work_email: finalWorkEmail,
-    });
-    
+  const handleFinish = async () => {
     try {
-      const resultAction = await dispatch(submitProfileData(payloadData)).unwrap();
-      localStorage.setItem('profile_id', resultAction.profile_id);
+      const payloadData = {
+        id: userData?.id,
+        phone: userData?.phone,
+        firstName: userData?.first_name,
+        lastName: userData?.last_name,
+        description: userData?.description,
+        profilePicture: userData?.profile_image,
+        work_email: userData?.work_email,
+        profile_type: isPlugRoute ? 1 : 2,
+        professionalInfo: {
+          occupation: userData?.occupation,
+          employer: userData?.employer,
+          collegesArray: userData?.colleges || [],
+          certificationsArray: userData?.certifications || [],
+        },
+        services: userData?.services || [],
+        order_requirements: userData?.order_requirements || [],
+        form_w9_confirmation: userData?.form_w9_confirmation || false,
+      };
+
+      const result = await dispatch(submitProfileData(payloadData)).unwrap();
       
-      if (isPlugRoute) {
-        router.push('/servicesselection');
-        setServicesSelectionVisible(true);
+      if (result.profile_type === 1) {
+        router.push('/serviceselection');
       } else {
         router.push('/candidate-profile');
       }
