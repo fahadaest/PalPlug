@@ -76,10 +76,11 @@ const ProfileInfo = ({ userId, displayName }) => {
       professionalInfo, 
       phone: verifiedPhone,
       work_email: finalWorkEmail,
+      profile_type: isPlugRoute ? 1 : 2
     };
     const storedProfileId = localStorage.getItem('profile_id');
     if (storedProfileId) {
-    payloadData.id = storedProfileId;
+      payloadData.id = storedProfileId;
     }
   
     localStorage.setItem('profile', JSON.stringify(payloadData));

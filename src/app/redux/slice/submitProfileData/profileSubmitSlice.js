@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { postRequest } from '@/axios/index';
 import { getRoute } from '@/api/index';
+import axios from 'axios';
 
 const appendField = (formData, key, value, transform) => {
   if (value !== undefined && value !== null) {
@@ -9,50 +10,14 @@ const appendField = (formData, key, value, transform) => {
 };
 
 export const submitProfileData = createAsyncThunk(
-  'profileSubmit/submitProfileData',
-  async (payload, { rejectWithValue }) => {
+  'profile/submitProfileData',
+  async (profileData, { rejectWithValue }) => {
     try {
-      const formData = new FormData();
-
-      appendField(formData, 'id', payload.id);
-      appendField(formData, 'phone', payload.phone);
-      appendField(formData, 'first_name', payload.firstName ?? payload.first_name);
-      appendField(formData, 'last_name', payload.lastName ?? payload.last_name);
-      appendField(formData, 'description', payload.description);
-      appendField(formData, 'profile_image', payload.profilePicture);
-
-
-      const workEmail =
-        payload.work_email ||
-        payload.firstName?.work_email ||
-        (payload.professionalInfo && payload.professionalInfo.workEmail);
-      appendField(formData, 'work_email', workEmail);
-
-      const { professionalInfo } = payload;
-      if (professionalInfo) {
-        const { occupation, employer, collegesArray, certificationsArray } = professionalInfo;
-        if (occupation && occupation.trim() !== '') {
-          appendField(formData, 'occupation', occupation);
-        }
-        if (employer && employer.trim() !== '') {
-          appendField(formData, 'employer', employer);
-        }
-        appendField(formData, 'colleges', collegesArray, JSON.stringify);
-        appendField(formData, 'certifications', certificationsArray, JSON.stringify);
-      }
-
-      appendField(formData, 'services', payload.services, JSON.stringify);
-      appendField(formData, 'order_requirements', payload.order_requirements, JSON.stringify);
-      appendField(formData, 'form_w9_confirmation', payload.form_w9_confirmation, JSON.stringify);
-
-
-      const route = getRoute('submitProfile');
-      const response = await postRequest(route, formData, true);
-      return response;
+      const endpoint = profileData.profile_type === 1 ? '/api/submit-profile/1/' : '/api/submit-profile/2/';
+      const response = await axios.post(endpoint, profileData);
+      return response.data;
     } catch (error) {
-      return rejectWithValue(
-        error.response?.data || error.message || 'Unknown error'
-      );
+      return rejectWithValue(error.response.data);
     }
   }
 );
