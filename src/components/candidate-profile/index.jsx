@@ -49,7 +49,7 @@ const Dashboard = () => {
 
   const handleGetStartedClick = () => {
     dispatch(setPlugRoute(false));
-    router.push(`/profile/${userId}`);
+    router.push(`/palprofile`);
   };
 
   const [isModalVisible, setIsModalVisible] = useState(false);

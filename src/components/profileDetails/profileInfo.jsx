@@ -93,16 +93,15 @@ const ProfileInfo = ({ userId, displayName }) => {
     try {
       const resultAction = await dispatch(submitProfileData(payloadData)).unwrap();
       localStorage.setItem('profile_id', resultAction.profile_id);
-      router.push('/servicesselection');
+      
       if (isPlugRoute) {
-      router.push('/servicesselection');
-      setServicesSelectionVisible(true);
-    } else {
-      router.push('/candidate-profile');
-      dispatch(setPlugRoute(true));
-    }
+        router.push('/servicesselection');
+        setServicesSelectionVisible(true);
+      } else {
+        router.push('/candidate-profile');
+      }
     } catch (error) {
-    
+      console.error('Error submitting profile:', error);
     }
   };
   const handleOpenPhoneModal = (event) => {
@@ -193,7 +192,7 @@ const ProfileInfo = ({ userId, displayName }) => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="border rounded-[8px] h-[147px] p-3 text-[16px] font-[400] placeholder-[#939393] focus:border-[#005382] focus:outline-none"
-                  placeholder="Share a bit about your work experience, cool projects you’ve completed, and your area of expertise to show candidates."
+                  placeholder="Share a bit about your work experience, cool projects you've completed, and your area of expertise to show candidates."
                 />
                 <p className="text-[12px] text-[#939393] mt-[4px]">
                   min. 150 characters
