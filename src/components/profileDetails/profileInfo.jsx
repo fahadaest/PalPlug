@@ -14,16 +14,18 @@ const ProfileInfo = ({ userId, displayName }) => {
   const dispatch = useDispatch();
   const currentStep = useSelector((state) => state.user.currentStep);
   const isPlugRoute = useSelector((state) => state.user.isplugroute);
+  const router = useRouter();
+  const pathname = window.location.pathname;
+  const isPalProfileRoute = pathname.includes('/palprofile');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(''); 
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [isServicesSelectionVisible, setServicesSelectionVisible] = useState(false);
   const isVerificationComplete = useSelector((state) => state.user.isVerificationComplete);
   const [isProfessionalInfoValid, setIsProfessionalInfoValid] = useState(false); 
   const [isAccountSecurityValid, setIsAccountSecurityValid] = useState(false);
-  const router = useRouter();
   const verifiedPhone = useSelector((state) => state.user.verifiedPhone);
   const [professionalInfo, setProfessionalInfo] = useState({
     occupation: '' ,
@@ -52,33 +54,36 @@ const ProfileInfo = ({ userId, displayName }) => {
       dispatch(setCurrentStep(3));
     }
   };
-  const handleFinish = async () => {
+  const handleFinish = async (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     try {
       const payloadData = {
-        id: userData?.id,
-        phone: userData?.phone,
-        firstName: userData?.first_name,
-        lastName: userData?.last_name,
-        description: userData?.description,
-        profilePicture: userData?.profile_image,
-        work_email: userData?.work_email,
-        profile_type: isPlugRoute ? 1 : 2,
+        id: userId,
+        phone: verifiedPhone,
+        firstName: firstName,
+        lastName: lastName,
+        description: description,
+        profilePicture: profilePicture,
+        work_email: professionalInfo.workEmail,
+        profile_type: isPlugRoute ? 1 : 2, // Use isPlugRoute from Redux state
         professionalInfo: {
-          occupation: userData?.occupation,
-          employer: userData?.employer,
-          collegesArray: userData?.colleges || [],
-          certificationsArray: userData?.certifications || [],
+          occupation: professionalInfo.occupation,
+          employer: professionalInfo.employer,
+          workEmail: professionalInfo.workEmail,
+          collegesArray: professionalInfo.colleges || [],
+          certificationsArray: professionalInfo.certifications || [],
         },
-        services: userData?.services || [],
-        order_requirements: userData?.order_requirements || [],
-        form_w9_confirmation: userData?.form_w9_confirmation || false,
+        services: [],
+        order_requirements: [],
+        form_w9_confirmation: false,
       };
 
       const result = await dispatch(submitProfileData(payloadData)).unwrap();
       
       if (result.profile_type === 1) {
-        router.push('/serviceselection');
-      } else {
+        setServicesSelectionVisible(true);
+      } else if (result.profile_type === 2) {
         router.push('/candidate-profile');
       }
     } catch (error) {

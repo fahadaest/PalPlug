@@ -8,20 +8,23 @@ const ROUTES = {
     linkedinRegister: `authentication/linkedin-register/`,
     socialRegister: `authentication/social-register/`,
     userRoles: 'users/user-roles/',
-    submitProfile: 'submit-profile/1/',
+    submitProfile: 'submit-profile/',
     submitAllServices: 'services/submitAllServices/',
     getCompanies:"companies/companies-list/",
     collegesByCountry: 'colleges/',
     yearsList: 'years/',
-     };
+};
 
-     export const getRoute = (routeKey, param = '') => {
-      if (routeKey === 'collegesByCountry') {
+export const getRoute = (routeKey, param = '') => {
+    if (routeKey === 'collegesByCountry') {
         return `${ROUTES.collegesByCountry}${param}`;
-      }
-      if (routeKey === 'yearsList') {
+    }
+    if (routeKey === 'yearsList') {
         return ROUTES.yearsList;
-      }
-      return ROUTES[routeKey];
-    };
+    }
+    if (routeKey === 'submitProfile') {
+        return `${ROUTES.submitProfile}${param}/`;
+    }
+    return ROUTES[routeKey];
+};
       

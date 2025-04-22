@@ -41,12 +41,11 @@ export const submitProfileData = createAsyncThunk(
       appendField(formData, 'order_requirements', profileData.order_requirements, JSON.stringify);
       appendField(formData, 'form_w9_confirmation', profileData.form_w9_confirmation, JSON.stringify);
 
-      const endpoint = profileData.profile_type === 1 ? '/api/submit-profile/1/' : '/api/submit-profile/2/';
-      const response = await axios.post(endpoint, formData);
+      const route = getRoute('submitProfile', profileData.profile_type);
+      const response = await postRequest(route, formData, true);
       
-      // Return both the response and profile_type for redirection
       return {
-        data: response.data,
+        data: response,
         profile_type: profileData.profile_type
       };
     } catch (error) {

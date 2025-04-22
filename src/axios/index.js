@@ -28,13 +28,16 @@ export const postRequest = (route, data, requireAccessToken) => {
     let authenticatedHeaders;
     if (requireAccessToken && accessToken) {
         authenticatedHeaders = {
-            'Content-Type': 'application/json',
             Authorization: `Bearer ${accessToken}`,
         };
+        // Don't set Content-Type for FormData, let the browser set it with the boundary
+        if (!(data instanceof FormData)) {
+            authenticatedHeaders['Content-Type'] = 'application/json';
+        }
     }
     return axiosInstance
         .post(route, data, {
-            headers: requireAccessToken && authenticatedHeaders,
+            headers: requireAccessToken ? authenticatedHeaders : undefined,
         })
         .then((response) => {
             return response.data;
