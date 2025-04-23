@@ -118,6 +118,7 @@ const Navbar = () => {
   };
   const handleCompanyClick = (companyName) => {
     router.push(`/company/${companyName.toLowerCase()}`);
+    setSearchQuery(''); 
     setShowSuggestions(false);
   };
 
@@ -157,7 +158,7 @@ const Navbar = () => {
               <PlugDashboardBar />
             ) : (
               <div className="relative w-full max-w-[452px] min-w-[211px]">
-                <div className="search-input-container border rounded-md h-[40px] flex items-center px-3">
+                <div className="search-input-container border border-[#E5E7EB] rounded-md h-[40px] flex items-center px-3 focus-within:border-[#005382]">
                   <Image
                     src={Search.src}
                     alt="Search"

@@ -57,8 +57,11 @@ const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
       <div className="flex items-center text-sm text-gray-900 dark:text-white p-4 space-x-3">
         <Image
           className="w-8 h-8 rounded-full"
-          src={UserImg}
-          alt="User Photo"
+          src={userFromStore?.photoUrl}
+          alt={userFromStore?.displayName || 'User'}
+          width={36}
+          height={36}
+          unoptimized
         />
         <div>
           <div className="truncate text-text-heading font-semibold">

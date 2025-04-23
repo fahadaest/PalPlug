@@ -28,15 +28,15 @@ const CompanyDetails = () => {
     ...useSelector(selectCompanies),
     ...useSelector(selectOtherCompanies)
   ];
-  const [selectedJobFunction, setSelectedJobFunction] = useState('');
+  const [selectedJobTitle, setSelectedJobTitle] = useState('');
   const [selectedPrices, setSelectedPrices] = useState([]);
   const [selectedHighestRated, setSelectedHighestRated] = useState('Highest Rated');
-  const [jobFunctionError, setJobFunctionError] = useState('');
+  const [jobTitleError, setJobTitleError] = useState('');
 
   const [openDropdown, setOpenDropdown] = useState(null);
   const [openModal, setOpenModal] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  const jobFunctionOptions = ['Referral', 'Resume Review', 'Interview Prep'];
+  const jobTitleOptions = ['Software Engineer', 'Designer', 'Product Manager', 'Data Scientist', 'Marketing Specialist'];
   const priceRanges = useSelector(selectPriceRanges);
   const slug = name?.toLowerCase() || '';
   const company = companies.find(
@@ -63,11 +63,11 @@ const CompanyDetails = () => {
   }, []);
 
   const handlebuttonClick = (id) => {
-    if (id === 'dropdownPrice' && (selectedJobFunction === '' || selectedJobFunction === 'Job Function')) {
-      setJobFunctionError('Please select the Job Function');
+    if (id === 'dropdownPrice' && (selectedJobTitle === '' || selectedJobTitle === 'Job Titles')) {
+      setJobTitleError('Please select a Job Title');
       return;
     } else {
-      setJobFunctionError('');
+      setJobTitleError('');
     }
 
     if (isMobile) {
@@ -76,14 +76,15 @@ const CompanyDetails = () => {
       toggleDropdown(id);
     }
   };
-  const handleJobFunctionSelection = (value) => {
-    if (selectedJobFunction === value) {
-      setSelectedJobFunction('');
+
+  const handleJobTitleSelection = (value) => {
+    if (selectedJobTitle === value) {
+      setSelectedJobTitle('');
     } else {
-      setSelectedJobFunction(value);
+      setSelectedJobTitle(value);
     }
 
-    setJobFunctionError('');
+    setJobTitleError('');
     setOpenModal(null);
     setOpenDropdown(null);
   };
@@ -115,16 +116,17 @@ const CompanyDetails = () => {
       )}`
     );
   };
+
   const filteredEmployees = employees.filter((employee) => {
-    if (selectedJobFunction === '' && selectedPrices.length === 0) {
+    if (selectedJobTitle === '' && selectedPrices.length === 0) {
       return true;
     }
 
     let passes = false;
-    if (selectedJobFunction !== '') {
+    if (selectedJobTitle !== '') {
       const service = employee.services?.find(
         (s) =>
-          s.title.toLowerCase() === selectedJobFunction.toLowerCase()
+          s.title.toLowerCase() === selectedJobTitle.toLowerCase()
       );
       if (service) {
         if (selectedPrices.length === 0) {
@@ -181,46 +183,42 @@ const CompanyDetails = () => {
       <div className="position-relative pb-[16px] pt-[16px] w-full px-4 flex gap-[16px] overflow-x-scroll overflow-y-visible">
         <div className="position-relative text-left overscroll-none">
           <button
-            id="dropdownJobFunctionbutton"
-            onClick={() => handlebuttonClick('dropdownJobFunction')}
+            id="dropdownJobTitleButton"
+            onClick={() => handlebuttonClick('dropdownJobTitle')}
             className="text-dropdowntext bg-white border border-gray-300 rounded-[8px] text-sm px-4 py-2.5 flex items-center justify-between w-[166px] md:w-[276px] h-[48px] focus:outline-none"
             type="button"
           >
             <span className="text-sm">
-              {selectedJobFunction !== ''
-                ? selectedJobFunction
-                : 'Job Function'}
+              {selectedJobTitle !== '' ? selectedJobTitle : 'Job Titles'}
             </span>
             <Image
               src={ArrowIcon}
               alt="Arrow Icon"
               width={16}
               height={16}
-              className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownJobFunction' ? 'rotate-180' : 'rotate-0'
-                }`}
+              className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownJobTitle' ? 'rotate-180' : 'rotate-0'}`}
             />
           </button>
           <div
-            id="dropdownJobFunction"
-            className={`absolute z-10 ${openDropdown === 'dropdownJobFunction' ? 'block' : 'hidden'
-              } bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
+            id="dropdownJobTitle"
+            className={`absolute z-10 ${openDropdown === 'dropdownJobTitle' ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-[276px] position-relative mt-1`}
           >
             <ul
               className="p-3 space-y-1 text-sm text-dropdowntext"
-              aria-labelledby="dropdownJobFunctionbutton"
+              aria-labelledby="dropdownJobTitleButton"
             >
-              {jobFunctionOptions.map((option, index) => (
+              {jobTitleOptions.map((option, index) => (
                 <li key={index}>
                   <div className="flex items-center p-2 rounded hover:bg-gray-100">
                     <input
-                      id={`job-function-checkbox-${index + 1}`}
+                      id={`job-title-checkbox-${index + 1}`}
                       type="checkbox"
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-                      checked={selectedJobFunction === option}
-                      onChange={() => handleJobFunctionSelection(option)}
+                      checked={selectedJobTitle === option}
+                      onChange={() => handleJobTitleSelection(option)}
                     />
                     <label
-                      htmlFor={`job-function-checkbox-${index + 1}`}
+                      htmlFor={`job-title-checkbox-${index + 1}`}
                       className="ml-2 text-sm text-dropdowntext"
                     >
                       {option}
@@ -246,19 +244,17 @@ const CompanyDetails = () => {
               alt="Arrow Icon"
               width={16}
               height={16}
-              className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownPrice' ? 'rotate-180' : 'rotate-0'
-                }`}
+              className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownPrice' ? 'rotate-180' : 'rotate-0'}`}
             />
           </button>
-          {jobFunctionError && (
+          {jobTitleError && (
             <div className="text-red-500 text-sm mt-1">
-              {jobFunctionError}
+              {jobTitleError}
             </div>
           )}
           <div
             id="dropdownPrice"
-            className={`absolute z-10 ${openDropdown === 'dropdownPrice' ? 'block' : 'hidden'
-              } bg-white divide-y divide-gray-100 rounded-lg shadow w-[218px] position-relative mt-1`}
+            className={`absolute z-10 ${openDropdown === 'dropdownPrice' ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-[218px] position-relative mt-1`}
           >
             <ul
               className="p-3 space-y-1 text-sm text-dropdowntext"
@@ -299,14 +295,12 @@ const CompanyDetails = () => {
               alt="Arrow Icon"
               width={16}
               height={16}
-              className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownHighestRated' ? 'rotate-180' : 'rotate-0'
-                }`}
+              className={`w-4 h-4 ml-2 transition-transform duration-300 ${openDropdown === 'dropdownHighestRated' ? 'rotate-180' : 'rotate-0'}`}
             />
           </button>
           <div
             id="dropdownHighestRated"
-            className={`absolute z-10 ${openDropdown === 'dropdownHighestRated' ? 'block' : 'hidden'
-              } bg-white divide-y divide-gray-100 rounded-lg shadow w-[218px] position-relative mt-1`}
+            className={`absolute z-10 ${openDropdown === 'dropdownHighestRated' ? 'block' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow w-[218px] position-relative mt-1`}
           >
             <ul
               className="p-3 space-y-1 text-sm text-dropdowntext"
@@ -340,40 +334,12 @@ const CompanyDetails = () => {
       {openModal && isMobile && (
         <div className="fixed inset-0 bg-[#F2F2F7B2] bg-opacity-50 flex justify-center items-end z-50">
           <div
-            className={`bg-white w-full max-w-md rounded-l-[8px] rounded-r-[8px] p-4 ${openModal ? 'modal-animation' : ''
-              }`}
+            className={`bg-white w-full max-w-md rounded-l-[8px] rounded-r-[8px] p-4 ${openModal ? 'modal-animation' : ''}`}
           >
             <div className="flex justify-center items-center">
               <Image src={Drawar} alt="Drawer" width={36} height={4} />
             </div>
 
-            {openModal === 'dropdownJobFunction' && (
-              <>
-                <div className="flex justify-between items-center h-[48px] ">
-                  <h2 className="text-[18px] font-[600] text-[#373A36]">
-                    Job Function
-                  </h2>
-                  <button
-                    className="h-[24px] w-[24px]"
-                    onClick={() => setOpenModal(null)}
-                  >
-                    <Image src={Close} alt="Close" width={24} height={24} />
-                  </button>
-                </div>
-                <ul>
-                  {jobFunctionOptions.map((option, index) => (
-                    <li key={index}>
-                      <button
-                        className="h-[48px] w-[auto] text-[#373A36] flex justify-center items-center text-[16px] font-[500]"
-                        onClick={() => handleJobFunctionSelection(option)}
-                      >
-                        {option}
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            )}
             {openModal === 'dropdownPrice' && (
               <>
                 <div className="flex justify-between items-center h-[48px] ">

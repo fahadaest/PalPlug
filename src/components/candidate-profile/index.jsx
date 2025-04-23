@@ -101,7 +101,15 @@ const isProfileComplete = personalInfo && professionalInfo && finalStep;
       <div className="flex flex-col">
         <div className="bg-white p-4 md:p-6 border rounded-lg h-auto md:h-[248px] w-full md:w-[363px]">
           <div className="flex items-center h-[50px] mb-1 w-full md:w-[206px]">
-            <div className="w-[44px] h-[44px] bg-[#D9D9D9] rounded-full"></div>
+            <div className="relative w-[44px] h-[44px] bg-[#D9D9D9] rounded-full overflow-hidden">
+              <Image
+                className="object-cover"
+                src={user.photoUrl}
+                alt={user.displayName || 'User'}
+                fill
+                unoptimized
+              />
+            </div>
             <div className="ml-4">
               <h2 className="text-[14px] md:text-[16px] font-semibold leading-tight">{user?.displayName}</h2>
               <p className="text-[12px] md:text-[14px]">@{user?.username}</p>
