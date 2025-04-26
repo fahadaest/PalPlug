@@ -94,7 +94,7 @@ const Landing = ({ userId }) => {
                     return (
                         <div
                             key={index}
-                            className={`group relative bg-[#FFFFFF] shadow-lg rounded-[10px] flex items-center p-4 cursor-pointer h-[76px] md:transition-colors md:duration-300 md:${bgClass}`}
+                            className={`group relative bg-[#FFFFFF] shadow-lg rounded-[10px] flex items-center p-4 cursor-pointer h-[76px] md:transition-colors md:duration-300 ${bgClass} md:hover:${bgClass.replace('hover:', '')}`}
                             onClick={() => handleCompanyClick(company?.name)}
                             aria-label={`Explore ${company?.name}`}
                         >
@@ -130,7 +130,7 @@ const Landing = ({ userId }) => {
                     return (
                         <div
                             key={index}
-                            className={`group relative bg-[#FFFFFF] rounded-[10px] shadow-lg flex items-center p-4 cursor-pointer h-[76px] md:transition-colors md:duration-300 md:${bgClass}`}
+                            className={`group relative bg-[#FFFFFF] rounded-[10px] shadow-lg flex items-center p-4 cursor-pointer h-[76px] md:transition-colors md:duration-300 ${bgClass} md:hover:${bgClass.replace('hover:', '')}`}
                             onClick={() => handleCompanyClick(company?.name)}
                             aria-label={`Explore ${company?.name}`}
                         >

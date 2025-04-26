@@ -211,7 +211,7 @@ const ProfileInfo = ({ userId, displayName }) => {
           {currentStep === 2 && (
             <>
               <ProfessionalInfo professionalInfo={professionalInfo} setProfessionalInfo={setProfessionalInfo} onValidationChange={setIsProfessionalInfoValid} /> 
-              <div className="w-auto max-w-[358px] md:w-[175px] mt-[8px] md:mt-[100px]">
+              <div className="w-auto max-w-[358px] md:w-[175px] mt-8 md:mt-[100px]">
                 <button
                   type="submit"
                   className={`h-[40px] w-[100%] p-[11px_20px_11px_20px] ${isProfessionalInfoValid ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'} text-white text-[12px] font-[600] rounded-[8px]`}

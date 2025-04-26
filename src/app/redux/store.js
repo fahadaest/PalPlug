@@ -1,4 +1,3 @@
-
 import { configureStore } from '@reduxjs/toolkit';
 import { apiSlice } from '@/app/redux/slice/apislice/apislice.js';
 import companiesReducer from '@/app/redux/slice/companies/companiesSlice';
@@ -12,7 +11,7 @@ import yearReducer from '@/app/redux/slice/year/yearSlice';
 import userRolesReducer from '@/app/redux/slice/userRoles/userRolesSlice';
 import profileSubmitReducer from '@/app/redux/slice/submitProfileData/profileSubmitSlice';
 import resumeReducer from './slice/resume/resumeSlice';
-
+import userDetailsReducer from './slice/user/userDetailsSlice';
 
 export const store = configureStore({
   reducer: {
@@ -26,6 +25,7 @@ export const store = configureStore({
     years: yearReducer,
     userRoles: userRolesReducer,
     profileSubmit: profileSubmitReducer,
+    userDetails: userDetailsReducer,
     [apiSlice.reducerPath]: apiSlice.reducer, 
     
   },

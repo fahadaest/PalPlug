@@ -8,12 +8,17 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { auth } from '@/app/utils/firebase';
 import { logout, setUser } from '@/app/redux/slice/user/userSlice';
+import { fetchUserDetailsByEmail } from '@/app/redux/slice/user/userDetailsSlice';
 import { usePathname } from 'next/navigation';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
 const poppins = Poppins({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
   subsets: ['latin'],
 });
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 function AuthProvider({ children }) {
   const dispatch = useDispatch();
@@ -28,13 +33,12 @@ function AuthProvider({ children }) {
           photoUrl:  user.photoURL,
         };
         dispatch(setUser(userData));
-        // Store user data in localStorage
+        dispatch(fetchUserDetailsByEmail(user.email)); 
         if (typeof window !== 'undefined') {
           localStorage.setItem('user', JSON.stringify(userData));
         }
       } else {
         dispatch(logout());
-        // Remove user data from localStorage on logout
         if (typeof window !== 'undefined') {
           localStorage.removeItem('user');
         }
@@ -44,7 +48,6 @@ function AuthProvider({ children }) {
     return () => unsubscribe();
   }, [dispatch]);
 
-  // Restore user session from localStorage on page load
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const userData = localStorage.getItem('user');
@@ -68,8 +71,10 @@ export default function RootLayout({ children }) {
       <body className={poppins.className}>
         <StoreProvider>
           <AuthProvider>
-            {!shouldHideNavbar && <Navbar />}
-            <main>{children}</main>
+            <Elements stripe={stripePromise}>
+              {!shouldHideNavbar && <Navbar />}
+              <main>{children}</main>
+            </Elements>
           </AuthProvider>
         </StoreProvider>
       </body>

@@ -13,11 +13,17 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useSelector, useDispatch } from 'react-redux';
 import PaymentProgressBar from '@/components/navbar/PaymentProgressBar';
 import { setServicesCurrentStep } from '@/app/redux/slice/user/userSlice';
+import StripeCardForm from '../stripeCardForm/stripeCardForm';
+
 const PaymentMethod = () => {
     const [selectedMethod, setSelectedMethod] = useState('');
+    const [showStripeForm, setShowStripeForm] = useState(false);
+    const [stripeError, setStripeError] = useState('');
+    const [stripeSuccess, setStripeSuccess] = useState(false);
     const router = useRouter();
     const searchParams = useSearchParams();
     const dispatch = useDispatch();
+    const user = useSelector((state) => state.user.user); 
     const currentStepservices = useSelector(
         (state) => state.user.servicescurrentStep
     );
@@ -65,6 +71,10 @@ const PaymentMethod = () => {
     };
     const handleConfirmPay = () => {
         if (!selectedMethod) return;
+        if (selectedMethod === 'cards') {
+            setShowStripeForm(true);
+            return;
+        }
         dispatch(setServicesCurrentStep(3));
         router.push(
             `/requirements?employeeId=${employeeIdParam}` +
@@ -105,92 +115,29 @@ const PaymentMethod = () => {
                                     Credit & Debit Cards
                                 </label>
                             </div>
-                            <div className="flex gap-[8px] h-[44px] w-[172px]">
-                                <Image
-                                    src={Visa}
-                                    alt="Visa"
-                                    width={35}
-                                    height={24}
-                                />
-                                <Image
-                                    src={Master}
-                                    alt="Master"
-                                    width={35}
-                                    height={24}
-                                />
-                                <Image
-                                    src={Discover}
-                                    alt="Discover"
-                                    width={35}
-                                    height={24}
-                                />
-                                <Image
-                                    src={Amex}
-                                    alt="Amex"
-                                    width={35}
-                                    height={24}
-                                />
+                            <div className="flex gap-[8px] h-[44px] w-[172px] ml-4">
+                                <Image src={Visa} alt="Visa" width={35} height={24} />
+                                <Image src={Master} alt="Master" width={35} height={24} />
+                                <Image src={Discover} alt="Discover" width={35} height={24} />
+                                <Image src={Amex} alt="Amex" width={35} height={24} />
                             </div>
                         </div>
                     </div>
-                    {selectedMethod === 'cards' && (
+                    {selectedMethod === 'cards' && showStripeForm && (
                         <div className="flex flex-col justify-evenly bg-[#F8F8F8] h-auto md:h-[320px] p-4">
-                            <div className="flex flex-wrap md:flex-nowrap gap-[20px]">
-                                <div className="flex flex-col gap-[8px] w-full md:w-auto">
-                                    <label className="text-[14px] font-[600]">
-                                        Card Number
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
-                                        placeholder="Card number"
-                                    />
-                                </div>
-                                <div className="flex flex-col gap-[8px] w-full md:w-auto">
-                                    <label className="text-[14px] font-[600]">
-                                        Expiration Date
-                                    </label>
-                                    <input
-                                        type="date"
-                                        className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
-                                    />
-                                </div>
-                                <div className="flex flex-col w-full gap-[8px] md:w-auto">
-                                    <label className="text-[14px] font-[600]">
-                                        Security Code
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="h-[48px] w-full md:w-[168px] text-[#939393] text-[16px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
-                                        placeholder="CVV"
-                                    />
-                                </div>
-                            </div>
-                            <div className="flex flex-wrap md:flex-nowrap gap-[20px] mt-[8px]">
-                                <div className="flex flex-col gap-[8px] w-full md:w-auto">
-                                    <label className="text-[14px] font-[600]">
-                                        First Name
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
-                                        placeholder="First name"
-                                    />
-                                </div>
-                                <div className="flex flex-col w-full gap-[8px] md:w-auto">
-                                    <label className="text-[14px] font-[600]">
-                                        Last Name
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="h-[48px] text-[#939393] text-[16px] w-full md:w-[328px] p-[12px] rounded-[8px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none"
-                                        placeholder="Last name"
-                                    />
-                                </div>
-                            </div>
+                            <StripeCardForm
+                                orderDetails={{
+                                    amount: totalPriceParam ? Number(totalPriceParam) : 0, // send as decimal number
+                                    work_email: user?.email
+                                }}
+                                onSuccess={() => {
+                                    setStripeSuccess(true);
+                                    setShowStripeForm(false);
+                                }}
+                                onError={setStripeError}
+                            />
                         </div>
                     )}
-
                     <div
                         className={`h-[64px] flex items-center gap-[10px] pl-[15px] cursor-pointer border-[#D5D4DC] ${
                             selectedMethod === 'paypal'
@@ -347,6 +294,10 @@ const PaymentMethod = () => {
                     </div>
                 </div>
             </div>
+            {stripeError && <div className="text-red-500">{stripeError}</div>}
+            {stripeSuccess && (
+                <div className="text-green-600">Payment successful!</div>
+            )}
         </>
     );
 };

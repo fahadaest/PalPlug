@@ -4,22 +4,42 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Doc from '@/assets/images/doc.svg';
 import Pen from '@/assets/images/Pen.svg';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setResumeUploaded } from '@/app/redux/slice/user/userSlice';
+import { submitResumeData } from '@/app/redux/slice/resume/resumeSlice';
+import { fetchUserDetailsByEmail } from '@/app/redux/slice/user/userDetailsSlice';
+import { submitProfileData } from '@/app/redux/slice/submitProfileData/profileSubmitSlice';
 
-const Resume = ({ isOpen, onClose, onSave, initialData = {} }) => {
-    const [fileName, setFileName] = useState(initialData.fileName || '');
-    const [fileSize, setFileSize] = useState(initialData.fileSize || '');
-    const [linkedInUrl, setLinkedInUrl] = useState(initialData.linkedInUrl || '');
-    const [portfolioLink, setPortfolioLink] = useState(initialData.portfolioLink || '');
+const Resume = ({ isOpen, onClose, onSave, userEmail }) => {
     const dispatch = useDispatch();
+    const userDetails = useSelector((state) => state.userDetails.data);
 
+    const [fileName, setFileName] = useState('');
+    const [fileSize, setFileSize] = useState('');
+    const [linkedInUrl, setLinkedInUrl] = useState('');
+    const [portfolioLink, setPortfolioLink] = useState('');
+
+    // Fetch latest profile data when modal opens
     useEffect(() => {
-        setFileName(initialData.fileName || '');
-        setFileSize(initialData.fileSize || '');
-        setLinkedInUrl(initialData.linkedInUrl || '');
-        setPortfolioLink(initialData.portfolioLink || '');
-    }, [initialData]);
+        if (isOpen && userEmail) {
+            dispatch(fetchUserDetailsByEmail(userEmail));
+        }
+    }, [isOpen, userEmail, dispatch]);
+
+    // Pre-fill fields from fetched profile data
+    useEffect(() => {
+        if (userDetails) {
+            setFileName(userDetails.resume_file?.name || '');
+            setFileSize(userDetails.resume_file?.size || '');
+            setLinkedInUrl(userDetails.linkedin_url || '');
+            setPortfolioLink(userDetails.portfolio_url || '');
+        } else {
+            setFileName('');
+            setFileSize('');
+            setLinkedInUrl('');
+            setPortfolioLink('');
+        }
+    }, [userDetails, isOpen]);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -53,22 +73,32 @@ const Resume = ({ isOpen, onClose, onSave, initialData = {} }) => {
         triggerFileInput();
     };
 
-    const handleSave = () => {
+    const handleSave = async () => {
         if (!fileName) {
             alert('Resume/CV Upload is mandatory.');
             return;
         }
-        
-        const resumeData = {
-            fileName,
-            fileSize,
-            linkedInUrl,
-            portfolioLink
-        };
-        
+
+        // Use submitResumeData for resume modal
+        await dispatch(
+            submitResumeData({
+                email: userEmail,
+                fileName,
+                fileSize,
+                linkedInUrl,
+                portfolioLink,
+            })
+        );
+
         if (onSave) {
-            onSave(resumeData);
+            onSave({
+                fileName,
+                fileSize,
+                linkedInUrl,
+                portfolioLink,
+            });
         }
+
         onClose();
     };
 
