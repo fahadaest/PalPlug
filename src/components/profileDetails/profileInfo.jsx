@@ -14,16 +14,18 @@ const ProfileInfo = ({ userId, displayName }) => {
   const dispatch = useDispatch();
   const currentStep = useSelector((state) => state.user.currentStep);
   const isPlugRoute = useSelector((state) => state.user.isplugroute);
+  const router = useRouter();
+  const pathname = window.location.pathname;
+  const isPalProfileRoute = pathname.includes('/palprofile');
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [profilePicture, setProfilePicture] = useState(null);
-  const [description, setDescription] = useState('');
+  const [description, setDescription] = useState(''); 
   const [isPhoneModalOpen, setIsPhoneModalOpen] = useState(false);
   const [isServicesSelectionVisible, setServicesSelectionVisible] = useState(false);
   const isVerificationComplete = useSelector((state) => state.user.isVerificationComplete);
   const [isProfessionalInfoValid, setIsProfessionalInfoValid] = useState(false); 
   const [isAccountSecurityValid, setIsAccountSecurityValid] = useState(false);
-  const router = useRouter();
   const verifiedPhone = useSelector((state) => state.user.verifiedPhone);
   const [professionalInfo, setProfessionalInfo] = useState({
     occupation: '' ,
@@ -33,8 +35,8 @@ const ProfileInfo = ({ userId, displayName }) => {
     college: '',
     major: '',
     education_year: null,
-    certificate: '',
-    certification: '',
+    colleges: [],
+    certifications: [],
     certification_year: null,
   });
   const handleProfilePictureChange = (event) => {
@@ -55,54 +57,41 @@ const ProfileInfo = ({ userId, displayName }) => {
   const handleFinish = async (event) => {
     event.preventDefault();
     event.stopPropagation();
-    const servicesObjStr = localStorage.getItem('services');
-    let fallbackValues = {};
-    if (servicesObjStr) {
-      try {
-        fallbackValues = JSON.parse(servicesObjStr);
-      } catch (e) {
-  
-      }
-    }
-    const finalFirstName = firstName.trim() !== '' ? firstName : fallbackValues.first_name;
-    const finalLastName  = lastName.trim() !== '' ? lastName : fallbackValues.last_name;
-    const finalWorkEmail = (professionalInfo && professionalInfo.workEmail && professionalInfo.workEmail.trim() !== '') ? professionalInfo.workEmail : fallbackValues.work_email;
-    
-    const payloadData = {
-      firstName: finalFirstName,
-      lastName: finalLastName,
-      profilePicture, 
-      description: description.trim() !== '' ? description : undefined,
-      professionalInfo, 
-      phone: verifiedPhone,
-      work_email: finalWorkEmail,
-    };
-    const storedProfileId = localStorage.getItem('profile_id');
-    if (storedProfileId) {
-    payloadData.id = storedProfileId;
-    }
-  
-    localStorage.setItem('profile', JSON.stringify(payloadData));
-    
-    saveServices({
-      first_name: finalFirstName,
-      last_name: finalLastName,
-      work_email: finalWorkEmail,
-    });
-    
     try {
-      const resultAction = await dispatch(submitProfileData(payloadData)).unwrap();
-      localStorage.setItem('profile_id', resultAction.profile_id);
-      router.push('/servicesselection');
-      if (isPlugRoute) {
-      router.push('/servicesselection');
-      setServicesSelectionVisible(true);
-    } else {
-      router.push('/candidate-profile');
-      dispatch(setPlugRoute(true));
-    }
+      const payloadData = {
+        phone: verifiedPhone || 'N/A',
+        firstName: firstName,
+        lastName: lastName,
+        description: description,
+        profilePicture: profilePicture,
+        work_email: professionalInfo.workEmail,
+        calendly_link: professionalInfo.calendlyLink || '',
+        isPlug: isPlugRoute,
+        profile_type: isPlugRoute ? 1 : 2, // Use isPlugRoute from Redux state
+        professionalInfo: {
+          occupation: professionalInfo.occupation,
+          employer: professionalInfo.employer,
+          workEmail: professionalInfo.workEmail,
+          collegesArray: professionalInfo.collegesArray,
+          certificationsArray: professionalInfo.certificationsArray,
+        },
+        services: [],
+        order_requirements: [],
+        form_w9_confirmation: false,
+      };
+      const { profilePicture: _pic, ...storagePayload } = payloadData;
+      saveServices(storagePayload);
+
+
+      const result = await dispatch(submitProfileData(payloadData)).unwrap();
+      
+      if (result.profile_type === 1) {
+        setServicesSelectionVisible(true);
+      } else if (result.profile_type === 2) {
+        router.push('/candidate-profile');
+      }
     } catch (error) {
-    
+      console.error('Error submitting profile:', error);
     }
   };
   const handleOpenPhoneModal = (event) => {
@@ -193,7 +182,7 @@ const ProfileInfo = ({ userId, displayName }) => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="border rounded-[8px] h-[147px] p-3 text-[16px] font-[400] placeholder-[#939393] focus:border-[#005382] focus:outline-none"
-                  placeholder="Share a bit about your work experience, cool projects you’ve completed, and your area of expertise to show candidates."
+                  placeholder="Share a bit about your work experience, cool projects you've completed, and your area of expertise to show candidates."
                 />
                 <p className="text-[12px] text-[#939393] mt-[4px]">
                   min. 150 characters

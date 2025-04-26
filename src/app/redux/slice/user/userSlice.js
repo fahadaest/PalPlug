@@ -18,7 +18,8 @@ const initialState = {
     professionalInfo: false,
     finalStep: false,
     resumeUploaded: false, 
-  }
+  },
+  scheduledEvent: null,
 };
 
 const userSlice = createSlice({
@@ -73,7 +74,10 @@ const userSlice = createSlice({
     },
     setResumeUploaded: (state, action) => {
       state.profileCompletion.resumeUploaded = action.payload;
-    }
+    },
+    setScheduledEvent: (state, action) => {
+      state.scheduledEvent = action.payload; 
+    },
   },
 
   extraReducers: (builder) => {
@@ -107,7 +111,8 @@ export const {
   setVerificationComplete,
   setVerifiedPhone,
   updateProfileCompletion,
-  setResumeUploaded
+  setResumeUploaded,
+  setScheduledEvent,
 } = userSlice.actions;
 
 export default userSlice.reducer;
