@@ -127,24 +127,24 @@ const ProfileInfo = ({ userId, displayName }) => {
                 <div className="border-[#F0F0F0] border w-auto max-w-[640px]"></div>
               </div>
               <div className="flex flex-col gap-[24px] md:flex-row md:w-[703px] justify-between">
-                <div className="w-auto max-w-[358px] flex flex-col gap-[8px]">
+                <div className="w-auto max-w-[328px] flex flex-col gap-[10px]">
                   <h5 className="text-[14px] font-semibold">First Name</h5>
                   <input
                     type="text"
                     value={firstName}
                     onChange={(e) => setFirstName(e.target.value)}
-                    className="h-[48px] focus:border-[#005382] focus:outline-none placeholder-[#939393] border rounded-lg p-[12px]"
+                    className="w-[328px] h-[48px] border border-[#E5E7EB] rounded-[8px] p-[12px] focus:border-[#005382] focus:outline-none placeholder-[#939393]"
                     placeholder="Ex. John"
                     required
                   />
                 </div>
-                <div className="w-auto max-w-[358px] flex flex-col gap-[8px]">
+                <div className="w-auto max-w-[328px] flex flex-col gap-[10px]">
                   <h5 className="text-[14px] font-semibold">Last Name</h5>
                   <input
                     type="text"
                     value={lastName}
                     onChange={(e) => setLastName(e.target.value)}
-                    className="h-[48px] focus:border-[#005382] placeholder-[#939393] focus:outline-none border rounded-lg p-[12px]"
+                    className="w-[328px] h-[48px] border border-[#E5E7EB] rounded-[8px] p-[12px] focus:border-[#005382] focus:outline-none placeholder-[#939393]"
                     placeholder="Ex. Smith"
                     required
                   />
@@ -200,7 +200,7 @@ const ProfileInfo = ({ userId, displayName }) => {
           {currentStep === 2 && (
             <>
               <ProfessionalInfo professionalInfo={professionalInfo} setProfessionalInfo={setProfessionalInfo} onValidationChange={setIsProfessionalInfoValid} /> 
-              <div className="w-auto max-w-[358px] md:w-[175px] mt-[8px] md:mt-[100px]">
+              <div className="w-auto max-w-[358px] md:w-[175px] mt-8 md:mt-[100px]">
                 <button
                   type="submit"
                   className={`h-[40px] w-[100%] p-[11px_20px_11px_20px] ${isProfessionalInfoValid ? 'bg-[#005580] cursor-pointer' : 'bg-[#CCDDE6] cursor-not-allowed'} text-white text-[12px] font-[600] rounded-[8px]`}

@@ -175,7 +175,7 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                     <input
                         type="email"
                         placeholder="Ex: j.appleseed@google.com"
-                        className="outline-none font-lightbold text-base text-[#939393] w-[358px] p-[12px] h-[48px] border border-[#D5D4DC] rounded-lg focus:border-[#005382] focus:outline-none"
+                        className="outline-none font-lightbold text-base text-black w-[358px] p-[12px] h-[48px] border border-[#D5D4DC] rounded-lg focus:border-[#005382] focus:outline-none"
                         value={professionalInfo.workEmail || ''}
                         onChange={(e) =>
                             setProfessionalInfo({ ...professionalInfo, workEmail: e.target.value })
@@ -193,11 +193,12 @@ export default function ProfessionalInfo({ professionalInfo, setProfessionalInfo
                         type="url"
                         value={calendlyLink}
                         onChange={handleCalendlyChange}
-                        placeholder='https://calendly.com/your-username'
-                        className={`w-full outline-none font-lightbold text-base text-[#939393] p-[12px] h-[48px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none ${calendlyLink && !validateCalendlyLink(calendlyLink)
-                            ? 'border-red-500'
-                            : 'border-[#D5D4DC]'
-                            } rounded-lg`}
+                        placeholder="https://calendly.com/your-username"
+                        className={`w-full outline-none font-lightbold text-base text-black p-[12px] h-[48px] border border-[#D5D4DC] focus:border-[#005382] focus:outline-none ${
+                            calendlyLink && !validateCalendlyLink(calendlyLink)
+                                ? 'border-red-500'
+                                : 'border-[#D5D4DC]'
+                        } rounded-lg`}
                     />
                     {calendlyLink && !validateCalendlyLink(calendlyLink) && (
                         <p className="absolute text-[12px] text-red-500 mt-1">

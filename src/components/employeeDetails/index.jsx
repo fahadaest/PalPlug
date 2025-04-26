@@ -45,11 +45,10 @@ const EmployeeDetails = () => {
     }
   }, [employee, router]);
 
-  const displayName =
-    name?.charAt(0)?.toUpperCase() + name.slice(1)?.toLowerCase();
-  const company = companies?.find(
-    (comp) => comp?.name === displayName
+  const company = companies.find(
+    (c) => c.name.toLowerCase() === name.toLowerCase()
   );
+  const displayName = company?.name ?? name;
   const bgColor = companyStyles[company?.name]
     ? companyStyles[company?.name]?.replace(/(.*?:)?hover:/, '')
     : 'bg-gray-800';
@@ -101,13 +100,13 @@ const EmployeeDetails = () => {
             </h5>
             <p className="text-lg ">${activeService?.price?.toFixed(2)}</p>
           </div>
-          <h6 className="text-base font-lightbold mb-2">
-            About this package
-          </h6>
+          <div className="mb-[40px]"></div> 
+          <h6 className="text-base font-lightbold mb-2">About this package</h6>
           <p className="text-sm text-grey30 mb-4">
             {activeService?.package ||
               'No package details available. Please contact the employee for more information.'}
           </p>
+          <div className="mb-[40px]"></div> 
           <div className="flex items-center mb-4">
             <Image
               src={TimeImg}
@@ -218,15 +217,15 @@ const EmployeeDetails = () => {
             </div>
           </div>
           <div className="flex-1 rounded-[8px] lg:max-w-[436px] bg-primary p-4 h-[522px]">
-            <ul className="flex flex-nowrap md:flex-wrap text-sm leading-extra-tight font-semibold text-center text-gray-500">
-              {['Referral', 'Resume Review', 'Interview Prep' ].map((tab) => (
-                <li key={tab} className="me-2">
+            <ul className="flex justify-between text-sm font-semibold text-center text-gray-500 mb-[20px]">
+              {['Referral', 'Resume Review', 'Interview Prep'].map((tab) => (
+                <li key={tab} className="flex-1">
                   <a
                     href="#"
-                    className={`w-[100px] md:w-auto md:h-auto h-[34px] pr-[30px] pl-[30px] pt-[10px] pb-[10px] rounded-[4px] flex items-center justify-center ${
+                    className={`h-[40px] w-full flex items-center justify-center rounded-[8px] ${
                       activeTab === tab
-                        ? 'bg-[#D2EFFF] text-employecard-card-blue-hover'
-                        : 'hover:text-employecard-card-blue-hover hover:bg-gray-100'
+                        ? 'bg-[#D2EFFF] text-employecard-card-blue-hover font-semibold text-[14px] leading-[100%] tracking-[-0.02em] align-middle'
+                        : 'hover:text-employecard-card-blue-hover hover:bg-gray-100 font-semibold text-[14px] leading-[100%] tracking-[-0.02em] align-middle'
                     }`}
                     onClick={(e) => {
                       e.preventDefault();
@@ -238,6 +237,7 @@ const EmployeeDetails = () => {
                 </li>
               ))}
             </ul>
+
             <div className="flex-1 overflow-auto">{renderTabContent()}</div>
           </div>
         </div>

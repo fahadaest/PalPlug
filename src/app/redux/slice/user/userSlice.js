@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { submitProfile } from '../../action';
+import { fetchUserDetailsByEmail } from './userDetailsSlice';
 
 const initialState = {
   user: null,
@@ -37,6 +38,7 @@ const userSlice = createSlice({
       state.isAuthenticated = true;
       state.loading = false;
       localStorage.setItem('user', JSON.stringify(action.payload));
+      dispatch(fetchUserDetailsByEmail(action.payload.email));
     },
     loginFailure: (state, action) => {
       state.error = action.payload;

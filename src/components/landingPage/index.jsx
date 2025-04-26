@@ -84,82 +84,77 @@ const Landing = ({ userId }) => {
                     </div>
                 </div>
                 <div className="mt-12  flex justify-items-start">
-                    <h2 className="text-[18px] font-semibold mb-[20px] text-center lg:text-left">
-                        Popular Companies
-                    </h2>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-[0px] gap-[20px]">
-                    {companies?.map((company, index) => {
-                        const bgClass = companyStyles[company.name];
-                        return (
-                            <div
-                                key={index}
-                                className={`relative bg-[#FFFFFF] shadow-lg rounded-[10px] flex items-center p-4 transition-colors duration-100 md h-[76px]  ${bgClass} group`}
-                                onClick={() => handleCompanyClick(company?.name)}
-                            >
-                                <div className="flex-shrink-0">
-                                    {company?.image ? (
-                                        <Image
-                                            src={company?.image}
-                                            alt={company?.name}
-                                            width={24}
-                                            height={24} />
-                                    ) : (
-                                        <div className="w-[24px] h-[24px] bg-gray-300 rounded-full flex items-center justify-center">
-                                            <span className="text-white">N/A</span>
-                                        </div>
-                                    )}
-                                </div>
-                                <div className="ml-4 w-[74px] h-[24px] flex-grow flex items-center justify-between">
-                                    <h2 className="text-[24px] font-semibold text-black group-hover:text-white md-hover:text-white transition-colors duration-100">
-                                        {company?.name}
-                                    </h2>
-                                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 md-hover:opacity-100 transition-opacity duration-150">
-                                        <span className="text-white">
-                                            Explore
-                                        </span>
-                                    </div>
+                <h2 className="text-[18px] font-semibold mb-[20px] text-center lg:text-left">
+                    Popular Companies
+                </h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-[0px] gap-[20px]">
+                {companies?.map((company, index) => {
+                    const bgClass = companyStyles[company.name] || "bg-gray-200"; 
+                    return (
+                        <div
+                            key={index}
+                            className={`group relative bg-[#FFFFFF] shadow-lg rounded-[10px] flex items-center p-4 cursor-pointer h-[76px] md:transition-colors md:duration-300 ${bgClass} md:hover:${bgClass.replace('hover:', '')}`}
+                            onClick={() => handleCompanyClick(company?.name)}
+                            aria-label={`Explore ${company?.name}`}
+                        >
+                            <div className="flex-shrink-0">
+                                <Image
+                                    src={company?.image || "/default-image.png"} 
+                                    alt={company?.name}
+                                    width={24}
+                                    height={24}
+                                    className={`object-contain ${company.name === 'Airbnb' ? 'logo-white-hover' : ''}`}
+                                />
+                            </div>
+                            <div className="ml-4 w-[74px] h-[24px] flex-grow flex items-center justify-between">
+                                <h2 className="text-[24px] font-semibold text-black md:group-hover:text-white md:transition-colors md:duration-300">
+                                    {company?.name}
+                                </h2>
+                                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-300">
+                                    <span className="text-white">Explore</span>
                                 </div>
                             </div>
-                        );
-                    })}
-                </div>
-                <div className="mt-12 flex justify-items-start">
-                    <h2 className="text-[18px] font-semibold mb-[20px] text-center lg:text-left">
-                        Other companies on palplug
-                    </h2>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-[0px] gap-[20px]">
-                    {otherCompanies?.map((company, index) => {
-                        const bgClass = companyStyles[company?.name];
-                        return (
-                            <div
-                                key={index}
-                                className={`relative  bg-[#FFFFFF] rounded-[10px] shadow-lg flex items-center p-4 cursor-pointer transition-colors duration-150 md h-[76px] ${bgClass} group`}
-                                onClick={() => handleCompanyClick(company?.name)}
-                            >
-                                <div className="flex-shrink-0">
-                                    <Image
-                                        src={company?.image}
-                                        alt={company?.name}
-                                        width={24}
-                                        height={24}
-                                        className={`object-contain ${whiteRoundedImges[company?.name] || ''}`} />
-                                </div>
-                                <div className="ml-4 w-[116px] h-[24px] flex-grow flex items-center justify-between">
-                                    <h2 className="text-[24px] font-semibold text-black group-hover:text-white md-hover:text-white transition-colors duration-150">
-                                        {company.name}
-                                    </h2>
-                                    <div className="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 md-hover:opacity-100 transition-opacity duration-150">
-                                        <span className="text-white">
-                                            Explore
-                                        </span>
-                                    </div>
+                        </div>
+                    );
+                })}
+            </div>
+            <div className="mt-12 flex justify-items-start">
+                <h2 className="text-[18px] font-semibold mb-[20px] text-center lg:text-left">
+                    Other companies on palplug
+                </h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 pt-[0px] gap-[20px]">
+                {otherCompanies?.map((company, index) => {
+                    const bgClass = companyStyles[company.name] || "bg-gray-200"; 
+                    return (
+                        <div
+                            key={index}
+                            className={`group relative bg-[#FFFFFF] rounded-[10px] shadow-lg flex items-center p-4 cursor-pointer h-[76px] md:transition-colors md:duration-300 ${bgClass} md:hover:${bgClass.replace('hover:', '')}`}
+                            onClick={() => handleCompanyClick(company?.name)}
+                            aria-label={`Explore ${company?.name}`}
+                        >
+                            <div className="flex-shrink-0">
+                                <Image
+                                    src={company?.image || "/default-image.png"} 
+                                    alt={company?.name}
+                                    width={24}
+                                    height={24}
+                                    className={`object-contain ${whiteRoundedImges[company?.name] || ''}`}
+                                />
+                            </div>
+                            <div className="ml-4 w-[116px] h-[24px] flex-grow flex items-center justify-between">
+                                <h2 className="text-[24px] font-semibold text-black md:group-hover:text-white md:transition-colors md:duration-300">
+                                    {company.name}
+                                </h2>
+                                <div className="absolute right-4 top-1/2 transform -translate-y-1/2 opacity-0 md:group-hover:opacity-100 md:transition-opacity md:duration-300">
+                                    <span className="text-white">Explore</span>
                                 </div>
                             </div>
-                        );
-                    })}
-                </div>
+                        </div>
+                    );
+                })}
+            </div>
                 <SignInModal isOpen={isModalOpen && !user} onClose={handleModalClose} />
             </div>
 

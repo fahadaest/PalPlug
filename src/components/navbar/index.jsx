@@ -118,6 +118,7 @@ const Navbar = () => {
   };
   const handleCompanyClick = (companyName) => {
     router.push(`/company/${companyName.toLowerCase()}`);
+    setSearchQuery(''); 
     setShowSuggestions(false);
   };
 
@@ -129,8 +130,12 @@ const Navbar = () => {
         className="bg-white p-4 sm:p-5 flex flex-row justify-between items-center sticky z-10 w-full top-0 left-0 min-h-[64px] sm:min-h-[80px]"
         style={inlineStyle}
       >
-        <div className="flex items-center md:space-x-12 flex-1 min-w-0">
-          <div className="relative w-10 h-6 sm:w-24 sm:h-8 cursor-pointer" onClick={handleClick}>
+        <div
+          className={`flex items-center flex-1 min-w-0
+            ${pathname === '/' ? 'gap-x-4 md:gap-x-12' : 'md:space-x-12'}
+          `}
+        >
+          <div className="relative w-12 h-8 sm:w-24 sm:h-8 cursor-pointer flex-shrink-0" onClick={handleClick}>
             <Image
               src={Logo}
               alt="Logo"
@@ -156,8 +161,8 @@ const Navbar = () => {
             (isPlugDashboard ? (
               <PlugDashboardBar />
             ) : (
-              <div className="relative w-full max-w-[452px] min-w-[211px]">
-                <div className="search-input-container border rounded-md h-[40px] flex items-center px-3">
+              <div className="relative w-full max-w-[60vw] sm:max-w-[452px] min-w-[140px]">
+                <div className="search-input-container border border-[#E5E7EB] rounded-md h-[40px] flex items-center px-3 focus-within:border-[#005382]">
                   <Image
                     src={Search.src}
                     alt="Search"
@@ -203,10 +208,10 @@ const Navbar = () => {
             ))}
         </div>
         {!isProfilePage && (
-          <div className="h-[36px] flex items-center ml-4 md:ml-0 gap-4">
+          <div className="h-[36px] flex items-center ml-2 md:ml-0 gap-2 sm:gap-4 min-w-[70px] flex-shrink-0">
             {user ? (
               <>
-                <div className="flex gap-3 items-center space-x-3 flex-shrink-0">
+                <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
                   <Image
                     src={BellIcon}
                     alt="Bell Icon"
