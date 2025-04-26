@@ -12,6 +12,7 @@ const NavbarDropdown = ({ isOpen, userId, setDropdownOpen }) => {
   const dispatch = useDispatch();
   const router = useRouter();
   const userFromStore = useSelector((state) => state.user.user);
+
   const handleLogout = async () => {
     try {
       await signOut(auth);

@@ -59,7 +59,6 @@ const ReferralPackage = () => {
   const currentStepservices = useSelector((state) => state.user.servicescurrentStep);
   const scheduledEvent = useSelector((state) => state.user.scheduledEvent);
   const isConfirmPayDisabled = !scheduledEvent || !scheduledEvent.start_time || !scheduledEvent.end_time;
-
   useEffect(() => {
     dispatch(setServicesCurrentStep(1));
   }, [dispatch]);
@@ -334,9 +333,7 @@ const ReferralPackage = () => {
                     rootElement={
                       typeof window !== "undefined" ? document.body : null
                     }
-
                     text={getButtonText()}
-
                     styles={{
                       width: "100%",
                       height: "40px",

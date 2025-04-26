@@ -22,6 +22,7 @@ export const submitProfileData = createAsyncThunk(
       appendField(formData, 'description', profileData.description);
       appendField(formData, 'work_email', profileData.work_email);
       appendField(formData, 'profile_type', profileData.profile_type);
+
       appendField(formData, 'calendly_link', profileData.calendly_link);
       
       if (profileData.profilePicture instanceof File) {
@@ -44,6 +45,7 @@ export const submitProfileData = createAsyncThunk(
       appendField(formData, 'services', profileData.services, JSON.stringify);
       appendField(formData, 'order_requirements', profileData.order_requirements, JSON.stringify);
       appendField(formData, 'form_w9_confirmation', profileData.form_w9_confirmation, JSON.stringify);
+
       const route = getRoute('submitProfile', profileData.isPlug);
       const response = await postRequest(route, formData, true);
       

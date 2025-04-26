@@ -10,7 +10,7 @@ const ROUTES = {
     userRoles: 'users/user-roles/',
     submitProfile: 'submit-profile/',
     submitAllServices: 'services/submitAllServices/',
-    getCompanies:"companies/companies-list/",
+    getCompanies: "companies/companies-list/",
     collegesByCountry: 'colleges/',
     yearsList: 'years/',
 };
@@ -23,9 +23,8 @@ export const getRoute = (routeKey, param = '') => {
         return ROUTES.yearsList;
     }
     if (routeKey === 'submitProfile') {
-    const type = typeof param === 'number' ? param : (param === true ? 1 : 2);
-    return `submit-profile/${type}/`;
+        const type = typeof param === 'number' ? param : (param === true ? 1 : 2);
+        return `submit-profile/${type}/`;
     }
     return ROUTES[routeKey];
 };
-      

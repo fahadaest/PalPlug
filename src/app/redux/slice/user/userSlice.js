@@ -80,7 +80,6 @@ const userSlice = createSlice({
     },
   },
 
-
   extraReducers: (builder) => {
     builder
       .addCase(submitProfile.pending, (state) => {
