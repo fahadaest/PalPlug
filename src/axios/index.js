@@ -2,6 +2,13 @@ import axios from 'axios';
 const axiosInstance = axios.create({
     baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
 });
+const calendlyInstance = axios.create({
+    baseURL: 'https://api.calendly.com',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.CALENDLY_API_TOKEN}`,
+    },
+  });
 
 const failedResponse = (error) => {
     if (
@@ -68,3 +75,4 @@ export const putRequest = (route, data) => {
             return failedResponse(error);
         });
 };
+export { calendlyInstance };

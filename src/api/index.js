@@ -23,7 +23,8 @@ export const getRoute = (routeKey, param = '') => {
         return ROUTES.yearsList;
     }
     if (routeKey === 'submitProfile') {
-        return `${ROUTES.submitProfile}${param}/`;
+    const type = typeof param === 'number' ? param : (param === true ? 1 : 2);
+    return `submit-profile/${type}/`;
     }
     return ROUTES[routeKey];
 };

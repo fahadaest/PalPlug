@@ -35,8 +35,8 @@ const ProfileInfo = ({ userId, displayName }) => {
     college: '',
     major: '',
     education_year: null,
-    certificate: '',
-    certification: '',
+    colleges: [],            
+    certifications: [], 
     certification_year: null,
   });
   const handleProfilePictureChange = (event) => {
@@ -59,25 +59,28 @@ const ProfileInfo = ({ userId, displayName }) => {
     event.stopPropagation();
     try {
       const payloadData = {
-        id: userId,
-        phone: verifiedPhone,
+        phone: verifiedPhone || 'N/A',
         firstName: firstName,
         lastName: lastName,
         description: description,
         profilePicture: profilePicture,
         work_email: professionalInfo.workEmail,
-        profile_type: isPlugRoute ? 1 : 2, // Use isPlugRoute from Redux state
+        calendly_link: professionalInfo.calendlyLink || '',
+        profile_type: isPlugRoute ? 1 : 2, 
+        isPlug: isPlugRoute,
         professionalInfo: {
           occupation: professionalInfo.occupation,
           employer: professionalInfo.employer,
           workEmail: professionalInfo.workEmail,
-          collegesArray: professionalInfo.colleges || [],
-          certificationsArray: professionalInfo.certifications || [],
+          collegesArray:      professionalInfo.collegesArray,
+          certificationsArray: professionalInfo.certificationsArray,
         },
         services: [],
         order_requirements: [],
         form_w9_confirmation: false,
       };
+      const { profilePicture: _pic, ...storagePayload } = payloadData;
+      saveServices(storagePayload);
 
       const result = await dispatch(submitProfileData(payloadData)).unwrap();
       

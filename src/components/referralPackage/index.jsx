@@ -9,7 +9,11 @@ import { selectEmployees } from "@/app/redux/slice/employee/employeeSlice";
 import Male from "@/assets/images/male.svg";
 import { PopupButton } from "react-calendly";
 import PaymentProgressBar from "@/components/navbar/PaymentProgressBar";
-import { setServicesCurrentStep } from "@/app/redux/slice/user/userSlice";
+import { setServicesCurrentStep, setScheduledEvent } from "@/app/redux/slice/user/userSlice";
+import { useCalendlyEventListener } from 'react-calendly';
+import { format, parseISO } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
+import { calendlyInstance } from '@/axios';
 const packagesData = [
   {
     id: "standard",
@@ -53,6 +57,9 @@ const ReferralPackage = () => {
   const selectedPackagesParam = searchParams.get("selectedPackages");
   const employees = useSelector(selectEmployees);
   const currentStepservices = useSelector((state) => state.user.servicescurrentStep);
+  const scheduledEvent = useSelector((state) => state.user.scheduledEvent);
+  const isConfirmPayDisabled = !scheduledEvent || !scheduledEvent.start_time || !scheduledEvent.end_time;
+
   useEffect(() => {
     dispatch(setServicesCurrentStep(1));
   }, [dispatch]);
@@ -142,6 +149,58 @@ const ReferralPackage = () => {
     if (currentStepservices > step) {
       dispatch(setServicesCurrentStep(step));
     }
+  };
+  useCalendlyEventListener({
+    onEventScheduled: async (e) => {
+      try {
+        const eventUri = e.data.payload.event.uri;
+        const eventUuid = eventUri.split('/').pop();
+        const inviteeResponse = await fetch(`/api/calendly-invitees?eventUuid=${eventUuid}`);
+        const inviteeData = await inviteeResponse.json();
+        const invitee = inviteeData.collection[0];
+        const eventResponse = await fetch(`/api/calendly-event?eventUuid=${eventUuid}`);
+        const eventData = await eventResponse.json();
+        const employeeName = employee?.name || 'Unknown';
+        if (invitee && eventData.resource) {
+          ({
+            start_time: eventData.resource.start_time,
+            end_time: eventData.resource.end_time,
+            employee_name: employeeName,
+          });
+          dispatch(
+            setScheduledEvent({
+              start_time: eventData.resource.start_time,
+              end_time: eventData.resource.end_time,
+              employee_name: employeeName,
+            })
+          );
+        } else {
+          ({
+            invitee: invitee,
+            eventData: eventData,
+          });
+        }
+      } catch (error) {
+        ({
+          status: error.response?.status,
+          data: error.response?.data,
+          message: error.message,
+        });
+      }
+    },
+  });
+  const getButtonText = () => {
+    if (scheduledEvent && scheduledEvent.start_time) {
+      try {
+        const start = parseISO(scheduledEvent.start_time);
+        const formattedTime = formatInTimeZone(start, 'Asia/Karachi', 'MMMM do - h:mm a');
+        return `${formattedTime}`;
+      } catch (error) {
+        (error);
+        return `Schedule Video Call with ${employee?.name || 'Unknown'}`;
+      }
+    }
+    return `Schedule Video Call with ${employee?.name || 'Unknown'}`;
   };
   return (
     <>
@@ -271,13 +330,13 @@ const ReferralPackage = () => {
                 </div>
                 <div className="flex h-[138px] flex-col gap-[36px] ">
                   <PopupButton
-                    url="https://calendly.com/ali-rayhan29"
+                    url="https://calendly.com/anasnajmi780"
                     rootElement={
                       typeof window !== "undefined" ? document.body : null
                     }
-                    text={`Schedule Video Call with ${
-                      employee?.name || "Unknown"
-                    }`}
+
+                    text={getButtonText()}
+
                     styles={{
                       width: "100%",
                       height: "40px",
@@ -296,7 +355,13 @@ const ReferralPackage = () => {
                   />
                   <button
                     onClick={handlePaymentRoute}
-                    className="w-full h-[40px] text-[12px] font-semibold p-[11px_20px_11px_20px] bg-[#005382] text-white rounded-[8px]"
+                    disabled={isConfirmPayDisabled}
+                    className={`"w-full h-[40px] text-[12px] font-semibold p-[11px_20px_11px_20px] bg-[#005382] text-white rounded-[8px]"
+                    ${
+                      isConfirmPayDisabled
+                        ? "bg-gray-400 text-gray-200 cursor-not-allowed rounded-[8px] text-[12px] font-semibold p-[11px_20px_11px_20px]"
+                        : "bg-[#005382] text-white text-[12px] font-semibold p-[11px_20px_11px_20px] rounded-[8px]"
+                    }`}
                   >
                     Confirm & Pay
                   </button>
