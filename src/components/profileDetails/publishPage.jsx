@@ -32,7 +32,6 @@ const Requirement = () => {
     }
 
     saveServices(svc);
-    console.log("[Publish] final services payload:", svc);
 
     dispatch(submitProfileData(svc))
       .unwrap()
